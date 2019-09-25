@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{31BD6A08-F99B-4F71-A7F4-5672EED59A7F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueLotus.Journal.Service</RootNamespace>
+    <AssemblyName>BlueLotus.Journal.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contracts\IJornalService.cs" />
+    <Compile Include="Implementation\JournalService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BlueLotus.Infastructure.Implementation\BlueLotus.Infastructure.Implementation.csproj">
+      <Project>{4270ecd5-5af5-4668-b06f-cb05263f493b}</Project>
+      <Name>BlueLotus.Infastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Infastructure\BlueLotus.Infastructure.csproj">
+      <Project>{f896659d-9c4a-4503-ba04-8800da276a7a}</Project>
+      <Name>BlueLotus.Infastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Journal.Infastructure\BlueLotus.Journal.Infastructure.csproj">
+      <Project>{c3f1b186-3a5d-4239-a9ec-63cc0e24b726}</Project>
+      <Name>BlueLotus.Journal.Infastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Journal.Model\BlueLotus.Journal.Model.csproj">
+      <Project>{df5edbfc-5517-4281-acb8-650e3499fcad}</Project>
+      <Name>BlueLotus.Journal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Model\BlueLotus.Model.csproj">
+      <Project>{56d67e0b-841f-48d2-9a09-9692af69739d}</Project>
+      <Name>BlueLotus.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Payment.Infastructure\BlueLotus.Payment.Infastructure.csproj">
+      <Project>{71FA0545-FE20-4B1E-85CE-AA6D3BB916EC}</Project>
+      <Name>BlueLotus.Payment.Infastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Service\BlueLotus.Service.csproj">
+      <Project>{6d2daeb6-4633-49ed-9454-4ced46a0af43}</Project>
+      <Name>BlueLotus.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

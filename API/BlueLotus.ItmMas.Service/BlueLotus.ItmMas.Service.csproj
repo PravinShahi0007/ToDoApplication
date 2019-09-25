@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7464D537-4A53-4A33-8BB5-AA0DED60C6A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueLotus.ItmMas.Service</RootNamespace>
+    <AssemblyName>BlueLotus.ItmMas.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contract\IItmCmpnService.cs" />
+    <Compile Include="Contract\IItmMasCdService.cs" />
+    <Compile Include="Contract\IItmMasSelectService.cs" />
+    <Compile Include="Contract\IItmMasService.cs" />
+    <Compile Include="Implementation\ItmCmpnService.cs" />
+    <Compile Include="Implementation\ItmMasCdService.cs" />
+    <Compile Include="Implementation\ItmMasSelectService.cs" />
+    <Compile Include="Implementation\ItmMasService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlueLotus.ComboLoad.Model\BlueLotus.ComboLoad.Model.csproj">
+      <Project>{EC7C2138-B61B-4BE6-BA9D-AD63B137F9DD}</Project>
+      <Name>BlueLotus.ComboLoad.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Infastructure.Implementation\BlueLotus.Infastructure.Implementation.csproj">
+      <Project>{4270ecd5-5af5-4668-b06f-cb05263f493b}</Project>
+      <Name>BlueLotus.Infastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Infrastructure.Implementation\BlueLotus.ItmMasInfrastructure.Implementation.csproj">
+      <Project>{7c24f578-89e7-4dbc-b8b3-445256d5dd13}</Project>
+      <Name>BlueLotus.ItmMasInfrastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ItmMas.Model\BlueLotus.ItmMas.Model.csproj">
+      <Project>{a82986c2-efdd-43ea-b188-ffc3a8d8df71}</Project>
+      <Name>BlueLotus.ItmMas.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Journal.Model\BlueLotus.Journal.Model.csproj">
+      <Project>{df5edbfc-5517-4281-acb8-650e3499fcad}</Project>
+      <Name>BlueLotus.Journal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bluelotus.TransactionModel\Bluelotus.TransactionModel.csproj">
+      <Project>{33748BE3-7D60-4BAB-A26F-86AAAB00EEE5}</Project>
+      <Name>Bluelotus.TransactionModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

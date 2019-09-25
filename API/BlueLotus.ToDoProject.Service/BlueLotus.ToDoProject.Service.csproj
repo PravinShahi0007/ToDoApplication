@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1993AE78-10E2-4C42-A5D2-477F44DAAB17}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueLotus.ToDoProject.Service</RootNamespace>
+    <AssemblyName>BlueLotus.ToDoProject.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Contract\IToDoProjectService.cs" />
+    <Compile Include="Implementation\ToDoProjectService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlueLotus.Infastructure.Implementation\BlueLotus.Infastructure.Implementation.csproj">
+      <Project>{4270ecd5-5af5-4668-b06f-cb05263f493b}</Project>
+      <Name>BlueLotus.Infastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Model\BlueLotus.Model.csproj">
+      <Project>{56d67e0b-841f-48d2-9a09-9692af69739d}</Project>
+      <Name>BlueLotus.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ToDoProject.Infracture\BlueLotus.ToDoProject.Infracture.csproj">
+      <Project>{54a41434-8307-4bb0-bbda-6f203aff4c64}</Project>
+      <Name>BlueLotus.ToDoProject.Infracture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ToDoProject.Model\BlueLotus.ToDoProject.Model.csproj">
+      <Project>{5423d36f-5b1b-45b7-8e70-3fd0625155ba}</Project>
+      <Name>BlueLotus.ToDoProject.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bluelotus.TransactionModel\Bluelotus.TransactionModel.csproj">
+      <Project>{33748BE3-7D60-4BAB-A26F-86AAAB00EEE5}</Project>
+      <Name>Bluelotus.TransactionModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

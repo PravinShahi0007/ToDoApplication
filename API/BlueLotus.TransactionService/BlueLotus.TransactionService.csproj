@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FC4FF67-E8DA-4731-B95A-0896E1B90C00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueLotus.TransactionService</RootNamespace>
+    <AssemblyName>BlueLotus.TransactionService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contract\IItemCountService.cs" />
+    <Compile Include="Contract\IPOSItmTransferService.cs" />
+    <Compile Include="Contract\ITransactionAccService.cs" />
+    <Compile Include="Contract\ITranService.cs" />
+    <Compile Include="Implementation\ItemCountService.cs" />
+    <Compile Include="Implementation\POSItmTransferService.cs" />
+    <Compile Include="Implementation\TransactionAccService.cs" />
+    <Compile Include="Implementation\TranService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlueLotus.Infastructure.Implementation\BlueLotus.Infastructure.Implementation.csproj">
+      <Project>{4270ecd5-5af5-4668-b06f-cb05263f493b}</Project>
+      <Name>BlueLotus.Infastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Infastructure\BlueLotus.Infastructure.csproj">
+      <Project>{f896659d-9c4a-4503-ba04-8800da276a7a}</Project>
+      <Name>BlueLotus.Infastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Model\BlueLotus.Model.csproj">
+      <Project>{56d67e0b-841f-48d2-9a09-9692af69739d}</Project>
+      <Name>BlueLotus.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.StockClosing.Model\BlueLotus.StockClosing.Model.csproj">
+      <Project>{42923ece-18a7-4c09-bebc-a35c21cf29ef}</Project>
+      <Name>BlueLotus.StockClosing.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.TransactionInfrastructure\BlueLotus.TransactionInfastructure.Implementation.csproj">
+      <Project>{d991d16b-c859-430c-a5d8-e852da2ad0fc}</Project>
+      <Name>BlueLotus.TransactionInfastructure.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bluelotus.TransactionModel\Bluelotus.TransactionModel.csproj">
+      <Project>{33748be3-7d60-4bab-a26f-86aaab00eee5}</Project>
+      <Name>Bluelotus.TransactionModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BluLotus.Payment.Model\BluLotus.Payment.Model.csproj">
+      <Project>{283667a4-2e00-4123-aab0-609c53f5e37e}</Project>
+      <Name>BluLotus.Payment.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

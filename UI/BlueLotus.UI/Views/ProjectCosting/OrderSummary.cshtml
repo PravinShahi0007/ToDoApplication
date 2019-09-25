@@ -1,0 +1,534 @@
+﻿@{
+    ViewBag.Title = "OrderSummary";
+
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="../buttncss/style/cssNew.css" />
+
+
+<div class="form wr_mid_content wr_formGroup clearfix">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        @*<button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button change_password" onclick="ResetPwd()" data-tooltip="Reset Password"></button>*@
+
+        <button class="control-button analize" onclick="Anlyze()" data-tooltip="Analize"> </button>
+        <button class="control-button clean " onclick="Clear()" data-tooltip="Clear"> </button>
+
+
+        @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+    </div>
+    <div class="col-md-12 form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Order Type</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="cmbOrdTyp" class="cmb">
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">From Date</label>
+            <div class="col-md-7 col-sm-7">
+                <input class="cmb" id="FrmDate" value="2015/01/01" />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">To Date</label>
+            <div class="col-md-7 col-sm-7">
+                <input class="cmb" id="ToDate" value="2015/01/01" />
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Recur Dlv No</label>
+
+
+
+            <div class="col-md-7 col-sm-7">
+                <input id="cmbDlyNo" class="cmb">
+            </div>
+
+        </div>
+
+
+
+
+        <div class="form-group">
+
+            <label class="col-md-4 col-sm-4 control-label">Location</label>
+
+
+            <div class="col-md-7 col-sm-7">
+                <input id="cmbLocation" class="cmb">
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+<div id="grid"></div>
+
+<script>
+    $(document).ready(function () {
+        LoadCombo();
+
+        var todayDate = new Date();
+        $('#FrmDate').data("kendoDatePicker").value(todayDate);
+        $('#ToDate').data("kendoDatePicker").value(todayDate);
+
+        $(".k-datepicker, .k-combobox").css('width', "100%");
+
+    });
+
+    $("#FrmDate").kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    $("#ToDate").kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function LoadCombo() {
+        $("#cmbDlyNo").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: DlyNoDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbDlyNo").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbDlyNo");
+                    if (validate) {
+                        $("#cmbDlyNo").data("kendoComboBox").value(CdKy);
+
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbDlyNo").data("kendoComboBox").value("");
+
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Dly No.."
+        });
+
+
+        $("#cmbOrdTyp").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: LocDatasource("ordtyp"),
+            change: function (e) {
+                var cmb = $("#cmbOrdTyp").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbOrdTyp");
+                    if (validate) {
+                        $("#cmbOrdTyp").data("kendoComboBox").value(CdKy);
+
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbOrdTyp").data("kendoComboBox").value("");
+
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Order Type.."
+        });
+
+        $("#cmbLocation").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: LocDatasource("Loc"),
+            change: function (e) {
+                var cmb = $("#cmbLocation").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbRecOrdDay");
+                    if (validate) {
+                        $("#cmbLocation").data("kendoComboBox").value(CdKy);
+
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbLocation").data("kendoComboBox").value("");
+
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Location.."
+        });
+
+        function DlyNoDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/WebReports/GetDlyNo")',
+                          dataType: "json"
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+
+
+
+        function LocDatasource(ConCd) {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/IntrgrtyCheq/GetComboCode")',
+                          dataType: "json"
+                      },
+                      parameterMap: function (options, operation) {
+
+                          if (operation == "read") {
+                              return ({
+                                  ConCd: ConCd
+                              });
+                          }
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+
+    }
+
+    function Anlyze() {
+
+
+
+
+
+        var FrmDt = $("#FrmDate").val();
+        var ToDt = $("#ToDate").val();
+        var LocKy = $("#cmbLocation").data("kendoComboBox").value();
+        if (LocKy == null || LocKy == undefined || LocKy == "") {
+
+            var LocKy = 1;
+        }
+        var RecurDlvNoKy = $("#cmbDlyNo").data("kendoComboBox").value();
+        if (RecurDlvNoKy == null || RecurDlvNoKy == undefined || RecurDlvNoKy == "") {
+
+            var RecurDlvNoKy = 1;
+        }
+        var OrdTypKy = $("#cmbOrdTyp").data("kendoComboBox").value();
+        if (OrdTypKy == null || OrdTypKy == undefined || OrdTypKy == "") {
+
+            var OrdTypKy = 1;
+        }
+
+
+
+
+     try {
+        $('#grid').data().kendoGrid.destroy();
+        $('#grid').empty();
+    } catch (e) { }
+
+    var columns = new Array();
+    columns = [
+         //{
+         //    field: "",
+         //    title: "File Path",
+         //    width: "80px",
+
+         //    template: "<a href='#=DMSPath#' onclick='GetPath_open()'>View File</a>"
+         //},
+              // { field: "LateWentEarlyWent", width: "200px", format: "{0:N2}", aggregates: ["sum"], footerTemplate: "<div>Total: #= sum#</div>", groupFooterTemplate: "<div>Total: #= sum#</div>" },
+
+    ];
+
+    $.holdReady(true);
+    $.ajax({
+        type: "GET",
+        dataType: 'json',
+        data: {
+            FrmDt: FrmDt,
+            ToDt: ToDt,
+            LocKy: LocKy,
+            RecurDlvNoKy: RecurDlvNoKy,
+            OrdTypKy: OrdTypKy,
+        },
+        url: '@Url.Action("OrdSummry_SelectColDet", "WebReports")',
+        converters:
+    {
+        "text json": function (data) {
+            return $.parseJSON(data, true, true);
+        }
+    },
+        success: function (data) {
+
+            for (var i = 0; i < columns.length; i++) { // Get and Bind the Column level Details
+                for (var k = data.length - 1; k >= 0 ; k--) {
+                    if (columns[i]["field"] == data[k]) {
+                        data.splice(k, 1); // Remove if column already defined
+                    }
+                }
+            }
+
+            for (i = 0; i < data.length; i++) { // Get and Bind the Column level Details
+                columns.push({ field: data[i], title: data[i], locked: false, hidden: false, width: "200px" });
+                if (i + 1 == data.length) {
+                    firstLoadData(columns);
+                }
+            }
+
+            $.holdReady(false);
+        }
+    });
+
+    function firstLoadData(columns) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: { ObjKy: "@(ViewBag.ObjKy)" },
+            url: '@Url.Action("UsrObjPrp_Select", "HtnShared")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+
+                //for (i = 0; i < data[0].length; i++) { // Get and Bind the Column level Details
+                //    columns.push({ field: data[0][i], title: data[0][i] });
+                //}
+
+                for (var i = 0; i < data.length; i++) { // Get and Bind the Column level Details
+                    for (var k = columns.length - 1; k >= 0 ; k--) {
+                        if (columns[k]["field"] == data[i]["ObjCd"]) {
+                            columns.splice(k, 1); // Remove if column already defined
+                        }
+                    }
+                }
+                for (var j = 0; j < data.length; j++) {
+
+                    //  if (data[j]["Alignment"].length > 0) {
+                    alginment = data[j]["Alignment"];
+                    //  }
+
+                    if (data[j]["Aggregates"].length > 0 && data[j]["FooterTemplate"].length > 0 && data[j]["GrpFooterTemplate"].length > 0) {
+                        var tempAggregates = new Array();
+                        // this will return an array with strings "1", "2", etc.
+                        tempAggregates = data[j]["Aggregates"].substring(1, data[j]["Aggregates"].length - 1).split("\",\"");
+                        columns.push({ field: data[j]["ObjCd"], locked: (data[j]["isFreeze"] == 1) ? true : false, hidden: (data[j]["isVisible"] == 0) ? true : false, title: data[j]["ObjCaptn"], width: data[j]["Width"], format: data[j]["Format"], aggregates: tempAggregates, footerTemplate: data[j]["FooterTemplate"], groupFooterTemplate: data[j]["GrpFooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                    } else if (data[j]["Aggregates"].length > 0 && data[j]["FooterTemplate"].length > 0) {
+                        var tempAggregates = new Array();
+                        // this will return an array with strings "1", "2", etc.
+                        tempAggregates = data[j]["Aggregates"].substring(1, data[j]["Aggregates"].length - 1).split("\",\"");
+                        columns.push({ field: data[j]["ObjCd"], locked: (data[j]["isFreeze"] == 1) ? true : false, hidden: (data[j]["isVisible"] == 0) ? true : false, title: data[j]["ObjCaptn"], width: data[j]["Width"], format: data[j]["Format"], aggregates: tempAggregates, footerTemplate: data[j]["FooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                    } else {
+
+                        columns.push({ field: data[j]["ObjCd"], locked: (data[j]["isFreeze"] == 1) ? true : false, hidden: (data[j]["isVisible"] == 0) ? true : false, title: data[j]["ObjCaptn"], width: data[j]["Width"], format: data[j]["Format"], attributes: { style: "text-align:" + alginment + ";" } });
+                    }
+
+                    if (j + 1 == data.length) {
+                        loadWithDetLevelData(columns, data);
+                    }
+                }
+                $.holdReady(false);
+            }
+        });
+
+
+    }
+
+    function loadWithDetLevelData(columns, colData) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: {
+                FrmDt: FrmDt,
+                ToDt: ToDt,
+                LocKy: LocKy,
+                RecurDlvNoKy: RecurDlvNoKy,
+                OrdTypKy: OrdTypKy,
+            },
+            url: '@Url.Action("OrdSummry_Select", "WebReports")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+
+                loadGrid(columns, colData, data)
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function loadGrid(col, colData, dataSrcJsonString) {
+
+        var agrt = new Array();
+        for (var i = 0; i < col.length; i++) { // Get aggregates
+            if (col[i].aggregates != undefined) {
+                //var tempAggregates = new Array();
+                // this will return an array with strings "1", "2", etc.
+                //tempAggregates = col[i].aggregates[0].split("\",\"");
+                for (var hh = 0; hh < col[i].aggregates.length; hh++) {
+                    agrt.push({ field: col[i].field, aggregate: col[i].aggregates[hh] });
+                }
+            }
+        }
+
+        var ttt = [
+              //  { field: "PrcsNm", aggregate: "count" },
+              //  { field: "LateWentEarlyWent", aggregate: "average" },
+              //  { field: "LateWentEarlyWent", aggregate: "sum" },
+             //   { field: "LateWentEarlyWent", aggregate: "min" }
+        ];
+
+        var gridBOQComponents_SelectWeb = new kendo.data.DataSource({
+
+            data: JSON.parse(dataSrcJsonString),
+            pageSize: 10,
+
+
+            aggregate: agrt,
+
+        });
+
+        try {
+            $('#grid').data().kendoGrid.destroy();
+            $('#grid').empty();
+        } catch (e) { }
+        $("#grid").kendoGrid({
+            toolbar: ["excel"],
+            excel: {
+                fileName: "Order Summary.xlsx",
+                //proxyURL: "//demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            dataSource: gridBOQComponents_SelectWeb,
+            sortable: true,
+            pageable: true,
+            navigatable: true,
+            //groupable: true,
+
+            //edit: function (e) {
+            //    var input = e.container.find("input");
+            //    setTimeout(function () {
+            //        input.select();
+            //    }, 25);
+            //},
+            messages: {
+
+                noRecords: "Sorry , No Record Found!"
+
+            },
+            filterable: true,
+            //filterable: {
+            //    mode: "row"
+            //},
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                info: true,
+                numeric: true,
+                previousNext: true,
+
+
+            },
+            columnMenu: true,
+
+            reorderable: true,
+            resizable: true,
+            selectable: "row",
+            editable: false,
+            columns: col,
+        });
+
+        $("#grid").kendoTooltip({
+            filter: "th", //this filter selects the first column title
+            position: "top",
+            width: "150px",
+            content: function (e) {
+                for (i = 0; i < colData.length; i++) {
+                    //if (colData[i].isVisible != 0) {
+                    var target = e.target.closest("th"); // element for which the tooltip is shown
+                    var rtrn = $(target).text();
+
+                    if ($(target).text() == colData[i].ObjCaptn) {
+                        rtrn = colData[i].ToolTip;
+                    }
+
+                    return rtrn;
+                    //}
+                }
+            }
+        }).data("kendoTooltip");
+
+
+    }
+    }
+
+
+
+    function Cancel() {
+        var todayDate = new Date();
+        $('#FrmDate').data("kendoDatePicker").value(todayDate);
+        $('#ToDate').data("kendoDatePicker").value(todayDate);
+
+        $("#cmbLocation").data("kendoComboBox").value(null);
+        $("#cmbDlyNo").data("kendoComboBox").value(null);
+        $("#cmbOrdTyp").data("kendoComboBox").value(null);
+
+    }
+
+
+
+</script>
+
+

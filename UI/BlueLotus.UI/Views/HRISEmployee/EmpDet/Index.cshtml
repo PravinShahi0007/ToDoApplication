@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Employee Profile";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div style="border: 1px solid #07789E;">
+    <div class="k-content" id="filterCont">
+        <div id="HdrPart">
+            <div class="col-md-12  col-sm-12">
+                <div class="wr_formGroup">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div id="HdrSec1_CmbTyp">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_CmbTyp_Lbl">Emp No:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-4">
+                                    @*<input id="HdrSec1_CmbTyp_Cd" class="combo" style="width:100%;" />*@
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                            <div id="HdrSec1_CmbDept">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_CmbDept_Lbl">Emp Name:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-4 ">
+                                    @*<div id="HdrSec1_CmbDept_Cd" style="width:100%;"></div>*@
+                                    @*<div id="HdrSec1_CmbDept_Nm"></div>*@
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                            <div id="HdrSec1_ChkboxAlwTrnRateChange">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_ChkboxAlwTrnRateChange_Lbl">Department:</label>
+                                </div>
+                                <div class="col-md-1 col-sm-1">
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div id="HdrSec1_InptItmCd">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_InptItmCd_Lbl">Designation:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-4">
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                            <div id="HdrSec1_CmbCat">
+                                <div class="col-md-2 col-sm-4 ">
+                                    <label id="HdrSec1_CmbCat_Lbl">Address:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-4 ">
+                                    @*<div id="HdrSec1_CmbCat_Cd" style="width:100%;"></div>*@
+                                    @*<div id="HdrSec1_CmbCat_Nm"></div>*@
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                            <div id="HdrSec2_ChkboxAgeVarification">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_ChkboxAgeVarification_Lbl">Location:</label>
+                                </div>
+                                <div class="col-md-1 col-sm-1">
+                                    @*<input id="HdrSec1_ChkboxAgeVarification_Val" type="text">*@
+                                    <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br style="clear: both" />
+    <div id="tabstrip">
+        <ul>
+            <li id="HdrSec2_Tab1">Personal</li>
+            <li id="HdrSec2_Tab2">Acadamic</li>
+            <li id="HdrSec2_Tab3">Salary</li>
+            <li id="HdrSec2_Tab4">Leave</li>
+            <li id="HdrSec2_Tab5">Job Information</li>
+
+        </ul>
+
+        <div>
+            <div style="width:100%" id="gfh">
+                @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+            </div>
+        </div>
+        <div>
+            <div style="width:100%" id="gfh">
+                @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+            </div>
+        </div>
+        <div>
+            @*<div id="ItmSettingsgrid"></div>*@
+        </div>
+        <div>
+            @*<div id="Pricegrid"></div>*@
+        </div>
+        <div>
+            @*<div id="ItmStockgrid"></div>*@
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $("#tabstrip").kendoTabStrip({
+        navigatable: true
+    });
+</script>
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+    @*var urlInsert = '@Url.Content("~/ItmPrfl/Insert")';*@
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    
+</script>
+<script src="~/Scripts/HtnScripts/HRISEmployee/EmpDet/EmpDet.js"></script>

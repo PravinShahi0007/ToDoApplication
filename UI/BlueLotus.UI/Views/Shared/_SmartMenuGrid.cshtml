@@ -1,0 +1,118 @@
+﻿<div>
+    <div id="SmartMenu_Main">
+
+        <div id="SmartMenugrid" style="width: 90%; margin: 0 auto; margin-left: 20px"></div>
+    </div>
+</div>
+
+<script>
+    var urlGetShortcutDetails = '@Url.Content("~/Menu/GetSmartMenuModel")';
+    var urlUpdateShortcut = '@Url.Action("UpdateSmartMenuModel", "Menu")';
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/SmartMenuGridAdmin.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/SmartMenuGridEndUser.js"></script>
+
+<script type="text/javascript">
+
+    var preFiled = "";
+    var preselectedItem;
+    var activeColumn;
+    
+    $(document).ready(function () {
+        $("#mainmenu li").removeClass('active');
+        $("#mainmenu li").addClass('active');
+        $("#mainmenu").kendoMenu({ orientation: "vertical" });
+
+        var height = $(window).height() - 70;
+        $("#bodyMenu").height(height);
+
+        GetAdminStatus();
+
+    });
+
+    function GetAdminStatus() {
+        $.ajax({
+            url: "@Url.Content("~/Menu/GetAdminDetails")",
+            data: JSON.stringify({}),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data == "1") {
+                    LoadGridforAdmin(null, null);
+                }
+                else {
+                    LoadGrid(null, null);
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        })
+    }
+
+    var textEditorInitialize = function (container, options) {
+        $('<textarea class="k-input" name="' + options.field + '" style="width: ' + container.width() + 'px;height:100px" ></textarea>')
+        .appendTo(container);
+    };
+
+    function getColIndex(cntrl, colName) {
+
+        var gridColumns = $(cntrl).data("kendoGrid").columns;
+        for (index = 0; index < gridColumns.length; ++index) {
+            if (gridColumns[index].field == colName) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    $("#SmartMenugrid").delegate("tbody>tr", "dblclick", function () {
+        var gview = $("#SmartMenugrid").data("kendoGrid");
+
+        //http://stackoverflow.com/questions/24273432/kendo-ui-grid-select-single-cell-get-back-dataitem-and-prevent-specific-cells
+        // Get selected cell
+        var selected = gview.select();
+        // Get the row that the cell belongs to.
+        var row = gview.select().closest("tr");
+        // Get the data item corresponding to this cell
+        //var item = grid.dataItem(row);
+
+        //// This is get all the row index in multi cell selction.
+        //currentSelection = gview.select();
+        //selectedRows = [];
+        //currentSelection.each(function () {
+        //    var currentRowIndex = $(this).closest("tr").index();
+        //    if (selectedRows.indexOf(currentRowIndex) == -1) {
+        //        selectedRows.push(currentRowIndex);
+        //    }
+        //})
+
+        //var selectedItem = gview.dataItem(gview.select()); //this is support only for row selection not a cell selection grid.
+        var selectedItem = gview.dataItem(row);
+        var URLController = selectedItem.URLController;
+        var URLAction = selectedItem.URLAction;
+        if (URLController == null || URLAction == null) {
+            alert("Cannot Open. Path not found");
+        }
+        else //if (preselectedItem != selectedItem)
+        {
+            preselectedItem = selectedItem;
+            //var url = "http://" + document.location.host + "/DevBL10/" + URLController + "/" + URLAction + "?ObjCaptn=" + selectedItem.ObjNm + "&ObjKy=" + selectedItem.ObjKy;
+            //window.open(url, '_blank'); // Cmnt By Vagee because its get trigger by KendoTree
+
+            var $selected = $("#tree").data("kendoTreeView").findByText(selectedItem.ObjNm);
+            var $treePath = $selected.parentsUntil($("#tree"), "li");
+            var treeView = $("#tree").data('kendoTreeView');
+
+            // Expand the tree in order to show the selected item
+            treeView.expand($treePath);
+
+            // Gotta make both calls...
+            treeView.select($selected);
+            treeView.trigger('select', { node: $selected });
+        }
+    });
+
+</script>

@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "Item Profile V2";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<div class="k-content clearfix" id="filterCont">
+    @*<div id="ButtonSet" class="control-icons">
+            <div id="ButtonSec1" class="col-md-12 col-sm-12"></div>
+        </div>*@
+    <div class="col-md-12 col-sm-12 col-xs-12 control-icons" id="ButtonSet">
+        <div id="ButtonSec1" class="">         
+            <button type="button" class="control-btn" onclick="LoadItemGridView(ItmTypKy)" value="Load Gridview" title="Load Gridview"><i class="fa fa-repeat" aria-hidden="true"></i></button>         
+            @*DatasourceFill(PageNo, PageSize) LoadItemGridView(ItmTypKy) DatasourceFill(1, 1000)*@
+            <button type="button" class="control-btn" onclick="Clear()" value="CLEAR" title="Clear"><i class="fa fa-eraser" aria-hidden="true"></i></button>   
+            <button type="button" class="control-btn" onclick="Add()" value="EDIT" title="Add New Item"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            <button type="button" class="control-btn" onclick="ImportItem()" value="IMPORT" title="Import"><i class="fa fa-download" aria-hidden="true"></i></button>
+            <button type="button" class="control-btn" onclick="Post()" value="Post" title="Post"><i class="fa fa-ban" aria-hidden="true"></i></button>           
+        </div>
+
+
+    </div>
+
+    <input type="hidden" id="ItmKy" />
+    <input type="hidden" id="ItmTaxKy" />
+    <input type="hidden" id="HdrSec1_InptItmKy_Val" />
+
+    <div id="HdrPart">
+        <div class="col-md-12  col-sm-12 m-t-10">           
+                <div class="row form-group">
+                    <!--Item Type-->
+                    <div id="HdrSec1_CmbTyp" class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_CmbTyp_Lbl">Item Type:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <input id="HdrSec1_CmbTyp_Cd" class="combo width-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Item Type-->
+                    <!--Department-->
+                    <div id="HdrSec1_CmbDept" class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_CmbDept_Lbl">Department:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <div id="HdrSec1_CmbDept_Cd" class="width-100"></div>
+                                <div id="HdrSec1_CmbDept_Nm"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Department-->
+                    <!--Category-->
+                    <div id="HdrSec1_CmbCat" class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_CmbCat_Lbl">Category:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <div id="HdrSec1_CmbCat_Cd" class="width-100"></div>
+                                <div id="HdrSec1_CmbCat_Nm"></div>
+                            </div>
+                        </div>
+                    </div>  
+                    <!--/Category--> 
+                    <!--Item Code--> 
+                    <div id="HdrSec1_InptItmCd" class="col-md-3 col-sm-6 col-xs-12" style="height:28px;">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_InptItmCd_Lbl">Item Code:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>   
+                    <!--/Item Code-->
+                    <!--Item Name-->    
+                    <div id="HdrSec1_InptItmNm" class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_InptItmNm_Lbl">Item Name:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <input id="HdrSec1_InptItmNm_Val" type="text" class="k-textbox width-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Item Name-->
+                    <!--Active Items-->  
+                    <div id="HdrSec1_AllItm" class="col-md-3 col-sm-6 col-xs-12" style="height:28px;">
+                        <div class="row form-group">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="">Active Items</label>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <label class="lbl-switch"> <input type="checkbox" id="HdrSec1_AllItm_Val" checked="checked" /> <div> <span class="on">Yes</span> <span class="off">No</span> </div> <i></i> </label>
+                                @*<input type="checkbox" id="HdrSec1_AllItm_Val" checked="checked" />*@
+                            </div>
+                        </div>
+                    </div>  
+                    <!--Active Items-->        
+                </div>              
+        </div>
+    </div>
+
+    <div>@Html.Partial("~/Views/ItemProfileV2/browseItem.cshtml")</div>
+
+</div>
+
+<div>
+
+</div>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/main.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/browseItem.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/ItemSettings.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/PriceRevision.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/ItmStock.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/Modifiers.js"></script>
+@*<script src="~/Scripts/HtnScripts/ItemProfileV2/main.min.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/browseItem.min.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/ItemSettings.min.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/PriceRevision.min.js"></script>
+<script src="~/Scripts/HtnScripts/ItemProfileV2/ItmStock.min.js"></script>*@
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+
+
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+   var urlComboLoad = {
+       Code_SelectMob: '@Url.Content("~/CodesV2/Code_SelectMob")',
+       CdNm_SelectMob: '@Url.Content("~/CodesV2/CdNm_SelectMob")'
+       @*AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")'*@
+   }
+   @*var urlObjMas = {
+       UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMasV2")',
+       UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMasV2")'
+   }*@
+   var urlCodes = {
+       GetCdKyByConCdAndOurCd: '@Url.Content("~/CodesV2/GetCdKyByConCdAndOurCd")',
+       GetCdMasBy_CdKy: '@Url.Content("~/CodesV2/GetCdMasBy_CdKy")'
+       @*GetUserPermission: '@Url.Content("~/Common/TrnHdrApr_NextState")'*@
+   }
+   var urlGetControlConKy = '@Url.Content("~/CodesV2/GetControlConKy")';
+   var urlGetControlConKyForItmRate = '@Url.Action("GetControlConKyForItmRate", "ItemProfileV2")';
+   var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMasV2/UsrObjPrp_SelectAllLastChildWeb")';
+   var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMasV2/UsrObjPrp_SelectDeepSearchWeb")';
+   var urlGetCat8ByCat7_SelectWeb = '@Url.Content("~/CodesV2/GetCat8ByCat7_SelectWeb")';
+   var urlGetAllItemsWithDept = '@Url.Action("GetAllItemsWithDept", "ItemProfileV2")';
+   var urlUpdate = '@Url.Content("~/ItemProfileV2/UpdatePOS")';
+   var urlInsert = '@Url.Content("~/ItemProfileV2/Insert")';
+   var URLUnitCmbLoad = '@Url.Action("GetUnit", "ItemProfileV2")';
+   var URLCheckItmCdExist = '@Url.Action("CheckItmCdExist", "ItemProfileV2")';
+    var urlUpdatePost = '@Url.Content("~/ItmPrfl/UpdatePost")';
+   var urlGetAllItemsWithDept = '@Url.Action("GetAllItemsWithDept", "ItemProfileV2")';
+   //---------- item settings--------------------------------------
+   var urlGetItmSettings = '@Url.Action("GetItmSettings", "ItmMasCd")';
+   var urlInsertItmSettings = '@Url.Content("~/ItmMasCd/InsertItmSettings")';
+   //---------- Price Revision--------------------------------------
+   var urlLoadPriceRevision = '@Url.Action("LoadPriceRevision", "ItemProfileV2")';
+   var urlUpdatePriceRevision = '@Url.Content("~/ItemProfileV2/UpdatePriceRevision")';
+   //---------- LoadItmStock--------------------------------------
+    var urlLoadItmStock = '@Url.Action("LoadItmStock", "ItemProfileV2")';
+    //----------------Modifier-------------------------------------------
+    var urlModifier = '@Url.Action("LoadModifier", "ItemProfileV2")';
+    var urlModifier_Insert = '@Url.Content("~/ItemProfileV2/POSModifier_InsertUpdate")';
+    var urlModifier_Delete = '@Url.Content("~/ItemProfileV2/POSModifier_Delete")';
+    var GetItemByCodeEAN = '@Url.Content("~/POSItmTransfer/GetItemByCodeEAN")';
+</script>
+<style>
+    .control-btn {
+        width:25px;
+        height:25px;
+        background-size: 15px 15px !important;
+        background-color: #fafafa;
+        font-size: 16px;
+        margin-left: 1px;
+        border: #b6b6b6 1px solid;
+        background-position: 50% 50% !important;
+        padding: 3px;
+        display: inline-block;
+        box-sizing: content-box;
+        box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.03);
+        border-radius:4px;
+    }
+    button.control-btn {
+        margin: 8px 10px 8px 0px;
+    }
+    /*td a.k-button{
+        border-color: #b6b6b6;
+    }*/   
+    .k-dropzone {
+        padding: .7em;
+    }
+    .k-dropzone >.k-button {
+        line-height: 1.143em;
+        padding: 7px 14px;
+    }
+    .k-dirty-clear {
+      border-width:0;
+    }
+
+</style>

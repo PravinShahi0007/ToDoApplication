@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D4DD7DCD-9563-4C90-8790-457C7D9080B2}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueLotusUI</RootNamespace>
+    <AssemblyName>BlueLotusUI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.5.3\lib\net35\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.5.1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.5.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.5.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.5.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.5.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiOperations\AccountsReportsApiOperation.cs" />
+    <Compile Include="ApiOperations\AddressApiOperation.cs" />
+    <Compile Include="ApiOperations\AdvPmtRqstApiOperations.cs" />
+    <Compile Include="ApiOperations\AlertApiOperation.cs" />
+    <Compile Include="ApiOperations\ApiOperation.cs" />
+    <Compile Include="ApiOperations\AsynApiOperations.cs" />
+    <Compile Include="ApiOperations\AttendenceApiOperation.cs" />
+    <Compile Include="ApiOperations\BankReconciliationApiOperation.cs" />
+    <Compile Include="ApiOperations\Bank_BranchEntryOperation.cs" />
+    <Compile Include="ApiOperations\BOQApiOperation.cs" />
+    <Compile Include="ApiOperations\BudgetApiOperation.cs" />
+    <Compile Include="ApiOperations\CalenderApiOperation.cs" />
+    <Compile Include="ApiOperations\CdmasColCaptionApiOperation.cs" />
+    <Compile Include="ApiOperations\ChequeReturnApiOperation.cs" />
+    <Compile Include="ApiOperations\CodesApiOperation.cs" />
+    <Compile Include="ApiOperations\CodesApiOperationV2.cs" />
+    <Compile Include="ApiOperations\ComboLoadApiOperation.cs" />
+    <Compile Include="ApiOperations\CommonApiOperation.cs" />
+    <Compile Include="ApiOperations\CompanyApiOperation.cs" />
+    <Compile Include="ApiOperations\ControlConApiOperation.cs" />
+    <Compile Include="ApiOperations\DailyToDoApiOperation.cs" />
+    <Compile Include="ApiOperations\DemoDrvngApiOperation.cs" />
+    <Compile Include="ApiOperations\DeviceApiOperation.cs" />
+    <Compile Include="ApiOperations\ExceptionHandlingApiOperation.cs" />
+    <Compile Include="ApiOperations\GanttChartApiOperation.cs" />
+    <Compile Include="ApiOperations\GeoLocAPIOperation.cs" />
+    <Compile Include="ApiOperations\HRApiOperation.cs" />
+    <Compile Include="ApiOperations\HRISApiOperation.cs" />
+    <Compile Include="ApiOperations\HRISEmployeeApiOperation.cs" />
+    <Compile Include="ApiOperations\ItemCostingApiOperation.cs" />
+    <Compile Include="ApiOperations\ItemCountApiOperation.cs" />
+    <Compile Include="ApiOperations\ItemDiscountApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmMasApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmMasCdApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmMasCmpnApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmMasSelectApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmPrfApiOperationV2.cs" />
+    <Compile Include="ApiOperations\ItmPrflApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmPrflSelectApiOperation.cs" />
+    <Compile Include="ApiOperations\ItmTaxApiOperation.cs" />
+    <Compile Include="ApiOperations\JournalApiOperation.cs" />
+    <Compile Include="ApiOperations\LoanTransactionApi.cs" />
+    <Compile Include="ApiOperations\LoginApiOperation.cs" />
+    <Compile Include="ApiOperations\ManageAllAccountsApiOperations.cs" />
+    <Compile Include="ApiOperations\MenuApiOperation.cs" />
+    <Compile Include="ApiOperations\MultiUnitApiOperation.cs" />
+    <Compile Include="ApiOperations\ObjApiOperation.cs" />
+    <Compile Include="ApiOperations\ObjMasApiOperation.cs" />
+    <Compile Include="ApiOperations\ObjMasApiOperationV2.cs" />
+    <Compile Include="ApiOperations\ObjMasMenuCopyApiOperations.cs" />
+    <Compile Include="ApiOperations\OrdDetCmpnApiOperation.cs" />
+    <Compile Include="ApiOperations\OrderApiOperation.cs" />
+    <Compile Include="ApiOperations\PaymentApiOperation.cs" />
+    <Compile Include="ApiOperations\PaymentSheduleApiOperationcs.cs" />
+    <Compile Include="ApiOperations\PayrollApiOperation.cs" />
+    <Compile Include="ApiOperations\PNSCashCollectionApiOperations.cs" />
+    <Compile Include="ApiOperations\PNSCordinatorDepositApiOperation.cs" />
+    <Compile Include="ApiOperations\PNSPaymentCordinatorApiOperations.cs" />
+    <Compile Include="ApiOperations\PNSRecieptConfirmApiOperations.cs" />
+    <Compile Include="ApiOperations\PNS_DispatchApiOperation.cs" />
+    <Compile Include="ApiOperations\PNS_SecurityApiOperation.cs" />
+    <Compile Include="ApiOperations\POSDashBoard\PieChartApiOperation.cs" />
+    <Compile Include="ApiOperations\POSItmTransferApiOperation.cs" />
+    <Compile Include="ApiOperations\PrcsDetCmpnApiOperation.cs" />
+    <Compile Include="ApiOperations\PrcsSchDetCmpnApiOperation.cs" />
+    <Compile Include="ApiOperations\PrefixApiOperation.cs" />
+    <Compile Include="ApiOperations\PrjAdrApiOperation.cs" />
+    <Compile Include="ApiOperations\ProjectCostingApiOperation.cs" />
+    <Compile Include="ApiOperations\ProjectLocationApiOperation.cs" />
+    <Compile Include="ApiOperations\PromotionApiOperation.cs" />
+    <Compile Include="ApiOperations\ReportApiOperation.cs" />
+    <Compile Include="ApiOperations\ResourcesApiOperation.cs" />
+    <Compile Include="ApiOperations\SalaryDateApiOperation.cs" />
+    <Compile Include="ApiOperations\SetOffApiOperation.cs" />
+    <Compile Include="ApiOperations\ShiftApi.cs" />
+    <Compile Include="ApiOperations\SMLProspectPlanApiOperation.cs" />
+    <Compile Include="ApiOperations\SMLQuatationApiOperation.cs" />
+    <Compile Include="ApiOperations\SMLShowroomlogApiOperations.cs" />
+    <Compile Include="ApiOperations\SplOrderApiOperation.cs" />
+    <Compile Include="ApiOperations\SubConApiOperation.cs" />
+    <Compile Include="ApiOperations\SystemUsersApiOperation.cs" />
+    <Compile Include="ApiOperations\TaskProgressApiOperation.cs" />
+    <Compile Include="ApiOperations\ToDoApiOperation.cs" />
+    <Compile Include="ApiOperations\ToDoProjectsApiOperation.cs" />
+    <Compile Include="ApiOperations\TransactionAccApiOperation.cs" />
+    <Compile Include="ApiOperations\TransactionApiOperation.cs" />
+    <Compile Include="ApiOperations\TransactionCRUDApiOperation.cs" />
+    <Compile Include="ApiOperations\UnitMasEntryApiOperation.cs" />
+    <Compile Include="ApiOperations\UserProfile_ApiOperation.cs" />
+    <Compile Include="ApiOperations\ValidateAndInsertApiOperation.cs" />
+    <Compile Include="ApiOperations\ValidationApiOperation.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlueLots.CacheClear.Model\BlueLots.CacheClear.Model.csproj">
+      <Project>{1d026580-97a2-4b8e-94a6-15b30d897759}</Project>
+      <Name>BlueLots.CacheClear.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLots.ItemCosting.Model\BlueLots.ItemCosting.Model.csproj">
+      <Project>{8be27f9f-c99a-43c9-88d6-f7f4cb2ef0d7}</Project>
+      <Name>BlueLots.ItemCosting.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLots.Project.Model\BlueLots.Project.Model.csproj">
+      <Project>{4f80d376-7885-4bf9-b2b6-5857121b3905}</Project>
+      <Name>BlueLots.Project.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.AccountsReports.Model\BlueLotus.AccountsReports.Model.csproj">
+      <Project>{6f258665-8982-4d4a-85cb-2f23243b9d54}</Project>
+      <Name>BlueLotus.AccountsReports.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.AdvPmtReqst.Model\BlueLotus.AdvPmtReqst.Model.csproj">
+      <Project>{d06058cd-67ba-4010-be1e-26b3a47cffd2}</Project>
+      <Name>BlueLotus.AdvPmtReqst.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Alert.Model\BlueLotus.Alert.Model.csproj">
+      <Project>{c9a3ee58-e536-489c-8114-4b73c9d9d640}</Project>
+      <Name>BlueLotus.Alert.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Attendance.Model\BlueLotus.Attendance.Model.csproj">
+      <Project>{b9806956-dac0-4e55-9a84-f319b77ee27d}</Project>
+      <Name>BlueLotus.Attendance.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.BankReconciliation.Model\BlueLotus.BankReconciliation.Model.csproj">
+      <Project>{4c19797e-ea24-46b7-a64b-8fd08357a31e}</Project>
+      <Name>BlueLotus.BankReconciliation.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.BOQ.Model\BlueLotus.BOQ.Model.csproj">
+      <Project>{dd6c08d2-3679-43de-aec5-575038fd56da}</Project>
+      <Name>BlueLotus.BOQ.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Calendar.Model\BlueLotus.Calendar.Model.csproj">
+      <Project>{cb57dabc-bfcf-4995-b547-ef2167c30271}</Project>
+      <Name>BlueLotus.Calendar.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.CdmasColCaption\BlueLotus.CdmasColCaption.csproj">
+      <Project>{b0bd71ff-331f-4939-abfd-ba5f2a7fabd4}</Project>
+      <Name>BlueLotus.CdmasColCaption</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ChequeReturn.Model\BlueLotus.ChequeReturn.Model.csproj">
+      <Project>{83d28f54-b464-44c9-9a48-084f14328a74}</Project>
+      <Name>BlueLotus.ChequeReturn.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Codes.Model\BlueLotus.Codes.Model.csproj">
+      <Project>{a18753a9-c648-4470-93b0-f21d1884b4a1}</Project>
+      <Name>BlueLotus.Codes.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ComboLoad.Model\BlueLotus.ComboLoad.Model.csproj">
+      <Project>{e157dfaa-8fa9-47ea-b852-ae67c1a97c5e}</Project>
+      <Name>BlueLotus.ComboLoad.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.dailytodo\BlueLotus.dailytodoModel.csproj">
+      <Project>{81f4ee84-f466-4249-9cb1-f0f97e851877}</Project>
+      <Name>BlueLotus.dailytodoModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Device.Model\BlueLotus.Device.Model.csproj">
+      <Project>{71b23d44-9594-4f4a-bc4b-be8723e4deb0}</Project>
+      <Name>BlueLotus.Device.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Gantt.ViewModel\BlueLotus.Gantt.ViewModel.csproj">
+      <Project>{a11a6c19-54f7-48f7-ad7b-6eefa827394a}</Project>
+      <Name>BlueLotus.Gantt.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.GeoLocation.Model\BlueLotus.GeoLocation.Model.csproj">
+      <Project>{67b9ff34-b0aa-44e7-858a-a7efa8ac482f}</Project>
+      <Name>BlueLotus.GeoLocation.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.HRIS.Model\BlueLotus.HRIS.Model.csproj">
+      <Project>{a68c5355-1139-4eb2-8f54-53a33553d7bf}</Project>
+      <Name>BlueLotus.HRIS.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.HRModel\BlueLotus.HRModel.csproj">
+      <Project>{b61d119d-3e24-4c5e-b36d-7001baac5f24}</Project>
+      <Name>BlueLotus.HRModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ImportModel\BlueLotus.ImportModel.csproj">
+      <Project>{f49f3d0b-53b8-42ec-a064-75f70b6cbe17}</Project>
+      <Name>BlueLotus.ImportModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ItemDiscount.Model\BlueLotus.ItemDiscount.Model.csproj">
+      <Project>{2d958cc5-473c-41af-87f6-7d4434eebea5}</Project>
+      <Name>BlueLotus.ItemDiscount.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ItmMas.Model\BlueLotus.ItmMas.Model.csproj">
+      <Project>{cdd81af6-1189-4d54-9138-0aaf262f595f}</Project>
+      <Name>BlueLotus.ItmMas.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ItmTax.Model\BlueLotus.ItmTax.Model.csproj">
+      <Project>{ee1f7cce-5851-4007-85d1-d79833de785a}</Project>
+      <Name>BlueLotus.ItmTax.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.LoanTransactionModel\BlueLotus.LoanTransaction_Model.csproj">
+      <Project>{fe5070af-e999-4b5b-8d6c-5f844a089ff2}</Project>
+      <Name>BlueLotus.LoanTransaction_Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ManageAllAccounts.Model\BlueLotus.ManageAllAccounts.Model.csproj">
+      <Project>{01c247ae-26cc-45a7-8c83-72afebb39357}</Project>
+      <Name>BlueLotus.ManageAllAccounts.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Model\BlueLotus.ViewModel.csproj">
+      <Project>{56d67e0b-841f-48d2-9a09-9692af69739d}</Project>
+      <Name>BlueLotus.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.MultiUnit.Model\BlueLotus.MultiUnit.Model.csproj">
+      <Project>{39ab9a77-e309-4759-895b-f62974c4e993}</Project>
+      <Name>BlueLotus.MultiUnit.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ObjMas.Model\BlueLotus.ObjMas.Model.csproj">
+      <Project>{1422c4e3-71e2-4059-a44a-53ccd5edc718}</Project>
+      <Name>BlueLotus.ObjMas.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ObjModel\BlueLotus.ObjModel.csproj">
+      <Project>{1e23b5bd-24e9-4c38-b971-d1f7c4423624}</Project>
+      <Name>BlueLotus.ObjModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Payment.Model\BlueLotus.Payment.Model.csproj">
+      <Project>{aceb80be-2930-4d78-99e7-07e0f788e625}</Project>
+      <Name>BlueLotus.Payment.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.PaymentShedule.Model\BlueLotus.PaymentShedule.Model.csproj">
+      <Project>{7b037575-984d-4be1-b614-539e1f38678a}</Project>
+      <Name>BlueLotus.PaymentShedule.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.PNSCollection.Model\BlueLotus.PNSCollection.Model.csproj">
+      <Project>{f5c54b5f-2ffc-43e3-9c80-023022d8dd34}</Project>
+      <Name>BlueLotus.PNSCollection.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.PNS_Security.Model\BlueLotus.PNS_Security.Model.csproj">
+      <Project>{06035d2a-b790-47f9-a458-08fe0545a04c}</Project>
+      <Name>BlueLotus.PNS_Security.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.POSDashBoard.Model\BlueLotus.POSDashBoard.Model.csproj">
+      <Project>{35eb7ca3-0e30-43f4-aff5-e75206f96633}</Project>
+      <Name>BlueLotus.POSDashBoard.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Prefix.Model\BlueLotus.Prefix.Model.csproj">
+      <Project>{3c667ef6-9195-4a60-8843-8f5aafae0f29}</Project>
+      <Name>BlueLotus.Prefix.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Promotion.Model\BlueLotus.Promotion.Model.csproj">
+      <Project>{f87a1e1b-766d-4663-aa9e-f4b1cf500380}</Project>
+      <Name>BlueLotus.Promotion.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Report.Model\BlueLotus.Report.Model.csproj">
+      <Project>{2de35c1e-2eb0-47de-8710-2771ce5a0649}</Project>
+      <Name>BlueLotus.Report.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.SalaryDate.Model\BlueLotus.SalaryDate.Model.csproj">
+      <Project>{4a0e4dc6-26c9-4089-8199-862b76c02193}</Project>
+      <Name>BlueLotus.SalaryDate.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.SetOff.Model\BlueLotus.SetOff.Model.csproj">
+      <Project>{9857a555-0d0d-4980-b284-f9634d39f1a4}</Project>
+      <Name>BlueLotus.SetOff.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.Shift_Model\BlueLotus.Shift_Model.csproj">
+      <Project>{4dbbd000-ae35-43a4-854a-2ed877058574}</Project>
+      <Name>BlueLotus.Shift_Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.ShowroomLog.Model\BlueLotus.ShowroomLog.Model.csproj">
+      <Project>{54b7cbcb-7b69-4459-a64b-dc7ec655da8e}</Project>
+      <Name>BlueLotus.ShowroomLog.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.StockClosing.Model\BlueLotus.StockClosing.Model.csproj">
+      <Project>{e10e86ee-9b87-46f8-8cf9-c870da99ffc3}</Project>
+      <Name>BlueLotus.StockClosing.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.SubContract.Model\BlueLotus.SubContract.Model.csproj">
+      <Project>{f1e538d0-0e9a-4ded-8235-d3709754f26e}</Project>
+      <Name>BlueLotus.SubContract.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueLotus.TaskProgress.Model\BlueLotus.TaskProgress.Model.csproj">
+      <Project>{1f8d6f1e-e4ec-42a6-b467-deaf36af18d6}</Project>
+      <Name>BlueLotus.TaskProgress.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Budget.Model\Budget.Model.csproj">
+      <Project>{5d4a75e2-f7fd-4e0b-bd04-bfb137587a3d}</Project>
+      <Name>Budget.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SplOrderModel\SplOrderModel.csproj">
+      <Project>{8c942e03-ca47-4a52-8792-004ddfc7b2f7}</Project>
+      <Name>SplOrderModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TransactionModel\BlueLotus.TransactionModel.csproj">
+      <Project>{8f0a2fd0-c113-4cbb-98e9-da9649b98c0e}</Project>
+      <Name>BlueLotus.TransactionModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60884</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60884/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

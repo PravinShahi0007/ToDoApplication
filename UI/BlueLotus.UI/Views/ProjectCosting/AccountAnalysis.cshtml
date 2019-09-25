@@ -1,0 +1,1180 @@
+﻿@{
+    ViewBag.Title = "AccountAnalysis";
+
+
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript_12_09.cshtml";
+
+    @*Layout = "~/Views/Shared/_GanttLayout.cshtml";
+        <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />*@
+}
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+<link rel="stylesheet" href="~/Images/BLBanner/style.css" type="text/css" />
+<link rel="stylesheet" href="~/buttncss/style/ResFull.css" type="text/css" />
+
+@*<script src='@Url.Content("~/Scripts/GridFunction/jquery.min.js")' type="text/javascript"></script>
+
+    <script src='@Url.Content("~/Scripts/GridFunction/kendo.all.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/GridFunction/jszip.min.js")' type="text/javascript"></script>*@
+
+
+
+@*<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>*@
+
+@*<link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />*@
+@*<script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>*@
+
+@*@Html.Partial("~/Views/Errors/Index.cshtml")*@
+<div class="nipmain">
+
+    <div class="nipimg">
+        <!--insert your image hear-->
+        <img src="~/Images/BLBanner/img/accanl.png">
+    </div>
+
+    <div class="niphead" id="stockclosing">
+        <h2>Account Analysis</h2>
+    </div>
+</div>
+<div class="form">
+
+
+
+    <div>
+
+        <button class="analize" onclick="Analize()" data-tooltip="Analize"></button>
+        <button class="preview" onclick="Preview()" data-tooltip="Preview"></button>
+
+        <button class="cancel" onclick="Cancel()" data-tooltip="Cancel"> </button>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-row">
+        <label class="lbl" for=" datepicker">From Date:</label>
+
+        <input class="cmb" id="FrmDate" value="2015/01/01" />
+
+        <label class="lbl" for=" datepicker">To Date:</label>
+
+        <input class="cmb" id="ToDate" value="2015/01/01" />
+    </div>
+
+    <div class="form-row">
+        <label>Trn No From </label>
+
+        <input id="TrnNoFrm" type="text" class=" k-textbox" />
+
+        <label>Trn No To</label>
+
+        <input id="TrnNoTo" type="text" class=" k-textbox" />
+
+    </div>
+
+
+
+
+
+    <div class="form-row">
+        <label>Doc No </label>
+
+        <input id="DocNo" type="text" class=" k-textbox" />
+
+        <label>Your Ref No</label>
+
+        <input id="YourRefNo" type="text" class=" k-textbox" />
+    </div>
+
+
+    <div class="form-row">
+        <label class="lbl">Account Type</label>
+        <div class="cmb" id="cmbAccTyp"></div>
+
+        <label class="lbl">Account </label>
+        <div class="cmb" id="cmbAcc"></div>
+
+
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Project </label>
+        <div class="cmb" id="cmbFmPrjNm"></div>
+
+        <label class="lbl">Transaction Prefix </label>
+        <div class="cmb" id="cmbTrnPrefix"></div>
+
+
+
+    </div>
+
+
+    <div class="form-row">
+
+        <label class="lbl">BU</label>
+
+        <div class="cmb" id="cmbBuNm"></div>
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Analysis 1</label>
+
+
+
+        <div class="cmb" id="cmbAnl1Nm"></div>
+
+
+        <label class="lbl">Analysis 2</label>
+
+
+        <div class="cmb" id="cmbAnl2Nm"></div>
+
+    </div>
+
+
+
+
+
+</div>
+
+
+<div id="grid" style="margin-top:10px"></div>
+
+
+
+<style>
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    body {
+        margin-right: -16px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        LoadCombo();
+
+        var todayDate = new Date();
+        $('#ToDate').data("kendoDatePicker").value(todayDate);
+        var todayDate = new Date();
+        $('#FrmDate').data("kendoDatePicker").value(todayDate);
+        //  LoadGrid();
+        //loadgrid();
+    });
+    $("#ToDate").kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    $("#FrmDate").kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function LoadCombo() {
+
+
+        $("#cmbFmPrjNm").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjNm",
+            dataSource: ProjectDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjNm").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjNm");
+                    if (validate) {
+                      //  $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        // LoadGridView1(prjky);
+                        //sendPrjKy();
+                        //LoadGridView(prjky);
+
+                    } else {
+
+                      //  $("#cmbFmPrjId").data("kendoComboBox").value("");
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Project.."
+        });
+
+
+        $("#cmbAnl1Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+
+            dataSource: ComboDatasource("anltyp1"),
+            change: function (e) {
+                var cmb = $("#cmbAnl1Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl1Nm");
+                    if (validate) {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value(CdKy);
+                      //  $("#cmbAnl1Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value("");
+                      //  $("#cmbAnl1Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 1.."
+        });
+
+
+
+        $("#cmbAnl2Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: ComboDatasource("anltyp2"),
+            change: function (e) {
+                var cmb = $("#cmbAnl2Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl2Nm");
+                    if (validate) {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value(CdKy);
+                      //  $("#cmbAnl2Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value("");
+                      //  $("#cmbAnl2Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 2.."
+        });
+
+        $("#cmbAccTyp").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: ComboDatasource("acctyp"),
+            change: function (e) {
+                var cmb = $("#cmbAccTyp").data("kendoComboBox");
+                var AccTyps = cmb.value();
+                if (AccTyps != "") {
+                    var validate = ComboValidations("cmbAccTyp");
+                    if (validate) {
+                        $("#cmbAccTyp").data("kendoComboBox").value(AccTyps);
+                      //  $("#cmbAnl3Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+
+                    } else {
+                        $("#cmbAccTyp").data("kendoComboBox").value("");
+                      //  $("#cmbAnl3Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Account type.."
+        });
+
+        $("#cmbAcc").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccNm",
+            dataSource: AccDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbAcc").data("kendoComboBox");
+                var AccKy = cmb.value();
+                if (AccKy != "") {
+                    var validate = ComboValidations("cmbAcc");
+                    if (validate) {
+                        $("#cmbAcc").data("kendoComboBox").value(AccKy);
+                        // $("#cmbTskId").data("kendoComboBox").value(PrcsDetKy);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAcc").data("kendoComboBox").value("");
+                        // $("#cmbTskId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Account.."
+        });
+
+        $("#cmbTrnPrefix").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: ComboDatasource("prefix"),
+            change: function (e) {
+                var cmb = $("#cmbTrnPrefix").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbTrnPrefix");
+                    if (validate) {
+                        $("#cmbTrnPrefix").data("kendoComboBox").value(CdKy);
+                     //   $("#cmbAnl4Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbTrnPrefix").data("kendoComboBox").value("");
+                      //  $("#cmbAnl4Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Transaction Prefix.."
+        });
+
+        $("#cmbBuNm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: ComboDatasource("BU"),
+            change: function (e) {
+                var cmb = $("#cmbBuNm").data("kendoComboBox");
+                var BuKy = cmb.value();
+                if (BuKy != "") {
+                    var validate = ComboValidations("cmbBuNm");
+                    if (validate) {
+                        $("#cmbBuNm").data("kendoComboBox").value(BuKy);
+                        $("#cmbBuId").data("kendoComboBox").value(BuKy);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbBuNm").data("kendoComboBox").value("");
+                        $("#cmbBuId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Bu Name.."
+        });
+
+            function ProjectDatasource() {
+                var dataSource = new kendo.data.DataSource(
+                  {
+                      transport: {
+                          read: {
+                              url: '@Url.Content("~/WebReports/GetProject")',
+                              dataType: "json"
+                          }
+                      }
+
+                  });
+                return dataSource;
+            }
+
+
+
+        function ComboDatasource(ConCd) {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/WebReports/GetComboData")',
+                          dataType: "json"
+                      },
+                      parameterMap: function (options, operation) {
+
+                          if (operation == "read") {
+                              return ({
+                                  ConCd: ConCd
+                              });
+                          }
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+
+
+
+
+
+
+        function AccDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/WebReports/GetAccount")',
+                          dataType: "json"
+                      },
+
+                  }
+
+              });
+            return dataSource;
+        }
+
+
+    }
+
+
+    function Analize() {
+
+
+
+        //var grid = $("#grid").data("kendoGrid");
+        //grid.dataSource.data([]);
+
+        var FrmDt = $("#FrmDate").val();
+        if (FrmDt == null || FrmDt == undefined || FrmDt == "") {
+
+            var FrmDt = null;
+        }
+        var ToDt = $("#ToDate").val();
+        if (ToDt == null || ToDt == undefined || ToDt == "") {
+
+            var ToDt = null;
+        }
+
+        var TrnNoFrm = $("#TrnNoFrm").val();
+
+        if (TrnNoFrm == null || TrnNoFrm == undefined || TrnNoFrm == "") {
+
+            var TrnNoFrm = "";
+        }
+
+        var TrnNoTo = $("#TrnNoTo").val();
+        if (TrnNoTo == null || TrnNoTo == undefined || TrnNoTo == "") {
+
+            var TrnNoTo = "";
+        }
+        var DocNo = $("#DocNo").val();
+        var YurRef = $("#YourRefNo").val();
+        var AccTypKy = $("#cmbAccTyp").data("kendoComboBox").value();
+
+        if (AccTypKy == null || AccTypKy == undefined || AccTypKy == "") {
+
+            var AccTypKy = 1;
+        }
+
+        var AccKy = $("#cmbAcc").data("kendoComboBox").value();
+
+        if (AccKy == null || AccKy == undefined || AccKy == "") {
+
+            var AccKy = 1;
+        }
+
+
+        var PrefixKy = $("#cmbTrnPrefix").data("kendoComboBox").value();
+
+        if (PrefixKy == null || PrefixKy == undefined || PrefixKy == "") {
+
+            var PrefixKy = 1;
+        }
+
+
+        var PrjKy = $("#cmbFmPrjNm").data("kendoComboBox").value();
+        if (PrjKy == null || PrjKy == undefined || PrjKy == "") {
+
+            var PrjKy = 1;
+        }
+
+        var BUKy = $("#cmbBuNm").data("kendoComboBox").value();
+        if (BUKy == null || BUKy == undefined || BUKy == "") {
+
+            var BUKy =1;
+        }
+
+        var Anl1Ky = $("#cmbAnl1Nm").data("kendoComboBox").value();
+        if (Anl1Ky == null || Anl1Ky == undefined || Anl1Ky == "") {
+
+            var Anl1Ky = 1;
+        }
+
+        var Anl2Ky = $("#cmbAnl2Nm").data("kendoComboBox").value();
+        if (Anl2Ky == null || Anl2Ky == undefined || Anl2Ky == "") {
+
+            var Anl2Ky = 1;
+        }
+
+
+
+        var columns = new Array();
+        columns = [
+             // { field: "TrnNo", width: "200px", format: "{0:N2}" },
+        ];
+
+
+        $.holdReady(true);
+        $.ajax({
+
+            type: "GET",
+            dataType: 'json',
+            data: {
+                ToDt: ToDt,
+                FrmDt: FrmDt,
+                TrnNoFrm: TrnNoFrm,
+                TrnNoTo: TrnNoTo,
+                DocNo: DocNo,
+                YurRef: YurRef,
+                AccTypKy: AccTypKy,
+                AccKy: AccKy,
+                PrefixKy: PrefixKy,
+                PrjKy: PrjKy,
+                BUKy: BUKy,
+                Anl1Ky: Anl1Ky,
+                Anl2Ky: Anl2Ky
+
+            },
+            url: '@Url.Action("AccAnl_SelectColDet", "WebReports")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                //
+
+                if(data==""){
+                    alert("Data Not Available");
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.dataSource.data([]);
+
+                }
+                for (var i = 0; i < columns.length; i++) { // Get and Bind the Column level Details
+                    for (var k = data.length - 1; k >= 0 ; k--) {
+                        if (columns[i]["field"] == data[k]) {
+                            data.splice(k, 1); // Remove if column already defined
+                        }
+                    }
+                }
+
+                for (i = 0; i < data.length; i++) { // Get and Bind the Column level Details
+                    columns.push({ field: data[i], title: data[i], locked: false, hidden: false, width: "150px" });
+                    if (i + 1 == data.length) {
+                        firstLoadData(columns);
+
+                    }
+                }
+
+                $.holdReady(false);
+            }
+        });
+
+        function firstLoadData(columns) {
+            $.holdReady(true);
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                data: { ObjKy: 81464 },
+                url: '@Url.Action("UsrObjPrp_Select", "HtnShared")',
+                converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+                success: function (data) {
+
+                    //for (i = 0; i < data[0].length; i++) { // Get and Bind the Column level Details
+                    //    columns.push({ field: data[0][i], title: data[0][i] });
+                    //}
+
+                    for (var i = 0; i < data.length; i++) { // Get and Bind the Column level Details
+                        for (var k = columns.length - 1; k >= 0 ; k--) {
+                            if (columns[k]["field"] == data[i]["ObjNm"]) {
+                                columns.splice(k, 1); // Remove if column already defined
+                            }
+                        }
+                    }
+                    for (var j = 0; j < data.length; j++) {
+                        //alert(data[i]["ObjCd"]);
+                        columns.push({ field: data[j]["ObjNm"], locked: (data[j]["isFreeze"] == 1) ? true : false, title: data[j]["ObjCaptn"], width: data[j]["Width"], format: data[j]["Format"] });
+
+                        if (j + 1 == data.length) {
+                            loadWithDetLevelData(columns, data);
+                        }
+                    }
+                    $.holdReady(false);
+                }
+            });
+        }
+
+        function loadWithDetLevelData(columns, colData) {
+
+            $.holdReady(true);
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                data: {
+                    ToDt: ToDt,
+                    FrmDt: FrmDt,
+                    TrnNoFrm: TrnNoFrm,
+                    TrnNoTo: TrnNoTo,
+                    DocNo: DocNo,
+                    YurRef: YurRef,
+                    AccTypKy: AccTypKy,
+                    AccKy: AccKy,
+                    PrefixKy: PrefixKy,
+                    PrjKy: PrjKy,
+                    BUKy: BUKy,
+                    Anl1Ky: Anl1Ky,
+                    Anl2Ky: Anl2Ky
+                },
+                url: '@Url.Action("AccAnl_Select", "WebReports")',
+                converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+                success: function (data) {
+                    loadGrid(columns, colData, data)
+                    $.holdReady(false);
+                }
+            });
+        }
+
+        function loadGrid(col, colData, dataSrcJsonString) {
+
+            var gridBOQComponents_SelectWeb = new kendo.data.DataSource({
+                @*transport: {
+                    read: {
+                        data: { PrjKy: 10575, PrcsDetKy: 1 },
+                        url: "@Url.Content("~/HtnShared/ProjectResourceDetails_Select")", //urlProjectResourceDetails_Select
+                    dataType: "json"
+                }
+            },
+                batch: true,*@
+                data: JSON.parse(dataSrcJsonString),
+                pageSize: 10
+
+        });
+
+        try {
+            $('#grid').data().kendoGrid.destroy();
+            $('#grid').empty();
+        } catch (e) { }
+        $("#grid").kendoGrid({
+            toolbar: ["excel"],
+            excel: {
+                fileName: "Kendo UI Grid Export.xlsx",
+                //proxyURL: "//demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+            dataSource: gridBOQComponents_SelectWeb,
+            sortable: true,
+            pageable: true,
+            groupable: true,
+            noRecords: true,
+
+            messages: {
+
+                noRecords: "Sorry , No Record Found!"
+
+            },
+            //filterable: true,
+            filterable: {
+                mode: "row"
+            },
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                info: true,
+                numeric: true,
+                previousNext: true,
+
+
+            },
+            columnMenu: true,
+            reorderable: true,
+            resizable: true,
+            selectable: "row",
+            editable: false,
+            columns: col,
+        });
+
+        $("#grid").kendoTooltip({
+            filter: "th", //this filter selects the first column title
+            position: "top",
+            width: "200px",
+            content: function (e) {
+                for (i = 0; i < colData.length; i++) {
+                    //if (colData[i].isVisible != 0) {
+                    var target = e.target.closest("th"); // element for which the tooltip is shown
+                    var rtrn = $(target).text();
+
+                    if ($(target).text() == colData[i].ObjCaptn) {
+                        rtrn = colData[i].ToolTip;
+                    }
+
+                    return rtrn;
+                    //}
+                }
+            }
+        }).data("kendoTooltip");
+
+       // createFilterRow();
+    }
+
+        @*$.ajax({
+            url: "@Url.Content("~/WebReports/AccAnl")",
+            data: JSON.stringify({
+
+
+                ToDt: ToDt,
+                FrmDt: FrmDt,
+                TrnNoFrm: TrnNoFrm,
+                TrnNoTo:TrnNoTo,
+                DocNo: DocNo,
+                YurRef: YurRef,
+                AccTypKy: AccTypKy,
+                AccKy: AccKy,
+                PrefixKy: PrefixKy,
+                PrjKy: PrjKy,
+                BUKy: BUKy,
+                Anl1Ky: Anl1Ky,
+                Anl2Ky: Anl2Ky
+
+
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+            for (i = 0; i < data.length; i++) {
+
+                $("#grid").data("kendoGrid").dataSource.add({
+
+                    TrnDt: data[i].TrnDt,
+                    TrnTyp: data[i].TrnTyp,
+                    YurRef: data[i].YurRef,
+                    AccCd: data[i].AccCd,
+                    AccNm: data[i].AccNm,
+                    Amt: data[i].Amt,
+
+                    BUCd: data[i].BUCd,
+                    TrnAmt: data[i].TrnAmt,
+                    TrnExRate: data[i].TrnExRate,
+                    TrnCrnCd: data[i].TrnCrnCd,
+                    PrjNm: data[i].PrjNm,
+
+                    AdrNm: data[i].AdrNm,
+                    Des: data[i].Des,
+                    Prefix: data[i].Prefix,
+                    TrnNo: data[i].TrnNo,
+                    DocNo: data[i].DocNo,
+
+                    DrAmt: data[i].DrAmt,
+                    CrAmt: data[i].CrAmt,
+                    AccTyp: data[i].AccTyp,
+                    Year: data[i].Year,
+                    Dt2: data[i].Dt2,
+                    AprDt: data[i].AprDt,
+
+                    EntUsr: data[i].EntUsr,
+                    AprUsr: data[i].AprUsr,
+                    ChqNo: data[i].ChqNo,
+                    ChqBrnCd: data[i].ChqBrnCd,
+                    PmtMode: data[i].PmtMode,
+
+
+
+                })
+
+
+            }
+
+        }
+             ,
+        error: function (e) {
+            return false;
+        }
+    });*@
+
+
+    }
+    //function loadgrid(){
+    //    dataSource = new kendo.data.DataSource({
+
+
+    //        transport: {
+    //            read: {
+
+
+    //                dataType: "json"
+    //            },
+
+    //            parameterMap: function (options, operation) {
+
+    //                if (operation == "read") {
+    //                    return ({
+
+
+
+    //                    });
+    //                }
+    //            }
+    //        },
+    //        batch: true,
+    //        pageSize: 10,
+
+
+    //        //   group: [{ field: "date"}, { field: "Fg" }],
+    //        schema: {
+    //            model: {
+    //                //  id: "Key",
+    //                fields: {
+
+
+    //                    TrnDt: { editable: false, nullable: false, type: "string" },
+    //                    TrnTyp: { editable: false, nullable: false, type: "string" },
+    //                    YurRef: { editable: false, nullable: false, type: "string" },
+    //                    AccCd: { editable: false, nullable: false, type: "string" },
+    //                    AccNm: { editable: false, nullable: false, type: "string" },
+
+    //                    //Amt: { type: "number" },
+
+    //                    Amt: { editable: true, nullable: false, type: "number", },
+
+    //                    BUCd: { editable: false, nullable: false, type: "string" },
+    //                    TrnAmt: { editable: false, nullable: false, type: "number" },
+    //                    TrnExRate: { editable: true, nullable: false, type: "number" },
+    //                    TrnCrnCd: { editable: false, nullable: false, type: "string" },
+    //                    PrjNm: { editable: false, nullable: false, type: "string" },
+
+    //                    AdrNm: { editable: false, nullable: false, type: "string" },
+    //                    Des: { editable: false, nullable: false, type: "string" },
+    //                    Prefix: { editable: false, nullable: false, type: "string" },
+    //                    TrnNo: { editable: false, nullable: false, type: "string" },
+    //                    DocNo: { editable: false, nullable: false, type: "string" },
+
+    //                    DrAmt: { editable: false, nullable: false, type: "number" },
+    //                    CrAmt: { editable: false, nullable: false, type: "number" },
+    //                    AccTyp: { editable: false, nullable: false, type: "string" },
+    //                    Year: { editable: false, nullable: false, type: "string" },
+    //                    Dt2: { editable: false, nullable: false, type: "string" },
+    //                    AprDt: { editable: false, nullable: false, type: "string" },
+
+    //                    EntUsr: { editable: false, nullable: false, type: "string" },
+    //                    AprUsr: { editable: false, nullable: false, type: "string" },
+    //                    ChqNo: { editable: false, nullable: false, type: "string" },
+    //                    ChqBrnCd: { editable: false, nullable: false, type: "string" },
+    //                    PmtMode: { editable: false, nullable: false, type: "string" },
+
+
+    //                }
+    //            }
+    //        },
+
+    //        aggregate: [{ field: "Amt", aggregate: "sum", format: "{0:n}" },
+    //            { field: "TrnAmt", aggregate: "sum", },
+
+    //        { field: "DrAmt", aggregate: "sum", },
+    //        { field: "CrAmt", aggregate: "sum", }, ],
+
+    //    });
+    //    $("#grid").kendoGrid({
+
+    //        toolbar: ["excel", ],
+    //        excel: {
+    //            fileName: "Account Analysis.xlsx",
+    //            filterable: true,
+    //            allPages: true
+    //        },
+    //        dataSource: dataSource,
+
+    //        navigatable: true,
+    //        sortable: true,
+    //        selectable: "row",
+    //        pageable: true,
+    //        //height: 395,
+    //        resizable: true,
+    //         groupable: true,
+    //        columnMenu: true,
+    //        reorderable: true,
+    //      //  filterable:true,
+
+    //        pageable: {
+    //            refresh: true,
+    //            pageSizes: [5,10,15,20,25,50,100],
+    //            info: true,
+    //            numeric: true,
+    //            previousNext: true
+
+    //        },
+    //        // columnHide: createFilterRow,
+    //        // columnShow: createFilterRow,
+
+    //        //filterable: {
+    //        //    mode: "row",
+    //        //        operators: {
+    //        //            string: {
+    //        //                contains: "Contains",
+    //        //            }
+    //        //        }
+    //        //    },
+
+    //        columns: [
+
+    //   { field: "TrnDt", title: "Trn Date", width: "150px" },
+    //   { field: "TrnTyp", title: "Trn Type", width: "150px" },
+    //   { field: "YurRef", title: "Your Ref", width: "150px" },
+    //   { field: "AccCd", title: "Account Code", width: "150px" },
+    //   { field: "AccNm", title: "Account Name", width: "150px" },
+    //   { field: "Amt", title: "Amount", width: "150px", aggregates: ["sum"], footerTemplate: "<span style='float:right ; font-weight: bold;'>Total  Amount: #=kendo.toString(sum, 'n2') #</span>", groupFooterTemplate: "<span style='float:right; font-weight: bold;'>Amount: #=kendo.toString(sum, 'n2') #</span>", attributes: { style: "text-align: right" }, format: "{0:n2}" },
+
+    // //   { field: "Amt", title: "Amount", aggregates: ["sum"], footerTemplate: "Total Amount: #=sum#", groupFooterTemplate: "Amount: #=sum#" },
+
+    //   { field: "BUCd", title: "BU Code", width: "150px" },
+    //   { field: "TrnAmt", title: "Trn Amount", width: "150px", aggregates: ["sum"], footerTemplate: "<span style='float:right ; font-weight: bold;'>Total Trn Amount: #=kendo.toString(sum, 'n2') #</span>", groupFooterTemplate: "<span style='float:right; font-weight: bold;'>Trn Amount: #=kendo.toString(sum, 'n2') #</span>", attributes: { style: "text-align: right" }, format: "{0:n2}" },
+    //   { field: "TrnExRate", title: "TrnExRate", width: "150px" },
+    //   { field: "TrnCrnCd", title: "Trn Crn Code", width: "150px" },
+    //     { field: "PrjNm", title: "Project Name", width: "150px" },
+    //   { field: "AdrNm", title: "Adress Name", width: "150px" },
+    //   { field: "Des", title: "Description", width: "150px" },
+    //   { field: "Prefix", title: "Prefix", width: "150px" },
+    //   { field: "TrnNo", title: "Trn No", width: "150px" },
+    //   { field: "DocNo", title: "Doc No", width: "150px" },
+
+    //    { field: "DrAmt", title: "Dr Amount", width: "150px", aggregates: ["sum"], footerTemplate: "<span style='float:right ; font-weight: bold;'>Total Dr Amount: #=kendo.toString(sum, 'n2') #</span>", groupFooterTemplate: "<span style='float:right; font-weight: bold;'>Amount: #=kendo.toString(sum, 'n2') #</span>", attributes: { style: "text-align: right" }, format: "{0:n2}" },
+    //   { field: "CrAmt", title: "Cr Amount", width: "150px", aggregates: ["sum"], footerTemplate: "<span style='float:right ; font-weight: bold;'>Total Cr Amount: #=kendo.toString(sum, 'n2') #</span>", groupFooterTemplate: "<span style='float:right; font-weight: bold;'>Amount: #=kendo.toString(sum, 'n2') #</span>", attributes: { style: "text-align: right" }, format: "{0:n2}" },
+    //   { field: "AccTyp", title: "Account Type", width: "150px" },
+    //   { field: "Year", title: "Year", width: "150px" },
+    //   { field: "Dt2", title: "Ent Date", width: "150px" },
+    //   { field: "AprDt", title: "Apr Date", width: "150px" },
+
+    //   { field: "EntUsr", title: "Ent User", width: "150px" },
+    //   { field: "AprUsr", title: "Apr User", width: "150px" },
+    //   { field: "ChqNo", title: "Chq No", width: "150px" },
+    //   { field: "ChqBrnCd", title: "ChqBrnCd", width: "150px" },
+    //   { field: "PmtMode", title: "Pmt Mode", width: "150px" },
+
+    //  // { field: "Amt", title: "Amount", width: "100px", aggregates: ["sum"], footerTemplate: "<span style='float:right ; font-weight: bold;'>TOTAL: #=kendo.toString(sum, 'n2') #</span>", groupFooterTemplate: "<span style='float:right; font-weight: bold;'>SUM: #=kendo.toString(sum, 'n2') #</span>", attributes: { style: "text-align: right" }, format: "{0:n2}" },
+    //        ],
+
+
+    //        editable: false
+    //    });
+    //    createFilterRow();
+    //}
+
+
+    function Preview() {
+
+
+        //if ((PrjKy == 1 || PrjKy == undefined || PrjKy == "") || (AccKy == null || AccKy == undefined || AccKy == "")) {
+        //    alert("Select Project or Account");
+        //}
+       // else {
+            //
+        var ToDt = $('#ToDate').val();
+
+
+
+        if (ToDt == "") {
+            ToDt = null;
+        }
+
+            var FrmDt = $('#FrmDate').val();
+
+
+
+            if (FrmDt == "") {
+                FrmDt = null;
+            }
+            var FrmDt = $("#FrmDate").val();
+            var ToDt = $("#ToDate").val();
+            var TrnNoFrm = $("#TrnNoFrm").val();
+            var TrnNoTo = $("#TrnNoTo").val();
+
+            var DocNo = $("#DocNo").val();
+            var YurRef = $("#YourRefNo").val();
+            var AccTypKy = $("#cmbAccTyp").data("kendoComboBox").value();
+
+            if (AccTypKy == null || AccTypKy == undefined || AccTypKy == "") {
+
+                var AccTypKy = 1;
+            }
+
+            var AccKy = $("#cmbAcc").data("kendoComboBox").value();
+
+            if (AccKy == null || AccKy == undefined || AccKy == "") {
+
+                var AccKy = 1;
+            }
+
+
+            var PrefixKy = $("#cmbTrnPrefix").data("kendoComboBox").value();
+
+            if (PrefixKy == null || PrefixKy == undefined || PrefixKy == "") {
+
+                var PrefixKy = 1;
+            }
+
+
+            var PrjKy = $("#cmbFmPrjNm").data("kendoComboBox").value();
+            if (PrjKy == null || PrjKy == undefined || PrjKy == "") {
+
+                var PrjKy = 1;
+            }
+
+            var BUKy = $("#cmbBuNm").data("kendoComboBox").value();
+            if (BUKy == null || BUKy == undefined || BUKy == "") {
+
+                var BUKy = 1;
+            }
+
+            var Anl1Ky = $("#cmbAnl1Nm").data("kendoComboBox").value();
+            if (Anl1Ky == null || Anl1Ky == undefined || Anl1Ky == "") {
+
+                var Anl1Ky = 1;
+            }
+
+            var Anl2Ky = $("#cmbAnl2Nm").data("kendoComboBox").value();
+            if (Anl2Ky == null || Anl2Ky == undefined || Anl2Ky == "") {
+
+                var Anl2Ky = 1;
+            }
+
+
+                $.ajax({
+                    url: "@Url.Content("~/WebReports/AccAnlReport")",
+                    data: JSON.stringify({
+
+                        ToDt: ToDt,
+                        FrmDt: FrmDt,
+                        TrnNoFrm: TrnNoFrm,
+                        TrnNoTo: TrnNoTo,
+                        DocNo: DocNo,
+                        YurRef: YurRef,
+                        AccTypKy: AccTypKy,
+                        AccKy: AccKy,
+                        PrefixKy: PrefixKy,
+                        PrjKy: PrjKy,
+                        BUKy: BUKy,
+                        Anl1Ky: Anl1Ky,
+                        Anl2Ky: Anl2Ky
+
+
+                    }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (data) {
+
+                        winDoialogElement = $("#idwin").kendoWindow({
+                            width: 1000,
+                            height: 1000
+                        }).data("kendoWindow");
+                        var url = "http://" + document.location.host + "/Report/AccAnlReport.aspx";
+                        window.open(url, '_blank');
+
+                    },
+                    error: function (e) {
+                        return false;
+                    }
+                });
+
+
+        //  }
+
+            }
+
+
+
+
+
+
+
+
+            function Cancel() {
+                var todayDate = new Date();
+                $('#FrmDate').data("kendoDatePicker").value(todayDate);
+                $('#ToDate').data("kendoDatePicker").value(todayDate);
+
+                var TrnNoFrm = $("#TrnNoFrm").val(null);
+                var TrnNoTo = $("#TrnNoTo").val(null);
+
+                var DocNo = $("#DocNo").val(null);
+                var YurRef = $("#YourRefNo").val(null);
+                var AccTypKy = $("#cmbAccTyp").data("kendoComboBox").value(null);
+
+
+                var AccKy = $("#cmbAcc").data("kendoComboBox").value(null);
+
+
+
+                var PrefixKy = $("#cmbTrnPrefix").data("kendoComboBox").value(null);
+
+                var PrjKy = $("#cmbFmPrjNm").data("kendoComboBox").value(null);
+
+                var BUKy = $("#cmbBuNm").data("kendoComboBox").value(null);
+
+
+                var Anl1Ky = $("#cmbAnl1Nm").data("kendoComboBox").value(null);
+
+                var Anl2Ky = $("#cmbAnl2Nm").data("kendoComboBox").value(null);
+
+                var grid = $("#grid").data("kendoGrid");
+                grid.dataSource.data([]);
+            }
+
+
+
+</script>
+
+
+
+

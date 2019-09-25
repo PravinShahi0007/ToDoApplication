@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Salary Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div>
+            @Html.Partial("~/Views/HRIS/EmpHdr.cshtml")
+        </div>
+    </div>
+    <div id="tabstrip">
+        <ul>
+            <li id="HdrSec_TabEarningDet">Earning Details</li>
+            <li id="HdrSec_TabAssetDet">Asset Details</li>
+            <li id="HdrSec_TabPhoneInternetDet">Phone Inernet Details</li>
+        </ul>
+
+        <div>
+            <div>@Html.Partial("~/Views/HRIS/Employee/SalaryDet/_PartialEarning.cshtml")</div>
+            <br style="clear:both" />
+            <div id="SalaryDetailsGrid"></div>
+        </div>
+        <div>
+            <div>
+                @Html.Partial("~/Views/HRIS/Employee/SalaryDet/_PartialAsset.cshtml")
+            </div>
+        </div>
+        <div>
+            <div>
+                @Html.Partial("~/Views/HRIS/Employee/SalaryDet/_PartialPhoneInernet.cshtml")
+            </div>
+        </div>
+        @*<div id="testingabc">
+            <div id="testtingdiv">@Html.Partial("~/Views/HRIS/Employee/PersonalDet/Partial_FamilyDet.cshtml")</div>
+            <div id="familyDetailGrid" style="position:relative"></div>
+        </div>*@
+    </div>
+</div>
+
+<script>
+    $("#tabstrip").kendoTabStrip({
+        navigatable: true
+    });
+</script>
+
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+    var urlHRISGetBnkMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetBnkMas_LookupWeb")';
+
+    var UrlInsert = {
+        BasicDet: '@Url.Content("~/HRIS/InsertBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/InsertContactDet")',
+        InsertDet: '@Url.Content("~/HRIS/InsertDet")',
+        InsertSalaryDet: '@Url.Content("~/HRIS/InsertSalaryDet")'
+    }
+    var UrlGet = {
+        BasicDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        GetSalaryDet: '@Url.Content("~/HRIS/GetSalaryDet")'
+    }
+    var UrlDelete = {
+        DeleteEarningDet: '@Url.Content("~/HRIS/DeleteMedicalClaimsDet")'
+    }
+
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertHdr")';
+    var UrlGetEmpPersonalDet = '@Url.Content("~/HRISEmployee/GetEmpPersonalDet")';
+
+    var UrlGetEmpContactDet = '@Url.Content("~/HRISEmployee/GetEmpContactDet")';
+
+</script>
+
+@*<script src="~/Scripts/HtnScripts/HRIS/PersonalDet.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/SaveFunction.js"></script>
+
+<script src="~/Scripts/HtnScripts/HRIS/LoadGrid.js"></script>*@
+
+<script src="~/Scripts/HtnScripts/HRIS/SalaryDet/SalaryDet.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/SalaryDet/SaveFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/SalaryDet/LoadGrid.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        disableEmpJobDet();
+    });
+
+</script>

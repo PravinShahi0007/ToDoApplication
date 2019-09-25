@@ -1,0 +1,96 @@
+﻿<div>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <font color="blue"> Assigned Task ID : </font>
+                </td>
+                <td>
+                    <font color="red"><label for="taskIDLabelMstPln"></label></font>
+                </td>
+                <td><font color="blue"> &nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp; </font></td>
+                <td>
+                    <font color="blue"> Assigned Task Name : </font>
+                </td>
+                <td>
+                    <font color="red"><label for="taskNmLabelMstPln"></label></font>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top:10px;" id="GridPrjMasPln_Select"></div>
+    <div style="margin-top:20px; margin-bottom:20px">
+        <input id="btnAssignMasterPlanTask" type="button" class="k-button" style="height:40px" value="Assign Master Plan Task" />
+    </div>
+</div>
+
+<script>
+    var urlPrjMasPln_Select = '@Url.Content("~/GanttChart/PrjMasPln_Select")';
+
+    $("#btnAssignMasterPlanTask").click(function () {
+        var varTGridPrjMasPln_Select = $("#GridPrjMasPln_Select").data("kendoGrid");
+        var seletedPrjMasPlnTask = varTGridPrjMasPln_Select.dataItem(varTGridPrjMasPln_Select.select());
+        //alert("MasPlnSchDetKy : " + seletedPrjMasPlnTask.PrcsSchDetKy);
+        activityName.DataSource.MasPlnSchDetKy = seletedPrjMasPlnTask.PrcsSchDetKy;
+        if (!addedTasks.Contains(activityName.DataSource.ID))
+            updatedTasks.Add(activityName.DataSource.ID, activityName.DataSource);
+        $("#ganttTableDblClick").data("kendoWindow").close();
+    });
+
+    function mstPlnTaskSelection() {
+
+        var dataSourcePrjMasPln_Select = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: urlPrjMasPln_Select,
+                    dataType: "json",
+                    data: { PrjKy: tempPrjKy }
+                }
+            },
+            batch: true,
+            pageSize: 50,
+            schema: {
+                model: {
+                    id: "PrcsSchDetKy",
+                    fields:
+                    {
+                        TaskID: {},
+                        TaskNm: {},
+                        StDt: {},
+                        ToDt: {}
+                    }
+                }
+            }
+        });
+
+        $("#GridPrjMasPln_Select").kendoGrid({
+            dataSource: dataSourcePrjMasPln_Select,
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            selectable: "row",
+            //filterable: {
+            //    mode: "row"
+            //},
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+                { field: "PrcsSchDetKy", title: "PrcsSchDetKy", width: "0px", hidden: true },
+                { field: "TaskID", title: "TaskID", width: "80px" },
+                { field: "TaskNm", title: "TaskNm", width: "250px" },
+                { field: "StDt", title: "Start Date", width: "100px" },
+                { field: "ToDt", title: "End Date", width: "100px" }
+            ],
+            resizable: true,
+            dataBound: function () {
+                $('#GridPrjMasPln_Select .k-grid-content').height(400);
+            },
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            editable: false,
+            height: '455px'
+        });
+    }
+
+</script>

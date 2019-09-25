@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Job Information";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+        </div>
+
+        <input type="hidden" id="TrnKy" />
+
+        <div id="">
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/EmpGetDet.cshtml")
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Company:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbCompany" data-cpypst-blsmartcpypaste="cmbCompany"></div>
+                                @*<input placeholder="Company EPF" id="CmpanyEPF" type="text" class="k-textbox" />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Company EPF:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                @*<div id="cmbCompany" data-cpypst-blsmartcpypaste="cmbCompany"></div>*@
+                                <input placeholder="Company EPF" id="CmpanyEPF" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Department:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbDepartment" data-cpypst-blsmartcpypaste="cmbDepartment"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Location:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbLocation" data-cpypst-blsmartcpypaste="cmbLocation"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Emp Type:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbEmpType" data-cpypst-blsmartcpypaste="cmbEmpType"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Nature of Employment:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbNatureOfEmployment" data-cpypst-blsmartcpypaste="cmbNatureOfEmployment"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Emp Grade:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbEmpGrade" data-cpypst-blsmartcpypaste="cmbEmpGrade"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Designation:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbDesignation" data-cpypst-blsmartcpypaste="cmbDesignation"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Superviser:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                @*<div id="cmbSuperviser" data-cpypst-blsmartcpypaste="cmbSuperviser"></div>*@
+                                <input placeholder="Superviser" id="Superviser" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Appointment:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbAppointment" data-cpypst-blsmartcpypaste="cmbAppointment"></div>
+                               @* <input placeholder="Appointment" id="Appointment" type="text" class="k-textbox" />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="ToWhomhdr">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>To Whom:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="To Whom" id="ToWhom" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Remarks:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Remarks" id="remarks" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>From Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="fromDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>To Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="toDate" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="JobInformationGrid">
+
+        </div>
+
+    </div>
+</div>
+<div>
+    @* @Html.Partial("~/Views/Journal/JournalFind.cshtml")*@
+</div>
+
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var urlInsertJobDet = '@Url.Content("~/HRISEmployee/HRISInsertJobDet")';
+    var UrlGetEmpJobDet = '@Url.Content("~/HRISEmployee/HRISGetJobDet")';
+    var UrlGetCompanyDet = '@Url.Content("~/HRISEmployee/HRISGetCompanyDet")';
+</script>
+
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/JobInformation.js"></script>
+

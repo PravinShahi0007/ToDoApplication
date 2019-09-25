@@ -1,0 +1,826 @@
+﻿@{
+    ViewBag.Title = "Emp Data Entry";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+@*new css by soori*@
+
+
+<script src="~/Scripts/Scripts/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="../buttncss/style/cssNew.css" />
+<style>
+    .navbar-fixed-top {
+        margin-top: 52px!important;
+        left: 55px;
+    }
+</style>
+
+
+<div class="k-content clearfix" id="filterCont">
+    <div class="wr_tabbs">
+
+        <header role="banner" class="navbar navbar-fixed-top navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button data-toggle="collapse-side" data-target=".side-collapse" data-target-2=".side-collapse-container" type="button" class="navbar-toggle pull-left"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                </div>
+                <div class="navbar-inverse side-collapse in">
+                    <nav role="navigation" class="navbar-collapse">
+                        <ul class="nav navbar-nav" id="MyTab">
+                            <li class="active"><a href="#EmpDetails" data-toggle="tab">Employee Details</a></li>
+                            <li><a href="#AddrsDetails" data-toggle="tab">Employee Address Details</a></li>
+                            <li><a href="#EmpOtherDetails" data-toggle="tab">Employee Other Details</a></li>
+                            <li><a href="#EmpAddtion" data-toggle="tab">Employee Addition Deduction</a></li>
+
+                            @*<li><a href="#EmpDeduction" data-toggle="tab">Employee Deduction</a></li>*@
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button add " onclick="Add()" data-tooltip="Add"> </button>
+            <button class="control-button print " onclick="Prinrept()" data-tooltip="Print"> </button>
+            <button class="control-button preview " onclick="Preview()" data-tooltip="Preview"> </button>
+            <button class="control-button clean " onclick="EmpDetailClear()" data-tooltip="Clear"> </button>
+
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+            </div>
+
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+        </div>
+
+        <div class="tab-content side-collapse-container">
+
+
+
+            <div class="tab-pane fade in active" id="EmpDetails">
+                <div class="wr_formGroup">
+
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 ">
+                                        <label>Emp No</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input id="EmpNo" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Employee Name</label>
+
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="EmployeeNm" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 ">
+                                        <label>NIC</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input id="NIC" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>EPF NO</label>
+
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="EPFNO" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Gender</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="GenderFM" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Religion</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <input id="Religion" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Ethnic Group</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="Ethnic" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Date Of Birth:</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <input id="Date"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Is Active</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input type="checkbox" id="IsActive1" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Image</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <img id="myImg" src="#" alt="" style="width: 200px; height: 200px;  border-radius: 7px; background-color: ActiveBorder;" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            @*second tab start*@
+            <div class="tab-pane fade " id="AddrsDetails">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Street</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+
+                                <input id="Street" type="text" class="k-textbox" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>City</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="City" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>State</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="State" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1 ">
+                                <label>Zip Code</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="ZipCode" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Country</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+
+
+                                <input id="Country" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Mobile No</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="Mobile" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Tel-Gen1</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+
+                                <input id="Tel-Gen1" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Tel-Gen2</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+
+                                <input id="Tel-Gen2" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1 ">
+                                <label>Fax</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="Fax" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1 ">
+
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input id="Email" type="text" class="k-textbox" />
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            @*third tab start*@
+            <div class="tab-pane fade " id="EmpOtherDetails">
+                <div class="wr_formGroup">
+
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 ">
+                                        <label>From Date</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="EDate"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>To Date</label>
+                                        <input type="checkbox" id="checkbox1" onclick="chk1()" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="ToDate"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Type</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="Type" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Code</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <input id="code" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div id="GridEmpOthe" class="grid"></div>
+
+                </div>
+            </div>
+
+            @*fourth tab start*@
+            <div class="tab-pane fade " id="EmpAddtion">
+                <div class="wr_formGroup">
+
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 ">
+                                        <label>From Date</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="DateFA"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>To Date</label>
+                                        <input type="checkbox" id="checkbox2" onclick="chk2()" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="DateTA"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Type</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="TypeA" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Code</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <input id="codeA" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Amount</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="AmtAdd" type="number" class="k-numerictextbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div id="GridEmpAdd" class="grid"></div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            @*Fifth tab start*@
+            <div class="tab-pane fade " id="EmpDeduction">
+                <div class="wr_formGroup">
+
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 ">
+                                        <label>From Date</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="DateFD"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>To Date</label>
+                                        <input type="checkbox" id="checkbox3" onclick="chk3()" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="DateTD"
+                                               data-role="datepicker"
+                                               data-bind="value: Date" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Type</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="TypeD" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Code</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+
+                                        <input id="codeD" class="combo" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-4">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>Amount</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+
+                                        <input id="AmtDed" type="number" class="k-numerictextbox" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div id="GridEmpDed" class="grid"></div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            @*</div>*@
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    var urlEmpMas = {
+        GetTypeOth: '@Url.Content("~/EmpMas/GetTypeOth")',
+        GetCountry: '@Url.Content("~/EmpMas/GetCountry")',
+        GetCodeOth: '@Url.Content("~/EmpMas/GetCodeOth")',
+        GetTypeAdd: '@Url.Content("~/EmpMas/GetTypeAdd")',
+        GetTypeAdd: '@Url.Content("~/EmpMas/GetTypeAdd")',
+        GetCodeAD: '@Url.Content("~/EmpMas/GetCodeAD")',
+        InsertEmployee: "@Url.Content("~/EmpMas/InsertEmployee")",
+        CheckEmployee: "@Url.Content("~/EmpMas/CheckEmployee")",
+        GetEmpDetails: "@Url.Content("~/EmpMas/GetEmpDetails")",
+        GetAddrsDetails:"@Url.Content("~/EmpMas/GetAddrsDetails")",
+        GetOtherDetails: "@Url.Content("~/EmpMas/GetOtherDetails")",
+        
+        
+
+    };
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+</script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        var sideslider = $('[data-toggle=collapse-side]');
+        var sel = sideslider.attr('data-target');
+        var sel2 = sideslider.attr('data-target-2');
+        sideslider.click(function (event) {
+            $(sel).toggleClass('in');
+            $(sel2).toggleClass('out');
+        });
+        $("nav").find("li").on("click", "a", function () {
+            $('.navbar-collapse.in').collapse('hide');
+            $(sel).toggleClass('in');
+            $(sel2).toggleClass('out');
+        });
+    });
+  
+
+</script>
+
+<script src="~/Scripts/HtnScripts/EmpMas/ChkBoxHandling.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/ComboHandling.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/DatePicHandling.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/DocReady.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/Function.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/GridLoadHandling.js"></script>
+<script src="~/Scripts/HtnScripts/EmpMas/SaveFunction.js"></script>
+
+<style>
+    .navbar-nav > li > a {
+        margin: 0px;
+    }
+
+    .navbar-fixed-top {
+        margin-top: 30px;
+    }
+
+    .tab-content {
+        margin-top: 65px;
+    }
+
+    .active {
+        background: #fff;
+        border: none;
+        padding: 1px 0px;
+        width: auto;
+        color: black;
+    }
+
+    .grid {
+        margin-top: 10px;
+    }
+
+    pre {
+        tab-size: 8;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .side-collapse-container {
+            width: 100%;
+            position: relative;
+            left: 0;
+            transition: left .4s;
+        }
+
+            .side-collapse-container.out {
+                left: 200px;
+            }
+
+        .side-collapse {
+            top: 50px;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            position: fixed;
+            overflow: hidden;
+            transition: width .4s;
+        }
+
+            .side-collapse.in {
+                width: 0;
+            }
+    }
+</style>

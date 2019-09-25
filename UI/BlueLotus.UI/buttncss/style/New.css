@@ -1,0 +1,126 @@
+﻿.body1 {
+    background-color: #C8E3D2;
+    font-family: initial;
+
+}
+.form1{
+   max-width: 1200px;
+    padding:40px 10px 60px 10px;
+    margin-left: 15px;
+    border:5px solid #FFF;
+    margin: auto;
+    background-color: #CADAE7;
+    font-size:11px;
+}
+.form2{
+   max-width: 1200px;
+    padding:40px 10px 60px 10px;
+    margin-left: 15px;
+    border:5px solid #FFF;
+    margin: auto;
+   
+    background-color: #38D4DA;
+    font-size: 11px;
+     font-family: initial;
+}
+
+.form-row{
+    text-align: left;
+    /*margin-bottom: 22px;*/
+    padding: 4px 10px;
+}
+h1{
+    display: inline-block;
+    box-sizing: border-box;
+    color:  #4c565e;
+    font-size: 24px;
+    padding: 0 10px 15px;
+    border-bottom: 2px solid #6caee0;
+    margin: 0;
+}
+
+.cmb {
+    width:250px;
+    margin-bottom: 5px;
+}
+.datepicker{
+    width:250px;
+}
+
+label {
+    display: inline-block;
+    box-sizing: border-box;
+    color: #000;
+    width: 180px;
+    text-align: right;
+    vertical-align: top;
+    padding: 12px 25px;
+    
+
+        padding: 10px;
+}
+
+
+@media (max-width: 1000px) {
+      .form1{
+        padding: 30px;
+        max-width: 750px;
+        font-size:11px;
+        text-align: left;
+    }
+          .form2{
+        padding: 30px;
+        max-width: 750px;
+         background-color: #38D4DA;
+        font-size: 11px;
+        font-family: initial;
+    }
+
+
+     .form-row{
+        max-width: 600px;
+        margin: 0px auto;
+        text-align: left;
+    }
+     label {
+        display: block;
+        text-align: left;
+        padding: 0 0 15px;
+        float:left;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+
+      .form1{
+        padding: 30px;
+        max-width: 480px;
+        font-size:11px;
+    }
+          .form2{
+        padding: 30px;
+        max-width: 480px;
+         background-color: #38D4DA;
+        font-size: 11px;
+        font-family: initial;
+    }
+
+     .form-row{
+        max-width: 300px;
+        margin: 0px auto;
+        text-align: left;
+    }
+
+     .cmb {
+    width:200px;
+    margin-bottom: 5px;
+}
+
+     label {
+        display: block;
+        text-align: left;
+        padding: 0 0 15px;
+    }
+}

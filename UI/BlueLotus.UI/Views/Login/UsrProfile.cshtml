@@ -1,0 +1,786 @@
+﻿@{
+    ViewBag.Title = "UsrProfile";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" type="text/css" href="../buttncss/style/cssNew.css" />
+   // Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    @*Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" type="text/css" href="../buttncss/style/cssNew.css" />*@
+}
+
+@*<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+<div id="HdrSec1" style="height:550px;" class="form wr_mid_content wr_formGroup clearfix">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+        <button class="control-button change_password" onclick="ResetPwd()" data-tooltip="Reset Password"></button>
+        <button class="control-button clean " onclick="Clear()" data-tooltip="Clear"> </button>
+
+
+        @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+    </div>
+    <div class="col-md-12 form-horizontal">
+
+
+        @*<div class="form-group">
+            <div id="HdrSec1_InptUsrId">
+                <div class="col-md-4 col-sm-7">
+                    <label class="col-md-4 col-sm-4 control-label">User Id</label>
+                    <div class="col-md-7 col-sm-7">
+                        <input id="UsrId" type="text" class="k-textbox" required style="display:inline-block; width:167px" />
+                        <input id="Ccd" type="text" class="k-textbox" required style="display:inline-block; width:65px" />
+                    </div>
+                </div>*@
+
+        <div class="form-group">
+            <div id="HdrSec1_InptUsrId">
+                <div class="col-md-3 col-sm-7">
+                    <label id="HdrSec1_InptUsrId_Lbl">User Id</label>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                    <input id="HdrSec1_InptUsrId_Val" type="text" class="k-textbox" required style="display:inline-block; width:167px" />
+                    <input id="HdrSec1_InptCCd_Val" type="text" class="k-textbox" required style="display:inline-block; width:65px" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="HdrSec1_InptUsrNm">
+                <div class="col-md-3 col-sm-7">
+                    <label id="HdrSec1_InptUsrNm_Lbl">User Name</label>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                    <input id="HdrSec1_InptUsrNm_Val" type="text" class="k-textbox" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="HdrSec1_CmbAdr">
+                <div class="col-md-3 col-sm-7">
+                    <label id="HdrSec1_CmbAdr_Lbl" class="col-md-4 col-sm-4 control-label">Address</label>
+                </div>
+                <div class="col-md-7 col-sm-7">
+                    <input id="HdrSec1_CmbAdr_Cd" class="cmb">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="HdrSec1_ChkboxisAct">
+                <div class="col-md-3 col-sm-7">
+                    <label id="HdrSec1_ChkboxisAct_Lbl">Is Active</label>
+                </div>
+                <div class="col-md-6 col-sm-7">
+                    <input type="checkbox" id="HdrSec1_ChkboxisAct_Val">
+                </div>
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                <div id="HdrSec1_ChkboxisAct">
+                    <div class="col-md-4 col-sm-7">
+                        <label class="col-md-4 col-sm-4 control-label" for="eq3">Is Active</label>
+                        @*<input id="chckact" type="checkbox">
+                        <input type="checkbox" id="chckact" class="checkbox-inline chk">
+                    </div>
+                </div>
+            </div>*@
+        @*<div class="form-group">
+
+
+                <label class="col-md-4 col-sm-4 control-label" for="eq3">Is User Group</label>
+
+
+                <input type="checkbox" id="chck" class="checkbox-inline chk">
+
+            </div>*@
+        <div class="form-group" >
+
+            <label class="col-md-4 col-sm-4 control-label" style="display:none">User Group</label>
+
+
+            <div class="col-md-7 col-sm-7" style="display:none">
+                <input id="cmb_usrgrp" class="cmb">
+            </div>
+
+            <input id="UsrKy" type="text" style="visibility:hidden" />
+        </div>
+
+
+        <div id="Grid" style="margin-top:-10px;"></div>
+        @*<div id="RealGrid"></div>*@
+    </div>
+
+</div>
+
+<div>
+    @Html.Partial("~/Views/Login/FindUsr.cshtml")
+</div>
+
+
+
+<script>
+    var res = false; //to check whether to update or save user
+
+    var FormGlblData = {
+        FormObjData: null,
+        AllDefalutValueObj: null,
+        ItmKy: 1,
+        CCd: "",
+        ItmTypKy: 1,
+        ItmTaxTypKy: 1,
+        AccessLvlKy: 1,
+        ConfiLvlKy: 1,
+    }
+
+    $(document).ready(function (e) {
+        $("#HdrSec1_InptUsrId_Val").focus();
+        $("#HdrSec1_InptCCd_Val").prop("disabled", true);
+        GetCCd();
+        $('#HdrSec1_ChkboxisAct_Val').attr('checked', true);
+        Load_Address();
+        Load_Usrgrp();
+        LoadGridView();
+        $(".cmb").css('width', "100%");
+        //$("#chckact").checked = true;
+        //$(".isActPinChecked").attr("checked", true)
+
+    });
+
+    function ComboValidations(cmbNm) {
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function LoadGridView() {
+        try {
+            $('#Grid').data().kendoGrid.destroy();
+            $('#Grid').empty();
+        } catch (e) { }
+
+        $.ajax({
+            url: "@Url.Content("~/Login/GetComNm")",
+            //data: JSON.stringify({
+            //    Date: Date,
+            //    TrnKy: TrnKy,
+            //    AccKy: AccKy,
+            //    AdrKy: AdrKy
+            //}),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $("#Grid").data('kendoGrid').dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+                    $("#Grid").data("kendoGrid").dataSource.add({
+                        CNm: data[i].CNm,
+                        CKy: data[i].CKy,
+                        CCd: data[i].CCd,
+                        isAct: data[i].isAct = 0,
+                        Count: data[i].Count,
+                        //Checked: data[i].Checked = 1 ? false : true
+
+                    });
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+        var dataSource = new kendo.data.DataSource({
+
+            batch: true,
+            pageSize: 9,
+            schema: {
+                model: {
+                    id: "CKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        CNm: { editable: false, nullable: false, },
+                        CKy: { editable: true, nullable: false, },
+                        CCd: { editable: true, nullable: false },
+                        isAct: { editable: true, nullable: true, type: "boolean" },
+                        Count: { editable: true, nullable: false }
+                    }
+                }
+            }
+        });
+
+
+        $("#Grid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+            height: 340,
+            filterable: {
+                mode: "row"
+            },
+            resizable: true,
+            //navigatable: true,
+            pageable: true,
+            sortable: true,
+           // reorderable: true,
+            Scrollable: true,
+            columnMenu: true,
+            selectable: "row",
+            suggest: true,
+            pageable: { refresh: true, pageSizes: [9, 20, 30, 50, 100] },
+            columns: [
+            { field: "CNm", title: "Company(s)", width: "100px",
+                filterable: {
+                    cell: {
+                        operator: "contains",
+                        suggestionOperator: "contains"
+                    }
+                },
+                suggest: true,
+            },
+
+            { field: "CKy", title: "CKy", width: "100px", hidden: true, },
+                {
+                    field: "CCd", title: "CCd", width: "100px", hidden: true
+                    ,
+                    filterable: {
+                        cell: {
+                            operator: "contains",
+                            suggestionOperator: "contains"
+                        }
+                    }
+                },
+            {
+                field: "isAct",
+                title: "Permission(s)",
+                template: '<input type="checkbox"  #= isAct? checked="checked" : "" # class="isActPinChecked" id="aa"></input>',
+                headerTemplate: '<label>Permission(s) <input type="checkbox" id="checkAll"/></label>',
+                width: "65px",
+                attributes: { style: "text-align:Center;" },
+            },
+            { field: "Count", title: "Invoice No", width: "50px", hidden: true, },
+            ],
+            resizable: true,
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            editable: true,
+        });
+
+        //$('#checkAll').attr('checked', 'checked');
+
+        $("#checkAll").on('click', function (e) {
+            e.stopPropagation();
+            var $cb = $(this);
+            var checked = $cb.is(':checked');
+
+            var grid1 = $('#Grid').data('kendoGrid');
+            grid1.table.find("tr").find("td:last input").attr("checked", checked);
+
+            //now making all the rows value to 1 or 0
+            var items = $("#Grid").data("kendoGrid").dataSource.data();
+            for (i = 0; i < items.length; i++) {
+                var item = items[i];
+                item.set('isAct', checked);
+            }
+
+        });
+
+
+
+
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function GetCCd() {
+        //alert("hello");
+        var UsrId = $("#HdrSec1_InptUsrId_Val").val();
+
+        $.ajax({
+            url: '@Url.Content("~/Login/GetCompanyCode")',
+            dataType: "json",
+            type: "POST",
+            //data: JSON.stringify({
+            //    ItmCd: ItmCd,
+            //}),
+
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                FormGlblData.CCd = data;
+
+                $("#HdrSec1_InptCCd_Val").val("." + FormGlblData.CCd);
+
+            }
+
+            //var keycode = (e.keyCode ? e.keyCode : e.which);
+            //if (keycode == '13') {
+            //    $("#UsrNm").focus();
+            //}
+        });
+        $("#HdrSec1_InptUsrNm_Val").focus();
+    }
+
+    $('#HdrSec1_InptUsrId_Val').keypress(function (e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
+            //var UsrId = $("#UsrId").val();
+
+            @*$.ajax({
+                url: '@Url.Content("~/Login/GetCompanyCode")',
+                dataType: "json",
+                type: "POST",
+                //data: JSON.stringify({
+                //    ItmCd: ItmCd,
+                //}),
+
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var CCd = data;
+
+                    $("#UsrId").val(UsrId + "." + CCd);
+                }
+
+                //var keycode = (e.keyCode ? e.keyCode : e.which);
+                //if (keycode == '13') {
+                //    $("#UsrNm").focus();
+                //}
+            });*@
+            $("#HdrSec1_InptUsrNm_Val").focus();
+        }
+    })
+
+    function Load_Usrgrp() {
+
+        $("#cmb_usrgrp").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: UsrGrpDataSource(),
+            change: function (e) {
+                var cmb = $("#cmb_usrgrp").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmb_usrgrp");
+                    if (validate) {
+                        $("#cmb_usrgrp").data("kendoComboBox").value(CdKy);
+
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmb_usrgrp").data("kendoComboBox").value("");
+
+                    }
+                }
+            },
+            filter: "startswith",
+            //  minLength: 3,
+            suggest: true,
+            placeholder: "Select UserGroup"
+        });
+    }
+
+    function UsrGrpDataSource() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Login/Load_Grp")',
+
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function Load_Address() {
+
+
+        $("#HdrSec1_CmbAdr_Cd").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrNm",
+            dataSource: AdrDataSource(),
+            change: function (e) {
+                var cmb = $("#HdrSec1_CmbAdr_Cd").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("HdrSec1_CmbAdr_Cd");
+                    if (validate) {
+                        $("#HdrSec1_CmbAdr_Cd").data("kendoComboBox").value(CdKy);
+
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#HdrSec1_CmbAdr_Cd").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "startswith",
+            //  minLength: 3,
+            suggest: true,
+            placeholder: "Select a Address"
+        });
+    }
+
+    function AdrDataSource() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Login/GetAddress")',
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+    //=========================== Save Company For the Users =====================
+    function UpdateDetails() {
+
+        var UsrKy = $("#UsrKy").val();
+        var grid = $("#Grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isAct == true) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+
+        }
+
+        if (updatedRecords.length) {
+            $.ajax({
+
+                url: "@Url.Content("~/Login/Assign_Company_ForUser")",
+                data: JSON.stringify({
+                    GridUpdateDetail: kendo.stringify(updatedRecords),
+                    UsrKy: UsrKy
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    if (data) {
+                        alert("Update Successfully");
+                    } esle
+                    {
+                        alert("Company allocation Failed!");
+                    }
+                }
+            });
+
+        }
+
+    } //==== end company Assign
+
+    function CheckUsrId() {
+
+        var uid = $("#HdrSec1_InptUsrId_Val").val();
+        var ccd = $("#HdrSec1_InptCCd_Val").val();
+        var UsrId = uid + ccd;
+
+
+        $.ajax({
+            url: "@Url.Content("~/Login/CheckUser")",
+            data: JSON.stringify({
+                UsrId: UsrId,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data == true) {
+                    res = true;
+                    alert("We Found The User : \" " + UsrId + " \" Which Already Exist!");
+                }
+                else { res = false; }
+            }
+        });
+    }
+
+    function Save() {
+
+        var UsrKy1 = $("#UsrKy").val();
+        var UsrKy
+        if (UsrKy1 == "") {
+            UsrKy1 = 0;
+            UsrKy = UsrKy1;
+            //   alert(UsrKy)
+        } else {
+
+            UsrKy = UsrKy1;
+        }
+
+        //if (UsrKy == 0 || UsrKy == "") {
+        //    CheckUsrId();
+        //}
+
+        //var UsrKy = $("#UsrKy").val();
+        var uid = $("#HdrSec1_InptUsrId_Val").val();
+        var ccd = $("#HdrSec1_InptCCd_Val").val();
+        var UsrId = uid + ccd;
+        var UsrNm = $("#HdrSec1_InptUsrNm_Val").val();
+        var GrpKy = $("#cmb_usrgrp").data("kendoComboBox").value();
+
+        if (GrpKy == null || GrpKy == "") {
+            GrpKy = "1";
+        }
+
+        var AdrKy = $("#HdrSec1_CmbAdr_Cd").val();
+        if (AdrKy == null || AdrKy == "") {
+            AdrKy = "1";
+        }
+
+        var IsAct = document.getElementById("HdrSec1_ChkboxisAct_Val").checked;
+        // alert(isAct)
+        if (IsAct == true) {
+            IsAct = 1;
+        }
+        else {
+            IsAct = 0;
+        }
+
+        if (UsrId) {
+            if (UsrNm) {
+                // var IsAct = $("#chckact").val();
+
+
+                //var Password = "0000";
+                //   alert(UsrKy);
+
+                //UpdateDetails();
+                var grid = $("#Grid").data("kendoGrid");
+                var currentData = grid.dataSource.data();
+                var updatedRecords = [];
+                var CKy;
+
+
+                if (UsrKy == 0 || UsrKy == "") {
+                    $.ajax({
+                        url: "@Url.Content("~/Login/CheckUser")",
+                        data: JSON.stringify({
+                            UsrId: UsrId,
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "Json",
+                        type: "POST",
+                        success: function (data) {
+                            if (data == true) {
+                                res = true;
+                                alert("We Found The User : \" " + UsrId + " \" Which Already Exist!");
+                                return false;
+                            }
+                            else { res = false; }
+                            //        }
+                            //    });
+                            //}
+
+                            if (res == false) {
+
+                                for (var i = 0; i < currentData.length; i++) {
+                                    if (currentData[i].isAct == true) {
+                                        updatedRecords.push(currentData[i].toJSON());
+                                    }
+                                }
+                                $.ajax({
+                                    url: "@Url.Content("~/Login/SaveUsrProfile")",
+                                    data: JSON.stringify({
+                                        UsrId: UsrId,
+                                        UsrNm: UsrNm,
+                                        GrpKy: GrpKy,
+                                        AdrKy: AdrKy,
+                                        IsAct: IsAct,
+                                        UsrKy: UsrKy,
+                                        GridUpdateDetail: kendo.stringify(updatedRecords),
+
+                                    }),
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: "Json",
+                                    type: "POST",
+                                    success: function (data) {
+
+
+                                        Clear();
+                                        alert("You Created the User \" " + UsrId + " \" successfully!");
+
+
+                                    },
+                                    error: function (e) {
+                                        return false;
+                                    }
+                                });
+                            }
+                            return false;
+                        },
+                        error: function (e) {
+                        }
+                    });
+                }
+                else {
+                    for (var i = 0; i < currentData.length; i++) {
+                        if (currentData[i].isAct == true) {
+                            updatedRecords.push(currentData[i].toJSON());
+                        }
+                    }
+                    $.ajax({
+                        url: "@Url.Content("~/Login/SaveUsrProfile")",
+                        data: JSON.stringify({
+                            UsrId: UsrId,
+                            UsrNm: UsrNm,
+                            GrpKy: GrpKy,
+                            AdrKy: AdrKy,
+                            IsAct: IsAct,
+                            UsrKy: UsrKy,
+                            GridUpdateDetail: kendo.stringify(updatedRecords),
+
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "Json",
+                        type: "POST",
+                        success: function (data) {
+                            Clear();
+
+                            alert("You Updated the User \" " + UsrId + " \" successfully!");
+
+                        },
+                        error: function (e) {
+                            return false;
+                        }
+                    });
+                }
+
+            }
+            else {
+                alert("Please Enter UserName");
+            }
+        } else {
+            alert("Please Enter UserID");
+        }
+    }
+
+    function ResetPwd() {
+
+        var UsrKy = $("#UsrKy").val();
+        var UsrId = $("#HdrSec1_InptUsrId_Val").val() + $("#HdrSec1_InptCCd_Val").val();
+        if (UsrKy == "" || UsrKy == undefined || UsrKy == null) {
+            alert("Select any User");
+        }
+        else {
+            $.ajax({
+                url: "@Url.Content("~/Login/ResetPwd")",
+                data: JSON.stringify({
+                    UsrKy: UsrKy,
+                    UsrId: UsrId
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    Clear();
+                    alert(" Reset successfully ")
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+
+    function Clear() {
+        GetCCd();
+        $("#HdrSec1_InptUsrId_Val").focus();
+        $("#HdrSec1_InptUsrId_Val").val(null);
+        $("#HdrSec1_ChkboxisAct_Val").attr('checked', true);
+        //$("#Name").val(null);
+        $("#HdrSec1_InptUsrNm_Val").val(null);
+        //   $("#Paswd").val(null);
+        $("#HdrSec1_CmbAdr_Cd").data("kendoComboBox").value(null);
+        // $('#chck').each(function () { this.checked = false; });
+        //$('#chckact').each(function () { this.checked = false; });
+        //$("#chckact").val(null);
+        $("#UsrKy").val(null);
+        $("#cmb_usrgrp").data("kendoComboBox").value(null);
+        // Grid Refresh
+        $('#Grid').data('kendoGrid').dataSource.read();
+        $('#Grid').data('kendoGrid').refresh();
+        LoadGridView();
+        res = false;
+    }
+
+
+    $(document.body).keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 70) {
+
+            $("#FindForm").show().kendoWindow({
+                width: "1000px",
+                height: "550px",
+                modal: true,
+                title: "Find"
+            });
+
+            $('#FindForm').data('kendoWindow').center().open();
+            LoadFindGrid();
+        }
+    });
+
+    $('#Grid').on('click', '.isActPinChecked', function () {
+        var checked = $(this).is(':checked');
+        var grid = $('#Grid').data().kendoGrid;
+        var dataItem = grid.dataItem($(this).closest('tr'));
+        if (dataItem != undefined) {
+            dataItem.set('isAct', checked);
+        }
+    });
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+</script>
+
+<style>
+    .trr {
+        padding: 4px 10px;
+    }
+
+    .imagediv {
+        float: left;
+        margin-top: -50px;
+        width: 170px;
+    }
+
+        .imagediv .showonhover {
+            background: #2B76AD;
+            padding: 20px;
+            opacity: 0.7;
+            color: white;
+            width: 100%;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+
+    #findHdr label {
+        font-size: 14px;
+    }
+
+    .chk {
+        margin-top: 8px;
+    }
+</style>

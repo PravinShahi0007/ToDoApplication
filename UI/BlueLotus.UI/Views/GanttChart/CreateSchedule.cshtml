@@ -1,0 +1,383 @@
+﻿
+
+
+<div id="LinkPM" style="display: none" @*style="border: solid; border-color: deepskyblue; margin-top: 10px;"*@
+     @*data-role="window" data-title="Select day" data-width="400px"*@>
+    <div>
+
+    </div>
+    <div style="margin-left: 25px; margin-top: 20px" id="checks" data-role="view" data-title="Shopping List"
+         data-layout="checklayout">
+        <table data-role="listview" data-style="inset" style="font-size: medium; font-family: 'Times New Roman'">
+            <tr>
+                <td>
+                    <h5>
+                        Version No   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <div id="exampleDocNo">
+                        <input data-role="maskedtextbox"
+                               data-bind="visible: isVisible, enabled: isEnabled, value: docNo, events: { change: onChange }"
+                               class="k-textbox"
+                               style="width: 180px; height:30px;">
+                    </div>
+                </td>
+                <td>
+                    <h5>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is Default   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <input id="IsDefault" data-bind="checked: isChecked" style="margin-left: 15px" type="checkbox" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>
+                        Project Chart Type   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <div id="cmbPrjChartTyp" style="width: 180px;"></div>
+                </td>
+                <td>
+                    <h5>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Schedule StDate   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <input id="stDatepicker" style="width: 180px;" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>
+                        Calender   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <div id="cmbCalNm" style="width: 180px;"></div>
+                </td>
+                <td>
+                    <h5>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Schedule ToDate   : &nbsp;&nbsp;
+                    </h5>
+                </td>
+                <td>
+                    <input id="toDatepicker" style="width: 180px;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top: 25px; margin-bottom: 5px; margin-left: 25px;">
+        <input style="height:30px;" type="button" name="name" value="Save" id="btnSaveAsSave" class="k-button" onclick="SaveClick()" />
+        <input style="height:30px;" type="button" name="name" value="Cancel" class="k-button" onclick="CancelClick()" />
+    </div>
+</div>
+
+
+
+<script>
+    var tempIsDefault = 0;
+    var tempDocNo = "";
+    var tempPrcsSchKy = 1;
+    var tempSchDt = "";
+    var tempSchToDt = "";
+
+    var urlOrdDetToPrcsDet_Web = '@Url.Content("~/GanttChart/OrdDetToPrcsDet_Web")';
+    var urlSetPrjSch_Insert = '@Url.Content("~/GanttChart/SetPrjSch_Insert")';
+    var urlGetPrjChartTyp = '@Url.Content("~/GanttChart/GetPrjChartTyp")';
+    var urlGetAllCodes = '@Url.Content("~/GanttChart/GetAllCodes")';
+
+    var urlGanttChart = {
+        PrjVersionCreate_Web: '@Url.Content("~/GanttChart/PrjVersionCreate_Web")'
+    }
+
+    var currentDate = new Date();
+
+    LoadCombo();
+
+    $("#stDatepicker").kendoDatePicker({
+        change: onChangeStDatepicker
+    });
+    $("#stDatepicker").data("kendoDatePicker").value(currentDate);
+    function onChangeStDatepicker() {
+        var ddStDatepicker = $("#stDatepicker").data("kendoDatePicker").value();
+        tempSchDt = kendo.toString(ddStDatepicker, 'd');
+    }
+
+    $("#toDatepicker").kendoDatePicker({
+        change: onChangeToDatepicker
+    });
+    $("#toDatepicker").data("kendoDatePicker").value(currentDate);
+    function onChangeToDatepicker() {
+        var ddToDatepicker = $("#toDatepicker").data("kendoDatePicker").value();
+        tempSchToDt = kendo.toString(ddToDatepicker, 'd');
+    }
+
+    var viewModelDocNo = kendo.observable({
+        docNo: "",
+        isEnabled: true,
+        isVisible: true,
+        onChange: function () {
+            tempDocNo = this.get("docNo");
+        }
+    });
+    kendo.bind($("#exampleDocNo"), viewModelDocNo);
+
+    var viewModelIsDefault = kendo.observable({
+        isChecked: false
+    });
+    kendo.bind($("#IsDefault"), viewModelIsDefault);
+
+    $('#IsDefault').change(function () {
+        if (this.checked) {
+            tempIsDefault = 1;
+        } else {
+            tempIsDefault = 0;
+        }
+    });
+
+
+    function LoadCombo() {
+        $("#cmbCalNm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: CalendarDataSource("CalTyp"),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select calendar.."
+        });
+        $("#cmbCalNm").parent().css('width', "200px");
+
+        $("#cmbPrjChartTyp").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: ProjectChartTypeDataSource("OthTrnTyp"),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Chart Type.."
+        });
+        $("#cmbPrjChartTyp").parent().css('width', "200px");
+
+    }
+
+    //function dialogSaveAsSelectOpen() {
+    //    $("#saveAsSelect").show().kendoWindow({
+    //        width: "1000px",
+    //        height: "300px",
+    //        //position: { top: 100, left: "20%" },
+    //        modal: true,
+    //        title: "Save As Dialog"
+    //    });
+
+    //    $('#saveAsSelect').data('kendoWindow').center().open();
+    //    $('.k-window-content.k-content').css('background', '#D9D9D9');
+    //    $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+    //    $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+    //}
+
+    //function dialogSaveAsSelectClose() {
+    //    $('#saveAsSelect').data('kendoWindow').close();
+    //}
+
+    function CalendarDataSource(CalTyp) {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: urlGetAllCodes,
+                    data: { 'ConCd': CalTyp },
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function ProjectChartTypeDataSource(PrjChartTyp) {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: urlGetPrjChartTyp,
+                    data: { 'ConCd': PrjChartTyp },
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+
+
+
+
+    //function saveAsClick() {
+    //    dialogSaveAsSelectOpen();
+
+    //    $("#btnSaveAsSave").show();
+    //    if (tempIsMSImport == 1 || tempIsNewSchDet == 1)
+    //        $("#btnSaveAsSave").hide();
+
+    //    saveAsSoftComponentUIUpdate();
+    //}
+
+    //function SaveAsExcelClick(sender, e) {
+
+    //    tempCalTypKy = $("#cmbCalNm").data('kendoComboBox').value();
+    //    if (tempCalTypKy == null || tempCalTypKy == undefined)
+    //        tempCalTypKy = 1;
+
+    //    var tempPrjChartTypKy = $("#cmbPrjChartTyp").data('kendoComboBox').value();
+    //    if (tempPrjChartTypKy == null || tempPrjChartTypKy == undefined)
+    //        tempPrjChartTypKy = 1;
+
+    //    tempPrjKy = $("#PMFilter_CmbPrj_Nm").data('kendoComboBox').value();
+    //    if (tempPrjKy == null || tempPrjKy == undefined)
+    //        tempPrjKy = 1;
+
+    //    if (tempIsMSImport == 1 || tempIsNewSchDet == 1) {
+    //        tempPrcsSchKy = 1;
+    //    }
+
+    //    var InsertSetPrjSch = "[{ \"PrjChartTypKy\":\"" + tempPrjChartTypKy + "\",\"isDefault\":\"" + tempIsDefault + "\",\"PrjKy\":\"" + tempPrjKy + "\",\"DocNo\":\"" + tempDocNo + "\",\"CalTypKy\":\"" + tempCalTypKy + "\",\"SchDt\":\"" + tempSchDt + "\",\"SchToDt\":\"" + tempSchToDt + "\",\"OrgPrcsSchKy\":\"" + tempPrcsSchKy + "\"}]";
+
+    //    $.ajax({
+    //        type: "POST",
+    //        url: urlSetPrjSch_Insert,
+    //        dataType: "json",
+    //        data: { insertSetPrjSch: InsertSetPrjSch },
+    //        async: false,
+    //        success: function (newPrcsSchKy) {
+    //            tempPrcsSchKy = newPrcsSchKy;
+    //            openMSExcelImportWindow_Second();
+    //        }
+    //    });
+    //    //$("#saveAsSelect").hide();
+    //    dialogSaveAsSelectClose();
+
+    //    tempIsMSImport = 0;
+    //    tempIsNewSchDet = 0;
+    //}
+
+    function SaveClick(sender, e) {
+
+        if (FormGlblData.OrdKy < 10) {
+            alert("Select a record");
+            return;
+        }
+
+
+        var tempPrjChartTypKy = $("#cmbPrjChartTyp").data('kendoComboBox').value();
+        if (tempPrjChartTypKy == null || tempPrjChartTypKy == undefined)
+            tempPrjChartTypKy = 1;
+
+        tempCalTypKy = $("#cmbCalNm").data('kendoComboBox').value();
+        if (tempCalTypKy == null || tempCalTypKy == undefined)
+            tempCalTypKy = 1;
+
+        var tempPrjKy = FormGlblData.PrjKy;
+
+        if (tempPrjKy < 10) {
+            alert("Select Project");
+            return;
+        }
+
+        if (tempDocNo == "" || tempSchDt == "" || tempSchToDt == "" ) {
+            alert("Version No or Schedule date cannot be empty !!");
+            return;
+        }
+
+        var InsertSetPrjSch = "[{ \"PrjChartTypKy\":\"" + tempPrjChartTypKy + "\",\"isDefault\":\"" + tempIsDefault + "\",\"PrjKy\":\"" + tempPrjKy + "\",\"DocNo\":\"" + tempDocNo + "\",\"CalTypKy\":\"" + tempCalTypKy + "\",\"SchDt\":\"" + tempSchDt + "\",\"SchToDt\":\"" + tempSchToDt + "\",\"OrgPrcsSchKy\":\"" + tempPrcsSchKy + "\"}]";
+
+        //tempSchDt = kendo.toString(new Date(), 'd');
+        //tempSchToDt = kendo.toString(new Date(), 'd');
+        //tempDocNo = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlSetPrjSch_Insert,//'/GanttChart/SetPrjSchHdr_Insert',
+            dataType: "json",
+            data: { insertSetPrjSch: InsertSetPrjSch },
+            //async: false,
+            success: function (newPrcsSchKy) {
+                if (newPrcsSchKy > 10) {
+                    LinkBOQtoPM(newPrcsSchKy);
+                } else {
+                    alert("Failed");
+                }
+
+            },
+            error: function (e) {
+                alert("Failed");
+                return false;
+            }
+        });
+
+
+    }
+
+
+    function LinkBOQtoPM(PrcsSchKy)
+    {
+        var OrdKy = FormGlblData.OrdKy;
+
+        $.ajax({
+            type: "POST",
+            url: urlOrdDetToPrcsDet_Web,//'/GanttChart/OrdDetToPrcsDet_Web',
+            dataType: "json",
+            data: {
+                OrdKy: OrdKy,
+                PrcsSchKy: PrcsSchKy
+            },
+            success: function (data) {
+                if (data == true) {
+                    alert("Linked Successfully");
+                } else {
+                    alert("Failed");
+                }
+
+
+            },
+            error: function (e) {
+                alert("Failed");
+                return false;
+            }
+        });
+
+        $('#LinkPM').data('kendoWindow').close();
+    }
+
+
+    function PrjVersionCreate_Web(tempPrcsSchKy, newPrcsSchKy) {
+        $.ajax({
+            type: "POST",
+            url: urlGanttChart.PrjVersionCreate_Web,
+            dataType: "json",
+            data: {
+                FrmPrcsSchKy: tempPrcsSchKy,
+                ToPrcsSchKy: newPrcsSchKy,
+                ObjKy: viewBag.ObjKy
+            },
+            async: false,
+            success: function () {
+                tempPrcsSchKy = newPrcsSchKy;
+                goDrillGrid(tempPrjKy, newPrcsSchKy, 0);
+            }
+        });
+    }
+
+    function CancelClick(sender, e) {
+        //$("#saveAsSelect").hide();
+        //dialogSaveAsSelectClose();
+        $('#LinkPM').data('kendoWindow').close();
+    }
+
+</script>

@@ -1,0 +1,57 @@
+﻿
+<div id="ganttTableDblClick" style="display: none">
+    <div style="display: none">
+        <table>
+            <tr>
+                <td>
+                    <font color="blue"> Selected Task ID : </font>
+                </td>
+                <td>
+                    <font color="red"><label for="taskIDLabelDblClick"></label></font>
+                </td>
+                <td><font color="blue"> &nbsp;&nbsp;&nbsp; and &nbsp;&nbsp;&nbsp; </font></td>
+                <td>
+                    <font color="blue"> Selected Task Name : </font>
+                </td>
+                <td>
+                    <font color="red"><label for="taskNmLabelDblClick"></label></font>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="tabs">
+        <ul>
+            <li id="resrc"><a href="#win1">Resources</a></li>
+            <li style="display:none;" id="resrcAnalysisGrid"><a href="#win6">Resources Allocation</a></li>
+            <li style="display:none;" id="resrcAllNew"><a href="#win2">Resources Allocation</a></li>
+            <li id="linkMasterPlanTask"><a href="#win5">Master Plan Task Allocation</a></li>
+            @*<li id="resrcAll"><a href="#win3">Resources Allocation</a></li>*@
+            <li style="display:none;"><a href="#win4">Tab 03</a></li>
+        </ul>
+        <div id="win1">
+            @Html.Partial("~/Views/PrcsSchDetCmpn/PrcsSchDetCmpnInBuild.cshtml")
+        </div>
+        <div id="win6">
+            @Html.Partial("~/Views/GanttChart/PMResourceTabs/AnalysisGrid.cshtml")
+        </div>
+        <div id="win2">
+            @Html.Partial("~/Views/GanttChart/PMResourceTabs/PMResourceTab2.cshtml")
+        </div>
+        <div id="win5">
+            @Html.Partial("~/Views/GanttChart/PMResourceTabs/MasterPlanTaskLink.cshtml")
+        </div>
+        <div id="win4">
+            <p>Tab 04</p>
+            <p>Under Construction...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlTaskResourceDetails_Select = '@Url.Content("~/PMResource/TaskResourceDetails_Select")';
+    var urlResourceForTaskAloc_Select = '@Url.Content("~/PMResource/ResourceForTaskAloc_Select")';
+    var urlsendDataSaveChanges = '@Url.Content("~/PMResource/sendDataSaveChanges")';
+    var urlCdMasLookUp = '@Url.Content("~/HtnShared/CdMasLookUp")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CdMasLookUp.js"></script>
+<script src="~/Scripts/HtnScripts/PMResource/PMResource.js"></script>

@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "ToDoFilter";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+@*<h2>ToDoFilter</h2>*@
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<script src="~/Scripts/HtnScripts/ToDo/ToDoScript.js"></script>
+<script src="~/Scripts/HtnScripts/ToDo/ToDoGrid.js"></script>
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-2 buttons" id="ButtonSet">
+
+            <button class="control-button add" onclick="ComSaveFunction()" data-tooltip="Add New"> </button>
+            <button class="control-button save" onclick="ComSaveFunction()" data-tooltip="Save"> </button>
+            <button class="control-button load" onclick="Preview()" data-tooltip="Load"> </button>
+            <button class="control-button clear" onclick="ComClearFunction()" data-tooltip="Clear"> </button>
+            <button class="control-button preview" onclick="ComClearFunction()" data-tooltip="Show"> </button>
+            <button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Hide"> </button>
+
+        </div>
+
+        <div class="col-md-10 filters" id="FilterSet">
+
+            <div class="col-md-2">
+                <div>
+                    <label>Project ID</label>
+                </div>
+                <div id="cmbProjectID"></div>
+            </div>
+
+            <div class="col-md-2">
+                <div>
+                    <label>Act By</label>
+                </div>
+                <div id="cmbActBy"></div>
+            </div>
+
+            <div class="col-md-2">
+                <div>
+                    <label>Parent 
+                    </label>
+                </div>
+                <div id="cmbPrntTask"></div>
+            </div>
+
+            <div class="col-md-2">
+                <div>
+                    <label>Activity Status</label>
+                </div>
+                <div id="cmbActvSts"></div>
+            </div>
+            
+            <div class="col-md-2">
+                <div>
+                    <label>Priority</label>
+                </div>
+                <div id="cmbPriorty"></div>
+            </div>
+
+        </div>
+
+        <div class="col-md-2 grid-container">
+            </div>
+
+        <div class="col-md-10 grid-container">
+            <div id="DoGrid">
+                @*<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Extn.</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                </table>*@
+
+                @*<input  name="your_field_name[]" value="1" />
+                <input  name="your_field_name[]" value="2" />
+                <input  name="your_field_name[]" value="3" />*@
+
+                <form>
+                    <div class="form-control">
+                        <input name="task"  placeholder="Task Name">
+                        <input name="task" placeholder="Progress">
+                        <input name="task" placeholder="Due date">
+                        <input name="task" placeholder="Status">
+                        <input name="task" placeholder="Priority">
+                        <input type="submit" />
+                    </div>
+                </form>
+                </div>
+            <div></div>
+           
+            </div>
+        <div id="table">
+            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Extn.</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+        </div>
+
+
+@* Main script *@
+<script>
+    $(document).ready(function () {
+        LoadInitCombo();
+        //$('#toDoGrid').LoadGridView();
+        //$("#toDoGrid").data("kendoGrid");
+        //LoadGridView();
+        //$('#detail').hide();
+    });
+</script>
+
+    <script type="text/javascript">
+        // Using jQuery.
+
+        $(function () {
+            $('form').each(function () {
+                $(this).find('input').keypress(function (e) {
+                    // Enter pressed?
+                    if (e.which == 10 || e.which == 13) {
+                        this.form.submit();
+                    }
+                });
+
+                $(this).find('input[type=submit]').hide();
+            });
+        });
+    </script>
+
+
+<script>
+    $(document).ready(function () {
+        var element = $("#Grid").kendoGrid({
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Employees"
+                },
+                pageSize: 15,
+                serverPaging: true,
+                serverSorting: true
+            },
+            height: 600,
+            sortable: true,
+            pageable: true,
+            detailInit: detailInit,
+            dataBound: function () {
+                this.expandRow(this.tbody.find("tr.k-master-row").first());
+            },
+            columns: [
+                {
+                    field: "FirstName",
+                    title: "Project",
+                    width: "110px"
+                },
+                {
+                    field: "LastName",
+                    title: "Parent Task",
+                    width: "110px"
+                },
+                {
+                    field: "Country",
+                    title: "Lead By",
+                    width: "110px"
+                },
+                {
+                    field: "City",
+                    title: "Entered By",
+                    width: "110px"
+                },
+                {
+                    field: "RcdDt",
+                    title: "Record Date",
+                    width: "110px"
+                },
+                {
+                    field: "WrkHrs",
+                    title: "Hours",
+                    width: "110px"
+                },
+                {
+                    field: "Dms",
+                    title: "Attachments",
+                    width: "110px"
+                },
+            ]
+        });
+    });
+
+    function detailInit(e) {
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Orders"
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: true,
+                pageSize: 10,
+                filter: { field: "EmployeeID", operator: "eq", value: e.data.EmployeeID }
+            },
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                { field: "OrderID", title:"Task Id",width: "40px" },
+                { field: "ShipCountry", title: "Task Name", width: "100px" },
+                { field: "ShipAddress", title: "Description", width: "100px" },
+                { field: "ShipName", title: "ToDo Type", width: "40px" },
+                { field: "ShipName", title: "Priority", width: "40px" },
+                { field: "ShipName", title: "Resources", width: "40px" },
+                { field: "ShipName", title: "Record Date", width: "40px" },
+                { field: "ShipName", title: "Start Date", width: "40px" },
+                { field: "ShipName", title: "End Date", width: "40px" },
+                { field: "ShipName", title: "Hours", width: "40px" },
+                { field: "ShipName", title: "Approval Status", width: "40px" },
+                { field: "ShipName", title: "Activity Status", width: "40px" },
+                { field: "ShipName", title: "Attachments", width: "70px" },
+            ]
+        });
+    }
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#toDoGrid").kendoGrid({
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: "//demos.telerik.com/kendo-ui/service/Northwind.svc/Customers",
+                    @*url: '@Url.Action("GetAllToDo","Home")',
+                    dataType: "json"*@
+                },
+                pageSize: 15
+            },
+            height: 550,
+            groupable: true,
+            sortable: true,
+            pageable: {
+                pageSizes: true,
+                refresh: true, pageSizes: [5, 10, 20, 50, 100] 
+            },
+            columns: [{
+                //template: "<div class='customer-photo'" +
+                //                "style='background-image: url(../content/web/Customers/#:data.CustomerID#.jpg);'></div>" +
+                //            "<div class='customer-name'>#: ContactName #</div>",
+                field: "PrjNm",
+                title: "Project",
+                width: '150px',
+                locked: true
+            }, {
+                field: "PrntTsk",
+                title: "Parent Task",
+                width: '150px',
+                locked: true
+            }, {
+                field: "TskNm",
+                title: "Task Name",
+                width: '150px',
+                locked: true
+            }, {
+                field: "TskId",
+                title: "Task Id",
+                width: '100px'
+            }, {
+                field: "TskDes",
+                title: "Description",
+                width: '200px'
+            }, {
+                field: "ToDoTyp",
+                title: "ToDo Type",
+                width: '100px'
+            }, {
+                field: "Priorty",
+                title: "Priority",
+                width: '100px'
+            },{
+                field: "EntBy",
+                title: "Entered By",
+                width: '100px'
+            }, {
+                field: "ActBy",
+                title: "Act By",
+                width: '100px'
+            },
+            {
+                field: "RcrdDt",
+                title: "Record Date",
+                width: '100px'
+            },
+            {
+                field: "StrtDt",
+                title: "Start Date",
+                width: '100px'
+            },
+            {
+                field: "EndDt",
+                title: "End Date",
+                width: '100px'
+            },
+            {
+                field: "ActBy",
+                title: "Act By",
+                width: '100px'
+            },
+            {
+                field: "AprSts",
+                title: "Approval Status",
+                width: '100px'
+            },
+            {
+                field: "ActSts",
+                title: "Activity Status",
+                width: '100px'
+            },
+            ]
+        });
+    });
+</script>
+
+<style>
+    .grid-container {
+        padding-right: 75px;
+        padding-left: 75px;
+        padding-top: 25px;
+        padding-bottom: 75px;
+    }
+</style>
+
+<style type="text/css">
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
+

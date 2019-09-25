@@ -1,0 +1,608 @@
+﻿@{
+    ViewBag.Title = "DailyWork";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+}
+
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 10px; margin-left: 30px;">
+    <div id="addChng" style="background-color:white; border: 2px solid #07789E; margin-left: -20px; margin-top: -50px; width:1233px;">
+         <div id="Hdr" style="margin-top: -2px; background-color: #E3F0F7; color:#07789E; font-weight: bold; margin-left: -1px; border: 2px solid #07789E; padding: 5px;">
+   Daily Resource Entry
+        </div>
+        <div>
+       <div  style="width: 900px;margin-left:400px;margin-top:20px;">
+            <label> Date </label>
+              <div style="margin-left:120px;margin-top:-15px;">
+                  <input id="StartDate" 
+                      class=""
+                      data-role="datepicker"
+                     data-bind="value: StartDate" />
+                     </ div>
+          </div>
+
+        
+         <div >
+            <label>Resource</label>
+             <div style="margin-left:120px;margin-top:-10px;">
+                 <div id="PersonNm"></div>
+                        </div>
+          </div>
+            <div style=" margin-top:10px;margin-left:80px;">
+                
+                
+                 @* <button type="button" class="k-button" id="Search"  data-bind="click: SearchrBtnClick">Search</button>*@
+                      <button class="k-button" id="btnAddItem" title="Load" style="width: 50px; height: 30px"><img src="~/Images/Load.jpg" /></button>
+                      <button class="k-button" id="btnAddnew" title="Add Resource" style="width: 50px; height: 30px"><img src="~/Images/Add.PNG" /></button>
+                  <button class="k-button" id="btnSave" title="Save"  style="width:50px; height:30px"><img src="~/Images/Save1.PNG" /></button>
+                  <button class="k-button" id="btnCancel"  title="Cancel" style="width: 50px; height: 30px"><img src="~/Images/Cancel.PNG" /></button>
+               
+
+                </div>
+            
+            
+            
+            
+            </div>
+        @*  <div id="prjectAndtaskWindow" style="border: 2px solid #A9A9A9; margin-top: 20px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px; height:50px;">
+         <div style="margin-top:10px;margin-bottom:10px;"  >
+            <label>Project Name </label>
+             
+                 <div id="project"></div>
+                        
+               <label>Task Name </label>
+             
+                 <div id="Task"></div>
+             
+                        <button class="k-button" id="btnAddprojectandtask"  title="Add"   style="width: 50px; height: 30px; margin-left:200px;"><img src="~/Images/Add.PNG" /></button>
+                        <button class="k-button" id="btnCancel1" title="Cancel" style="width: 50px; height: 30px;margin-right:200px;"><img src="~/Images/Cancel.PNG" /></button> 
+                
+          </div>
+              </div>*@
+       
+
+        
+              <div id="GridWindow"
+            style="border: 2px solid #A9A9A9; margin-top: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px; height:350px;">
+        <div id="Grid"  style="margin-top:20px; margin-bottom:10px;margin-left:10px;margin-right:10px;height:320px;">
+            </div>
+              
+    </div>
+        </div>
+    </div>
+<div>    
+@Html.Partial("~/Views/GanttChart/FindResource.cshtml")
+</div>
+<style>
+    #Hdr {
+        height:20px;
+    }
+</style>
+<script>
+
+    $(document).ready(function () {
+        var prjky = 1;
+        var AdrKy = 1;
+        
+        var todayDate = new Date();
+        $('#StartDate').data("kendoDatePicker").value(todayDate);
+   
+        LoadCombo();
+        LoadTaskCombo(prjky);
+        LoadFunction();
+    
+        $("#GridWindow").show();
+      
+    });
+
+    function LoadFunction() {
+        var date = $('#StartDate').val();
+        var person = 1;
+        LoadGridView(person, date);
+    }
+
+    $("#btnAddItem").click(function () {
+        var Date = $("#StartDate").val();
+        var AdrKy = $("#PersonNm").val();
+        LoadGridView(AdrKy,Date);
+    });
+
+    $("#btnCancel1").click(function () {
+        $("#project").val(null);
+        $("#project").data('kendoComboBox').value("");
+        $("#Task").val(null);
+        $("#Task").data('kendoComboBox').value("");
+       $("#prjectAndtaskWindow").hide();
+       
+    });
+
+    $("#btnAddprojectandtask").click(function () {
+        
+        var Project = $("#project").data("kendoComboBox").text();
+        var PrjKy = $("#project").val();
+    
+        var Task = $("#Task").data("kendoComboBox").text();
+        var PrcsDetKy = $("#Task").val();
+        
+        if (Project != null && Task != null) {
+            
+            $("#Grid").data("kendoGrid").dataSource.add({ PrjID: Project, PrcsID: Task, PrjKy: PrjKy, PrcsDetKy: PrcsDetKy })
+            //var grid = $("#Grid").data("kendoGrid");
+            //var data = grid.dataSource.data();
+
+            //grid.tbody.find('>tr').each(function () {
+            //    var dataItem = grid.dataItem(this);
+            //    if (dataItem.DateOff == null && dataItem.DateAck == null) {
+            //        $(this).css('background-color', 'green');
+            //    }
+
+                //if (dataItem.DateOff != null && dataItem.DateAck == null) {
+                //    $(this).css('color', 'green');
+                //}
+
+                //if (dataItem.DateOff == null && dataItem.DateAck != null) {
+                //    $(this).css('color', 'blue');
+                //}
+           // });
+         //   $(this).child().child().css("background-color", "#CCC");
+
+        } else { alert("hi");}
+       // LoadGridView(AdrKy, Date);
+
+    });
+
+    $("#btnSave").click(function () {
+        var Date = $("#StartDate").val();
+        var AdrKy = $("#PersonNm").val();
+        var project = $("#project").val();
+        var task = $("#Task").val();
+        var gridData = $("#Grid").data().kendoGrid.dataSource.view();
+        if (Date != null && AdrKy != null && project != null && task != null) {
+            $.ajax({
+                url: "@Url.Content("~/Home/InserUpdateDailyProgressTodo")",
+                   data: JSON.stringify({
+                       Date: Date,
+                       AdrKy: AdrKy,
+                       project: project,
+                       task: task,
+                       gridData: gridData
+                   }),
+                   contentType: 'application/json; charset=utf-8',
+                   dataType: "Json",
+                   type: "POST",
+                   success: function (data) {
+                       alert("successfully saved !");
+                       LoadGridView(AdrKy, Date);
+                       //var grid = $("#Grid").data("kendoGrid");
+                       //var data = grid.dataSource.data();
+
+                       //grid.tbody.find('>tr').each(function () {
+                       //    //var dataItem = grid.dataItem(this);
+                       //    //if (dataItem.DateOff == null && dataItem.DateAck == null) {
+                       //        $(this).css('background-color', null);
+                       //   // }
+
+                       //    //if (dataItem.DateOff != null && dataItem.DateAck == null) {
+                       //    //    $(this).css('color', 'green');
+                       //    //}
+
+                       //    //if (dataItem.DateOff == null && dataItem.DateAck != null) {
+                       //    //    $(this).css('color', 'blue');
+                       //    //}
+                       //});
+                       //LoadCombo();
+                       //LoadTaskCombo(project);
+                       //LoadGridView(AdrKy);
+                       //$("#prjectAndtaskWindow").hide();
+                       //$("#PersonNm").val(null);
+                       //$("#project").val(null);
+                       //$("#Task").val(null);
+                       //var todayDate = new Date();
+                       //$('#StartDate').data("kendoDatePicker").value(todayDate);
+                   },
+                   error: function (e) {
+                       return false;
+                   }
+               });
+
+        }
+        else {
+            alert("Please Select Feild !");
+            var prjky = 1;
+            var AdrKy = 1;
+            LoadCombo();
+            LoadTaskCombo(prjky);
+            LoadGridView(AdrKy);
+            $("#prjectAndtaskWindow").hide();
+            $("#PersonNm").val(null);
+            $("#project").val(null);
+            $("#Task").val(null);
+            var todayDate = new Date();
+            $('#StartDate').data("kendoDatePicker").value(todayDate);
+        }
+        //LoadGridView(AdrKy, Date);
+    });
+
+
+   
+    
+
+    $("#btnCancel").click(function () {
+        var prjky = 1;
+        var AdrKy = 1;
+        LoadCombo();
+        LoadTaskCombo(prjky);
+        var date = $('#StartDate').val();
+       
+        LoadGridView(AdrKy, date);
+        $("#prjectAndtaskWindow").hide();
+        $("#PersonNm").data("kendoComboBox").val("");
+        $("#project").data("kendoComboBox").val("");
+        $("#Task").data("kendoComboBox").val("");
+       
+        var todayDate = new Date();
+        $('#StartDate').data("kendoDatePicker").value(todayDate);
+
+    });
+
+
+
+    $("#StartDate").width(200).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31,2,2009)
+    });
+    //$("#StartDate").kendoDatePicker("setDate", new Date());
+
+    $("#StartDate").closest("span.k-datepicker").width(200);
+
+    //$("#endDate").width(182).kendoDatePicker({
+
+    //    format: "yyyy/MM/dd",
+    //    min: new Date(2009, 2, 31)
+    //});
+
+    //$("#endDate").closest("span.k-datepicker").width(198);
+
+    function PersonDataSource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Home/GetEmployeeList")',
+                   
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+   @* function ProjectDataSource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Home/GetProjectList")',
+                 
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function TaskDataSource(prjky) {
+        var dataSource = new kendo.data.DataSource(
+       {
+           transport: {
+               read: {
+                   url: '@Url.Content("~/Home/GetTask")',
+                   data: { 'PrjKy': prjky },
+                   dataType: "json"
+               }
+           }
+       });
+        return dataSource;
+    }*@
+
+    //function LoadTaskCombo(prjky) {
+        
+    //    $("#Task").kendoComboBox({
+    //        dataValueField: "PrcsDetKy",
+    //        dataTextField: "TaskId",
+    //        dataSource: TaskDataSource(prjky),
+
+    //        filter: "contains",
+    //        suggest: true,
+    //        placeholder: "Select a Task..",
+
+    //    });
+    //    $("#Task").parent().css('width', "200px");
+
+    //}
+    function LoadCombo() {
+        $("#PersonNm").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrNm",
+            dataSource: PersonDataSource(),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a name..",
+          
+
+        });
+        $("#PersonNm").parent().css('width', "200px");
+
+        //$("#project").kendoComboBox({
+        //    dataValueField: "PrjKy",
+        //    dataTextField: "DocNo",
+        //    dataSource: ProjectDataSource(),
+
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Select a project..",
+        //    change: function (e) {
+        //        var cmb = $("#project").data("kendoComboBox");
+        //        var prjky = cmb.value();
+        //        if (prjky != "") {
+        //            var validate = ComboValidations("project");
+        //            if (validate) {
+        //                LoadTaskCombo(prjky);
+                       
+        //            }
+        //        }
+        //    }
+
+        //});
+        //$("#project").parent().css('width', "200px");
+        
+     
+
+    }
+
+    function ComboValidations(cmbNm) {
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+   // kendo.bind($("#addChng"), viewModel);
+
+  
+
+    function LoadGridView(AdrKy, Date) {
+       var dataSource = new Array();
+      
+        $.ajax({
+            url: "@Url.Content("~/Home/GetDailyProgress")",
+            data:JSON.stringify({
+                 AdrKy: AdrKy,
+                 Date: Date
+             }),
+             contentType: 'application/json; charset=utf-8',
+             dataType: "Json",
+             type: "POST",
+             success: function (data) {
+                
+                 for (i = 0; i < data.length; i++) {
+                 
+                         $("#Grid").data("kendoGrid").dataSource.add({
+                             LiNo: data[i].LiNo,
+                             ItmTrnKy: data[i].ItmTrnKy,
+                             PrjID: data[i].PrjID,
+                             PrjKy: data[i].PrjKy,
+                             PrcsDetKy: data[i].PrcsDetKy,
+                             PrcsID: data[i].PrcsID,
+                             ItmKy: data[i].ItmKy,
+                             ItmNm: data[i].ItmNm,
+                             Unit: data[i].Unit,
+                             Qty: data[i].Qty,
+                         })
+                       
+                     
+                 }
+      }
+             ,
+             error: function (e) {
+                 return false;
+             }
+         });
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                  @*  url: '@Url.Content("~/ItmTransfer/GetDetailByOrdKy")',*@
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+
+                        });
+                    }
+                }
+            },
+         batch: true,
+         pageSize: 10,
+         schema: {
+             model: {
+                 id: "ItmTrnKy",
+                 fields: //Relavent fields of the grid should be bind with following model items
+                 {
+                     ItmTrnKy: { editable: true, nullable: false, type: "number", hidden:true },
+                     TrnKy: { editable: true, nullable: false, type: "number", hidden: true },
+                     PrcsDetKy: { editable: true, nullable: false, type: "number", hidden: true },
+                     PrcsID: { editable: true, nullable: false, type: "string" },
+                     PrjKy: { editable: true, nullable: false, type: "number", hidden: true },
+                     PrjId: { editable: true, nullable: false, type: "string" },
+                     ItmKy: { editable: true, nullable: true, type: "number", hidden: true },
+                     ItmNm: { editable: true, nullable: true, type: "string" },
+                     Unit: { editable: true, nullable: true },
+                     UnitKy: { editable: true, nullable: true, hidden: true },
+                     Qty: { editable: true, nullable: false, type: "number", validation: { required: true }, validation: { required: true }, },
+                     
+                 }
+             }
+         }
+     });
+
+        $("#Grid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+
+            navigatable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+           
+
+            columns: [{
+                field: "LiNo",
+                title: "LiNo",
+                width: "200px",
+
+            },{
+                field: "ItmTrnKy",
+                title: "ItmTrnKy",
+                width: "200px",
+                hidden:true
+               
+            }, {
+                field: "TrnKy",
+                title: "TrnKy",
+                width: "200px",
+                hidden: true
+
+            }, {
+                field: "PrjID",
+                title: "Project Id",
+                width: "200px",
+               
+            },
+            {
+            field: "PrjKy",
+              title: "Project Id",
+               width: "200px",
+                hidden:true
+               
+            }, {
+                field: "PrcsDetKy",
+                title: "Task Id",
+                width: "200px",
+                hidden: true
+            },
+            {
+                field: "PrcsID",
+                title: "Task Id",
+                width: "200px",
+            },
+             {
+                 field: "ItmNm",
+                 title: "Resource",
+                 width: "200px",
+               
+             },
+            {
+                field: "ItmKy",
+                title: "",
+                width: "200px",
+                hidden:true
+               
+            },
+             {
+                 field: "Unit",
+                 title: "Unit",
+                 width: "200px",
+             },
+             {
+                 field: "Qty",
+                 title: "Qty",
+                 width: "200px",
+             },
+              { command: "destroy", title: "Delete", width: "150px", },
+            ],
+
+            resizable: true,
+            editable: true
+        });
+        $("#GridWindow").show();
+    }
+
+    function CancelClickEvent() {
+        $("#projectId").val(null);
+        $("#project").val(null);
+        $("#GridWindow").hide();
+    }
+
+    $("#btnAddnew").click(function () {
+        
+        $("#FindForm").show().kendoWindow({
+            width: "1100px",
+            height: "550px",
+            modal: true,
+            title: "Find Resource"
+        });
+
+        $('#FindForm').data('kendoWindow').center().open();
+
+    });
+
+    //kendo.bind($("#GridWindow"), viewModel);
+</script>
+</div>

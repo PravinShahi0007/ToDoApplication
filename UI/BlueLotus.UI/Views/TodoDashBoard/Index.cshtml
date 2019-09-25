@@ -1,0 +1,141 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<div class="wr_formGroup" id="HdrSec1">
+    <div class="row p-r-15">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <!-- Project -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbPrj">
+                            <div class="row form-group">
+                                <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbPrj_Lbl">Project :</label></div>
+                                <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbPrj_Cd" class="combo width-100" /></div>
+                                <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbPrj_Nm" class="combo width-100 hidden" /></div>
+                            </div>
+                        </div>
+                        <!-- /Project -->
+                        <!-- Lead Address -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbLeadAdr">
+                            <div class="row form-group">
+                                <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbLeadAdr_Lbl"> Lead:</label></div>
+                                <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbLeadAdr_Cd" class="combo width-100" /></div>
+                                <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbLeadAdr_Nm" class="combo width-100 hidden" /></div>
+                            </div>
+                        </div>
+                        <!-- /Lead Address -->
+                        <!-- Current Act Address -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbCurActByAdr">
+                            <div class="row form-group">
+                                <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbCurActByAdr_Lbl"> Current Action:</label></div>
+                                <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbCurActByAdr_Cd" class="combo width-100" /></div>
+                                <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbCurActByAdr_Nm" class="combo width-100 hidden" /></div>
+                            </div>
+                        </div>
+                        <!-- /Current Act Address -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="row">
+                <!--Priority-->
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="row form-group">
+                        <div class="col-md-12 col-sm-12"><label id="HdrSec2_CmbPrty_Lbl"> Priority:</label></div>
+                        <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec2_CmbPrty_Cd" class="combo width-100" /></div>
+                        <div style="display:none" class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec2_CmbPrty_Nm" class="combo width-100" /></div>
+                    </div>
+                </div>
+                <!--/Priority-->
+                <!-- ApproveStatus -->
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="display:none">
+                    <div class="row form-group">
+                        <div class="col-md-12 col-sm-12"><label id="HdrSec2_CmbPrty_Lbl"> Status:</label></div>
+                        <div class="col-md-12 col-sm-12 p-r-0-lg"><input placeholder="Status" id="HdrSec2_Cmb_AprStates_Val" type="text" class="combo width-100" /></div>
+                    </div>
+                </div>
+                <!-- /ApproveStatus -->
+                <!-- Task Category -->
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec2_CmbPrcsDetCat1" style="display:none">
+                    <div class="row form-group">
+                        <div class="col-md-12 col-sm-12"><label id="HdrSec2_PrcsDetCat1_Lbl">Type:</label></div>
+                        <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec2_CmbPrcsDetCat1_Cd" class="width-100" /></div>
+                    </div>
+                </div>
+                <!-- /Task Category -->
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+<div id="chart" class="small-chart"></div>
+<div id="chart2" class="small-chart"></div>
+<div id="PriorityList" style="display: none;">
+    <div id="PrirityTaskGrid"></div>
+</div>
+<div id="PendingTask" class="small-chart"></div>
+
+
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<script>
+
+     var DashBoard = {
+         DashBoard_Priority: '@Url.Content("~/TodoDashBoard/PriorityDashBoard_SelectWeb")',
+         DashBoard_StatusDashBoard: '@Url.Content("~/TodoDashBoard/StatusDashBoard")',
+         DashBoard_Pending: '@Url.Content("~/TodoDashBoard/PendingDashBoard")',
+
+    }
+        var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        @*OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'*@
+    }
+
+     var urlComboLoad = {
+
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        TaskId_SelectMob: '@Url.Content("~/ComboLoad/TaskID_SelectMob")',
+        TaskNm_SelectMob: '@Url.Content("~/ComboLoad/TaskNm_SelectMob")',
+        UnitMas_SelectMob: '@Url.Content("~/ComboLoad/UnitMas_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        MenuSearch_SelectWeb:'@Url.Content("~/ComboLoad/MenuSearch_SelectWeb")'
+
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+    //// var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+   // var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/GetAllRecodesFormObjMas")';
+     var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlPriorityList = '@Url.Content("~/TodoDashBoard/GetTaskPriority")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/ObjMasV2/ObjMasCommonFunctions.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+
+<script src="~/Scripts/ToDoDashBoard/DashBordJs.js"></script>

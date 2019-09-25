@@ -1,0 +1,142 @@
+﻿<div class="row"></div>
+<div id="Itemgrid" style="height:72vh"></div>
+    <div id="window" class="hidden">
+        <button type="button" class="control-btn" onclick="Save()" value="LOAD GRID" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>          
+        <div class="float-right">
+            <div id="imagePreview" class="fixed-bottom"></div>
+        </div>
+
+        <div class="tabstrip" style="font-size:12px">
+            <ul>
+                <li class="k-state-active" id="HdrSec2_Tab3"> ITEM SETTINGS </li>
+                <li id="HdrSec2_Tab4"> PRICE REVISION </li>
+                <li id="HdrSec2_Tab5"> LOCATION WISE STOCK </li>
+                <li id="HdrSec2_Tab6"> Modifiers </li>
+                @*<li id="HdrSec2_Tab2">INGREDIENTS</li>*@              
+            </ul>         
+            <div>
+                @Html.Partial("~/Views/ItemProfileV2/ItemSettings.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/ItemProfileV2/PriceRevision.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/ItemProfileV2/ItemStock.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/ItemProfileV2/Modifiers.cshtml")
+            </div>
+            <div>
+            @*<div style="width:100%" id="MainDiv_ItmMasCmpnPartialForParentDiv">
+                @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+            </div>*@
+             </div>
+        </div>
+    </div>  
+
+    <style>
+        /*grid edit popup start*/
+        .k-popup-edit-form.k-window-content.k-content {
+            height: 75vh;
+            width: 40vw;
+        }
+
+            .k-popup-edit-form.k-window-content.k-content .k-edit-form-container {
+                width: 100%;
+            }
+
+        .k-edit-field .k-combobox {
+            width: 86%;
+        }
+
+        .k-window > div.k-popup-edit-form {
+            padding: 1em 0px;
+            font-size: 0.8em;
+        }
+
+        .k-edit-field, .k-edit-form-container .editor-field {
+            padding: .8em 0 1em !important;
+        }
+
+        .k-edit-form-container > .k-edit-field > .k-widget.k-combobox.k-header.k-combobox-clearable > .k-dropdown-wrap.k-state-default,
+        .k-edit-form-container > .k-edit-field > input.k-textbox {
+            width: 100%;
+        }
+
+        .k-widget.k-upload.k-header.k-upload-empty .k-dropzone .k-button.k-upload-button {
+            color: #10265a;
+            border-color: #a9e2fb;
+            margin: 0px;
+        }
+
+        .k-edit-form-container > .k-edit-field > .k-header {
+            border-color: #ffffff;
+        }
+
+        .k-edit-form-container > .k-edit-field > .k-upload {
+            max-height: 200px;
+        }
+
+        .k-icon {
+            font-size: 14px;
+        }
+
+        .k-edit-field {
+            width: 48%;
+            margin-right: 10%;
+        }
+
+        .k-upload-sync .k-upload-button {
+            margin: 0em;
+        }
+        /*grid edit popup end*/
+
+        #Itemgrid .k-grid-toolbar {
+            padding: .6em 1.3em .6em .4em;
+        }
+
+        .k-header.k-grid-toolbar {
+            border-color: #c1c1c1;
+            background-color: #f2f2f2;
+        }
+
+        .k-grid > .k-header > .k-button {
+            color: #fff !important;
+            background-color: #194dae !important;
+            border-color: #3f51b5 !important;
+            padding: 9px 14px;
+            border-radius: 2px;
+        }
+
+        span.k-icon.k-i-plus {
+            margin-top: -1px;
+        }
+       
+        .k-detail-cell .k-tabstrip .k-content {
+            padding: 1em;
+        }
+        .k-tabstrip-items .k-item, .k-picker-wrap {
+            background-color: #f2f2f2;
+        }
+        div[data-role=tabstrip] {
+            background-color: #f2f2f2;
+        }
+        div.k-window-content {       
+            padding-top: 0em;
+        }
+        #imagePreview {
+            width: 60px;
+            height: 60px;
+            background-position: top top;
+            background-size: cover;
+            /*-webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);*/
+            display: inline-block;
+        }
+        #imagePreview > img {
+            /*width: 100%!important;
+            height: 100%!important;*/
+            position: absolute;
+            bottom: 20px;
+            right: 33px;
+        }
+    </style>

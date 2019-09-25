@@ -1,0 +1,130 @@
+﻿
+<div id="idProjectVersionselect" style="display: none;">
+    @*border: solid; border-color: deepskyblue; background-color: white;*@
+    <div>
+        <div id="example">
+            <div>
+                <button title="Load Gantt Version" class="k-button blue-color-darker" id="btnLoadGanttVrsn">
+                    <i class="fa fa-spinner" aria-hidden="true"></i>
+                    @*<img src="~/Images/PMIcons/LoadGantt.jpg" />*@
+                </button>
+                <button title="New Version" class="k-button color-green" id="btnNewVrsn">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    @*<img src="~/Images/PMIcons/Add.jpg" />*@
+                </button>
+                <button title="Delete Version" class="k-button color-red" id="btnDeleteVrsn">
+                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                    @*<img src="~/Images/PMIcons/Delete.jpg" />*@
+                </button>
+            </div>
+            <br />
+            <div class="demo-section k-header">
+                <div class="box-col">
+                    @*<h4>Project Version Select OrderSelectWindow</h4>*@
+                    <div id="tGrid"
+                         data-role="grid"
+                         data-scrollable="true"
+                         data-editable="false"
+                         data-filterable="false"
+                         data-sortable="{ mode: 'multiple' }"
+                         data-selectable="row"
+                         data-resizable="true"
+                         data-columnmenu="false"
+                         @*data-groupable="true"*@
+                         @*data-pageable="true"*@
+                         data-columns="[ { 'field': 'PrcsSchKy', 'width': '80px', hidden:'true' },
+								{ 'field': 'PrjKy', 'width': '80px', hidden:'true' },
+								{ 'field': 'PrjID', 'width': '80px' },
+								{ 'field': 'PrjNm', 'width': '200px' },
+								{ 'field': 'AdrID', 'width': '80px', hidden:'true' },
+								{ 'field': 'AdrNm', 'width': '130px', hidden:'true' },
+								{ 'field': 'VerNo', 'title': 'Ver No', 'width': '80px' },
+								{ 'field': 'isDefault', 'width': '80px' },
+								{ 'field': 'SchDt', 'width': '100px' },
+                                { 'field': 'SchToDt', 'width': '100px' },
+								{ 'field': 'SchNo', 'width': '80px', hidden:'true' },
+								{ 'field': 'CalTypKy', 'width': '80px', hidden:'true' },
+								{ 'field': 'PreFixKy', 'width': '80px', hidden:'true' },
+								{ 'field': 'OthTrnTypKy', 'width': '80px', hidden:'true' },
+								{ 'field': 'PrjChartTyp', 'width': '150px' },
+								{ 'field': 'Code', 'width': '80px', hidden:'true' },
+								{ 'field': 'CdNm', 'width': '120px', hidden:'true' }
+							 ]"
+                         data-bind="source: projects, events: { change: change }"
+                         style="width: auto; height: 190px;">
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+<script>
+    function openProjectVersionselect() {
+        $("#idProjectVersionselect").show().kendoWindow({
+            width: "1000px",
+            height: "300px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: "Project Version Select"
+        });
+
+        $('#idProjectVersionselect').data('kendoWindow').center().open();
+        $('.k-window-content.k-content').css('background', '#D9D9D9');
+        $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+        $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+        isOpenProjectVersionselectWin = true;
+        $('#tGrid').data('kendoGrid').refresh();
+    }
+
+    $("#tGrid").dblclick(function () {
+        var grid = $('#tGrid').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        tempPrcsSchKy = selectedItem.PrcsSchKy;
+        //for (i = 0; i < VersrnData.length; i++)
+        //    if (VersrnData[i].PrcsSchKy == tempPrcsSchKy)
+        //        newtempVersrnData.push(VersrnData[i]);
+        saveAsComponentsUIUpdate(tempPrjKy, tempPrcsSchKy, tempwithBaseLine);
+    });
+
+    function closeProjectVersionselect() {
+        if (isOpenProjectVersionselectWin) {
+            $('#idProjectVersionselect').data('kendoWindow').close();
+            isOpenProjectVersionselectWin = false;
+        }
+    }
+
+    function ProjectVersionDelete() {
+        if (confirm('Are you sure you want to delete this sch ?')) {
+            var grid = $('#tGrid').data().kendoGrid;
+            var selectedItem = grid.dataItem(grid.select());
+            tempPrcsSchKy = selectedItem.PrcsSchKy;
+
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                data: { Prjky: tempPrjKy, PrcsSchKy: tempPrcsSchKy },
+                url: '@Url.Action("PrcsSchHdr_DeleteWeb", "GanttChart")',
+                converters:
+                {
+                    "text json": function (data) {
+                        return $.parseJSON(data, true
+                        /*converts date strings to date objects*/
+                        , true
+                        /*converts ISO dates to local dates*/
+                        );
+                    }
+                },
+                success: function (VersrnData) {
+                    //$('#tGrid').data('kendoGrid').refresh();
+                    GetDataSourceFromFindSp();
+                    $.holdReady(false);
+                }
+            });
+
+        } else {
+            // Do nothing!
+        }
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Basic Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    @Html.Partial("~/Views/Transaction/PopUps/ImageAttachment_View.cshtml")
+</div>
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div>
+            @Html.Partial("~/Views/HRIS/EmpHdr.cshtml")
+        </div>
+    </div>
+    <div id="tabstrip">
+        <ul>
+            <li id="HdrSec_TabBasicDet">Basic Details</li>
+            <li id="HdrSec_TabContactDet">Contact Details</li>
+            <li id="HdrSec_TabEducationDet">Education Details</li>
+            <li id="HdrSec_TabFamilyDet">Family Details</li>
+            @*<li id="HdrSec_TabProfQualiDet">Profesional Details</li>*@
+        </ul>
+
+        <div>
+            <div>@Html.Partial("~/Views/HRIS/Employee/PersonalDet/Partial_BasicDet.cshtml")</div>
+        </div>
+        <div>
+            <div >
+                @Html.Partial("~/Views/HRIS/Employee/PersonalDet/Partial_ContactDet.cshtml")
+            </div>
+        </div>
+        <div>
+            <div>@Html.Partial("~/Views/HRIS/Employee/PersonalDet/Partial_EducationDet.cshtml")</div>
+        </div>
+        <div id="testingabc">
+            <div id="testtingdiv">@Html.Partial("~/Views/HRIS/Employee/PersonalDet/Partial_FamilyDet.cshtml")</div>
+            <br style="clear:both" />
+            <div id="familyDetailGrid" style="position:relative"></div>
+        </div>
+        @*<div id="">
+            <div id="">@Html.Partial("~/Views/HRIS/Employee/PersonalDet/_PartialProfQuali.cshtml")</div>
+            <br style="clear:both" />
+            <div id="ProfQualiDetGrid" style="position:relative"></div>
+        </div>*@
+
+    </div>
+</div>
+
+<script>
+    $("#tabstrip").kendoTabStrip({
+        navigatable: true
+    });
+</script>
+
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var UrlInsert = {
+        BasicDet: '@Url.Content("~/HRIS/InsertBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/InsertContactDet")',
+        InsertDet: '@Url.Content("~/HRIS/InsertDet")',
+        InsertFileswithpath: '@Url.Content("~/HRIS/InsertEmpImgFilesWithPath")',
+        InsertSalaryDet :'@Url.Content("~/HRIS/InsertSalaryDet")'
+    }
+    var UrlDelete = {
+        DeleteFamilyDet: '@Url.Content("~/HRIS/DeleteFamilyDet")'
+    }
+    var UrlGet = {
+        BasicDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        GetPersonalDet: '@Url.Content("~/HRIS/GetPersonalDet")',
+        ContactDet: '@Url.Content("~/HRIS/GetBasicDet")'
+    }
+
+    @*//var urlInsertFileswithpath = '@Url.Content("~/HRIS/InsertFileswithpath")';*@
+
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertHdr")';
+    var UrlGetEmpPersonalDet = '@Url.Content("~/HRISEmployee/GetEmpPersonalDet")';
+
+    var UrlGetEmpContactDet = '@Url.Content("~/HRISEmployee/GetEmpContactDet")';
+
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HRIS/PersonalDet.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/SaveFunction.js"></script>
+
+<script src="~/Scripts/HtnScripts/HRIS/LoadGrid.js"></script>
+
+<script>
+
+$(document).ready(function () {
+        disableEmpJobDet();
+});
+
+</script>

@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "CdmasColCaptionIndex";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .switch-on {
+        position: absolute;
+        left: -55px;
+        top: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 9px;
+    }
+
+    .switch-off {
+        position: absolute;
+        left: -25px;
+        top: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 9px;
+    }
+</style>
+
+<div style="height:40px;" class="k-content clearfix" id="filterCont">
+    <div style="margin-left:10px;" id="option">
+        <div id="CdmasColCaption">
+        </div>
+
+        <button class="control-button save" id="btnSave" onclick="Save()" title="Save "></button>    
+        <button class="control-button cancel" id="btnCancel" onclick="CancelGrid()" title="Cancel"></button>
+
+    </div>
+</div>
+
+<div style="margin-top:5px;" id="Colcaptiongrid">
+</div>
+
+<script>
+
+    var URLGetAllConCodesCmb = '@Url.Action("GetAllConCodes","Codes")';
+    
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+</script>
+
+<script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+        var urlCdMasColCaption_SelectWeb = '@Url.Content("~/CdmasColCaption/CdMasColCaption_SelectWeb")';
+        
+
+</script>
+<script src="~/Scripts/HtnScripts/CdMasColCaption/CdMasColCaption.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>

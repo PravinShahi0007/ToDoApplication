@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Calendar";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+
+<!DOCTYPE html>
+<link href="~/Scripts/HtnScripts/Calendar/CalStyle.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/HtnScripts/Calendar/CalOpr.js"></script>
+<html>
+<body>
+
+    <div>
+        @Html.Partial("~/Views/Calendar/PopUp.cshtml")
+    </div>
+    <div id="wholepage" style="margin-left:15px">
+
+        <br />
+
+        <div style="border: solid; border-color:#235af8; float: left; width: 100%; height: 45px; background-color:  #86a4f9 ;font-style:normal">
+            <div class="k-label" style="width:100%; background-color: #b9cafa;text-align:center;font-size:16px;font-weight:600">
+                Calendar Type :
+                <div id="cmbCalTyp" class="k-combobox" style="font-size: 16px;font-weight:200;">
+                </div>
+                <button class="k-button" onclick="RefreshCal()" data-tooltip="Refresh">Refresh</button>
+                <br /><br />
+            </div>
+
+        </div>
+        <div style="border: solid; border-color:#235af8; float: left; width: 100%; height: 460px; background-color:  #86a4f9 ;font-style:normal">
+
+            <div class="k-label" style="width:100%; background-color: #b9cafa;text-align:center;font-size:16px;font-weight:600">
+                Calendar
+            </div>
+            <div id="calendar"></div>
+        </div>
+        </div>
+    <script>
+    var urlCmbGetCalTyp = '@Url.Content("~/Calendar/GetCalTyp")';
+    var urlCmbGetHoliTyp = '@Url.Content("~/Calendar/GetHoliTyp")';
+    var urlGetAllHolidays = '@Url.Content("~/Calendar/getHoliDet")';
+    var urlInsertHoliday = '@Url.Content("~/Calendar/InsertHoliday")';
+    var urlInsertMultipleHolidays = '@Url.Content("~/Calendar/InsertMultipleHolidays")';
+        var urlRemoveHolidays = '@Url.Content("~/Calendar/RemoveHolidays")';
+        var urlgetSelectedHolidayTyp = '@Url.Content("~/Calendar/getSelectedHolidayTyp")';
+
+    </script>
+</body>
+</html>

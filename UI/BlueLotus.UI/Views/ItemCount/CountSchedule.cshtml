@@ -1,0 +1,260 @@
+﻿@{
+    ViewBag.Title = "CountSchedule";
+ Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+<div style=" border: 1px solid #07789E;">
+
+    <div class="k-content" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="Save('button')" data-tooltip="Save"> </button>
+            @*<button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>*@
+            @*<button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+                <button class="control-button cancel" id="btnCancel" title="Cancel" data-tooltip="Cancel"></button>*@
+        </div>
+        <div>
+            <label>Date:</label>
+            <input id="Date" class="" data-role="datepicker" data-bind="value: Date" />
+
+            <label>Location:</label>
+            <div id="cmbLoc"></div>
+            <div id="cmbLoc2"></div>
+
+            <label>Item Cat:</label>
+            <div id="cmbItmCat"></div>
+            @*<label>Your Ref:</label>*@
+            @*<input placeholder="Your Ref" id="YourRef" type="text" class="k-textbox" />*@
+
+
+            <button class="control-button add" onclick="Save('button')" data-tooltip="Add"> </button>
+
+        </div>
+        <div id="GridWin">
+            <div style="margin-left:10px;margin-right:10px;margin-bottom:10px;margin-top:30px;">
+                <div id="CatGrid" @*style="height:50%;"*@>
+                </div>
+            </div>
+            <div id="ItemGrid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery.fn.center = function (parent) {
+        if (parent) {
+            parent = this.parent();
+        } else {
+            parent = window;
+        }
+        this.css({
+            "position": "absolute",
+            "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
+            "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
+        });
+        return this;
+    }
+</script>
+
+<script type="text/javascript">
+    var urlItemCount = {
+        GetLocCategory: '@Url.Content("~/ItemCount/GetLocCategory")',
+        GetCdMas_Lookup: '@Url.Content("~/ItmMas/GetLocList")'
+    }
+
+    $(document).ready(function () {
+        LoadCombo();
+        DatePicker();
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+
+        LoadCatGrid();
+        $('#cmbLoc').change(function () {
+            var loc  = $(this).val();
+            LoadItemGrid(loc);
+            InsertToGrid();
+        });
+       
+    });
+
+
+    function LocDatasource() {
+        var dataSource = new kendo.data.DataSource({
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/ItmMas/GetLocList")',
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    
+    function DatePicker() {
+        $("#Date").width(150).kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date(2009, 2, 31)
+        });
+    }
+    function CdMas_Datasource() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: decwed,
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+    function LoadCombo() {
+        $("#cmbLoc").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: LocDatasource('ItmCat7'),
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Location .."
+        });
+        $("#cmbLoc2").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: LocDatasource('ItmCat7'),
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Location .."
+        });
+        $("#cmbItmCat").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: CdMas_Datasource('ItmCat7'),
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Location .."
+        });
+        $("#cmbLoc").parent().css('width', "200px");
+        $("#cmbLoc2").parent().css('width', "200px");
+        //$("#cmbLoc").css('height', "200px");
+    }
+
+    function InsertToGrid(ConCd) {
+
+        $.ajax({
+            url: urlItemCount.GetLocCategory,
+            data: {
+                ConCd: ConCd
+            },
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $("#CatGrid").data("kendoGrid").dataSource.data(data);
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function LoadCatGrid() {
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        LiNo: { editable: false, nullable: false, type: "number" },
+                        CategoryKy: { editable: true, nullable: false, type: "number" },
+                    }
+                }
+            },
+        });
+        $("#CatGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            autobind: true,
+            navigatable: true,
+            //groupable : true,
+            scrollable: true,
+            pageSize: 10,
+            pageable: true,
+            selectable: "row",
+            resizable: true,
+            reorderable: true,
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                {
+                    field: "LiNo",
+                    title: "LiNo",
+                    width: "40px",
+                    attributes: { class: "ob-Center" }
+                },
+                {
+                    field: "CategoryCode",
+                    title: "Category Code",
+                    width: "100px",
+                },
+            ]
+        });
+    }
+
+    function ClearGriddetails() {
+        var grid = $("#ItemGrid").data("kendoGrid");
+        grid.dataSource.data([]);
+    }
+
+    //------------- Insert and Update Grid--------------
+    function Save(arg) {
+        var grid = $("#ItemGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+
+        var Date = document.getElementById("Date").value;
+        var YourRef = document.getElementById("YourRef").value;
+        var PrntLocKy = (!$("#cmbLoc").data("kendoComboBox").value()) ? 1 : $("#cmbLoc").data("kendoComboBox").value();
+
+        var newRecordsHdr = {
+            Date: Date,
+            YourRef: YourRef,
+            PrntLocKy: PrntLocKy,
+            LocKyList: LocKyList
+        }
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+
+        if (newRecords.length != 0 || updatedRecords.length != 0) {
+            $.ajax({
+                url: urlItemCount.InsertLocItm,
+                data: JSON.stringify({
+                    Updatedata: kendo.stringify(updatedRecords),
+                    NewData: kendo.stringify(newRecords),
+                    NewDataHdr: JSON.stringify(newRecordsHdr)
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    ClearGriddetails();
+                    if (arg == "button")
+                    alert("Successfully Saved..!");
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+</script>

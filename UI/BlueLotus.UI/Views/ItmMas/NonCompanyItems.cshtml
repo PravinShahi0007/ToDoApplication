@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "NonCompanyItems";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<head>
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+    </head>
+@* =============================================================================================== *@
+
+<body>
+
+        <div style="height:40px;" class="k-content clearfix " id="filterCont">
+            <button class="control-button add" onclick="insertItemforItmMas() " title="Add (Alt+N or NumberPad +)"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save (Ctrl+S)"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItemforItmMas()" title="Cancel (Esc)"></button>
+        </div>
+
+        <div id="NonCompanyItemsGrid"></div>
+
+    <div style="display: none">
+        @Html.Partial("~/Views/ItmMas/Popup/ItmMasSerNo.cshtml")
+    </div>
+
+</body>
+
+<script>
+    var URLReadGridView = '@Url.Action("GetAllNonCompanyItems", "ItmMas")';
+    var URLInsertUpdateNonCompanyItemGrid = '@Url.Action("InsertUpdateNonCompanyItems", "ItmMas")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var URLGetPrjTypKy = '@Url.Action("GetItmTypKy", "ItmMas")';
+    var URLUnitCmbLoad = '@Url.Action("GetUnit","ItmMas")';
+    var URLcat1CmbLoad = '@Url.Action("ItmCat1Nm","ItmMas")';
+    var URLcat2CmbLoad = '@Url.Action("ItmCat2Nm","ItmMas")';
+    var URLcat3CmbLoad = '@Url.Action("ItmCat3Nm","ItmMas")';
+    var URLcat4CmbLoad = '@Url.Action("ItmCat4Nm","ItmMas")';
+    var URLcat5CmbLoad = '@Url.Action("ItmCat5Nm","ItmMas")';
+    var URLcat6CmbLoad = '@Url.Action("ItmCat6Nm","ItmMas")';
+    var URLcat7CmbLoad = '@Url.Action("ItmCat7Nm","ItmMas")';
+    var URLcat8CmbLoad = '@Url.Action("ItmCat8Nm","ItmMas")';
+    var URLcat9CmbLoad = '@Url.Action("ItmCat9Nm","ItmMas")';
+    var URLcat10CmbLoad = '@Url.Action("ItmCat10Nm","ItmMas")';
+    var URLcat11CmbLoad = '@Url.Action("ItmCat11Nm","ItmMas")';
+    var URLcat12CmbLoad = '@Url.Action("ItmCat12Nm","ItmMas")';
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlItmMasSerNo_SelectWeb = '@Url.Action("ItmMasSerNo_SelectWeb", "ItmMas")';
+    var urlItmMasSerNo_InsertUpdate = '@Url.Action("ItmMasSerNo_InsertUpdate", "ItmMas")';
+
+
+</script>
+
+<link href="~/Src/Styles/HtnStyles/ItmDiscount/animation.css" rel="stylesheet" />
+<script src="~/Scripts/HtnScripts/ItmMas/NonCompanyItems.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>

@@ -1,0 +1,154 @@
+﻿
+
+<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+
+</style>
+
+<div id="FindFormPaymentShedule" style="display: none; font-size:11px;" class="no-margin row">
+
+    <!--============================================================================================================-->
+    <div id="filterCont">
+        <div class="row m-l--15">
+            <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+                <div id="ButtonSec2" class="col-lg-5 col-md-5"></div>
+            </div>
+        </div>
+
+        <div class="row m-t-10">
+            <!-- section 01 -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <!-- From -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_FromDate">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_FromDate_Lbl">From:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12  "><input id="HdrSec16_Dat_FF_FromDate_Val" placeholder="From Date" /></div> <!--FrmDt-->
+                </div>
+                <!-- /From -->
+                <!-- To -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_Todt">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_Todt_Lbl">To:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="HdrSec16_Dat_FF_Todt_Val" placeholder="To Date" /></div>
+                </div>
+                <!-- /To -->
+
+
+                <!-- ApproveStatus -->
+                @*<div class="row form-inline form-group" id="HdrSec16_Cmb_FF_AprStatesAction">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Cmb_FF_AprStatesAction_Lbl">ApproveStatus:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Status" id="HdrSec16_Cmb_FF_AprStatesAction_Val" class="width-100" /></div>
+                </div>*@
+                <!-- /ApproveStatus -->
+            </div>
+            <!-- section 02 -->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <!-- Trn No -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_TrnNo">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_TrnNo_Lbl">Trn No:</label></div>
+                    <div class="col-md-4 col-sm-8 col-xs-12 form-group"><input placeholder="Trn No" id="HdrSec16_Cmb_FF_TrnNo_Val" type="text" class="k-textbox width-100" /></div> <!-- id="TrnNo" -->
+                </div>
+                <!-- /Trn No -->
+                <!-- Account -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Acc">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Acc_Lbl"><span id="CrDrDetail">Account:</span> </label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 form-group"><input id="HdrSec16_Cmb_FF_Acc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100" /></div>
+                    @* <div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Acc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Account -->
+                 @*Address 
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_HdrAdr">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_HdrAdr_Lbl">Address:</label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Nm" data-cpypst-blsmartcpypaste="AdrNm" class="width-100" /></div>
+                </div>*@
+                <!-- /Address -->
+                <!-- Project -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Prj">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Prj_Lbl">Project:</label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 form-group"><input id="HdrSec16_Cmb_FF_Prj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Prj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Project -->
+                <!-- Bu -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_BU">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_BU_Lbl">Bu:</label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 form-group"><input id="HdrSec16_Cmb_FF_BU_Cd" data-cpypst-blsmartcpypaste="BUCd" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_BU_Nm" data-cpypst-blsmartcpypaste="BUNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Bu -->
+            </div>
+            <!-- section 03 -->
+            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsPrnt">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsPrnt_Lbl">Printed:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsPrnt_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsPrnt_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                        @*<input id="IsPrnt" name="IsPrnt" type="checkbox" />*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row m-l--15 m-b-sm-500">
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGridPayment"> </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var urlGetJournalFind = '@Url.Content("~/Journal/LoadGridFindView")';
+    var urlGetPrjCd = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetPrjNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlAccCd = '@Url.Content("~/Journal/Accdrop")';
+    var urlAccNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlSelectedGrid = '@Url.Content("~/Payment/GetGridDetail")';
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlHrdSelected = '@Url.Content("~/Payment/GetHdrDetail")';
+    var urlFindInvoice =
+        {
+            Code_SelectWeb: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+        };
+
+</script>
+<script src="~/Scripts/HtnScripts/PaymentShedule/PaymentsheduleFindForm.js"></script>

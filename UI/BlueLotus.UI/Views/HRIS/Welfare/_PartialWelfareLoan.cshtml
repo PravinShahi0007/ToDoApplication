@@ -1,0 +1,130 @@
+﻿<div>
+    <div class="col-md-4 col-sm-6">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>From Date:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-6 ">
+                        <input id="HdrSec1_DatPicWelfareLoanFromDate_Val" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>To Date:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-6 ">
+                        <input id="HdrSec1_DatPicWelfareLoanToDate_Val" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Borrowed Date:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-6 ">
+                        <input id="HdrSec1_DatPicWelfareLoanBorrowedDate_Val" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Loan Type:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <div id="cmbLoanType" data-cpypst-blsmartcpypaste="cmbLoanType"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Loan Amount:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Loan Amount" id="loanAmount" type="text" class="k-textbox" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Install Amount:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Install Amount" id="installAmount" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>No of Install:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="No of Install" id="noofInstall" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Inerest Rate:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Inerest Rate" id="inerestRate" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Interest Amount:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Interest Amount" id="interestAmount" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Total Payable:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Total Payable" id="totalPayable" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Pay Back Period:</label>
+                    </div>
+                    <div class="col-md-5 col-sm-8 ">
+                        <input placeholder="Pay Back Period" id="payBackPeriod" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.Partial("~/Views/HRISEmployee/Salary/BankDet_partial.cshtml")
+    </div>
+</div>
+
+<br style="clear:both" />
+<div>
+    <div id="WelfareLoanGrid">
+    </div>
+</div>

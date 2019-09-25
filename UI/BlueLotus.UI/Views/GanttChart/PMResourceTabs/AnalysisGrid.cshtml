@@ -1,0 +1,564 @@
+﻿<div id="ResourceAnalysisWin">
+    <div id="SelectionCritarea" style="margin-left: 5px;">
+        <div style="margin-top: 5px;">
+            @Html.Partial("~/Views/HtnShared/ItmTypCombo.cshtml")
+            <input style="width: 50px; height: 30px" id="btnloadAnal" type="button" value="Load" class="k-button" data-tooltip="Load" />
+            <input style="height: 30px" type="button" name="name" id="assignResrc" value="Assign" class="k-button" onclick="AssignResrcChild()" />
+            <input style="height: 30px" type="button" name="name" id="ItemCmpSave" value="Save" class="k-button" data-tooltip="Save" onclick="ItemCmpSave()" />
+            <input style="height: 30px" type="button" name="name" id="ItemCmpCancel" value="Cancel" class="k-button" data-tooltip="Cancel" onclick="ItemCmpCancel()" />
+
+            @*<input placeholder="Item Code ..." id="code" type="text" style="width: 100px; height: 30px" class="k-textbox" />
+            <input placeholder="Item Name ..." id="name" style="width: 200px; height: 30px" type="text" class="k-textbox" />*@
+        </div>
+    </div>
+    <div id="GridWin">
+        <div id="GridResWin" style="width:600px;">
+            <div id="gridForAloc" style="margin-top: 10px; height: 200px"></div>
+        </div>
+        <div id="GridAdrWin" style="width:1210px; height: 250px;">
+            <div id="AdrgridForAloc" style="margin-top:-253px; margin-left:630px; "></div>
+        </div>
+    </div>
+    <div id="Grid2Win">
+        <div id="grid2" style="margin-top: 10px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var AnalytempPrjKy;
+    var AnalytempPrcsDetKy;
+    var AnalytempPrcsSchDetKy;
+    var AnalytempTaskId;
+    var AnalytempTaskNm;
+
+    $(document).ready(function () {
+
+        var h = $("#Option").height();
+        var height = ($(window).height()) - (112 + h);
+        $("#grid1").height(height);
+
+        //$("#ItmCmpnKy").hide();
+        //$("#FinItmKy").hide();
+        $("#GridWin").hide();
+        $("#Grid2Win").show();
+
+        LoadGridForResAloc();
+        LoadAdrGridForResAloc();
+
+        $("#Win").show();
+
+        //$("#FinQty").kendoNumericTextBox({
+        //    min: 0,
+        //});
+    });
+
+    function loadAnalyzisResrsTab(tempPrjKy, selectedRowData) {
+        AnalytempPrjKy = tempPrjKy;
+        AnalytempPrcsDetKy = selectedRowData.PrcsDetKy;
+        AnalytempTaskId = selectedRowData.PrcsID;
+        AnalytempTaskNm = selectedRowData.Name;
+        AnalytempPrcsSchDetKy = 1;
+
+        //Clear loaded data and load again
+        try {
+            $('#grid2').data().kendoGrid.destroy();
+            $('#grid2').empty();
+        } catch (e) { }
+
+        Load(tempPrjKy, selectedRowData.PrcsDetKy);
+    }
+
+    $("#btnloadAnal").click(function () {
+        $("#GridWin").show();
+
+        $('#gridForAloc').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#gridForAloc").data("kendoGrid");
+        grid.dataSource.data([]);
+
+        $('#AdrgridForAloc').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#AdrgridForAloc").data("kendoGrid");
+        grid.dataSource.data([]);
+
+        LoadGridView1();
+        LoadAdrGridForResAloc();
+    });
+
+    function ItemCmpCancel() {
+        //$("#code").val("");
+        //$("#name").val("");
+        $("#cmbItmTypCd").data("kendoComboBox").value("");
+
+        $('#grid2').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#grid2").data("kendoGrid");
+        grid.dataSource.data([]);
+
+        $('#gridForAloc').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#gridForAloc").data("kendoGrid");
+        grid.dataSource.data([]);
+
+        $('#AdrgridForAloc').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#AdrgridForAloc").data("kendoGrid");
+        grid.dataSource.data([]);
+        LoadGridView1();
+    }
+
+    function LoadGridView1() {
+
+        var PrjKy = AnalytempPrjKy;//$("#PrjKy").val();
+        var PrcsDetKy = AnalytempPrcsDetKy;//$("#PrcsDetKy").val();
+
+        $.ajax({
+            url: '@Url.Action("ResourceForTaskAloc_SelectToDo", "PMResource")',
+            data: JSON.stringify({
+                PrjKy: PrjKy, PrcsDetKy: PrcsDetKy, PrcsDetCmpnKy: 1,
+                ItmCd: "", //($("#code").val()) ? $("#code").val() : "",
+                ItmNm: "", //($("#name").val()) ? $("#name").val() : "",
+                ItmTypKy: ($("#cmbItmTypCd").data("kendoComboBox").value()) ? $("#cmbItmTypCd").data("kendoComboBox").value() : 1,
+                ItmCat1Ky: 1, ItmCat2Ky: 1, ItmCat3Ky: 1, ItmCat4Ky: 1, ItmCat5Ky: 1, ItmCat6Ky: 1
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $('#gridForAloc').data("kendoGrid").dataSource.filter(null);
+                var grid = $("#gridForAloc").data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+                    $("#gridForAloc").data("kendoGrid").dataSource.add({
+                        ItmKy: data[i].ItmKy,
+                        ResCd: data[i].ResCd,
+                        ResNm: data[i].ResNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+                        ItmTypCd: data[i].ItmTypCd,
+                    });
+                    // LoadGridForResAloc();
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    var url_PMResource_DeleteDataChanges = '@Url.Content("~/PMResource/DeleteDataChanges")';
+
+    function DeleteData() {
+        var gview = $("#grid2").data("kendoGrid");
+        var dataItem = gview.dataItem(gview.select());
+        var deleteItem = dataItem.PrcsDetCmpnKy;
+        gview.dataSource.remove(dataItem);
+
+        if (deleteItem != undefined && deleteItem != null && deleteItem != "") {
+            $.ajax({
+                url: url_PMResource_DeleteDataChanges, //"/PMResource/DeleteDataChanges",
+                data: {
+                    PrcsDetCmpnKy: kendo.stringify(deleteItem),
+                },
+                type: "POST",
+                error: function () {
+                    //Handle the server errors using the approach from the previous example
+                },
+                success: function () {
+                    alert("Delete Successfully");
+                    gview.dataSource.read();
+                    $('#grid2').data('kendoGrid').refresh();
+                }
+            })
+        }
+        $("#GridWin").show();
+    }
+
+    $("#Grid2Win").delegate("tbody>tr", "dblclick", function () {
+        var status = confirm("Delete the seleceted data...!");
+        if (status == true) {
+            DeleteData();
+        } else {
+        }
+    });
+
+    function AssignResrcChild() {
+
+        $("#Grid2Win").show();
+        var PrjKy = AnalytempPrjKy; //$("#PrjKy").val();
+        var PrcsDetKy = AnalytempPrcsDetKy;//$("#PrcsDetKy").val();
+        var PrcsSchDetKy = AnalytempPrcsSchDetKy;//$("#PrcsSchDetKy").val();
+        var TaskId = AnalytempTaskId;//$("#TaskId").val();
+        var TaskNm = AnalytempTaskNm;//$("#TaskNm").val();
+
+        try {
+            //  
+            var parent = $("#gridForAloc").data("kendoGrid");
+            var child = $("#grid2").data("kendoGrid");
+
+            var selectedDataItem = parent.dataItem(parent.select());
+
+            var Adrparent = $("#AdrgridForAloc").data("kendoGrid");
+            // var selectedAdrDataItem = Adrparent.dataItem(Adrparent.select());
+            var gridDatasource = Adrparent.dataSource.data();
+            if (gridDatasource.length > 0) {
+                var selectedAdrDataItem = Adrparent.dataItem(Adrparent.select());
+                child.dataSource.add({
+                    PrcsDetKy: PrcsDetKy,
+                    PrcsSchDetKy: PrcsSchDetKy,
+                    PrjKy: PrjKy,
+                    TaskID: TaskId,
+                    TaskNm: TaskNm,
+                    ItmKy: selectedAdrDataItem.ItmKy,
+                    AdrKy: selectedAdrDataItem.AdrKy,
+                    ResCd: selectedAdrDataItem.AdrID,
+                    ResNm: selectedAdrDataItem.AdrNm,
+                    Unit: selectedAdrDataItem.Unit,
+                    UnitKy: selectedAdrDataItem.UnitKy
+                });
+            } else {
+                child.dataSource.add({
+                    PrcsDetKy: PrcsDetKy,
+                    PrcsSchDetKy: PrcsSchDetKy,
+                    PrjKy: PrjKy,
+                    TaskID: TaskId,
+                    TaskNm: TaskNm,
+                    ItmKy: selectedDataItem.ItmKy,
+                    AdrKy: 1,
+                    ResCd: selectedDataItem.ResCd,
+                    ResNm: selectedDataItem.ResNm,
+                    Unit: selectedDataItem.Unit,
+                    UnitKy: selectedDataItem.UnitKy
+                });
+            }
+        } catch (exception) {
+            alert("Select Resource Detail Level ... !")
+        }
+    }
+
+
+    var url_ItmMas_InsertPrcsItemComponent = '@Url.Content("~/ItmMas/InsertPrcsItemComponent")';
+
+    function ItemCmpSave() {
+
+        //var gridData = $("#grid2").data().kendoGrid.dataSource.view();
+        var grid = $("#grid2").data("kendoGrid");
+
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                //this record is new
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        //this records are deleted
+        var deletedRecords = [];
+        for (var i = 0; i < grid.dataSource._destroyed.length; i++) {
+            deletedRecords.push(grid.dataSource._destroyed[i].toJSON());
+        }
+
+        $.ajax({
+            url: url_ItmMas_InsertPrcsItemComponent, //"/PMResource/sendDataSaveChanges",
+            data: {
+                updatedOrders: kendo.stringify(updatedRecords), deletedOrders: kendo.stringify(deletedRecords), newOrders: kendo.stringify(newRecords),
+            },
+            type: "POST",
+            error: function () {
+                //Handle the server errors using the approach from the previous example
+            },
+            success: function () {
+                alert("Saved Successfully");
+                grid.dataSource._destroyed = [];
+                //refresh the grid - optional
+                grid.dataSource.read();
+
+                //try {
+                //    $('#grid2').data().kendoGrid.destroy();
+                //    $('#grid2').empty();
+                //} catch (e) { }
+
+                //Load(AnalytempPrjKy, AnalytempPrcsDetKy);
+            }
+        })
+        //ItemCmpCancel();
+    }
+
+    function Load(tempPrjKy, PrcsDetKy) {
+
+        var gridBOQComponents_SelectWeb = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    //data: { BOQDetKy: BOQDetKy },
+                    //url: urlBOQComponents_SelectWeb, //'/PMResource/TaskResourceDetails_Select',
+                    data: { PrjKy: tempPrjKy, PrcsDetKy: PrcsDetKy },
+                    url: "@Url.Content("~/GanttChart/ProjectResourceDetails_SelectToDo")", //urlProjectResourceDetails_Select
+                    dataType: "json"
+                }
+            },
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "PrcsDetCmpnKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        PrcsDetCmpnKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        PrcsSchDetKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        PrcsDetKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        PrjKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        TaskID: { editable: false, nullable: false, validation: { required: true }, type: "string" },
+                        TaskNm: { editable: false, nullable: false, validation: { required: true }, validation: { required: true }, type: "string" },
+                        ResCd: { editable: false, nullable: true, type: "string" },
+                        ResNm: { editable: false, nullable: true, type: "string" },
+                        ReqQty: { editable: true, nullable: true, type: "number" },
+                        Unit: { editable: false, nullable: true, type: "string" },
+                        UnitKy: { editable: true, nullable: true, type: "number" },
+                        Rate: { editable: true, nullable: true, type: "number" },
+                    }
+                }
+            }
+        });
+
+        $("#grid2").kendoGrid({
+            dataSource: gridBOQComponents_SelectWeb,
+            navigatable: true,
+            height: 250,
+            pageable: true,
+            selectable: "row",
+            resizable: true,
+            columns: [{ field: "PrcsDetCmpnKy", hidden: true },
+                     { field: "PrcsSchDetKy", hidden: true },
+                     { field: "PrcsDetKy", hidden: true },
+                     { field: "PrjKy", hidden: true },
+                     { field: "TaskID", width: "120px" },
+                     { field: "TaskNm", width: '250px' },
+                     { field: "ItmKy", hidden: true },
+                     { field: "AdrKy", hidden: true },
+                     { field: "ResCd", width: "120px" },
+                     { field: "ResNm", width: "250px" },
+                     { field: "ReqQty", width: "100px", format: "{0:N2}" },
+                     { field: "Unit", width: "100px", format: "{0:N2}" },
+                     { field: "UnitKy", title: "UnitKy", hidden: true },
+                     { field: "Rate", width: "120px", format: "{0:N2}" },
+            ],
+            editable: true
+        });
+    }
+
+    $("#cmbItmTypCd").change(function () {
+        changeAdrGird();
+    })
+
+    function changeAdrGird() {
+        var gridData = $("#AdrgridForAloc").data().kendoGrid.dataSource.view();
+        if (gridData.length > 0) {
+            $('#AdrgridForAloc').data("kendoGrid").dataSource.filter(null);
+            var grid = $("#AdrgridForAloc").data("kendoGrid");
+            grid.dataSource.data([]);
+        }
+    }
+
+    function LoadHdr() {
+        //$("#ItmCmpnKy").val(null);
+        //$("#FinItmKy").val(null);
+        //$("#FinQty").val(null);
+        $.ajax({
+            url: '@Url.Action("ItmCompnHdr_Select", "ItmMas")',
+
+            dataType: "Json",
+            type: "POST",
+            success: function (result) {
+
+                for (i = 0; i < result.length; i++) {
+                    var ItmCmpnKy = result[0].ItmCmpnKy;
+                    var FinItmKy = result[0].FinItmKy;
+                    var FinQty = result[0].FinQty;
+                    var ItmCmpnDes = result[0].ItmCmpnDes;
+                    var EftvDt = result[0].EftvDt;
+                    //$("#ItmCmpnKy").val(ItmCmpnKy);
+                    //$("#FinItmKy").val(FinItmKy);
+                    //$("#FinQty").val(FinQty);
+                }
+                LoadGridView1();
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
+
+    function LoadAdrGridForResAloc() {
+
+        $("#AdrgridForAloc").kendoGrid({
+            dataSource: null,
+            autobind: true,
+            height: 250,
+            navigatable: true,
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columnMenu: true,
+            filterable: true,
+            editable: false,
+            columns: [
+                    { field: "AdrKy", title: "Ref #", width: "50px", hidden: false },
+                    { field: "ItmKy", title: "Ref #", width: "30px", hidden: true },
+                    { field: "AdrID", width: "30px" },
+                    { field: "AdrNm", width: "175px" },
+                    { field: "Unit", width: "25px", format: "{0:N2}" },
+                    { field: "UnitKy", width: "30px", hidden: true },
+            ],
+            resizable: true,
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            //dataBound: function () {}
+        });
+        //  createFilterRow();
+    }
+
+    $("#gridForAloc").delegate("tbody>tr", "dblclick", function () {
+        var gview = $("#gridForAloc").data("kendoGrid");
+        var selectedItem = gview.dataItem(gview.select());
+        $.ajax({
+            url: '@Url.Action("GetAdrByItmKyForTodo", "PMResource")',
+            data: { ItmKy: selectedItem.ItmKy },
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $('#AdrgridForAloc').data("kendoGrid").dataSource.filter(null);
+                var grid = $("#AdrgridForAloc").data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+                    $("#AdrgridForAloc").data("kendoGrid").dataSource.add({
+                        ItmKy: selectedItem.ItmKy,
+                        AdrKy: data[i].AdrKy,
+                        AdrID: data[i].AdrID,
+                        AdrNm: data[i].AdrNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+
+                    });
+                    // LoadGridForResAloc();
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+
+    });
+
+    function LoadGridForResAloc() {
+
+        $("#gridForAloc").kendoGrid({
+            dataSource: null,
+            autobind: true,
+            height: 250,
+            columnHide: createFilterRow,
+            columnShow: createFilterRow,
+            navigatable: true,
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columnMenu: false,
+            filterable: false,
+            editable: false,
+            columns: [
+                    { field: "ItmKy", title: "Ref #", width: "30px", hidden: true },
+                    { field: "ResCd", width: "30px" },
+                    { field: "ResNm", width: "175px" },
+                    { field: "Unit", width: "25px", format: "{0:N2}" },
+                    { field: "UnitKy", width: "30px", hidden: true },
+                    { field: "ItmTypCd", width: "60px" },
+            ],
+            resizable: true,
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            //dataBound: function () {}
+        });
+        createFilterRow();
+    }
+
+
+    $(document.body).keydown(function (e) {
+        if (e.keyCode == 27) {
+            e.preventDefault();
+            ItemCmpSave();
+        }
+    });
+
+
+    function createFilterRow() {
+        var grid = $('#gridForAloc').data('kendoGrid');
+
+        var oldRow = grid.thead.find("#gridForAloc-filter-row");
+        var th;
+
+        if (typeof oldRow === 'object') {
+            th = oldRow.find('th');
+            oldRow.remove();
+        }
+
+        var filterRow = "<tr id='grid-filter-row'>";
+
+        for (var i = 0; i < grid.dataSource.group().length; i++) {
+            filterRow += '<th class="k-group-cell k-header">&nbsp;</th>';
+        }
+        for (var i = 0; i < th.length; i++) {
+            filterRow += th[i].outerHTML;
+        }
+        for (var i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden)
+                filterRow += '<td><input type=\'search\' id=\'gridId-filter-column-' + grid.columns[i].field + '\' style=\'width:98%\' /></td>';
+        }
+        filterRow += '</tr>';
+        grid.thead.append(filterRow);
+
+        var searchField;
+        for (i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden) {
+                searchField = $('#gridId-filter-column-' + grid.columns[i].field);
+                searchField.change({ index: i }, function (e) {
+                    var grid = $('#gridForAloc').data('kendoGrid');
+                    updateSearchFilters(grid, grid.columns[e.data.index].field, 'contains', this.value);
+                });
+            }
+        }
+    }
+
+    function updateSearchFilters(grid, field, operator, value) {
+        var newFilter = { field: field, operator: operator, value: value };
+        var dataSource = grid.dataSource;
+        var filters = null;
+        if (dataSource.filter() != null) {
+            filters = dataSource.filter().filters;
+        }
+        if (filters == null) {
+            filters = [newFilter];
+        }
+        else {
+            var isNew = true;
+            var index = 0;
+            for (index = 0; index < filters.length; index++) {
+                if (filters[index].field == field) {
+                    isNew = false;
+                    break;
+                }
+            }
+            if (isNew) {
+                filters.push(newFilter);
+            }
+            else {
+                //alert(value);
+                if (value == '')
+                    filters.splice(index, 1);
+                    //delete filters[index];
+                else
+                    filters[index] = newFilter;
+            }
+        }
+        dataSource.filter(filters);
+    }
+</script>

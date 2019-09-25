@@ -1,0 +1,21 @@
+﻿<div id="cmbItmCat2CdAnlTab2"></div>
+
+<script>
+    $(document).ready(function () {
+        LoadItmCat2ComboAnlTab2();
+    });
+    
+    function LoadItmCat2ComboAnlTab2() {
+        $("#cmbItmCat2CdAnlTab2").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: CdMasLookUp('ItmCat2'),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Item Cat2 Code ..."
+        });
+        $("#cmbItmCat2CdAnlTab2").parent().css('width', "150px");
+    }
+
+</script>

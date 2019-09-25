@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+
+        </div>
+        <div id="">
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/EmpGetDet.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+            </div>
+            @*<div>
+                @Html.Partial("~/Views/HRISEmployee/AdrMasDetEntry.cshtml")
+            </div>*@
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Address:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Address" id="Address" type="text" class="k-textbox" />
+                                <input placeholder="Address" id="HiddenAddress" type="hidden" disabled class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Current Address:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Current Address" id="CurrentAddress" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>District:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbDistrict" data-cpypst-blsmartcpypaste="cmbDistrict"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Electorate:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbElectorate" data-cpypst-blsmartcpypaste="cmbElectorate"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Province:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbProvince" data-cpypst-blsmartcpypaste="cmbProvince"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Mobile:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Mobile" id="mobile" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Telephone:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Telephone" id="telephone" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Email:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Email" id="email" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Office Telephone:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Telephone" id="OfficeTelephone" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Office Email:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Email" id="OfficeEmail" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <h5>Emergency Contact</h5>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Name:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Name" id="EmrContactName" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Relationship:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbRelationship" data-cpypst-blsmartcpypaste="cmbRelationship"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Address:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Address" id="emrConAddress" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Telephone:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Telephone" id="emrConTelephone" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+        <br style="clear:both" />
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="ContactDetailGrid">
+
+        </div>
+
+    </div>
+</div>
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertContactHdr")';
+
+    var UrlGetEmpContactDet = '@Url.Content("~/HRISEmployee/GetEmpContactDet")';
+
+</script>
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/Contact.js"></script>
+

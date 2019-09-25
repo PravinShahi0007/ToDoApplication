@@ -1,0 +1,23 @@
+
+<script>
+    var urlSetAlertStatus = '@Url.Content("~/Alert/SetAlertStatus")';
+</script>
+
+<div id="SMS_DemoDiv" style="display: none">
+    <center>
+        <div class="col-md-4" style="background-color:lavenderblush;">
+            <label class="k-label" style="font-size:small">Phone Number</label>
+        </div>
+        <div class="col-md-4" style="background-color:lavender;">
+            <input id="MobNo" type="text" class=" k-textbox" name="MobNo" />
+        </div>
+        <div class="col-md-4" style="background-color:lavenderblush;">
+            <label class="k-label" style="font-size:small">Message</label>
+        </div>
+        <div class="col-md-4" style="background-color:lavender;">
+            <input id="MsgLn" type="text" class=" k-textbox" name="MsgLn" />
+        </div>
+            <button type="button" class=" k-button" id="btnSendSMS" title="Send Test SMS" onclick="SendSampleSMS()">Send Test SMS</button>
+    </center>
+</div>
+

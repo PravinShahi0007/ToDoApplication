@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Leave Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div>
+            @Html.Partial("~/Views/HRIS/EmpHdr.cshtml")
+        </div>
+    </div>
+    <div>
+        <div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>From Date<label style="color:red;">*</label>:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="From Date" id="LeaveFromDate" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>To Date<label style="color:red;">*</label>:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="To Date" id="LeaveToDate" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Leave Type<label style="color:red;">*</label>:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbLeaveType" data-cpypst-blsmartcpypaste="cmbLeaveType"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Elagible:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Elagible" id="LeaveElagible" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Taken:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Taken" id="LeaveTaken" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div id="LeaveInfoGrid">
+        </div>
+    </div>
+</div>
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+    var urlHRISGetBnkMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetBnkMas_LookupWeb")';
+
+    var UrlInsert = {
+        BasicDet: '@Url.Content("~/HRIS/InsertBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/InsertContactDet")',
+        InsertDet: '@Url.Content("~/HRIS/InsertDet")',
+        InsertLeaveDet: '@Url.Content("~/HRIS/InsertLeaveDet")'
+    }
+    var UrlGet = {
+        BasicDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/GetBasicDet")'
+    }
+    var UrlDelete = {
+        DeleteLeaveDet: '@Url.Content("~/HRIS/DeleteLeaveDet")'
+    }
+
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertHdr")';
+    var UrlGetEmpPersonalDet = '@Url.Content("~/HRISEmployee/GetEmpPersonalDet")';
+
+    var UrlGetEmpContactDet = '@Url.Content("~/HRISEmployee/GetEmpContactDet")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HRIS/Leave/LeaveDet.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/Leave/LoadGrid.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/Leave/SaveFuction.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        disableEmpJobDet();
+    });
+
+</script>

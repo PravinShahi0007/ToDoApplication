@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "BOQExcelImport";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+}
+
+<h2>BOQExcelImport</h2>
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+
+<div id="BOQExcelImport">
+    <input type="file" id="excelfiles" name="file" />
+    <br />
+    <br />
+    <br />
+    <button title="Import" class="k-button" id="excelImport">
+        Import
+    </button>
+</div>
+
+<script>
+
+    $("#excelImport").click(function () {
+        var files = document.getElementById('excelfiles').files;
+        if (!files.length) {
+            alert('Please select a file!');
+            return;
+        }
+        var file = files[0];
+        var reader = new FileReader();
+        reader.onloadend = function (evt) {
+            
+            if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                var txt = evt.target.result;
+                var parser = new DOMParser();                
+                var xml = parser.parseFromString(txt, "text/xml");
+                initExcel(xml);
+            }
+        };
+
+        var blob = file.slice(0, file.size);
+        reader.readAsText(file);
+    });
+
+    function initExcel(xml) {
+
+        OPENLodingCommon('Please Wait While We are Importing...');
+      
+        var GetJsonDataFromXml = $.xml2json(xml);
+
+        var newObjAfterRemoveNodes = delete_null_properties(GetJsonDataFromXml, true);
+
+        var GetStringDataFromJson = JSON.stringify(GetJsonDataFromXml);
+
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: {
+
+                MSImportStringData: GetStringDataFromJson
+            },
+            url: '@Url.Content("~/ItmPrfl/BOQExcelImportJsonData")',
+            converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+            success: function (data) {
+                if (data) {
+                    CLOSELoadingCommon();
+                    alert("Import Successfull");
+                }
+                else {
+                    CLOSELoadingCommon();
+                    alert("Import Failed");
+                }
+            },
+            error: function (e) {
+                CLOSELoadingCommon();
+                alert("Import Failed");
+            }
+        });
+
+    }
+
+    function delete_null_properties(test, recurse) {
+        for (var i in test) {
+            if (test[i] === null || test[i] === "") {
+                delete test[i];
+            } else if (recurse && typeof test[i] === 'object') {
+                delete_null_properties(test[i], recurse);
+            }
+        }
+    }
+
+</script>
+
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/Json2Xml.js"></script>
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery.xml2json.js"></script>

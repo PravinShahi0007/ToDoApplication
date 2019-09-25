@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Item Discount - Sales";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+
+<head>
+    @*<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />*@
+    <link href="~/Src/Styles/HtnStyles/ItmDiscount/animation.css" rel="stylesheet" type="text/css" />
+   
+</head>
+<div>
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+        <div style="height:40px; margin-left:10px;" class="k-content clearfix" id="filterCont">
+            <button class="control-button load" id="btnLoadItem" title="Load"> </button>
+            @*<button class="control-button add" onclick="insertItemforItmDiscount() " title="Add (Alt+N or NumberPad +)"> </button>*@
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save (Ctrl+S)"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItemforItmDiscount()" title="Cancel (Esc)"></button>
+        </div>
+        <hr style="margin-top :50px;">
+    </div>
+
+    <div id="SearchWin1"class="width-100">
+        
+        <div id="HdrSec1" class="Header">            
+            <div id="HdrSec1_CmbItmPriCat" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbItmPriCat_Lbl">Item Price Cat: </label>
+                <div id="HdrSec1_CmbItmPriCat_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbAdrTyp" style="display: inline-block;">
+                <label id="HdrSec1_CmbAdrTyp_Lbl">Address Price Cat:</label>
+                <div id="HdrSec1_CmbAdrTyp_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbPmtTrm" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbPmtTrm_Lbl">Payment Term: </label>
+                <div id="HdrSec1_CmbPmtTrm_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbPmtMode" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbPmtMode_Lbl">Payment Mode: </label>
+                <div id="HdrSec1_CmbPmtMode_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbAdr" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbAdr_Lbl">Address: </label>
+                <div id="HdrSec1_CmbAdr_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_EftvDt" style="display: inline-block;">
+                <label id="HdrSec1_EftvDt_Lbl">Effective Date</label>
+                <input id="EftvDt"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: EftvDt" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="col-lg-12">
+    <div id="ItemDiscountGrid"></div>
+</div>
+@* ************************************************************************************************* *@
+
+<script>
+
+    var urlCodes = {
+        CdMas_LookupWebByConCd: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+    };
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)'
+    };
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        TrnTyp_Load: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        AdrCatKy_SelectMob: '@Url.Content("~/ComboLoad/CdMas_Lookup")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        TrnTypKy_SelectMob: '@Url.Content("~/ComboLoad/TrnTypKy_SelectMob")'
+    }
+
+    var URLLoadItemDiscountGrid = '@Url.Content("~/ItemDiscount/ItemsAD_SelectWeb")';
+    var URLInsertUpdateItemDiscountGrid = '@Url.Content("~/ItemDiscount/ItemsAD_InsertandUpdate")';
+    
+
+    var GetCdKyByConCdAndOurCd = '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+<script src="~/Scripts/HtnScripts/ItemDiscount/ItemDiscount_Sale_Script.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

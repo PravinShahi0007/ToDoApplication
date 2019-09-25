@@ -1,0 +1,25 @@
+﻿<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+<input  id="OptPopAdrKy"  type="hidden" />
+<div id="AdrTypEntryForm" style="display: none">
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" data-tooltip="Save" onclick="SaveOptionalTypes()"></button>
+            <button class="control-button cancel" data-tooltip="Close" onclick="onClose()"></button>
+        </div>
+    </div>
+    <div id="AdrTypEntryGrid" style="margin-bottom: 20px; margin-left: 100px; margin-right: 100px; margin-top: 25px; height: 200px;">
+    </div>
+
+</div>
+
+<script>
+    var urlGetOptAdres = '@Url.Content("~/AddressEntry/CurrentAdrTyps")';
+    var urlInsertOptAdres = '@Url.Content("~/AddressEntry/InsertOptAdrTyp")';
+
+</script>
+<script src="~/Scripts/HtnScripts/AddressMass/OptionalAddress.js"></script>
+
+    
+    
+    
+   

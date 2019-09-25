@@ -1,0 +1,80 @@
+﻿<div id="FindFormAdvRqst" style="display: none">
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-6 control-icons" id="ButtonSet">
+            <button class="control-button preview" onclick="Search()" data-tooltip="preview"> </button>
+            <button class="control-button selected" onclick="selected()" data-tooltip="select"> </button>
+            <button class="control-button back" onclick="back()" data-tooltip="back"> </button>
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-12 col-sm-12">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date From:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="FrmDt"/>
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date To:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="ToDt"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>TrnNo:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox"/>
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>DocNo:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input placeholder="Doc No" id="DocumentNo" type="text" class="k-textbox"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <label>Is Recurrence:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-3 ">
+                                <input id="IsRec" name="IsRec" type="checkbox"/>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <label>Is Printed:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-3 ">
+                                <input id="IsPrnt" name="IsPrnt" type="checkbox"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br style="clear: both"/>
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGrid">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var urlGetJournalFind = '@Url.Content("~/Journal/LoadGridFindView")';
+    var urlGetPrjCd = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetPrjNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlAccCd = '@Url.Content("~/Journal/Accdrop")';
+    var urlAccNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlSelectedGrid = '@Url.Content("~/Payment/GetGridDetail")';
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlHrdSelected = '@Url.Content("~/Payment/GetHdrDetail")';
+</script>
+<script src="~/Scripts/HtnScripts/AdvancePaymentRequest/AdvancePaymentRequestFind.js"></script>

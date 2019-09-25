@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+@*<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+<div>
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+        <div style="margin-left:10px;">
+            <div>
+                <button class="control-button add" onclick="AddFunction()" data-tooltip="Add"> </button>
+                <button class="control-button save" onclick="SaveFunction()" data-tooltip="Save"> </button>
+                <button class="control-button cancel" onclick="CancelFunction()" data-tooltip="Cancel"> </button>
+            </div>
+        </div>
+        <div id="SearchWin1" style="margin-top:10px;margin-left:40px; height:40px; width:90%">
+
+            <label style="margin-left:15px;margin-top:5px;">Select Base Unit: </label>
+            <div id="HdrSec1_CmbUnit"></div>
+            @*<div id="HdrSec1" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbItmTyp_Lbl">Select Base Unit: </label>
+                <div id="HdrSec1_CmbUnit"></div>
+            </div>*@
+        </div>
+
+    </div>
+    </div>
+
+<div>
+
+    <div id="GridWin">
+        <div style="margin-left:10px;margin-right:10px;margin-bottom:10px; margin-top:40px;">
+            <div id="UnitMasGrid"></div>
+        </div>
+    </div>
+    @*<div>
+        <div id="UnitMasGrid"></div>
+    </div>*@
+</div>
+
+
+<div>
+    @Html.Partial("~/Views/ItmMas/ItmMas_ItmNm_SS_Web.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<script>
+    var urlUnitMasEntry = {
+        LoadCombo: '@Url.Content("~/UnitMasEntry/BaseUnit_Select")',
+        SaveUnitMasEntry: '@Url.Content("~/UnitMasEntry/SaveUnitMasEntry")',
+        LoadUnitMasEntry: '@Url.Content("~/UnitMasEntry/UnitMas_SelectWeb")',
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/UnitMasEntry/UnitMasEntry.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+

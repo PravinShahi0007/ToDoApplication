@@ -1,0 +1,1277 @@
+﻿@{
+    ViewBag.Title = "System_Users";
+    Layout = "~/Views/Shared/_LayOutWithOldKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+}
+
+
+<head>
+    @*<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />*@
+
+    <style>
+        .k-notification {
+                    background: #1b6fd7;
+                    color: #1b6fd7;
+                }
+    </style>
+
+</head>
+
+<!DOCTYPE html>
+
+<div style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px;">
+    <span id="popupNotification"></span>
+
+    <div style="height:30px;" class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12" id="ButtonSet" style="margin-top:-7px;">
+            <button class="control-button save" id="btnSave_permissions" onclick="Save()" title="Save" data-tooltip="Save"></button>
+        </div>
+    </div>
+
+    <div id="example">
+        <div style="margin-left:0px;" class="col-md-12">
+
+
+            <div style="margin-left:-20px;margin-top:10px; width:1000px; display: inline-block;">
+
+                <div style="display: inline-block;">
+                    <label style="margin-left:10px;margin-top:5px;">User ID:</label>
+                    <input id="userid" readonly="readonly" type="text" style="width:150px;margin-left:10px;" class="k-textbox" /><input id="userky" type="text" hidden="hidden" style="width: 150px; margin-left: 36px; display: none;" class="k-textbox" />
+                </div>
+
+                <div style="display: inline-block;">
+                    <label style="margin-left:10px;margin-top:5px;">User Name:</label>
+                    <input id="username" type="text" readonly="readonly" style="width:150px;margin-left:10px;" class="k-textbox" />
+                </div>
+
+                <div style="display: inline-block;">
+                    <input id="tmpbuky" type="hidden" style="width: 150px; margin-left: 2px;" class="k-textbox" />
+                </div>
+                @*<div style="display: inline-block;">
+                    <label style="margin-left:10px;">Business Unit:</label>
+                    <div id="cmb_bu" style="width:150px;"></div><br />
+                </div>*@
+
+                <div style="display: inline-block;">
+                    <label style="margin-left:10px;">Active:</label>
+                    <input type="checkbox" id="isactive" style="margin-left:10px;" name="checked" value="checked">
+                </div>
+
+
+            </div>
+
+        </div>
+        <br />
+        <div style="margin-top:40px;">
+            @*<div id="Caption" style="margin-left:40px; margin-top:10px; display:none"><h4>Permissions</h4></div>*@
+            @*<div id="msg" style="width:600px; margin-left:40%; margin-top:150px;"><h2>Please Press</h2><h1>Ctrl + F</h1><h3>To Find User</h3></div>*@
+        </div>
+
+        <br style="clear: both" />
+        <div id="tabstrip" style="display:none">
+            <ul>
+                <li id="HdrSec2_Tab1">User Menu Permission</li>
+                <li id="HdrSec2_Tab2" style="display:none">User Access Level Permission</li>
+                <li id="HdrSec2_Tab3">Clone User Permission </li>
+                @*<li id="HdrSec2_Tab4">Company Wise Multi-Approval</li>
+                <li id="HdrSec2_Tab5">User Wise Multi-Approval</li>*@
+                
+            </ul>
+
+            <div>
+                <div id="object_permissions" style="width:90%; margin-left:40px;"></div>
+                @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+            </div>
+            
+            <div>
+                <div id="AcsLvlGrid" style="margin-left:90px;margin-right:90px;"></div>
+                @*<div style="width:100%" id="MainDiv_ItmMasCmpnPartialForParentDiv">
+                    @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+                </div>*@
+            </div>
+            <div>
+                <div id="HdrSec2_Tab3_CmbFrmUsr">
+                    <div class="col-md-2 col-sm-6">
+                        <label id="HdrSec2_Tab3_CmbFrmUsr_Lbl">From User: </label>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div id="HdrSec2_Tab3_CmbFrmUsr_Cd" style="width:100%;"></div>
+                    </div>
+                </div> 
+                <div id="HdrSec2_Tab3_CmbToUsr">
+                    <div class="col-md-2 col-sm-6">
+                        <label id="HdrSec2_Tab3_CmbToUsr_Lbl">To User: </label>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <div id="HdrSec2_Tab3_CmbToUsr_Cd" style="width:100%;"></div>
+                    </div>
+                </div>   
+        </div>            
+
+            <div>
+                <div id="Company_MultiAprGrid" style="width:90%; margin-left:40px;"></div>
+                @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+            </div>
+
+            <div>
+                <div id="User_MultiAprGrid" style="width:90%; margin-left:40px;"></div>
+                @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+            </div>
+
+        @*<div id="object_permissions" style="width:90%; margin-left:40px;"></div>*@
+
+
+    </div>
+
+</div>
+    </div>
+<script>
+    var GlblUsrKy = 1;
+    $(document).ready(function () {
+        findUser();
+        document.getElementById("userid").value = "";
+        document.getElementById("username").value = "";
+        Load_BU();
+        //  int UsrKy = Convert.ToInt32(Session["UsrKy"].ToString());
+
+
+        function onSelect(e) {
+
+        }
+
+        function onShow(e) {
+
+        }
+
+        function onActivate(e) {
+            try {
+                $('#object_permissions').data('kendoGrid').refresh();
+            }
+            catch (ex) {
+
+            }
+
+
+        }
+
+        function onContentLoad(e) {
+            //LoadGridPermission(UsrKy);
+            //LoadAcsLvlGrid(UsrKy);
+            //LoadUser_MultiAprGrid(UsrKy);
+            //LoadCompany_MultiAprGrid(UsrKy);
+            
+        }
+
+        function onError(e) {
+
+        }
+
+        $("#tabstrip").kendoTabStrip({
+            select: onSelect,
+            activate: onActivate,
+            show: onShow,
+            contentLoad: onContentLoad,
+            error: onError,
+            contentUrls: [, , , , , "../content/web/tabstrip/ajax/ajaxContent1.html", "error.html"]
+        });
+    });
+
+
+
+
+
+
+    function LoadGridPermission(UsrKy) {
+
+        if (UsrKy == 0 || UsrKy == null) {
+            var UsrKy = 1;
+        }
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/SystemUsers/GetPrevilageDetails")',
+                    dataType: "json"
+                },
+                update: {
+                    //url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    //url: '@Url.Action("InsertToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function(e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+
+                parameterMap: function(options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({
+                            'todos': options.models
+                        }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({
+                            'todos': options.models
+                        }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({
+                            'todos': options.models
+                        }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+                            'UsrKy': UsrKy
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 12,
+            schema: {
+                model: {
+                    id: "UsrObjPrmsnKy",
+                    fields: {
+                        UsrObjPrmsnKy: { editable: false, nullable: false, type: "number" },
+                        UsrKy: { editable: false, nullable: false, type: "number" },
+                        ObjKy: { editable: false, nullable: false, type: "number" },
+                        ObjNm: { editable: false, nullable: false, validation: { required: true } },
+                        AlowAll: { editable: true, nullable: false, type: "boolean" },
+                        isAlwAcs: { editable: true, nullable: false, type: "boolean" },
+                        isAlwAdd: { editable: true, nullable: false, type: "boolean" },
+                        isAlwUpdate: { editable: true, nullable: false, type: "boolean" },
+                        isAlwDel: { editable: true, nullable: false, type: "boolean" },
+                        //isAlwApr: { editable: true, nullable: false, type: "boolean" },
+                        isAutoApr: { editable: false, nullable: false, type: "boolean" },
+                        //IsMulApr: { editable: true, nullable: false, type: "boolean" },
+
+
+                    }
+                }
+            }
+        });
+
+        $("#object_permissions").kendoGrid({
+            dataSource: dataSource,
+            navigatable: true,
+            selectable: "row",
+            columnMenu: true,
+
+            //columnHide: createFilterRow1,
+            //columnShow: createFilterRow1,
+
+            autobind: true,
+            resizable: true,
+            sortable: true,
+            Scrollable: true,
+            reorderable: true,
+            pageable: true,
+            height: 420,
+            //dataBound: GridOnDataBound,
+            filterable: {
+                mode: "row"
+            },
+
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                { field: "UsrObjPrmsnKy", hidden: true, title: "Obj Permission Key", width: 20 },
+                { field: "ObjKy", hidden: true, title: "Object Key", width: 30, },
+                { field: "UsrKy", hidden: true, title: "User Key", width: 30, },
+                { field: "ObjNm", title: "Object Name", width: 20 },
+                {
+                    field: "AlowAll", title: "isAlwAll", width: "15px",
+                    filterable: true, sortable: false,
+                    template: '<input type="checkbox"  #= AlowAll? checked="checked" : "" # class="check_row"></input>',
+                    headerTemplate: '<label> Allow ALL Permissions <input type="checkbox" id="checkAll"/></label>',
+                },
+                {
+                    field: "isAlwAcs",
+                    title: "isAlwAcs",
+                    width: "15px",
+                    //template: '<input type="checkbox" #= isAlwAcs ? checked="checked":"" # class="isAlwAcsChecked" />',
+                    template:
+                        "<input type=\"checkbox\"   #= isAlwAcs ? checked='checked' : '' #  class=\"isAlwAcsChecked\"/>",
+                    //headerTemplate: '<label>  <input type="checkbox" id="checkAll"/> Allow Access All(Add, Update, Delete)</label>',
+
+                },
+                {
+                    field: "isAlwAdd",
+                    title: "isAlwAdd",
+                    width: "10px",
+                    template:
+                        '<input type="checkbox" #= isAlwAdd ? checked="checked":"" # class="isAlwAddChecked row-checkbox" />'
+                },
+                {
+                    field: "isAlwUpdate",
+                    title: "isAlwUpdate",
+                    width: "10px",
+                    template:
+                        '<input type="checkbox" #= isAlwUpdate ? checked="checked":"" # class="isAlwUpdateChecked row-checkbox" />'
+                },
+                {
+                    field: "isAlwDel",
+                    title: "isAlwDel",
+                    width: "10px",
+                    template: '<input type="checkbox" #= isAlwDel ? checked="checked":"" # class="isAlwDelChecked" />'
+                },
+                //{ field: "isAlwApr", title: "isAlw Auto Aproval", width: "10px", template: '<input type="checkbox" #= isAlwApr ? checked="checked":"" # class="isAlwAprChecked" />' },
+                //{ field: "isAutoApr", title: "isAutoApr/MultiApr", width: "10px", template: '<input type="checkbox" disabled readonly #= isAutoApr ? checked="checked":"" # class="isAutAprChecked" />' }
+                //{ field: "IsMulApr", title: "Multi Approval", width: "10px", template: '<input type="checkbox" #= IsMulApr ? checked="checked":"" # class="isMulAprChecked" />'}
+            ],
+
+
+            dataBinding: function() {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true
+        });
+        //createFilterRow1();
+
+    }
+
+    //bind click event to the checkbox
+    //$("#object_permissions").data("kendoGrid").table.on("click", ".check_row", selectRow);
+
+    function selectRow() {
+        alert();
+    }
+
+
+    function LoadUser_MultiAprGrid(UsrKy) {
+
+        try {
+            $('#User_MultiAprGrid').data().kendoGrid.destroy();
+            $('#User_MultiAprGrid').empty();
+        } catch (e) {
+        }
+
+        if (UsrKy == 0 || UsrKy == null) {
+            var UsrKy = 1;
+        }
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/SystemUsers/GetPrevilageDetails")',
+                    dataType: "json"
+                },
+                update: {
+                    //url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function(e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function(e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    //url: '@Url.Action("InsertToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+                            'UsrKy': UsrKy
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 12,
+            schema: {
+                model: {
+
+                    id: "UsrObjPrmsnKy",
+                    fields: {
+                        UsrObjPrmsnKy: { editable: false, nullable: false, type: "number" },
+                        UsrKy: { editable: false, nullable: false, type: "number" },
+                        ObjKy: { editable: false, nullable: false, type: "number" },
+                        ObjNm: { editable: false, nullable: false, validation: { required: true } },
+                        //isAutoApr: { editable: true, nullable: false, type: "boolean" },
+                        IsMulApr: { editable: true, nullable: false},
+
+
+                    }
+                }
+            }
+        });
+
+        $("#User_MultiAprGrid").kendoGrid({
+            dataSource: dataSource,
+            navigatable: true,
+            selectable: "row",
+            columnMenu: true,
+            dataBound: GridOnDataBoundUser,
+            //columnHide: createFilterRow1,
+            //columnShow: createFilterRow1,
+
+            autobind: true,
+            resizable: true,
+            sortable: true,
+            Scrollable: true,
+            reorderable: true,
+            pageable: true,
+            height: 420,
+            //dataBound: GridOnDataBound,
+            filterable: {
+                mode: "row"
+            },
+
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+
+                { field: "UsrObjPrmsnKy", hidden: true, title: "Obj Permission Key", width: 20 },
+                { field: "ObjKy", hidden: true, title: "Object Key", width: 30, },
+                { field: "UsrKy", hidden: true, title: "User Key", width: 30, },
+                { field: "ObjNm", title: "Object Name", width: 20 },
+                //{ field: "isAutoApr", title: "isAutoApr", width: "10px", template: '<input type="checkbox" #= isAutoApr ? checked="checked":"" # class="isAutAprChecked" />' },
+                {
+                    field: "IsMulApr", title: "Auto Approval/ Multi Approval", width: "10px", attributes: { style: "text-align:center;" },
+                    editor: function (container, options) {
+                        var model = options.model;
+                    }
+                }//, template: '<input type="checkbox" #= IsMulApr ? checked="checked":"" # class="isMulAprCheckedUser" />'}
+
+            ],
+
+
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true
+        });
+        //createFilterRow1();
+
+    }
+
+
+    function LoadCompany_MultiAprGrid(UsrKy) {
+
+        try {
+            $('#Company_MultiAprGrid').data().kendoGrid.destroy();
+            $('#Company_MultiAprGrid').empty();
+        } catch (e) { }
+
+        if (UsrKy == 0 || UsrKy == null) {
+            var UsrKy = 1;
+        }
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/SystemUsers/GetPrevilageDetails")',
+                    dataType: "json"
+                },
+                update: {
+                    //url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    //url: '@Url.Action("InsertToDo", "SystemUsers")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+                            'UsrKy': UsrKy
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 12,
+            schema: {
+                model: {
+
+                    id: "UsrObjPrmsnKy",
+                    fields: {
+                        UsrObjPrmsnKy: { editable: false, nullable: false, type: "number" },
+                        UsrKy: { editable: false, nullable: false, type: "number" },
+                        ObjKy: { editable: false, nullable: false, type: "number" },
+                        ObjNm: { editable: false, nullable: false, validation: { required: true } },
+                        //isAutoApr: { editable: true, nullable: false, type: "boolean" },
+                        IsMulApr: { editable: true, nullable: false },
+
+
+                    }
+                }
+            }
+        });
+
+        $("#Company_MultiAprGrid").kendoGrid({
+            dataSource: dataSource,
+            navigatable: true,
+            selectable: "row",
+            columnMenu: true,
+            dataBound: GridOnDataBoundCompany,
+            //columnHide: createFilterRow1,
+            //columnShow: createFilterRow1,
+
+            autobind: true,
+            resizable: true,
+            sortable: true,
+            Scrollable: true,
+            reorderable: true,
+            pageable: true,
+            height: 420,
+            //dataBound: GridOnDataBound,
+            filterable: {
+                mode: "row"
+            },
+
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+
+                { field: "UsrObjPrmsnKy", hidden: true, title: "Obj Permission Key", width: 20 },
+                { field: "ObjKy", hidden: true, title: "Object Key", width: 30, },
+                { field: "UsrKy", hidden: true, title: "User Key", width: 30, },
+                { field: "ObjNm", title: "Object Name", width: 20 },
+                //{ field: "isAutoApr", title: "isAutoApr", width: "10px", template: '<input type="checkbox" #= isAutoApr ? checked="checked":"" # class="isAutAprChecked" />' },
+                {
+                    field: "IsMulApr", title: "Auto Approval/ Multi Approval", width: "10px", attributes: { style: "text-align:center;" },
+                    editor: function (container, options) {
+                        var model = options.model;
+                    }
+                }//, template: '<input type="checkbox" #= IsMulApr ? checked="checked":"" # class="isMulAprCheckedCompany" />'}
+
+            ],
+
+
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true
+        });
+        //createFilterRow1();
+
+    }
+
+    $(function () {
+        $('#object_permissions').on('click', '.isAlwAcsChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAlwAcs', checked);
+            if (!dataItem.isAlwAcs) {
+                dataItem.set('isAlwAdd', false);
+                dataItem.set('isAlwUpdate', false);
+                dataItem.set('isAlwDel', false);
+
+            }
+
+            CheckAllTickObjPermtn(dataItem);
+        })
+    })
+    $(function () {
+        $('#object_permissions').on('click', '.isAlwAddChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAlwAdd', checked);
+            if (dataItem.isAlwAdd) {
+                dataItem.set('isAlwAcs', true);                
+            }
+            CheckAllTickObjPermtn(dataItem);
+
+        })
+    })
+    $(function () {
+        $('#object_permissions').on('click', '.isAlwUpdateChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAlwUpdate', checked);
+            if (dataItem.isAlwUpdate) {
+                dataItem.set('isAlwAcs', true);
+            }
+            CheckAllTickObjPermtn(dataItem);
+
+        })
+    })
+    $(function () {
+        $('#object_permissions').on('click', '.isAlwDelChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAlwDel', checked);
+            if (dataItem.isAlwDel) {
+                dataItem.set('isAlwAcs', true);
+            }
+            CheckAllTickObjPermtn(dataItem);
+
+        })
+    })
+    $(function () {
+        $('#object_permissions').on('click', '.isAlwAprChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAlwApr', checked);
+          //  CheckAllTickObjPermtn(dataItem);
+        })
+    })
+
+    $(function () {
+        $('#object_permissions').on('click', '.isAutAprChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('isAutoApr', checked);
+
+        })
+    })
+    $(function () {
+         $('#object_permissions').on('click', '#checkAll', function () {
+
+            var $cb = $(this);
+            var checked = $cb.is(':checked');
+            var grid = $('#object_permissions').data('kendoGrid');
+            grid.table.find("tr").find("td:last input").attr("checked", checked);
+
+            //now making all the rows value to 1 or 0
+            var items = $("#object_permissions").data("kendoGrid").dataSource.data();
+            for (i = 0; i < items.length; i++) {
+                var item = items[i];
+                item.set('AlowAll', checked);
+            }
+
+            if (!checked) {
+                $("#object_permissions").data("kendoGrid").clearSelection();
+            }
+
+        });
+    })
+    $(function () {
+        $('#object_permissions').on('click', '.check_row', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#object_permissions').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));           
+            if (!checked) {
+                $('#checkAll').prop('checked', false);            
+            }
+            //var items = $("#object_permissions").data("kendoGrid").dataSource.data();
+            //var isallChecked = false;
+            //for (i = 0; i < items.length; i++) {
+            //    var item = items[i];
+            //    if (item.checked) {
+            //        isallChecked = true;
+            //    }
+                
+            //}
+            //if (isallChecked){
+            // $('#checkAll').prop('checked', true);
+            //}
+        })
+    })
+
+    $(function () {
+        $('#User_MultiAprGrid').on('click', '.isMulAprCheckedUser', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#User_MultiAprGrid').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsMulApr', checked);
+            var AutoAprove = dataItem.isAlwApr;
+            var ObjKy = dataItem.ObjKy;
+            var usrky = dataItem.UsrKy;
+
+            PopUp();
+            LoadPopUpGrid(ObjKy, usrky);
+
+
+        })
+    })
+    $(function () {
+        $('#Company_MultiAprGrid').on('click', '.isMulAprCheckedCompany', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#Company_MultiAprGrid').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsMulApr', checked);
+            var AutoAprove = dataItem.isAlwApr;
+            var ObjKy = dataItem.ObjKy;
+            var usrky = dataItem.UsrKy;
+
+            PopUp();
+            LoadPopUpGrid(ObjKy, 1);
+
+
+        })
+    })
+
+
+    $(function () {
+        $('#PopUpGrid').on('click', '.isSelectChecked', function () {
+            var checked = $(this).is(':checked');
+            var grid = $('#PopUpGrid').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            dataItem.set('IsSelect', checked);
+        })
+    })
+
+    function PopUp() {
+
+        $("#FindFormPop").show().kendoWindow({
+            width: "1100px",
+            height: "550px",
+            resizable: true,
+            modal: true,
+            title: "Edit Approval Permissions",
+        });
+
+        $('#FindFormPop').data('kendoWindow').center().open();
+    }
+
+    function UpdateUserPrevilages() {                          // saving function
+
+
+        var grid = $("#object_permissions").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+
+            if (currentData[i].isNew()) {
+
+                newRecords.push(currentData[i].toJSON());
+
+            } else if (currentData[i].dirty) {
+
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+
+
+        $.ajax({
+            url: "@Url.Content("~/SystemUsers/UpdateUserPrevilages")",
+            data: JSON.stringify({
+
+                updatedOrders: kendo.stringify(updatedRecords), newOrders: kendo.stringify(newRecords)
+
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+
+                if (data == true) {
+
+                    alert("Updated Successfully");
+                    //alert("Successfully Saved..!");
+                    //AlertMsg();
+                    LoadGridPermission(FormGlblData.UsrKy) // update grid
+
+                } else {
+                    alert("Record Not Saved");
+                    LoadGridPermission(FormGlblData.UsrKy); // update grid
+                }
+
+                
+                var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+                popupNotification.show(kendo.toString("Success!"));
+                $('#object_permissions').data('kendoGrid').dataSource.read();
+                //$('#object_permissions').data('kendoGrid').refresh();
+                //$('#FindForm').data('kendoWindow').close();
+                //location.reload();
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+
+
+
+    }
+
+
+
+    function UpdateUser() {
+
+        var UsrKy = $("#userky").val();
+        var UsrId = $("#userid").val();
+        var LoginUsrID = $("#username").val();
+        var BUKy = $("#cmb_bu").val();
+        //var tmpBUKy = $("#tmpbuky").val();
+        if (BUKy == "") {
+            var BUKy = $("#tmpbuky").val();
+        }
+        else {
+            var BUKy = $("#cmb_bu").val();
+        }
+        var isAct = document.getElementById("isactive").checked;
+        $.ajax({
+            url: "@Url.Content("~/SystemUsers/UpdateUser")",
+            data: JSON.stringify({
+
+                UsrKy: UsrKy,
+                UsrId: UsrId,
+                LoginUsrID: LoginUsrID,
+                BUKy: BUKy,
+                isAct: isAct
+            }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+
+            success: function (data) {
+                alert("Successfully Updated");
+                $("#userky").val(null);
+                $("#userid").val(null);
+                $("#username").val(null);
+                $("#tmpbuky").val(null);
+                $("isactive").val(null);
+                LoadGrid();
+                //location.reload();
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+
+    function Load_BU() {
+
+        var data = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Action("Load_BU", "SystemUsers")',
+                    data: { ObjTyp: 'ReportFormWeb' },
+                    dataType: "json"
+                }
+            }
+        });
+        $("#cmb_bu").kendoComboBox({
+            dataTextField: "CdNm",
+            dataValueField: "CdKy",
+            dataSource: data,
+            filter: "contains",
+            suggest: true,
+            //change:ChangeEvent,
+            placeholder: "Select To Change"
+
+        });
+
+    }
+
+    function Save() {
+        var tabstrip = $("#tabstrip").kendoTabStrip().data("kendoTabStrip");
+        var tabIndx = -1;
+        var tab = tabstrip.select();
+
+        tabIndx = tab.index();
+
+        if (tabIndx == 0) {
+            UpdateUserPrevilages();
+            //var cmb_bu = $("#cmb_bu").data("kendoComboBox").value();
+            //if (cmb_bu.value == null) {
+            //    alert("Please Select a BU");
+            //}
+            //else {
+            //    var grid = $("#object_permissions").data("kendoGrid");
+            //    var currentData = grid.dataSource.data();
+            //    var updatedRecords = [];
+            //    var newRecords = [];
+            //    for (var i = 0; i < currentData.length; i++) {
+            //        if (currentData[i].isNew()) {
+            //            newRecords.push(currentData[i].toJSON());
+            //        }
+            //        else if (currentData[i].dirty) {
+            //            updatedRecords.push(currentData[i].toJSON());
+            //        }
+                //}
+                @*$.ajax({
+                    url: "@Url.Content("~/Demo/Object_Insert")",
+                    data: JSON.stringify({
+                        updatedRecords: kendo.stringify(updatedRecords),
+                        newOrders: kendo.stringify(newRecords),
+                        ObjTypKy: cmbObjKy
+
+                    }),
+                    success: function (data) {
+                        if (data == true) {
+                            alert("Inserted Successfully");
+                            ChangeEvent();
+                        }
+                        else {
+                            alert("Error Occured !!!");
+                        }
+                    },
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST"
+                });*@
+            }
+
+
+        else if (tabIndx == 1)
+        {
+            SaveAcsLvl();
+        }
+
+        else if (tabIndx == 2)
+        {
+            SaveCloneUsr();
+        }
+    }
+
+
+
+    function createFilterRow1() {
+        var grid = $('#object_permissions').data('kendoGrid');
+
+        var oldRow = grid.thead.find("#object_permissions-filter-row");
+        var th;
+
+        if (typeof oldRow === 'object') {
+            th = oldRow.find('th');
+            oldRow.remove();
+        }
+
+        var filterRow = "<tr id='grid-filter-row'>";
+
+        for (var i = 0; i < grid.dataSource.group().length; i++) {
+            filterRow += '<th class="k-group-cell k-header">&nbsp;</th>';
+        }
+        for (var i = 0; i < th.length; i++) {
+            filterRow += th[i].outerHTML;
+        }
+        for (var i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden)
+                filterRow += '<td><input type=\'search\' id=\'gridId-filter-column-' + grid.columns[i].field + '\' style=\'width:98%\' /></td>';
+        }
+        filterRow += '</tr>';
+        grid.thead.append(filterRow);
+
+        var searchField;
+        for (i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden) {
+                searchField = $('#gridId-filter-column-' + grid.columns[i].field);
+                searchField.change({ index: i }, function (e) {
+                    var grid = $('#object_permissions').data('kendoGrid');
+                    updateSearchFilters(grid, grid.columns[e.data.index].field, 'contains', this.value);
+                });
+            }
+        }
+    }
+
+    function updateSearchFilters(grid, field, operator, value) {
+        var newFilter = { field: field, operator: operator, value: value };
+        var dataSource = grid.dataSource;
+        var filters = null;
+        if (dataSource.filter() != null) {
+            filters = dataSource.filter().filters;
+        }
+        if (filters == null) {
+            filters = [newFilter];
+        }
+        else {
+            var isNew = true;
+            var index = 0;
+            for (index = 0; index < filters.length; index++) {
+                if (filters[index].field == field) {
+                    isNew = false;
+                    break;
+                }
+            }
+            if (isNew) {
+                filters.push(newFilter);
+            }
+            else {
+                //alert(value);
+                if (value == '')
+                    filters.splice(index, 1);
+                    //delete filters[index];
+                else
+                    filters[index] = newFilter;
+            }
+        }
+        dataSource.filter(filters);
+    }
+
+    //function GridOnDataBound(arg) {
+
+        //var grid = $("#object_permissions").data("kendoGrid");
+        //$(grid.tbody)
+        //    .on("click",
+        //        "td",
+        //        function (e) {
+
+        //            var row = $(this).closest("tr");
+        //            var rowIdx = $("tr", grid.tbody).index(row);
+        //            var colIdx = $("td", row).index(this);
+        //            var FieldName = $("#object_permissions").data("kendoGrid").columns[colIdx].field;
+        //            var FieldTitle = $("#object_permissions").data("kendoGrid").columns[colIdx].title;
+
+
+        //            if (FieldName == "IsMulApr") {
+        //                var selectedItem = grid.dataItem(grid.select());
+        //                var AutoAprove = selectedItem.isAlwApr;
+        //                var ObjKy = selectedItem.ObjKy;
+        //                var usrky = selectedItem.UsrKy;
+
+        //                if (AutoAprove != true) {
+        //                    PopUp();
+        //                    LoadPopUpGrid(ObjKy, usrky);
+        //                }
+        //                else
+        //                {
+        //                    alert("You Can't Give Approvals when \"Is Auto Approval Checked\"");
+        //                }
+
+        //            }
+
+        //        });
+    //}
+
+    function GridOnDataBoundCompany(arg) {
+
+        var gridCompany = $("#Company_MultiAprGrid").data("kendoGrid");
+        $(gridCompany.tbody)
+            .on("click",
+                "td",
+                function (e) {
+
+                    var row = $(this).closest("tr");
+                    var rowIdx = $("tr", gridCompany.tbody).index(row);
+                    var colIdx = $("td", row).index(this);
+                    var FieldName = $("#Company_MultiAprGrid").data("kendoGrid").columns[colIdx].field;
+                    var FieldTitle = $("#Company_MultiAprGrid").data("kendoGrid").columns[colIdx].title;
+
+                    //Get EAN popup window while click on EAN column field in ItmMas Grid
+                    if (FieldName == "IsMulApr") {
+                        var grid = $('#Company_MultiAprGrid').data().kendoGrid;
+                        var dataItem = grid.dataItem($(this).closest('tr'));
+                        //dataItem.set('IsMulApr', checked);
+                        var AutoAprove = dataItem.isAlwApr;
+                        var ObjKy = dataItem.ObjKy;
+                        var usrky = dataItem.UsrKy;
+
+                        PopUp();
+                        LoadPopUpGrid(ObjKy, 1);
+
+                    }
+                });
+    }
+
+    function GridOnDataBoundUser(arg) {
+
+        var gridUser = $("#User_MultiAprGrid").data("kendoGrid");
+        $(gridUser.tbody)
+            .on("click",
+                "td",
+                function (e) {
+
+                    var row = $(this).closest("tr");
+                    var rowIdx = $("tr", gridUser.tbody).index(row);
+                    var colIdx = $("td", row).index(this);
+                    var FieldName = $("#User_MultiAprGrid").data("kendoGrid").columns[colIdx].field;
+                    var FieldTitle = $("#User_MultiAprGrid").data("kendoGrid").columns[colIdx].title;
+
+                    //Get EAN popup window while click on EAN column field in ItmMas Grid
+                    if (FieldName == "IsMulApr") {
+                        var grid = $('#User_MultiAprGrid').data().kendoGrid;
+                        var dataItem = grid.dataItem($(this).closest('tr'));
+                        //dataItem.set('IsMulApr', checked);
+                        var AutoAprove = dataItem.isAlwApr;
+                        var ObjKy = dataItem.ObjKy;
+                        var usrky = dataItem.UsrKy;
+
+                        PopUp();
+                        LoadPopUpGrid(ObjKy, usrky);
+
+                    }
+                });
+    }
+    
+
+
+</script>
+
+<style>
+    li.k-item.k-state-default {
+        color: black;
+    }
+                li.k-item.k-state-default.k-tab-on-top.k-state-active {
+        background-color: grey !important;
+    }
+</style>
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    @*var urlComboLoad = {
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+    }*@
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script>
+    var urlUsrMas_SelectWeb = '@Url.Content("~/Login/FindUsrGrid")';
+    var urlCopyUserObjPermission = '@Url.Content("~/SystemUsers/CopyUserObjPermission")';
+    var urlUsrMasAcsLvl_SelectWeb = '@Url.Action("UsrMasAcsLvl_SelectWeb", "SystemUsers")';
+    var urlUsrMasAcsLvl_InsertUpdateWeb = '@Url.Content("~/SystemUsers/UsrMasAcsLvl_InsertUpdateWeb")';
+    var MultiAproval_InsertUpdate = '@Url.Action("MultiAproval_InsertUpdate", "SystemUsers")'; // url for multiple aprovel popview
+</script>
+
+<script src="~/Scripts/HtnScripts/Login/UsrPermission.js"></script>
+<div>
+    @Html.Partial("~/Views/SystemUsers/System_Users_Previlages.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/SystemUsers/PopUpView.cshtml")
+</div>
+
+@*OnDataBound*@
+@*var row = grid.tbody.find("[data-uid='" + dataSource[i].uid + "']");
+                //grid.tbody.find("[data-uid='" + dataSource[i].uid + "']").hide();
+                row.find("a.k-button.k-grid-evenselect").contents().last()[0].textContent = 'Currently Multi-Approval';*@

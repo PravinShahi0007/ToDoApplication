@@ -1,0 +1,667 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top:10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top:10px; margin-left:10px; background-color:blue; color:white; ">NxtAprStrs</button>
+            </div>
+            @*<button id="saveBtn" class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+                <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+                <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+                <button class="control-button print" onclick="PrintSource()" data-tooltip="Print"> </button>
+                <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>*@
+
+
+            @*<button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+                <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>*@
+            @*<button class="control-button preview disabledClick" onclick="Preview()" data-tooltip="Preview"> </button>
+                <button class="control-button clean disabledClick" onclick="Clean()" data-tooltip="Clean"> </button>
+                <button class="control-button add disabledClick" onclick="Add()" data-tooltip="Add"> </button>
+                <button class="control-button attach disabledClick" onclick="Attach()" data-tooltip="Attach"> </button>
+                <button class="control-button save_as disabledClick" onclick="Save_as()" data-tooltip="Save As"> </button>
+                <button class="control-button save_and_new disabledClick" onclick="Save_and_new()" data-tooltip="Save And New"> </button>
+                <button class="control-button audio_record disabledClick" onclick="Audio_record()" data-tooltip="Audio Record"> </button>
+                <button class="control-button video_record disabledClick" onclick="Video_record()" data-tooltip="Video Record"> </button>
+                <button class="control-button delete disabledClick" onclick="Delete()" data-tooltip="Delete"> </button>
+                <button class="control-button filter disabledClick" onclick="Filter()" data-tooltip="Filter"> </button>
+                <button class="control-button filter_clear disabledClick" onclick="Filter_Clear()" data-tooltip="Filter Clear"> </button>
+                <button class="control-button search disabledClick" onclick="Search()" data-tooltip="Search"> </button>
+                <button class="control-button download disabledClick" onclick="Download()" data-tooltip="Download"> </button>
+                <button class="control-button upload disabledClick" onclick="Upload()" data-tooltip="Upload"> </button>
+                <button class="control-button back disabledClick" onclick="Back()" data-tooltip="Back"> </button>
+                <button class="control-button setting disabledClick" onclick="Setting()" data-tooltip="Setting"> </button>
+                <button class="control-button edit disabledClick" onclick="Edit()" data-tooltip="Edit"> </button>
+                <button class="control-button refresh disabledClick" onclick="Refresh()" data-tooltip="Refresh"> </button>
+                <button class="control-button update disabledClick" onclick="Update()" data-tooltip="Update"> </button>
+                <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Req" style="width: 150px; height: 30px">New From Purches Order</button>*@
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+
+        </div>
+        <input type="hidden" id="TrnKy" />
+        <input type="hidden" id="TimeStamp" />
+        <input type="hidden" id="IsRecState" />
+        <div id="HdrPart">
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group" id="HdrSec1_InptVouNo">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label id="HdrSec1_InptVouNo_Lbl">Voucher Number:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Voucher No" id="HdrSec1_InptVouNo_Val" type="text" class="k-textbox" readonly="readonly" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group" id="HdrSec1_DatVouDate">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label id="HdrSec1_DatVouDate_Lbl">Voucher Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input id="HdrSec1_DatVouDate_Val" data-cpypst-blsmartcpypaste="Vou_Date" />
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group" id="HdrSec1_InptDocNo">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label id="HdrSec1_InptDocNo_Lbl">Document Number:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Document No" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="DocNo" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" id="HdrSec2_InptYrref">
+                                <div class="col-md-5 col-sm-6">
+                                    <label id="HdrSec2_InptYrref_Lbl">Your ref:</label>
+                                </div>
+                                <div class="col-md-7 col-sm-8 ">
+                                    <input placeholder="Your reference" id="HdrSec2_InptYrref_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Yurref" />
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6" id="HdrSec2_CmbCurency">
+                                <div class="col-md-5 col-sm-6">
+                                    <label id="HdrSec2_CmbCurency_Lbl">Currency</label>
+                                </div>
+                                <div class="col-md-7 col-sm-8 ">
+                                    <div id="HdrSec2_CmbCurency_Cd" data-cpypst-blsmartcpypaste="CrnCd"></div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" id="HdrSec2_DatYrRefDate">
+                                <div class="col-md-5 col-sm-6">
+                                    <label id="HdrSec2_DatYrRefDate_Lbl">Your ref Date :</label>
+                                </div>
+                                <div class="col-md-7 col-sm-8 ">
+                                    <input id="HdrSec2_DatYrRefDate_Val" data-cpypst-blsmartcpypaste="Yurref_date" />
+
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6" id="HdrSec2_InptExRate">
+                                <div class="col-md-5 col-sm-6">
+                                    <label id="HdrSec2_InptExRate_Lbl">Ex.Rate:</label>
+                                </div>
+                                <div class="col-md-7 col-sm-8 ">
+                                    <input type="text" id="HdrSec2_InptExRate_Val" class="k-textbox" data-cpypst-blsmartcpypaste="Ex_rate" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group" id="HdrSec2_ChkboxIsRec">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="col-md-5 col-sm-6">
+                                    <label id="HdrSec2_ChkboxIsRec_Lbl">Is Recurence:</label>
+                                </div>
+                                <div class="col-md-7 col-sm-8 ">
+                                    <input type="checkbox" id="HdrSec2_ChkboxIsRec_Val">
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group" id="HdrSec3_InptTotDeb">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec3_InptTotDeb_Lbl">Total Debit:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotDeb_Val">
+                                <input placeholder="0.00" id="TtlDebit" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpDebit" type="hidden" class="k-textbox" readonly="readonly" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group" id="HdrSec3_InptTotCrd">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label d="HdrSec3_InptTotCrd_Lbl">Total Credit:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotCrd_Val">
+                                <input placeholder="0.00" id="TtlCrdt" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpCrdt" type="hidden" class="k-textbox" readonly="readonly" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group" id="HdrSec3_InptTotDef">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec3_InptTotDef_Lbl">Difference:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotDef_Val">
+                                <input placeholder="0.00" id="Difference" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpDifference" type="hidden" class="k-textbox" readonly="readonly" />
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div id="GridWin" style="clear: both;">
+            <input id="TempLiNumber" type="hidden" class="k-textbox" />
+
+            <div class="col-md-12 col-sm-6 wr_formGroup_grid" id="ChildHdrpart">
+                <div class="form-group" style="width: 100%">
+                    <div class="col-md-4 col-sm-4 ">
+                        <div class="row" id="HdrSec4_CmbAcc">
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec4_CmbAcc_Lbl">Account:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="HdrSec4_CmbAcc_Cd" data-cpypst-blsmartcpypaste="AccId"></div>
+                                <div id="HdrSec4_CmbAcc_Nm" data-cpypst-blsmartcpypaste="AccNm"></div>
+                            </div>
+
+                        </div>
+                        <div class="row" id="HdrSec4_CmbPrj">
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec4_CmbPrj_Lbl">Project:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="HdrSec4_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId"></div>
+                                <div id="HdrSec4_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm"></div>
+                            </div>
+
+                        </div>
+                        <div class="row" id="HdrSec4_CmbBU">
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec4_CmbBU_Lbl">Business Unit:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="HdrSec4_CmbBU_Cd" data-cpypst-blsmartcpypaste="BUCd"></div>
+                                <div id="HdrSec4_CmbBU_Nm" data-cpypst-blsmartcpypaste="BUNm"></div>
+                            </div>
+
+                        </div>
+                        <div class="row" id="HdrSec4_CmbTask">
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec4_CmbTask_Lbl">Task:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="HdrSec4_CmbTask_Cd" data-cpypst-blsmartcpypaste="TaskId"></div>
+                                <div id="HdrSec4_CmbTask_Nm" data-cpypst-blsmartcpypaste="TaskNm"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    @*Middle part*@
+                    <div class="col-md-4 col-sm-4 ">
+                        <div class="row" id="HdrSec5_CmbAdress">
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec5_CmbAdress_Lbl">Address:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="HdrSec5_CmbAdress_Cd" data-cpypst-blsmartcpypaste="AdrId"></div>
+
+                            </div>
+
+                        </div>
+                        <div class="row" id="HdrSec5_NmricDrAmt">
+                            @*HdrSec5_NmricAmt --Id remove testing perpose --20168-20*@
+                            <div class="col-md-3 col-sm-3">
+                                <label id="HdrSec5_NmricDrAmt_Lbl">Amount:</label> @*HdrSec5_NmricAmt_Lbl --Id remove testing perpose --20168-20*@
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+                                @*id="HdrSec5_NmricAmt_Val" id is reomved for testing perpose only*@
+                                <div class="col-md-6 col-sm-4" style="margin-left: -14px;">
+                                    @*id="HdrSec5_NmricDrAmt" id is reomved for testing perpose only*@
+                                <input id="HdrSec5_NmricDrAmt_Val" placeholder="Dr Amt" data-cpypst-blsmartcpypaste="Amount" />
+                            </div>
+                            <div class="col-md-6 col-sm-4" style="margin-left: -2px;" id="HdrSec5_NmricCrAmt">
+                                <input id="HdrSec5_NmricCrAmt_Val" placeholder="Cr Amt" data-cpypst-blsmartcpypaste="Amount" />
+                            </div>
+
+
+                            @*<input data-cpypst-blsmartcpypaste="CrAmount" id="CrAmount" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                                <input data-cpypst-blsmartcpypaste="DrAmount" id="DrAmount" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />*@
+
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec5_CmbLC">
+                        <div class="col-md-3 col-sm-3">
+                            <label id="HdrSec5_CmbLC_Lbl">LC :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+
+                            <div id="HdrSec5_CmbLC_Cd" data-cpypst-blsmartcpypaste="LCId"></div>
+
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec5_CmbLoan">
+                        <div class="col-md-3 col-sm-3">
+                            <label id="HdrSec5_CmbLoan_Lbl">Loan :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+
+                            <div id="HdrSec5_CmbLoan_Cd" data-cpypst-blsmartcpypaste="LoanId"></div>
+
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec5_CmbOrderDet">
+                        <div class="col-md-3 col-sm-3">
+                            <label id="HdrSec5_CmbOrderDet_Lbl">Order Det :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+
+                            <div id="HdrSec5_CmbOrderDet_Cd" data-cpypst-blsmartcpypaste="OrderDetId"></div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                @*right part*@
+                <div class="col-md-4 col-sm-4 ">
+                    <div class="row" id="HdrSec6_CmbAccCur">
+                        <div class="col-md-4 col-sm-3">
+                            <label id="HdrSec6_CmbAccCur_Lbl">Currency Code:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <div id="HdrSec6_CmbAccCur_Cd" data-cpypst-blsmartcpypaste="CrnCode"></div>
+
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec6_InptAccEx">
+                        <div class="col-md-4 col-sm-3">
+                            <label id="HdrSec6_InptAccEx_Lbl">Ex.rate:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <input data-cpypst-blsmartcpypaste="ExRate" id="HdrSec6_InptAccEx_Cd" type="text" class="k-input" />
+
+
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec6_MADate">
+                        <div class="col-md-4 col-sm-3">
+                            <label id="HdrSec6_MADate_Lbl">MA Date:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <input id="HdrSec6_MADate_Cd" data-cpypst-blsmartcpypaste="MaDate" />
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec6_CmbOrderNO">
+                        <div class="col-md-4 col-sm-3">
+                            <label id="HdrSec6_CmbOrderNO_Lbl">Order NO:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <div id="HdrSec6_CmbOrderNO_Cd" data-cpypst-blsmartcpypaste="OrderId"></div>
+                        </div>
+
+                    </div>
+                    <div class="row" id="HdrSec6_CmbResAdr">
+                        <div class="col-md-4 col-sm-3">
+                            <label id="HdrSec6_CmbResAdr_Lbl">Res Adr:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <div id="HdrSec6_CmbResAdr_Cd" data-cpypst-blsmartcpypaste="ResAdrId"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="row" id="HdrSec7_CmbAnl1">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -18px; margin-right: 11px;">
+                            <label id="HdrSec7_CmbAnl1_Lbl">Analysis 1:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec7_CmbAnl1_Cd" data-cpypst-blsmartcpypaste="Anl1Id"></div>
+                            <div id="HdrSec7_CmbAnl1_Nm" data-cpypst-blsmartcpypaste="Anl1Nm"></div>
+                        </div>
+                    </div>
+                    <div class="row" id="HdrSec7_CmbAnl2">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -18px; margin-right: 11px;">
+                            <label id="HdrSec7_CmbAnl2_Lbl">Analysis 2:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec7_CmbAnl2_Cd" data-cpypst-blsmartcpypaste="Anl2Id"></div>
+                            <div id="HdrSec7_CmbAnl2_Nm" data-cpypst-blsmartcpypaste="Anl2Nm"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="row" id="HdrSec8_CmbAnl3">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -15px;">
+                            <label id="HdrSec8_CmbAnl3_Lbl">Analysis 3:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec8_CmbAnl3_Cd" data-cpypst-blsmartcpypaste="Anl3Id"></div>
+                            <div id="HdrSec8_CmbAnl3_Nm" data-cpypst-blsmartcpypaste="Anl3Nm"></div>
+                        </div>
+                    </div>
+                    <div class="row" id="HdrSec8_CmbAnl4">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -15px;">
+                            <label id="HdrSec8_CmbAnl4_Lbl">Analysis 4:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec8_CmbAnl4_Cd" data-cpypst-blsmartcpypaste="Anl4Id"></div>
+                            <div id="HdrSec8_CmbAnl4_Nm" data-cpypst-blsmartcpypaste="Anl4Nm"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="row" id="HdrSec9_CmbAnl5">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -15px;">
+                            <label id="HdrSec9_CmbAnl5_Lbl">Analysis 5:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec9_CmbAnl5_Cd" data-cpypst-blsmartcpypaste="Anl5Id"></div>
+                            <div id="HdrSec9_CmbAnl5_Nm" data-cpypst-blsmartcpypaste="Anl5Nm"></div>
+                        </div>
+                    </div>
+                    <div class="row" id="HdrSec9_CmbAnl6">
+                        <div class="col-md-3 col-sm-3" style="margin-left: -15px;">
+                            <label id="HdrSec9_CmbAnl6_Lbl">Analysis 6:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-7">
+                            <div id="HdrSec9_CmbAnl6_Cd" data-cpypst-blsmartcpypaste="Anl6Id"></div>
+                            <div id="HdrSec9_CmbAnl6_Nm" data-cpypst-blsmartcpypaste="Anl6Nm"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" id="HdrSec10_TxtArea_Des">
+                    <div class="col-md-7 col-sm-4" style="margin-left: -14px;">
+                        <div class="col-md-2 col-sm-3">
+                            <label id="HdrSec10_TxtArea_Des_Lbl">Desciprtion</label>
+                        </div>
+                        <div class="col-md-10 col-sm-3" style="margin-left: -12px;">
+                            @*<input placeholder="0.00" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox"  style="width:100%"/>*@
+                            <textarea class="k-textbox" style="width: 104%" id="HdrSec10_TxtArea_Des_Val" data-cpypst-blsmartcpypaste="Description"></textarea>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<br style="clear: both" />
+<div class="col-md-12 col-sm-12">
+    <div id="FormGrd">
+        <div id="JournalGrid">
+        </div>
+    </div>
+
+    <script id="command-template" type="text/x-kendo-template">
+        <a class="k-button k-grid-evenselect">X</a>
+    </script>
+
+</div>
+
+</div>
+<div>
+    @Html.Partial("~/Views/Journal/JournalFind.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        ObjKy: '@ViewBag.ObjKy',
+        OurCd: '@ViewBag.OurCd',
+        OurCd2: '@ViewBag.OurCd2',
+        ObjCaptn: '@ViewBag.ObjCaptn'
+    }
+    var OurCode = '@ViewBag.OurCd';
+    var ObjKy = '@ViewBag.ObjKy';
+
+    var urlGetCurrencyDrop = '@Url.Content("~/Journal/CurrencyDrop")';
+    var urlGetCurrencyDrop = '@Url.Content("~/Journal/CurrencyDrop")';
+
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+
+    var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+
+    var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+
+
+    var urlGetTaskCodeUrl = '@Url.Content("~/Journal/TaskCodeLookUp")';
+    var urlDetlGetTaskNm = '@Url.Content("~/Journal/TaskNameLookUp")';
+
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlGetAnalysis = '@Url.Content("~/Journal/AnalysisNm")';
+    var urlGetAllDetail = '@Url.Content("~/Journal/GetAllJournalDetail")';
+
+    var urlSaveHdr = '@Url.Content("~/Journal/InsertHdr")';
+    var urlSaveDetail = '@Url.Content("~/Journal/InsertDetail")';
+    var urlGetHomeCurency = '@Url.Content("~/Journal/GetHomeCurency")';
+    var urlGetExRate = '@Url.Content("~/Journal/GetHomeCurencyEx")';
+    var urlUpdateHdr = '@Url.Content("~/Journal/UpdateHdr")';
+    //
+    var urlGetLoan = '@Url.Content("~/Payment/OurCodeFilter")';
+    var urlGetOrderNo = '@Url.Content("~/Payment/OdrKyCode")';
+    var urlGetOrderDet = '@Url.Content("~/Payment/OdrDetCode")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAnalysisNm = '@Url.Content("~/Journal/AnalysisNm")';
+    var urlGetAnalysisCd = '@Url.Content("~/Journal/analysisCd")';
+
+    function urlGetTaskCode() {
+
+        var cmbFmPrjId = document.getElementById("HdrSec4_CmbPrj_Cd").value;
+        if (!cmbFmPrjId) {
+            cmbFmPrjId = 1;
+        }
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Journal/TaskCodeLookUp")',
+
+                    data: {
+                        'PrjKy': cmbFmPrjId,
+
+                    },
+                    dataType: "json"
+
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    function urlGetTaskNm() {
+        var cmbFmPrjId = document.getElementById("HdrSec4_CmbPrj_Cd").value;
+        if (!cmbFmPrjId) {
+            cmbFmPrjId = 1;
+        }
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Journal/TaskNameLookUp")',
+                    data: {
+                        'PrjKy': cmbFmPrjId,
+
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    var viewBagObjCaptn = '@ViewBag.ObjCaptn';
+    var viewBagOurCd = '@ViewBag.OurCd';
+    var viewBagObjKy = '@ViewBag.ObjKy';
+
+    function PrintSource() {
+        var formOrdKy = document.getElementById("TrnKy").value;
+        var formObjCaption = viewBagObjCaptn;
+        var formObjKy = viewBagObjKy;
+
+        // Calling from "<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js>"
+        PrintCommon(formOrdKy, formObjCaption, formObjKy);
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var UrlBuList = '@Url.Content("~/ManageAllAccount/BuList")';
+
+</script>
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/Journal/Journal.js"></script>
+<script src="~/Scripts/HtnScripts/Journal/JournalGrid.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>

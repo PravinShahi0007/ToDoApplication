@@ -1,0 +1,512 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 30px; margin-top:5px; margin-left:10px; background-color:blue; color:white; ">NxtAprStrs</button>
+            </div>
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-3 col-sm-6  col-xs-12">
+                <div class="wr_formGroup">
+                    <!-- Voucher Number -->
+                    <div class="row form-group" id="HdrSec1_InptVouNo">
+                        <div class="col-md-6 col-sm-6 col-xs-12"><label id="HdrSec1_InptVouNo_Lbl">Voucher Number:</label></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input placeholder="Voucher No" id="HdrSec1_InptVouNo_Val" type="text" class="k-textbox width-100" readonly="readonly" /></div>
+                    </div> <!-- /Voucher Number  -->
+                    <!-- Voucher Date -->
+                    <div class="row form-group" id="HdrSec1_DatVouDate">
+                        <div class="col-md-6 col-sm-6 col-xs-12"><label id="HdrSec1_DatVouDate_Lbl">Voucher Date:</label></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input id="HdrSec1_DatVouDate_Val" data-cpypst-blsmartcpypaste="Vou_Date" class="width-100 p-t-0 p-b-0" /></div>
+                    </div> <!-- /Voucher Date  -->
+                    <!-- Document Number -->
+                    <div class="row form-group" id="HdrSec1_InptDocNo">
+                        <div class="col-md-6 col-sm-6 col-xs-12"><label id="HdrSec1_InptDocNo_Lbl">Document Number:</label></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input placeholder="Document No" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox width-100" data-cpypst-blsmartcpypaste="DocNo" /></div>
+                    </div> <!-- /Document Number  -->
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  wr_formGroup">
+                <div class="row ">
+                    <div class="col-lg-6 col-md-6">
+                        <!-- Your ref -->
+                        <div class="row m-b-4" id="HdrSec2_InptYrref">
+                            <div class="col-md-5"><label id="HdrSec2_InptYrref_Lbl">Your ref:</label></div>
+                            <div class="col-md-7"><input placeholder="Your reference" id="HdrSec2_InptYrref_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Yurref" /></div>
+                        </div>
+                        <!-- /Your ref -->
+
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <!-- Currency -->
+                        <div class="row m-b-4" id="HdrSec2_CmbCurency">
+                            <div class="col-md-5"><label id="HdrSec2_CmbCurency_Lbl">Currency</label></div>
+                            <div class="col-md-7"><div id="HdrSec2_CmbCurency_Cd" data-cpypst-blsmartcpypaste="CrnCd"></div></div>
+                        </div>
+                        <!-- /Currency -->
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-6 col-md-6">
+                        <!-- Yurref_date -->
+                        <div class="row m-b-4" id="HdrSec2_DatYrRefDate">
+                            <div class="col-md-5"><label id="HdrSec2_DatYrRefDate_Lbl">Your ref Date :</label></div>
+                            <div class="col-md-7"><input id="HdrSec2_DatYrRefDate_Val" data-cpypst-blsmartcpypaste="Yurref_date" /></div>
+                        </div>
+                        <!-- /Yurref_date -->
+
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <!-- Ex.Rate -->
+                        <div class="row m-b-4" id="HdrSec2_InptExRate">
+                            <div class="col-md-5"><label id="HdrSec2_InptExRate_Lbl">Ex.Rate:</label></div>
+                            <div class="col-md-7"><input type="text" id="HdrSec2_InptExRate_Val" class="k-textbox" data-cpypst-blsmartcpypaste="Ex_rate" /></div>
+                        </div>
+                        <!-- /Ex.Rate -->
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-lg-6 col-md-6">
+                        <!-- Is Recurence -->
+                        <div class="row m-b-4" id="HdrSec2_ChkboxIsRec">
+                            <div class="col-md-6"><label id="HdrSec2_ChkboxIsRec_Lbl">Is Recurence:</label></div>
+                            <div class="col-md-6 no-padding">
+                                <div class="onoffswitch  margin-auto">
+                                    <input type="checkbox" id="HdrSec2_ChkboxIsRec_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                    <label class="onoffswitch-label" for="HdrSec2_ChkboxIsRec_Val">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                                @*<input type="checkbox" id="HdrSec2_ChkboxIsRec_Val">*@
+                            </div>
+                        </div>
+                        <!-- /Is Recurence -->
+
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <!--  -->
+                        <div class="row m-b-4">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 no-padding"></div>
+                        </div>
+                        <!-- / -->
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <!-- Total Debit -->
+                    <div class="form-group" id="HdrSec3_InptTotDeb">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec3_InptTotDeb_Lbl">Total Debit:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotDeb_Val">
+                                <input placeholder="0.00" id="TtlDebit" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpDebit" type="hidden" class="k-textbox" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div> <!-- /Total Debit -->
+                    <!-- Total Credit -->
+                    <div class="form-group" id="HdrSec3_InptTotCrd">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label d="HdrSec3_InptTotCrd_Lbl">Total Credit:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotCrd_Val">
+                                <input placeholder="0.00" id="TtlCrdt" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpCrdt" type="hidden" class="k-textbox" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div><!-- /Total Credit -->
+                    <!-- Difference -->
+                    <div class="form-group" id="HdrSec3_InptTotDef">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec3_InptTotDef_Lbl">Difference:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8" id="HdrSec3_InptTotDef_Val">
+                                <input placeholder="0.00" id="Difference" type="text" class="k-textbox" readonly="readonly" />
+                                <input placeholder="0.00" id="TmpDifference" type="hidden" class="k-textbox" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div> <!-- /Difference -->
+                </div>
+            </div>
+        </div> <!--/HdrPart-->
+
+
+        <div id="GridWin" class="clearfix m-t-0 no-margin p-l-15 p-r-15">
+            <div class="col-md-12 col-sm-12 wr_formGroup_grid" id="ChildHdrpart">
+                <div class="form-group width-100 m-l-0">
+                    <div class="row">
+                        <input id="TempLiNumber" type="hidden" class="k-textbox" />
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <!-- Account -->
+                            <div class="row m-b-2" id="HdrSec4_CmbAcc">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec4_CmbAcc_Lbl">Account:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbAcc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbAcc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Account -->
+                            <!-- Project -->
+                            <div class="row m-b-2" id="HdrSec4_CmbPrj">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec4_CmbPrj_Lbl">Project:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100"></div></div>
+                               @* <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Project -->
+                            <!-- Business Unit -->
+                            <div class="row m-b-2" id="HdrSec4_CmbBU">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec4_CmbBU_Lbl">Business Unit:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbBU_Cd" data-cpypst-blsmartcpypaste="BUCd" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbBU_Nm" data-cpypst-blsmartcpypaste="BUNm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Business Unit -->
+                            <!-- Task -->
+                            <div class="row m-b-2" id="HdrSec4_CmbTask">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec4_CmbTask_Lbl">Task:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbTask_Cd" data-cpypst-blsmartcpypaste="TaskId" class="width-100"></div></div>
+                               @* <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec4_CmbTask_Nm" data-cpypst-blsmartcpypaste="TaskNm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Task -->
+                            <!--  =============== Analysis ==================  -->
+                            <!-- Analysis 1 -->
+                            <div class="row m-b-2" id="HdrSec7_CmbAnl1">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl1_Lbl">Analysis 1:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl1_Cd" data-cpypst-blsmartcpypaste="Anl1Id" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl1_Nm" data-cpypst-blsmartcpypaste="Anl1Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 1 -->
+                            <!-- Analysis 2 -->
+                            <div class="row m-b-2" id="HdrSec7_CmbAnl2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl2_Lbl">Analysis 2:</label></div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl2_Cd" data-cpypst-blsmartcpypaste="Anl2Id" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl2_Nm" data-cpypst-blsmartcpypaste="Anl2Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 2 -->
+                            <!-- Analysis 3 -->
+                            <div class="row m-b-2" id="HdrSec8_CmbAnl3">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec8_CmbAnl3_Lbl">Analysis 3:</label></div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 no-padding"><div id="HdrSec8_CmbAnl3_Cd" data-cpypst-blsmartcpypaste="Anl3Id" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec8_CmbAnl3_Nm" data-cpypst-blsmartcpypaste="Anl3Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 3 -->
+                            <!-- Analysis 4 -->
+                            <div class="row m-b-2" id="HdrSec8_CmbAnl4">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec8_CmbAnl4_Lbl">Analysis 4:</label></div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 no-padding"><div id="HdrSec8_CmbAnl4_Cd" data-cpypst-blsmartcpypaste="Anl4Id" class="width-100"></div></div>
+                               @* <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec8_CmbAnl4_Nm" data-cpypst-blsmartcpypaste="Anl4Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 4 -->
+                            <!-- Analysis 5 -->
+                            <div class="row m-b-2" id="HdrSec9_CmbAnl5">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec9_CmbAnl5_Lbl">Analysis 5:</label></div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 no-padding"><div id="HdrSec9_CmbAnl5_Cd" data-cpypst-blsmartcpypaste="Anl5Id" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec9_CmbAnl5_Nm" data-cpypst-blsmartcpypaste="Anl5Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 5 -->
+                            <!-- Analysis 6 -->
+                            <div class="row m-b-2" id="HdrSec9_CmbAnl6">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec9_CmbAnl6_Lbl">Analysis 6:</label></div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 no-padding"><div id="HdrSec9_CmbAnl6_Cd" data-cpypst-blsmartcpypaste="Anl6Id" class="width-100"></div></div>
+                                @*<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 no-padding"><div id="HdrSec9_CmbAnl6_Nm" data-cpypst-blsmartcpypaste="Anl6Nm" class="width-100"></div></div>*@
+                            </div>
+                            <!-- /Analysis 6 -->
+                            <!--  =============== /Analysis ==================  -->
+                        </div>
+                        <!-- Address -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec5_CmbAdress">                     
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec5_CmbAdress_Lbl">Address:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec5_CmbAdress_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100"></div></div>
+                            </div>                        
+                        </div>
+                        <!-- /Address -->
+                        <!-- Amount -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec5_NmricDrAmt">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12"><label id="HdrSec5_NmricDrAmt_Lbl">Amount:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <input id="HdrSec5_NmricDrAmt_Val" placeholder="Dr Amt" data-cpypst-blsmartcpypaste="Amount" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <input id="HdrSec5_NmricCrAmt_Val" placeholder="Cr Amt" data-cpypst-blsmartcpypaste="Amount" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Amount -->
+                        <!-- LC -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec5_CmbLC">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec5_CmbLC_Lbl">LC :</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec5_CmbLC_Cd" data-cpypst-blsmartcpypaste="LCId" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /LC -->
+                        <!-- Loan -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec5_CmbLoan">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec5_CmbLoan_Lbl">Loan :</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec5_CmbLoan_Cd" data-cpypst-blsmartcpypaste="LoanId" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /Loan -->
+                        <!-- Order Det -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec5_CmbOrderDet">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec5_CmbOrderDet_Lbl">Order Det :</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec5_CmbOrderDet_Cd" data-cpypst-blsmartcpypaste="OrderDetId" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /Order Det -->
+                        <!-- Currency Code -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec6_CmbAccCur">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec6_CmbAccCur_Lbl">Currency Code:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec6_CmbAccCur_Cd" data-cpypst-blsmartcpypaste="CrnCode" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /Currency Code -->
+                        <!-- Ex.rate -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec6_InptAccEx">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec6_InptAccEx_Lbl">Ex.rate:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><input data-cpypst-blsmartcpypaste="ExRate" id="HdrSec6_InptAccEx_Cd" type="text" class="k-input width-100" /></div>
+                            </div>
+                        </div>
+                        <!-- /Ex.rate -->
+                        <!-- MA Date -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec6_MADate">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec6_MADate_Lbl">MA Date:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><input id="HdrSec6_MADate_Cd" data-cpypst-blsmartcpypaste="MaDate" class="width-100" /></div>
+                            </div>
+                        </div>
+                        <!-- /MA Date -->
+                        <!-- Order NO -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec6_CmbOrderNO">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec6_CmbOrderNO_Lbl">Order NO:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec6_CmbOrderNO_Cd" data-cpypst-blsmartcpypaste="OrderId" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /Order NO -->
+                        <!-- Res Adr -->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec6_CmbResAdr">
+                            <div class="row m-b-2">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec6_CmbResAdr_Lbl">Res Adr:</label></div>
+                                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12"><div id="HdrSec6_CmbResAdr_Cd" data-cpypst-blsmartcpypaste="ResAdrId" class="width-100"></div></div>
+                            </div>
+                        </div>
+                        <!-- /Res Adr --> 
+                        <!-- Desciprtion --> 
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg" id="HdrSec10_TxtArea_Des">
+                            <div class="col-md-2 col-sm-3">
+                                <label id="HdrSec10_TxtArea_Des_Lbl">Desciprtion</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                @*<input placeholder="0.00" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox"  style="width:100%"/>*@
+                                <textarea class="k-textbox m-l--35" id="HdrSec10_TxtArea_Des_Val" data-cpypst-blsmartcpypaste="Description" style="width:105%"></textarea>
+                            </div>
+                        </div> 
+                        <!-- /Desciprtion -->                                 
+                    </div>
+                </div>
+
+            </div><!-- ChildHdrpart -->
+            <br style="clear: both" />
+            <div class="col-md-12 col-sm-12 no-padding">
+                <div id="FormGrd">
+                    <div id="JournalGrid">
+                    </div>
+                </div>
+                <script id="command-template" type="text/x-kendo-template">
+                    <a class="k-button k-grid-evenselect">X</a>
+                </script>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div>
+    @Html.Partial("~/Views/Journal/JournalFind.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<script>
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var viewBag = {
+        ObjKy: '@ViewBag.ObjKy',
+        OurCd: '@ViewBag.OurCd',
+        OurCd2: '@ViewBag.OurCd2',
+        ObjCaptn: '@ViewBag.ObjCaptn'
+    }
+
+    var OurCode = '@ViewBag.OurCd';
+    var ObjKy = '@ViewBag.ObjKy';
+
+    var urlGetCurrencyDrop = '@Url.Content("~/Journal/CurrencyDrop")';
+    var urlGetCurrencyDrop = '@Url.Content("~/Journal/CurrencyDrop")';
+
+    //var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropCode = '@Url.Content("~/ComboLoadV2/AccCd_SelectMob")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+
+    //var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetProjectCode = '@Url.Content("~/ComboLoadV2/PrjID_SelectMob")';
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+
+    var urlGetBUCode = '@Url.Content("~/ComboLoadV2/Code_SelectMob")';
+    //var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+
+    var urlGetTaskCodeUrl = '@Url.Content("~/ComboLoadV2/TaskID_SelectMob")';
+    //var urlGetTaskCodeUrl = '@Url.Content("~/Journal/TaskCodeLookUp")';
+    var urlDetlGetTaskNm = '@Url.Content("~/Journal/TaskNameLookUp")';
+
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlGetAnalysis = '@Url.Content("~/Journal/AnalysisNm")';
+    var urlGetAllDetail = '@Url.Content("~/Journal/GetAllJournalDetail")';
+
+    var urlSaveHdr = '@Url.Content("~/Journal/InsertHdr")';
+    var urlSaveDetail = '@Url.Content("~/Journal/InsertDetail")';
+    var urlGetHomeCurency = '@Url.Content("~/Journal/GetHomeCurency")';
+    var urlGetExRate = '@Url.Content("~/Journal/GetHomeCurencyEx")';
+    var urlUpdateHdr = '@Url.Content("~/Journal/UpdateHdr")';
+    //
+    var urlGetLoan = '@Url.Content("~/Payment/OurCodeFilter")';
+    var urlGetOrderNo = '@Url.Content("~/Payment/OdrKyCode")';
+    var urlGetOrderDet = '@Url.Content("~/Payment/OdrDetCode")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAnalysisNm = '@Url.Content("~/Journal/AnalysisNm")';
+    var urlGetAnalysisCd = '@Url.Content("~/Journal/analysisCd")';
+    var urlIsTbOK = '@Url.Content("~/Payment/IsTbBAl")';
+    function urlGetTaskCode() {
+
+        var cmbFmPrjId = document.getElementById("HdrSec4_CmbPrj_Cd").value;
+        if (!cmbFmPrjId) {
+            cmbFmPrjId = 1;
+        }
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Journal/TaskCodeLookUp")',
+                    data: {
+                        'PrjKy': cmbFmPrjId
+                    },
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function urlGetTaskNm() {
+        var cmbFmPrjId = document.getElementById("HdrSec4_CmbPrj_Cd").value;
+        if (!cmbFmPrjId) {
+            cmbFmPrjId = 1;
+        }
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Journal/TaskNameLookUp")',
+                    data: {
+                        'PrjKy': cmbFmPrjId,
+
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    var viewBagObjCaptn = '@ViewBag.ObjCaptn';
+    var viewBagOurCd = '@ViewBag.OurCd';
+    var viewBagObjKy = '@ViewBag.ObjKy';
+
+    function PrintSource() {
+        var formOrdKy = FormGlblData.TrnKy;
+        var formObjCaption = viewBagObjCaptn;
+        var formObjKy = viewBagObjKy;
+
+        // Calling from "<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js>"
+        PrintCommon(formOrdKy, formObjCaption, formObjKy);
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var UrlBuList = '@Url.Content("~/ManageAllAccount/BuList")';
+
+</script>
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/Journal/Journal.js"></script>
+<script src="~/Scripts/HtnScripts/Journal/JournalGrid.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/GetAllRecodesFormObjMas")';
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/ObjMasV2/ObjMasCommonFunctions.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>

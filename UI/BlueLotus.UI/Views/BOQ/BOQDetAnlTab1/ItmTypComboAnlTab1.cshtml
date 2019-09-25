@@ -1,0 +1,21 @@
+﻿<div id="cmbItmTypCdAnlTab1"></div>
+
+<script>
+    $(document).ready(function () {
+        LoadItmTypComboAnlTab1();
+    });
+    
+    function LoadItmTypComboAnlTab1() {
+        $("#cmbItmTypCdAnlTab1").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: CdMasLookUp('ItmTyp'),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Item Type Code ...",
+        });
+        $("#cmbItmTypCdAnlTab1").parent().css('width', "150px");
+    }
+    
+</script>

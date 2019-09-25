@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "PNSCordinatorDeposit";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+<style>
+    .k-numerictextbox .k-input {
+        padding-right: 5px !important;
+        text-align: right;
+        width: 96%;
+    }
+</style>
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<div class="form  wr_formGroup clearfix">
+    <div class="col-md-12 control-icons hidden-xs hidden-sm">
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+        <button class="control-button clean" onclick="Clear()" data-tooltip="Clear"> </button>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Outlet</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Outlet"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Deposit No</label>
+            <div class="col-md-7 col-sm-7">
+                <input type="text" class="k-textbox " id="DepNo"/>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Deposit Date</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="datepicker"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label" id="Bank">Bank</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="FrmBankLookup"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Amount </label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Cash"/>
+            </div>
+        </div>
+        <div class="col-md-12 control-icons marging-b-500 m-t-40 hidden-lg hidden-md">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button clean fr marging-r-10" onclick="Clear()" data-tooltip="Clear"> </button>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $(document)
+        .ready(function() {
+
+            LoadCombo();
+            $("#datepicker")
+                .kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    min: new Date(31, 2, 2009)
+                });
+            $("#Cash")
+                .kendoNumericTextBox({
+                    decimals: 3.
+                });
+            $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+            var todayDate = new Date();
+            $("#datepicker").data("kendoDatePicker").value(todayDate);
+            //UsrCashBal();
+
+            //GetChqueList();
+            $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+            $('.k-input')
+                .on('focus',
+                    function() {
+                        var input = $(this);
+                        setTimeout(function() { input.select(); });
+                    });
+            Clear();
+        });
+
+    function LoadCombo() {
+        //Load the tooltip //COmmo srcipt
+        Tooltip();
+        //Selecting the text//COmmo srcipt
+        SelectText();
+        //combo from BusinessUnit Id
+        $("#Outlet")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCd",
+                dataSource: {
+                    type: "POST",
+                    transport: {
+                        read: '@Url.Content("~/PNSPaymentCordinator/OutlettLookup")'
+                    }
+                },
+                change: function(e) {
+                    var cmb = $("#Outlet").data("kendoComboBox");
+                    var AccKy = cmb.value();
+                    if (AccKy != "") {
+                        var validate = ComboValidations("Outlet");
+                        if (validate) {
+                            $("#Outlet").data("kendoComboBox").value(AccKy);
+
+                        } else {
+                            $("#Outlet").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Outlet"
+            });
+
+        //combo from BusinessUnit Id
+        $("#FrmBankLookup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCd",
+                dataSource: BankDatasource(),
+                change: function(e) {
+                    var cmb = $("#FrmBankLookup").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("FrmBankLookup");
+                        if (validate) {
+                            $("#FrmBankLookup").data("kendoComboBox").value(CdKy);
+
+                        } else {
+                            $("#FrmBankLookup").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Bank"
+            });
+
+        //
+        //combo from BusinessUnit Id
+        $("#ToBankLookup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCd",
+                dataSource: BankDatasource(),
+                change: function(e) {
+                    var cmb = $("#ToBankLookup").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("ToBankLookup");
+                        if (validate) {
+                            $("#ToBankLookup").data("kendoComboBox").value(CdKy);
+
+                        } else {
+                            $("#ToBankLookup").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Bank"
+            });
+
+    }
+
+    function BankDatasource() {
+
+        var BuKy = 1;
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/PNSCordinatorDeposit/BankLookup")',
+                    data: {
+                        'BuKy': BuKy,
+
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+
+    }
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function Save() {
+        var Outlet = document.getElementById("Outlet").value;
+        var DepNo = document.getElementById("DepNo").value;
+        var Cash = document.getElementById("Cash").value;
+        var datepicker = document.getElementById("datepicker").value;
+        var FrmBankLookup = document.getElementById("FrmBankLookup").value;
+        var ConCord = "TrnTyp";
+        var OurCode = "@(ViewBag.MyPmtcd)";
+        if (Outlet) {
+            if (DepNo) {
+                if (FrmBankLookup) {
+                    //If all columns are filled go to
+                    $.ajax({
+                        url: "@Url.Content("~/PNSDrcctdep/Save")",
+                        data: JSON.stringify({
+                            Outlet: Outlet,
+                            DepNo: DepNo,
+                            Cash: Cash,
+                            datepicker: datepicker,
+                            FrmBankLookup: FrmBankLookup,
+                            ConCord: ConCord,
+                            OurCode: OurCode,
+
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "Json",
+                        type: "POST",
+                        success: function(data) {
+                            if (data) {
+                                alert("Sucessfully Saved");
+                                alert("Transaction Number is " + data);
+                                Clear();
+
+                            } else {
+                                alert("Please Try Again");
+
+                            }
+                            //load the data
+
+                        },
+                        error: function(e) {
+                            return false;
+                        }
+                    });
+                } else {
+                    alert("Please Select Bank");
+
+                }
+
+            } else {
+                alert("Please Insert Deposit Number");
+
+            }
+        } else {
+            alert("Please Select an outlet");
+        }
+
+    }
+
+    function Clear() {
+        $("#Outlet").data("kendoComboBox").value("");
+        $("#FrmBankLookup").data("kendoComboBox").value("");
+        $("#Cash").data("kendoNumericTextBox").value(0.00);
+        document.getElementById("DepNo").value = "";
+        var todayDate = new Date();
+        // alert(todayDate)
+        $("#datepicker").data("kendoDatePicker").value(todayDate);
+
+        //  document.getElementById("Outlet").Vale = false;
+        //  document.getElementById("IsFoundTrans").checked = false;
+        //  document.getElementById("IsFoundTrans").checked = false;
+        //  document.getElementById("IsFoundTrans").checked = false;
+
+        //  document.getElementById("IsFoundTrans").checked = false;
+    }
+</script>

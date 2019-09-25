@@ -1,0 +1,127 @@
+
+@*<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />*@
+
+<div id="GetFromPurOrd" style="display: none; font-size:11px;">
+    <div class="k-content clearfix m-l-0" id="filterCont">
+        <div class="col-md-6 control-icons width-100">
+            <button class="control-button search" onclick="SearchPurOrd();" data-tooltip="Search"></button>
+            <button class="control-button cancel" onclick="CancelPurOrd();" data-tooltip="ClearGrid"></button>
+        </div>
+        
+            <div class="col-md-12 col-sm-12 p-l-0" id="HdrPart">
+                <div class="wr_formGroup">
+                    <div class="row">
+                        <div class="col-lg-offset-1 col-md-offset-1 col-lg-5 col-md-5 col-md-5  col-xs-offset-0">
+                            <!-- DateFrom -->
+                            <div class="row m-b-4">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label>DateFrom</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="TrnTypOrd_FrmDateFromPR" class="" data-role="datepicker" data-bind="value: TrnTypOrd_FrmDateFromPR" />
+                                </div>
+                            </div>
+                            <!-- /DateFrom -->
+
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-md-5">
+                            <!-- DateTo -->
+                            <div class="row m-b-4">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label>DateTo</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="TrnTypOrd_ToDateFromPR" class="" data-role="datepicker" data-bind="value: TrnTypOrd_ToDateFromPR" />
+                                </div>
+                            </div>
+                            <!-- /DateTo -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-offset-1 col-md-offset-1 col-lg-5 col-md-5 col-md-5 col-xs-offset-0">
+                            <!-- PRNo -->
+                            <div class="row m-b-4">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label id="Pr">PRNo</label>                                           
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="TrnTypOrd_OrdNoFrmPurReq" type="text" class="k-textbox" /> 
+                                </div>
+                            </div>
+                            <!-- /PRNo -->
+
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-md-5">
+                            <!-- Project -->
+                            <div class="row m-b-4">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label>Project</label>                                   
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div id="TrnTypOrd_cmbPrjectIdFrmPurReq" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Project-->                           
+                        </div>
+                    </div>
+                   @*<div class="col-md-3  col-sm-3">
+                       <label>Suplier</label>
+                       <div id="cmbSupPR"></div>
+                   </div>*@
+                   
+                    <div class="row">
+                        <div class="col-lg-offset-1 col-md-offset-1 col-lg-5 col-md-5 col-md-5 col-xs-offset-0">
+                            <!-- Suplier -->
+                            <div class="row m-b-4" style="display:none">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <label>Suplier</label>                                   
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12" style="display:none">
+                                    <div id="TrnTypOrd_OrdtypOrdcmbSupGRN" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Suplier -->
+
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-md-5">
+                            <!--  -->
+                            <div class="row m-b-4">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                </div>
+                            </div>
+                            <!-- /-->
+                        </div>
+                    </div>
+
+                                       
+                    </div>
+
+                    @*<button class="control-button ok" id="btnOkPR" onclick="OkPR();" title="Ok">Ok</button>
+                        <button class="control-button cancel" id="btnCalcelPR" onclick="btnCalcelPR();" title="Cancel">Cancel</button>*@
+                 </div>
+        </div>
+        <div class="col-md-12 col-sm-12 m-t-10 p-l-0">
+            <div id="TrnTypOrd_FindFromPOGrid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var URLGetFromPurOrd =
+        {
+            LoadFindGrid: '@Url.Content("~/Transaction/TrnTypPendingOrdTyp_SelectWeb")',
+            GettingAllRecords: '@Url.Content("~/Transaction/TrnTypPendingOrdTypDetails_SelectWeb")',
+        }
+
+    @*var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';*@
+</script>
+
+<script src="~/Scripts/HtnScripts/Transaction/PopUp/TrnTypPendingOrdTyp.js"></script>
+
+

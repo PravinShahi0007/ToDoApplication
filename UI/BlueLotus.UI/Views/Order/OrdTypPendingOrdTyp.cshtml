@@ -1,0 +1,634 @@
+﻿<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="GetFromPO" style="display: none; font-size:11px;">
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSetFind">
+            <button class="control-button search" id="btnSearchOrderForm" onclick="SearchPR();" data-tooltip="Search"></button>
+            <button class="control-button cancel" id="btnCalOrderForm" onclick="CancelPRFunc();" data-tooltip="ClearGrid"></button>
+        </div>
+
+        <div id="HdrPart">
+            <div class="col-md-12 col-sm-12">
+                <div class="wr_formGroup">
+                    <div class="row">
+                        <!-- section 01 -->
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <!-- From Date -->
+                            <div class="row form-inline form-group">
+                                <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>From:</label></div>
+                                <div class="col-md-8 col-sm-6 col-xs-12 ">
+                                    <input id="FrmDateFromPR" data-role="datepicker" data-bind="value: FrmDateFromPR" class="width-100" placeholder="From Date" />
+                                </div>
+                            </div>
+                            <!-- /From Date -->
+                            <!-- To -->
+                            <div class="row form-inline form-group">
+                                <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>To:</label></div>
+                                <div class="col-md-8 col-sm-6 col-xs-12 ">
+                                    <input id="ToDateFromPR" data-role="datepicker" data-bind="value: ToDateFromPR" class="width-100" placeholder="To Date" />
+                                </div>
+                            </div>
+                            <!-- /To -->
+                        </div>
+                        <!-- section 02 -->
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <!-- PR No -->
+                            <div class="row form-inline form-group">
+                                <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="Pr">Trn No:</label></div>
+                                <div class="col-md-8 col-sm-6 col-xs-12 ">
+                                    <input id="OrdNoFrmPurReq" type="text" class="k-textbox width-100" />
+                                </div>
+                            </div>
+                            <!-- /PR No -->
+                        </div>
+                        <!-- section 03 -->
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <!-- Suplier -->
+                            <div class="row form-inline form-group" style="display:none">
+                                <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>Suplier</label></div>
+                                <div class="col-md-8 col-sm-6 col-xs-12 ">
+                                    <div id="OrdtypOrdcmbSupGRN" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Suplier -->
+                            <!-- Project -->
+                            <div class="row form-inline form-group">
+                                <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>Project</label></div>
+                                <div class="col-md-8 col-sm-6 col-xs-12 ">
+                                    <div id="cmbPrjectIdFrmPurReq" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Project -->
+                        </div>
+
+                    </div>
+
+                    @*<div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4  col-sm-4">
+                                    <label>DateFrom</label>
+                                    <input id="FrmDateFromPR" data-role="datepicker" data-bind="value: FrmDateFromPR" />
+                                </div>
+                                <div class="col-md-4  col-sm-4">
+                                    <label>DateTo</label>
+                                    <input id="ToDateFromPR" data-role="datepicker" data-bind="value: ToDateFromPR" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4  col-sm-4">
+                                    <label id="Pr" style="margin-right:25px">PRNo</label>
+                                    <input id="OrdNoFrmPurReq" type="text" style="width:150px;" class="k-textbox" />
+                                </div>
+                                <div class="col-md-4  col-sm-4">
+                                    <label>Project</label>
+                                    <div id="cmbPrjectIdFrmPurReq"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4">
+                                        <label>Suplier</label>
+                                        <div id="OrdtypOrdcmbSupGRN"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFromPOGrid"></div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        var Now = new Date();
+        var dd = Now.getDate();
+        var mm = Now.getMonth() + 1;
+        var yy = Now.getFullYear();
+        $('#FrmDateFromPR').val(dd + "/" + mm + "/" + yy);
+
+        LoadComboFind_Form_FindFromPurReq();
+        //LoadGridFindView_Form_FindFromPurReq();
+        GetFromGridDefaultColumns();
+        var OurForFind = "";
+
+
+        //var height = $(window).height() - 70;
+        //var h2 = $("#filterCont").height();
+        //$("#body").height(height);
+        //$("#grid").height(height - (35 + h2 + 40));
+    });
+
+
+
+    $("#FrmDateFromPR").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        //min: new Date(31, 2, 2009)
+    });
+    $("#FrmDateFromPR").closest("span.k-datepicker").width(150);
+    $("#ToDateFromPR").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        //min: new Date(31, 2, 2009)
+    });
+    $("#ToDateFromPR").closest("span.k-datepicker").width(150);
+
+    function ProjectDataSource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Order/GetPrjListForOrder")',
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function SupDatasource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Order/GetSuplistForOrder")',
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function LoadComboFind_Form_FindFromPurReq() {
+        $("#OrdtypOrdcmbSupGRN").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: SupDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a suplier.."
+        });
+
+        $("#cmbPrjectIdFrmPurReq").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "DocNo",
+            dataSource: GetPrjID_SelectMobDataSource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Project.."
+        });
+
+        function GetPrjID_SelectMobDataSource() {
+            var ObjKy = 1;
+            //alert(ObjKy);
+            var dataSource = new kendo.data.DataSource(
+            {
+                transport: {
+                    read: {
+                        url: urlComboLoad.PrjID_SelectMob,
+                        data: {
+                            ObjKy: ObjKy,
+                            TrnTypKy: 1,
+                            PreKy: 1
+                        },
+                        dataType: "json"
+                    }
+                }
+            });
+            return dataSource;
+        }
+
+
+        //$("#cmbPrjectIdFrmPurReq").kendoComboBox({
+        //    dataValueField: "PrjKy",
+        //    dataTextField: "DocNo",
+        //    dataSource: GetPrjID_SelectMobDataSource('HdrSec2_CmbPrj'),
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Select a Project.."
+        //});
+
+
+
+    //    function LoadPrjCdCombo() {
+    //        $("#HdrSec2_CmbPrj_Cd").kendoComboBox({
+    //            dataValueField: "PrjKy",
+    //            dataTextField: "DocNo",
+    //            dataSource: GetPrjID_SelectMobDataSource('HdrSec2_CmbPrj'),
+    //            change: function (e) {
+    //                var cmb = $("#HdrSec2_CmbPrj_Cd").data("kendoComboBox");
+    //                var prjky = cmb.value();
+    //                if (prjky != "") {
+    //                    var validate = ComboValidations("HdrSec2_CmbPrj_Cd");
+    //                    if (validate) {
+    //                        $("#HdrSec2_CmbPrj_Nm").data("kendoComboBox").value(prjky);
+    //                        FormGlblData.IsDetailRelatedHdrSectionChanged = true;
+    //                        LoadTaskCombo(prjky);
+    //                    } else {
+    //                        $("#HdrSec2_CmbPrj_Nm").data("kendoComboBox").value("");
+    //                    }
+    //                }
+    //            },
+    //            filter: "startswith",
+    //            suggest: true,
+    //            placeholder: "Select a From Project.."
+    //        });
+    }
+
+    //function LoadGridFindView_Form_FindFromPurReq() {
+
+    //    var dataSource = new kendo.data.DataSource({
+
+    //        batch: true,
+    //        pageSize: 10,
+    //        schema: {
+    //            model: {
+    //                id: "ItmKy",
+    //                fields: //Relavent fields of the grid should be bind with following model items
+    //                {
+    //                    Lino: { editable: false, nullable: false, type: "number" },
+    //                    OrdKy: { editable: false, nullable: false, type: "number" },
+    //                    Prefix: { editable: false, nullable: false, type: "number" },
+    //                    Supplier: { editable: false, nullable: false, type: "string" },
+    //                    OrdNo: { editable: false, nullable: false, type: "number" },
+    //                    OrdDt: { editable: false, nullable: false, type: "date" },
+    //                    DocNo: { editable: false, nullable: false, type: "string" },
+
+    //                }
+    //            }
+    //        }
+    //    });
+
+    //    $("#FindFromPOGrid").kendoGrid({
+    //        dataSource: dataSource,
+    //        autobind: true,
+
+    //        navigatable: true,
+    //        filterable: true,
+
+    //        pageable: true,
+    //        sortable: true,
+    //        reorderable: true,
+    //        columnMenu: true,
+
+    //        selectable: "row",
+    //        pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+    //        columns: [
+    //            { field: "Lino", title: "LiNo", width: "50px" },
+    //            { field: "OrdKy", title: "Ref #", width: "100px", hidden: true },
+    //            { field: "Prefix", title: "Prefix", width: "150px" },
+    //            { field: "Supplier", title: "Supplier", width: "150px" },
+    //            { field: "OrdNo", title: "OrdNo", width: "150px" },
+    //            {
+    //                field: "OrdDt", title: "OrdDt", width: "100px", format: "{0: MM-dd-yyyy}",
+    //                template: "#= kendo.toString(kendo.parseDate(OrdDt, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+    //            },
+    //            { field: "DocNo", title: "DocNo", width: "150px" },
+    //        ],
+    //        resizable: true,
+    //        dataBinding: function () {
+    //            record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+    //        },
+    //        editable: true
+    //    });
+
+    //}
+
+    function GetFromGridDefaultColumns() {
+        var columnsDefine = [
+           { field: "Lino", title: "LiNo", width: "50px" },
+           { field: "OrdKy", title: "Ref #", width: "100px", hidden: true },
+           { field: "Prefix", title: "Prefix", width: "150px" },
+           { field: "Supplier", title: "Supplier", width: "150px" },
+           { field: "OrdNo", title: "OrdNo", width: "150px" },
+           {
+               field: "OrdDt", title: "OrdDt", width: "100px", format: "{0: dd-MM-yyyy}",
+               template: "#= kendo.toString(kendo.parseDate(OrdDt, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+           },
+           { field: "DocNo", title: "DocNo", width: "150px" },
+        ];
+        var gridNo = 3;
+        var columnsFinal = setColumnProp(columnsDefine, viewBag.ObjKy, '', 'FindFromPOGrid', gridNo);
+    }
+
+    function LoadGridWithColumnPropThree(columnsFinal, gridNo) {
+        var getFromDataSource = new kendo.data.DataSource({
+            batch: true,
+            sort: ({ field: "Lino", dir: "desc" }),
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        Lino: { editable: false, nullable: false, type: "number" },
+                        OrdKy: { editable: false, nullable: false, type: "number" },
+                        Prefix: { editable: false, nullable: false, type: "number" },
+                        Supplier: { editable: false, nullable: false, type: "string" },
+                        OrdNo: { editable: false, nullable: false, type: "number" },
+                        OrdDt: { editable: false, nullable: false, type: "date" },
+                        DocNo: { editable: false, nullable: false, type: "string" },
+                    }
+                }
+            }
+        });
+
+        $("#FindFromPOGrid")
+            .kendoGrid({
+                dataSource: getFromDataSource,
+                columnMenu: true,
+                sortable: true,
+                autobind: true,
+                navigatable: true,
+                editable: true,
+                filterable: {
+                    mode: "row"
+                },
+                reorderable: true,
+                scrollable: true,
+                pageSize: 10,
+                pageable: true,
+                selectable: "row",
+                resizable: true,
+                // dataBound: onDataBound,
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+                columns: columnsFinal,
+
+            });
+    }
+
+    //function onDataBound(e) {
+    //    var id = ("#FindFromPOGrid");
+    //    var grid3 = $(id).data("kendoGrid");
+    //    var dataSource3 = grid3.getFromDataSource.data();
+    //    var length = dataSource3.length;
+    //    for (var i = 0; i < length; i++) {
+    //        if (getFromDataSource[i].IsAct == 0) {
+    //            grid3.tbody.find("tr[data-uid='" + getFromDataSource[i].uid + "']").hide();
+    //        }
+    //    }
+    //}
+
+
+    function SearchPR() {
+        $('#FindFromPOGrid').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#FindFromPOGrid").data("kendoGrid");
+        grid.dataSource.data([]);
+
+        var PrjKy = $("#cmbPrjectIdFrmPurReq").data('kendoComboBox').value();
+        if (PrjKy == undefined || PrjKy == "" || PrjKy == null) {
+            var PrjKy = 1;
+        }
+
+        var SupKy = $("#OrdtypOrdcmbSupGRN").data('kendoComboBox').value();
+        if (SupKy == undefined || SupKy == "")
+        {
+            SupKy = 1;
+        }
+        var FrmDt = $("#FrmDateFromPR").val();
+        if (FrmDt == undefined || FrmDt == "" || FrmDt == null) {
+            var FrmDt = "1/1/1900";
+        }
+        var ToDt = $("#ToDateFromPR").val();
+        if (ToDt == undefined || ToDt == "" || ToDt == null) {
+            var ToDt = "1/1/2078";
+        }
+
+        var OrdNo = document.getElementById("OrdNoFrmPurReq").value;
+        if (OrdNo == undefined || OrdNo == "") {
+            var OrdNo = null;
+        }
+
+        var ConCd = "OrdTyp";
+        var OurCd = FormGlblData.OurCdFromFind;
+
+        $.ajax({
+            url: "@Url.Content("~/Order/OrdTypPendingOrdTyp_SelectWeb")",
+            data: JSON.stringify({
+                PRFindDet: JSON.stringify({
+                    PrjKy: PrjKy,
+                    SupKy: SupKy,
+                    ConCd: ConCd,
+                    OurCd: OurCd,
+                    FrmDt: FrmDt,
+                    ToDt: ToDt,
+                    ToOrdNo: OrdNo,
+                    OrdTypKy: FormGlblData.OrdTypKy,
+                    ObjKy: viewBag.ObjKy
+                })
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    $("#FindFromPOGrid").data("kendoGrid").dataSource.add({
+                        Lino: data[i].Lino,
+                        OrdKy: data[i].OrdKy,
+                        Prefix: data[i].Prefix,
+                        Supplier: data[i].SupAccCd,
+                        OrdNo: data[i].OrdNo,
+                        OrdDt: new Date(data[i].OrdDt),
+                        DocNo: data[i].DocNo
+                    });
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function CancelPRFunc() {
+        $("#FindFromPOGrid").data("kendoGrid").dataSource.data([]);
+        //$("#FrmDateFromPR").data("kendoDatePicker").value("");
+        $("#ToDateFromPR").data("kendoDatePicker").value("");
+        $("#cmbPrjectIdFrmPurReq").data("kendoComboBox").value("");
+    }
+
+    $("#FindFromPOGrid").on("dblclick", "tr.k-state-selected", function () {
+
+        var grid = $('#FindFromPOGrid').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var ordKy = selectedItem.OrdKy;
+        if (ordKy != "" || ordKy != undefined || ordKy != null) {
+            if (FormGlblData.OurCdFromFind_IsCmpn === 1) {
+                Details_GetHdrDetailFromPR(ordKy);
+            } else {
+                comClearWithOutGrid();
+                GetHdrDetailFromPR(ordKy);
+            }
+        } else {
+            alert("please Select Any Trancsaction");
+        }
+        CancelPRFunc();
+    });
+
+    function GetHdrDetailFromPR(ordKy) {
+
+        var ConCd = "OrdTyp"
+        var OurCd = viewBag.OurCd// FormGlblData.OurCdFromFind;
+        $.ajax({
+            url: "@Url.Content("~/Order/OrdTypPendingOrdTypDetails_SelectWeb")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+                ConCd: ConCd,
+                OurCd: OurCd,
+                ObjKy: viewBag.ObjKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                var OrdDetKy = "";
+
+                //for (i = 0; i < data.length; i++) {
+                if (data.length > 0) {
+
+                    var i = 0;
+                    var OrdKy = data[i].OrdKy;
+                    $("#OrdKy").val(OrdKy);
+
+                    OrdDetKy += data[i].OrdDetKy + " ";
+
+                    var OrdNo = data[i].PrefixTrnNo;
+                    $("#OrdNo").val(OrdNo);
+
+                    var YurRef = data[i].YurRef;
+                    $("#HdrSec1_InptYurRef_Val").val(YurRef);
+
+                    var DocNo = data[i].DocNo;
+                    $("#HdrSec1_InptDocNo_Val").val(DocNo);
+
+                    //var OrdDt = new Date(data[i].OrdDt);
+                   // $('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(data[i].OrdDt);12/06/2018 - narmada
+                    $('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value();
+
+                    var RepAdrKy = data[i].RepAdrKy;
+                    $("#HdrSec2_CmbRepAdr_Cd").data("kendoComboBox").value(RepAdrKy);
+                    $("#HdrSec2_CmbRepAdr_Nm").data("kendoComboBox").value(RepAdrKy);
+
+                    var AccKy = data[i].AccKy;
+                    //$("#HdrSec2_CmbSupAcc_Cd").data("kendoComboBox").value(AccKy);
+                    //$("#HdrSec2_CmbSupAcc_Nm").data("kendoComboBox").value(AccKy);
+
+                    $("#HdrSec2_CmbSupAcc_Cd").data("kendoComboBox").value(AccKy);//20/06/2018 narmada
+                    $("#HdrSec2_CmbSupAcc_Nm").data("kendoComboBox").value(AccKy);
+                    LoadAdrComboByAcc(AccKy);
+                    var PrjKy = data[i].PrjKy;
+                    $("#HdrSec2_CmbPrj_Cd").data("kendoComboBox").value(PrjKy);
+                    $("#HdrSec2_CmbPrj_Nm").data("kendoComboBox").value(PrjKy);
+
+                    var BUKy = data[i].BUKy;
+                    $("#HdrSec2_CmbBU_Cd").data("kendoComboBox").value(BUKy);
+                    $("#HdrSec2_CmbBU_Nm").data("kendoComboBox").value(BUKy);
+
+                    var LocKy2 = data[i].LocKy2; //value should be from location 13/06/2018
+                    $("#HdrSec2_CmbFrmLoc_Cd").data("kendoComboBox").value(LocKy2); 
+                    $("#HdrSec2_CmbFrmLoc_Nm").data("kendoComboBox").value(LocKy2);
+
+                    var Datasource = [];
+                    Datasource.push({ AdrKy: data[i].AdrKy, AdrID: data[i].AdrId, AdrNm: data[i].AdrNm });
+                    //$("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").setDataSource(Datasource);
+                    //$("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").setDataSource(Datasource);
+                    var OrdAdrId = data[i].AdrId;
+                    var OrdAdrNm = data[i].AdrNm;
+                    var OrdAdrKy = data[i].AdrKy;
+                    //$("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").value(OrdAdrKy);//11/06/2018 ... narmada
+                    $("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").value();
+                    //$("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").text(OrdAdrId);
+                    $("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").value();
+                    //$("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").value(OrdAdrKy);//11/06/2018 narmada
+                    //$("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").text(OrdAdrNm);
+
+                    var LocKy = data[i].LocKy;
+                    $("#HdrSec2_CmbLoc_Cd").data("kendoComboBox").value(LocKy);
+                    $("#HdrSec2_CmbLoc_Nm").data("kendoComboBox").value(LocKy);
+
+                    var Des = data[i].Des;
+                    $("#HdrSec7_InptDesc_Val").val(Des);
+
+                    var Rem = data[i].Rem;
+                    $("#HdrSec7_InptRemark_Val").val(Rem);
+                    $("#OrdDetKy").val(OrdDetKy);
+
+                    //========================================================= Grid Binding
+                    var id = ("#" + '@(ViewBag.OurCd)');
+                    $(id).data("kendoGrid").dataSource.filter(null);
+                    var grid = $(id).data("kendoGrid");
+                    grid.dataSource.data([]);
+
+                    for (i = 0; i < data.length; i++) {
+                        $(id).data("kendoGrid").dataSource.add({
+                            OrdNo: data[i].LiNo,
+                            FrmOrdDetKy: data[i].OrdDetKy,
+                            ItmKy: data[i].ItmKy,
+                            LiNo: data[i].LiNo,
+                            ItmCd: data[i].ItmCd,
+                            ItmNm: data[i].ItmNm,
+                            Unit: data[i].Unit,
+                            UnitKy: data[i].UnitKy,
+                            Des: data[i].DetDes,
+                            DisAmt: data[i].DisAmt,
+                            DisPer: data[i].DisPer,
+                            Rem: data[i].DetRem,
+                            POQty: data[i].BaseQty,
+                            ReMnQty: data[i].TrnQty,
+                            TrnQty: data[i].TrnQty,
+                            TrnRate: data[i].TrnRate,
+                            SubTotal: data[i].TrnRate * data[i].TrnQty,
+                            VatAmt: data[i].VatAmt,
+                            WHTAmt: data[i].WHTAmt,
+                            NBTAmt: data[i].NBTAmt,
+                            SVatAmt: data[i].SVatAmt,
+                            VAT: data[i].VAT,
+                            WHT: data[i].WHT,
+                            NBT: data[i].NBT,
+                            SVAT: data[i].SVAT,
+                            ReqDt: data[i].ReqDt,
+                            IsAct: data[i].isAct,
+                            PrcsDetKy: data[i].PrcsDetKy,
+                            PrcsID: data[i].PrcsID
+                        });
+                    }
+                    $('#GetFromPO').data('kendoWindow').close();
+                    ArrangeLiNo();
+                    Calculatetotal();
+                    $('#HdrSec2_CmbLoc_Cd').data("kendoComboBox").trigger("change");
+                    $('#HdrSec2_CmbPrj_Cd').data("kendoComboBox").trigger("change");
+
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+
+</script>
+<style>
+    #FindFromPOGrid {
+        height: 44vh;
+    }
+
+        #FindFromPOGrid .k-grid-content {
+            height: 34.5vh;
+        }
+</style>

@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = ViewBag.OurCd;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<script>
+    var urlGetAssignedDeviceDetails = '@Url.Content("~/Device/GetAssignedDevices")';
+    var urlGetDevUsers = '@Url.Content("~/Device/GetDevUsers")';
+    var urlGetAllDevices = '@Url.Content("~/Device/GetAllDevices")';
+    var urlAssignDevice = '@Url.Content("~/Device/AssignDevice")';
+    var urlUnselectDevice = '@Url.Content("~/Device/UnselectDevice")';
+</script>
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+
+<script src="~/Scripts/HtnScripts/Device/AssignDevices.js"></script>
+    <div class="form" style=" background-color:  #E3F0F7;width:100%;  height:200%; border: 2px solid #07789E;">
+        <div class="form-row">
+            <br />
+            <center>
+                <label style="margin-right:20px">User to be Assigned : </label><div id="cmbDevUsr" ></div><br />
+                <label style="margin-right:10px">Device to be Assigned :</label><div id="cmbDev"></div>
+                <br />
+                <br />
+                <button class="save" onclick="AllocateDevice()" data-tooltip="Save">Save</button>
+                <button class="delete" onclick="UnselectDevice()" data-tooltip="Remove">Remove Device Ownership</button>
+            </center>
+        </div>
+        <div id="cmbDevUsr"></div>
+        <div style="margin-top:0px;margin-bottom:0px;margin-left:0px;">
+            <br />
+            <center><label style="font-size:large">Assigned Devices</label></center>
+            <div id="AssignedDevicesGrid"  margin:0 auto;"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

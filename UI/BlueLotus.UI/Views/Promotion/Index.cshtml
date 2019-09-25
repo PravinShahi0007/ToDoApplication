@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "Promotion";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+    <style>
+        #OfrGrid {
+	        height: 56vh!important;
+        }
+
+        #OfrGrid .k-grid-content.k-auto-scrollable{
+	        height: 40vh!important;
+        }
+    </style>
+}
+
+<div>
+    <div style="height:40px;">
+        <input type="hidden" id="ItmOfrKy" />
+
+        <div class="col-md-12" id="ButtonSet">
+            @*<button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>*@
+            <button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+        </div>
+    </div>
+
+    <div id="HdrSec1" class="col-md-12 col-sm-12">
+        <div class="col-md-12 col-sm-12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_CmbPromoTyp">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_CmbPromoTyp_Lbl">Promotion Type: </label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <div id="HdrSec1_CmbPromoTyp_Cd" style="width:100%;"></div>
+                            </div>
+                        </div>
+
+                        <div id="HdrSec1_DatPicFrmDt">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_DatPicFrmDt_Lbl">From Date:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input id="HdrSec1_DatPicFrmDt_Val"
+                                       style="width:100%;"
+                                       class=""
+                                       data-role="datepicker"
+                                       data-bind="value: HdrSec1_DatPicFrmDt_Val" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptPromoCd">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_InptPromoCd_Lbl">Promotion Code:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input id="HdrSec1_InptPromoCd_Val" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+                        <div id="HdrSec1_DatPicToDt">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_DatPicToDt_Lbl">To Date:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input id="HdrSec1_DatPicToDt_Val"
+                                       style="width:100%;"
+                                       class=""
+                                       data-role="datepicker"
+                                       data-bind="value: HdrSec1_DatPicToDt_Val" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptPromoNm">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_InptPromoNm_Lbl">Promotion Name:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input id="HdrSec1_InptPromoNm_Val" class="k-textbox" type="text" />
+                            </div>
+                        </div>
+
+                        <div id="HdrSec1_ChkboxAct">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_ChkboxAct_Lbl">Is Active:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input id="HdrSec1_ChkboxAct_Val" type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptBuy">
+                            <div class="col-md-1 col-sm-4">
+                                <label id="HdrSec1_InptBuy_Lbl">Buy:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-4">
+                                <input id="HdrSec1_InptBuy_Val" class="k-textbox" type="text" />
+                            </div>
+                        </div>
+
+                        <div id="HdrSec1_InptGet">
+                            <div class="col-md-1 col-sm-4">
+                                <label id="HdrSec1_InptGet_Lbl">Get:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-4">
+                                <input id="HdrSec1_InptGet_Val" class="k-textbox" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12  col-sm-12">
+        <div id="GridWin" class="m-b-10">
+            <div id="OfrGrid"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var urlItemTransfer = {
+        GetItemByCodeEAN: '@Url.Content("~/POSItmTransfer/GetItemByCodeEAN")',
+    }
+
+    var urlItmMasOfrHdr_SelectWeb = '@Url.Action("ItmMasOfrHdr_SelectWeb", "Promotion")';
+    var urlInsertUpdateItmMasOfrHdr = '@Url.Content("~/Promotion/InsertUpdateItmMasOfrHdr")';
+    var urlItmMasOfrDet_SelectWeb = '@Url.Content("~/Promotion/ItmMasOfrDet_SelectWeb")';
+    var urlItmMasOfrDet_InsertUpdate = "@Url.Content("~/Promotion/ItmMasOfrDet_InsertUpdate")";
+    var ItmMasOfrDet_DeleteWeb = "@Url.Content("~/Promotion/ItmMasOfrDet_DeleteWeb")";
+
+</script>
+
+<script src="~/Scripts/HtnScripts/Promotion/Promotion.js"></script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+@*<script src="~/Scripts/HtnScripts/POSItmTransfer/TransferOut.js"></script>*@

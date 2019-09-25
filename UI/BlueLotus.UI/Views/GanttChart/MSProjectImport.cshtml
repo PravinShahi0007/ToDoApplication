@@ -1,0 +1,222 @@
+﻿<div id="idMSProjectImport" style="display: none">
+    <input type="file" id="files" name="file" />
+    <br />
+    <br />
+    <button title="Import" class="k-button" id="Import">
+        Import
+    </button>
+</div>
+
+<script>
+    function openMSProjectImportWindow() {
+
+        $("#idMSProjectImport").show().kendoWindow({
+            width: "455px",
+            height: "130px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: "MS Project Import"
+        });
+
+        $('#idMSProjectImport').data('kendoWindow').center().open();
+        $('.k-window-content.k-content').css('background', '#D9D9D9');
+        $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+        $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+    }
+
+    $("#Import").click(function () {
+        var files = document.getElementById('files').files;
+        if (!files.length) {
+            alert('Please select a file!');
+            return;
+        }
+        var file = files[0];
+        var reader = new FileReader();
+        // If we use onloadend, we need to check the readyState.
+        reader.onloadend = function (evt) {
+            //alert("Done");
+            if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                var txt = evt.target.result;
+                var parser = new DOMParser();
+
+                // Getting all the task from xml file
+                var varTxt = txt.substring(txt.indexOf("<Tasks>"), txt.indexOf("</Tasks>") + 8);
+                var txtxtt = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + varTxt;
+
+                var xml = parser.parseFromString(txtxtt, "text/xml");
+                init(xml);
+            }
+        };
+
+        var blob = file.slice(0, file.size);
+        reader.readAsText(file);
+    });
+
+
+    function init(xml) {
+
+        var jj = xml.getElementsByTagName("Tasks")[0];
+
+        var GetJsonDataFromXml = $.xml2json(xml);
+        var GetStringDataFromJson = JSON.stringify(GetJsonDataFromXml);
+
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: { MSImportStringData: GetStringDataFromJson },
+            url: urlSetMSImportJsonData,
+            converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+            success: function (data) {
+                LoadDataSource(data);
+                $('#idMSProjectImport').data('kendoWindow').close();
+                $.holdReady(false);
+            }
+        });
+
+        // This is MS Import
+        tempIsMSImport = 1;
+
+        saveAsClick();
+        // --------------- Here comment By Me(Vageesan) : This all code lines are Inbuild by RadinatQ.
+        //project = new RadiantQ.ProjectModel.Project(json);
+        //var $gantt_container = $('#gantt_container');
+        //$gantt_container.GanttControl({ "DataSource": null, "ResourceItemsSource": null });
+        //var delayUpdates1 = new RadiantQ.Gantt.Utils.DelayUpdates()
+        //{
+        //    $gantt_container.GanttControl({
+        //        WorkTimeSchedule: project.BaseCalendar.Schedule,
+        //        ResourceItemsSource: project.ResourceList,
+        //        DataSource: project.Tasks
+        //    });
+        //}
+        //delayUpdates1.Dispose();
+
+        //var delayUpdates2 = new RadiantQ.Gantt.Utils.DelayUpdates()
+        //{
+        //    gantt = $gantt_container.data("GanttControl");
+        //    var $GanttChart = gantt.GetGanttChart();
+        //    $GanttChart.GanttChart({ AnchorTime: project.Tasks[0].StartDate.clone() });
+        //}
+        //delayUpdates2.Dispose();
+
+    }
+
+
+    //MSExport 2014 11 16
+    $("#idMSExport").click(function () {
+        MSExport();
+    });
+
+
+    //MSExport 2014 11 16
+    $("#idMSImport").click(function () {
+        openMSProjectImportWindow();
+    });
+
+    function MSExport() {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            url: urlEmptyProject,//"/EmptyProject.xml",    // this should be your XML url<a href="~/Views/GanttChart/EmptyProject.xml">~/Views/GanttChart/EmptyProject.xml</a>
+            dataType: "xml text",
+            converters:
+            {
+                "xml text": function (data) {
+                    // We use te xml2json jquery plugin to convert xml to json.
+                    var json = XML2jsobj(data);
+                    return json;
+                }
+            },
+            success: function (data) {
+                savedJson = data;
+                savedProject = new RadiantQ.ProjectModel.Project(savedJson);
+                savedProject = Object.create(savedProject);
+                AddContentToProject(savedProject);
+                saveProject = new RadiantQ.ProjectModel.Project(savedJson);
+                AddContentToProject(saveProject);
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function AddContentToProject(saveProject) {
+        $gantt_container = $('#gantt_container');
+        var ganttControl = $gantt_container.data("GanttControl") || $gantt_container.data("radiantqGanttControl");
+
+        saveProject.initFrom(ganttControl.Model);
+        for (var i = 0; i < ganttControl.ActivityViews.length; i++) {
+            var view = ganttControl.ActivityViews[i];
+            var activity = view.Activity;
+            var ti = activity.DataSource;
+            var pt = saveProject.createTask();
+            saveProject.Tasks.push(pt);
+            pt.ID = activity.ID;
+            pt.StartDate = activity.StartTime;
+            pt.PreferredStartTime = activity.StartTime;
+            pt.ProgressPercent = activity.ProgressPercent;
+            pt.Effort = activity.Effort;
+            pt.Duration = activity.Duration;
+            pt.UpdateFinish();
+            pt.IndentLevel = view.IndentLevel;
+            pt.SortOrder = activity.SortOrder;
+            pt.TaskName = activity.ActivityName;
+            pt.PredecessorIndices = activity.PredecessorIndexString;
+            pt.AssignedResources = ti.Resources;
+        }
+        saveProject.calculateTasksEndTime();
+        var xmlStr = json2xml(saveProject.xmlObject);
+
+        try {
+            var blob = new Blob([xmlStr], { type: "text/plain;charset=utf-8" });
+            saveAs(blob, "msProject.xml");
+        }
+        catch (e) {
+            alert(xmlStr);
+        }
+    }
+
+    //MSExport 2014 11 16
+    function XML2jsobj(node) {
+        var data = {};
+        // append a value
+        function Add(name, value) {
+            if (data[name]) {
+                if (data[name].constructor != Array) {
+                    data[name] = [data[name]];
+                }
+                data[name][data[name].length] = value;
+            }
+            else {
+                data[name] = value;
+            }
+        };
+        // element attributes
+        var c, cn;
+        if (node.attributes != undefined) {
+            for (c = 0, cn = node.attributes; c < cn.length; c++) {
+                Add(cn[c].name, cn[c].value);
+            }
+        }
+        // child elements
+        for (c = 0, cn = node.childNodes; c < cn.length; c++) {
+            if (cn[c].nodeType == 1) {
+                var firstChild = cn[c].firstChild;
+                if (cn[c].childNodes.length == 1 && firstChild.nodeType == 3) {
+                    // text value
+                    Add(cn[c].tagName, firstChild.textContent);
+                }
+                else {
+                    // sub-object
+                    Add(cn[c].tagName, XML2jsobj(cn[c]));
+                }
+            }
+        }
+        return data;
+    }
+
+</script>

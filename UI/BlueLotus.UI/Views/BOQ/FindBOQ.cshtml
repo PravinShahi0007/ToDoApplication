@@ -1,0 +1,107 @@
+﻿
+<div id="FindFormOrder" style="display: none; font-size:11px;">
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="row m-l--15">
+            <div class="col-md-12 control-icons" id="ButtonSetFind">
+                <button class="control-button search" id="btnSearch" onclick="SearchFunc();" data-tooltip="Search"></button>
+                <button class="control-button clean" id="btnCancel1" onclick="CancelFunc();" data-tooltip="Cancel Grid"></button>
+            </div>
+        </div>
+
+        <div class="row m-t-10" id="HdrSec10">
+            <!-- section 01 -->
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <!-- From -->
+                <div class="row form-inline form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>From Date</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="FrmDt" class="width-100" data-role="datepicker" data-bind="value: FrmDt" /></div>
+                </div>
+                <!-- /From -->
+                <!-- To -->
+                <div class="row form-inline form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>To Date</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="ToDt" class="width-100" data-role="datepicker" data-bind="value: ToDt" /></div>
+                </div>
+                <!-- /To -->
+                <!-- FromOrdNo -->
+                <div class="row form-inline form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>FromOrdNo</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="OrdNoFrm" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /FromOrdNo -->
+                <!-- ToOrdNo -->
+                <div class="row form-inline form-group" style="display:none">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>ToOrdNo</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="OrdNoTo" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /ToOrdNo -->
+                <!-- DocNo -->
+                <div class="row form-inline form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>DocNo</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="docNo" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /DocNo -->
+
+            </div><!-- /section 01 -->
+            <!-- section 02 -->
+            <div class="col-md-6 col-sm-12 col-xs-12 p-r-lg-25">
+                <!-- Suplier -->
+                <div class="row form-inline form-group" style="display:none">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label>Suplier</label></div>
+                    <div class="col-md-9 col-sm-4 col-xs-12 p-r-0-lg form-group"><div id="cmbSup" data-cpypst-blsmartcpypaste="cmbSup" class="width-100"></div></div>
+                </div>
+                <!--/Suplier -->
+                <!-- Project -->
+                <div class="row form-inline form-group">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label>Project</label></div>
+                    <div class="col-md-9 col-sm-4 col-xs-12 p-r-0-lg form-group"><div id="cmbPrjectId" class="width-100"></div></div>
+                </div>
+                <!-- /Project -->
+            </div><!-- /section 02 -->
+            <!-- section 03 -->
+            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                <!-- Is Recurrence -->
+                <div class="row m-b-4 form-group" id="">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="">Is Recurrence:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input id="remember" name="remember" type="checkbox" class="onoffswitch-checkbox" />
+                            @*<input type="checkbox" id="HdrSec10_Chkbox_FF_IsRec_Val" name="onoffswitch" class="onoffswitch-checkbox">*@
+                            <label class="onoffswitch-label" for="remember">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Is Recurrence -->
+            </div>
+        </div>
+
+        <br />
+        <div class="row m-l--15 m-b-sm-500">
+            <div class="col-md-12 col-sm-12">
+                <div id="FindFormGridData"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+
+<script>
+    
+    var urlOrderGetSuplistForOrder = '@Url.Content("~/Order/GetSuplistForOrder")';
+    //var urlOrderGetPrjListForOrder = '@Url.Content("~/Order/GetPrjListForOrder")';
+    var urlOrderGetPrjListForOrder = '@Url.Content("~/ComboLoadV2/PrjID_SelectMob")';
+    var urlOrderGetOrdFind = "@Url.Content("~/Order/GetOrdFind")";
+    @*var urlOrderGetPurchesReqForFind = "@Url.Content("~/Order/GetPurchesReqForFind")";*@
+    var urlOrderGetPurchesReqForFind = "@Url.Content("~/Order/BOQOrdHdr_SelectWeb")";
+    @*var urlOrderGetPRDetailForFind = "@Url.Content("~/Order/GetPRDetailForFind")";*@
+    var urlBOQOrdDet_SelectWeb = "@Url.Content("~/Order/BOQOrdDet_SelectWeb")";
+
+</script>
+
+<script src="~/Scripts/HtnScripts/BOQ/PopUp/FindBOQ.js"></script>

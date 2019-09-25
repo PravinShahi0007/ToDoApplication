@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="supervicer" style="padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; width:1000px;">
+        <div style="text-align:center"><h2></h2></div>
+        <div>
+            <div class="k-content" id="filterCont">
+                <div id="HdrPart">
+
+                    <div class="row" style="margin-left:20px; margin-top:10px;">
+                        <button class="control-button save" onclick="SaveFunction()" data-tooltip="Save"></button>
+                        <button class="control-button refresh" onclick="LoadGridView()" data-tooltip="refresh"> </button>
+                        <button class="control-button update" onclick="UpdateDetails()" data-tooltip="update"> </button>
+                    </div>
+
+                        <div class="row" style="margin-left:227px; margin-top:10px; display:inline-block;">
+                            <label style="margin-left:-50px;">Date:</label>
+                            <input id="date"
+                                   class=""
+                                   data-role="datepicker"
+                                   data-bind="value: Date" />
+                        </div>
+                  
+                    <div class="row" style="margin-left:70px; margin-top:10px; display:inline-block;">
+                        <label style="text-align:right;">Project:</label>
+                        <div id="HdrSec1_CmbPrjNm"></div>
+                    </div>
+
+                    <div>
+                        <div class="row" style="margin-left:100px; margin-top:10px; display:inline-block;">
+                            <label style="margin-left:80px;">Task:</label>
+                            <div id="HdrSec1_CmbTaskID"></div>
+                        </div>
+
+                        <div class="row" style="margin-left:100px; margin-top:10px; display:inline-block;">
+                            <label style="margin-left:-20px;">Task Name:</label>
+                            <div id="HdrSec1_CmbTaskNm"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row" style="margin-left:100px; margin-top:10px; display:inline-block;">
+                            <label style="margin-left:-20px;">SubContractor Name:</label>
+                            <div id="HdrSec1_CmbSubConNm"></div>
+                        </div>
+
+                        <div class="row" style="margin-left:120px; margin-top:10px; display:inline-block;">
+                            <label style="">Unit:</label>
+                            <input placeholder="unit" id="HdrSec1_Unit" type="text" class="k-textbox" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-left:195px; margin-top:10px; margin-bottom:10px; display:inline-block;">
+                        <label style="margin-left:-10px;">Qty:</label>
+                        <input placeholder="Qty" id="HdrSec1_Qty" type="text" class="k-textbox" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="HdrSec1_GridWin" style="margin-top:20px;margin-bottom:10px;">
+                <div id="HdrSec1_TaskProgressGrid"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlTaskProgress = {
+        PPrjKySubConAdrNm_SelectMob: '@Url.Content("~/TaskProgress/PPrjKySubConAdrNm_SelectMob")',
+        SubConPrgrsItmTrn_SelectWeb: '@Url.Content("~/TaskProgress/SubConPrgrsItmTrn_SelectWeb")',
+        PrcsDet_SelectWeb: '@Url.Content("~/TaskProgress/PrcsDet_SelectWeb")',
+    };
+    var urlSubConPrgrsItmTrn_SelectWeb = '@Url.Content("~/TaskProgress/SubConPrgrsItmTrn_SelectWeb")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        ObjKy: '@(ViewBag.ObjKy)'
+    };
+    var urlComboLoad = {
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        TaskID_SelectMob: '@Url.Content("~/ComboLoad/TaskID_SelectMob")',
+        TaskNm_SelectMob: '@Url.Content("~/ComboLoad/TaskNm_SelectMob")', 
+    }
+</script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/TaskProgress/TaskProgress.js"></script>

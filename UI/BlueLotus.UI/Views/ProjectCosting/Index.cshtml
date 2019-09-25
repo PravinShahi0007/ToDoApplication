@@ -1,0 +1,889 @@
+﻿@{
+    ViewBag.Title = "Index";
+    
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+    <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+}
+
+
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+<link rel="stylesheet" href="~/Images/BLBanner/style.css" type="text/css" />
+<link rel="stylesheet" href="~/buttncss/style/ResponsiveMax.css" type="text/css" />
+
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+
+<link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />
+<script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>
+
+
+@Html.Partial("~/Views/Errors/Index.cshtml")
+<div class="nipmain">
+
+    <div class="nipimg">
+        <!--insert your image hear-->
+        <img src="~/Images/BLBanner/img/stockclosing.png">
+    </div>
+
+    <div class="niphead" id="stockclosing">
+        <h2>Project Costing</h2>
+    </div>
+</div>
+<div class="form">
+
+
+
+    <div>
+
+
+        <button class="preview" onclick="Preview()" data-tooltip="Preview"></button>
+
+        <button class="cancel" onclick="Cancel()" data-tooltip="Cancel"> </button>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-row">
+        <label class="lbl" for=" datepicker">From Date:</label>
+
+        <input id="FrmDate" value="2015/01/01" />
+    </div>
+
+    <div class="form-row">
+        <label class="lbl" for=" datepicker">To Date:</label>
+
+        <input id="ToDate" value="2015/01/01" />
+    </div>
+
+
+
+
+    <div class="form-row">
+        <label class="lbl">Project </label>
+        <div class="cmb" id="cmbFmPrjId"></div>
+
+
+
+        <div class="cmbNm" id="cmbFmPrjNm"></div>
+
+    </div>
+    <div class="form-row">
+        <label class="lbl">Task</label>
+        <div class="cmb" id="cmbTskId"></div>
+
+
+        <div class="cmbNm" id="cmbTskNm"></div>
+
+    </div>
+
+
+    <div class="form-row">
+        <label class="lbl">Analysis 1</label>
+        <div class="cmb" id="cmbAnl1Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl1Nm"></div>
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Analysis 2</label>
+        <div class="cmb" id="cmbAnl2Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl2Nm"></div>
+
+    </div>
+    <div class="form-row">
+        <label class="lbl">Analysis 3</label>
+        <div class="cmb" id="cmbAnl3Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl3Nm"></div>
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Analysis 4</label>
+        <div class="cmb" id="cmbAnl4Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl4Nm"></div>
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Analysis 5</label>
+        <div class="cmb" id="cmbAnl5Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl5Nm"></div>
+
+    </div>
+
+    <div class="form-row">
+        <label class="lbl">Analysis 6</label>
+        <div class="cmb" id="cmbAnl6Id"></div>
+
+
+        <div class="cmbNm" id="cmbAnl6Nm"></div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+<style>
+    .trr {
+        padding: 4px 2px;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        LoadCombo();
+        LoadTask(1);
+        var todayDate = new Date();
+        $('#ToDate').data("kendoDatePicker").value(todayDate);
+        var todayDate = new Date();
+        $('#FrmDate').data("kendoDatePicker").value(todayDate);
+        //  LoadGrid();
+    });
+    $("#ToDate").width(200).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    $("#FrmDate").width(200).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function LoadCombo() {
+        $("#cmbFmPrjId").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjID",
+            dataSource: ProjectDatasourceId(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjId").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjId");
+                    if (validate) {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        // sendPrjKy();
+                        LoadTask(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Project Id.."
+        });
+
+        $("#cmbFmPrjNm").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjNm",
+            dataSource: ProjectDatasourceNm(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjNm").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjNm");
+                    if (validate) {
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        // LoadGridView1(prjky);
+                        //sendPrjKy();
+                        //LoadGridView(prjky);
+                        LoadTask(prjky);
+                    } else {
+
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Project.."
+        });
+
+        $("#cmbAnl1Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp1'),
+            change: function (e) {
+                var cmb = $("#cmbAnl1Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl1Id");
+                    if (validate) {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl1Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl1Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 1.."
+        });
+
+        $("#cmbAnl1Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp1'),
+            change: function (e) {
+                var cmb = $("#cmbAnl1Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl1Nm");
+                    if (validate) {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl1Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl1Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl1Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 1.."
+        });
+
+        $("#cmbAnl2Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp2'),
+            change: function (e) {
+                var cmb = $("#cmbAnl2Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl2Id");
+                    if (validate) {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl2Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl2Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 2.."
+        });
+
+        $("#cmbAnl2Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp2'),
+            change: function (e) {
+                var cmb = $("#cmbAnl2Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl2Nm");
+                    if (validate) {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl2Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl2Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl2Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 2.."
+        });
+
+        $("#cmbAnl3Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp3'),
+            change: function (e) {
+                var cmb = $("#cmbAnl3Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl3Id");
+                    if (validate) {
+                        $("#cmbAnl3Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl3Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl3Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl3Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 3.."
+        });
+
+        $("#cmbAnl3Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp3'),
+            change: function (e) {
+                var cmb = $("#cmbAnl3Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl3Nm");
+                    if (validate) {
+                        $("#cmbAnl3Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl3Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl3Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl3Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 3.."
+        });
+
+        $("#cmbAnl4Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp4'),
+            change: function (e) {
+                var cmb = $("#cmbAnl4Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl4Id");
+                    if (validate) {
+                        $("#cmbAnl4Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl4Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl4Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl4Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 4.."
+        });
+
+        $("#cmbAnl4Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp4'),
+            change: function (e) {
+                var cmb = $("#cmbAnl4Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl4Nm");
+                    if (validate) {
+                        $("#cmbAnl4Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl4Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl4Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl4Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 4.."
+        });
+
+
+        //============
+        $("#cmbAnl5Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp5'),
+            change: function (e) {
+                var cmb = $("#cmbAnl5Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl5Id");
+                    if (validate) {
+                        $("#cmbAnl5Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl5Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl5Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl5Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 5.."
+        });
+
+
+        $("#cmbAnl5Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp5'),
+            change: function (e) {
+                var cmb = $("#cmbAnl5Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl5Nm");
+                    if (validate) {
+                        $("#cmbAnl5Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl5Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl5Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl5Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 5.."
+        });
+
+
+        $("#cmbAnl6Id").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: GetAnlDatasource('AnlTyp6'),
+            change: function (e) {
+                var cmb = $("#cmbAnl6Id").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl6Id");
+                    if (validate) {
+                        $("#cmbAnl6Nm").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl6Id").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl6Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl6Id").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 6.."
+        });
+
+
+        $("#cmbAnl6Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetAnlDatasource('AnlTyp6'),
+            change: function (e) {
+                var cmb = $("#cmbAnl6Nm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbAnl6Nm");
+                    if (validate) {
+                        $("#cmbAnl6Id").data("kendoComboBox").value(CdKy);
+                        $("#cmbAnl6Nm").data("kendoComboBox").value(CdKy);
+                        // sendPrjKy();
+
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAnl6Nm").data("kendoComboBox").value("");
+                        $("#cmbAnl6Id").data("kendoComboBox").value("");
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Analysis 6.."
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+            function ProjectDatasourceId() {
+                var dataSource = new kendo.data.DataSource(
+                  {
+                      transport: {
+                          read: {
+                              url: '@Url.Content("~/Projects/GetProjectId")',
+                              dataType: "json"
+                          }
+                      }
+
+                  });
+                return dataSource;
+            }
+
+        function ProjectDatasourceNm() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/Projects/GetProjectNm")',
+                          dataType: "json"
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+
+        function GetAnlDatasource(ConCd) {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/WebReports/GetAnlTyp")',
+                          data: { ConCd: ConCd },
+                          dataType: "json"
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+
+    }
+
+    function LoadTask(prjky){
+            $("#cmbTskId").kendoComboBox({
+                dataValueField: "PrcsDetKy",
+                dataTextField: "PrcsID",
+                dataSource: TaskDatasource(prjky),
+                change: function (e) {
+                    var cmb = $("#cmbTskId").data("kendoComboBox");
+                    var PrcsDetKy = cmb.value();
+                    if (PrcsDetKy != "") {
+                        var validate = ComboValidations("cmbTskId");
+                        if (validate) {
+                            $("#cmbTskNm").data("kendoComboBox").value(PrcsDetKy);
+                            $("#cmbTskId").data("kendoComboBox").value(PrcsDetKy);
+                            // sendPrjKy();
+                            // LoadGridView1(prjky);
+                            //LoadGridView(prjky);
+                        } else {
+                            $("#cmbTskNm").data("kendoComboBox").value("");
+                            $("#cmbTskId").data("kendoComboBox").value("");
+                        }
+                    }
+
+
+                },
+                filter: "contains",
+                suggest: true,
+                placeholder: "Select Task Id.."
+            });
+
+        $("#cmbTskNm").kendoComboBox({
+            dataValueField: "PrcsDetKy",
+            dataTextField: "PrcsNM",
+            dataSource: TaskDatasource(prjky),
+            change: function (e) {
+                var cmb = $("#cmbTskNm").data("kendoComboBox");
+                var PrcsDetKy = cmb.value();
+                if (PrcsDetKy != "") {
+                    var validate = ComboValidations("cmbTskNm");
+                    if (validate) {
+                        $("#cmbTskNm").data("kendoComboBox").value(PrcsDetKy);
+                        $("#cmbTskId").data("kendoComboBox").value(PrcsDetKy);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbTskNm").data("kendoComboBox").value("");
+                        $("#cmbTskId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Task Name.."
+        });
+
+
+        function TaskDatasource(prjky) {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/WebReports/GetTask")',
+                          dataType: "json"
+                      },
+                      parameterMap: function (options, operation) {
+
+                          if (operation == "read") {
+                              return ({
+                                  prjky: prjky
+                              });
+                          }
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+    }
+
+    function Preview() {
+
+
+        //if ((PrjKy == 1 || PrjKy == undefined || PrjKy == "") || (AccKy == null || AccKy == undefined || AccKy == "")) {
+        //    alert("Select Project or Account");
+        //}
+       // else {
+            //
+        var ToDt = $('#ToDate').val();
+
+
+
+        if (ToDt == "") {
+            ToDt = null;
+        }
+
+            var FrmDt = $('#FrmDate').val();
+
+
+
+            if (FrmDt == "") {
+                FrmDt = null;
+            }
+
+            var PrjKy = $("#cmbFmPrjId").data("kendoComboBox").value();
+            if (PrjKy == null || PrjKy == undefined || PrjKy == "") {
+
+                 PrjKy = 1;
+            }
+            var PrjID = $("#cmbFmPrjId").data("kendoComboBox").text();
+            if (PrjID == null || PrjID == undefined || PrjID == "") {
+
+                 PrjID = "";
+            }
+            var PrjNm = $("#cmbFmPrjNm").data("kendoComboBox").text();
+            if (PrjNm == null || PrjNm == undefined || PrjNm == "") {
+
+                 PrjNm = "";
+            }
+            var PrcsDetKy = $("#cmbTskId").data("kendoComboBox").value();
+            if (PrcsDetKy == null || PrcsDetKy == undefined || PrcsDetKy == "") {
+
+                 PrcsDetKy = 1;
+            }
+            var TaskId = $("#cmbTskId").data("kendoComboBox").text();
+            if (TaskId == null || TaskId == undefined || TaskId == "") {
+
+                 TaskId = "";
+            }
+            var TaskNm = $("#cmbTskNm").data("kendoComboBox").text();
+            if (TaskNm == null || TaskNm == undefined || TaskNm == "") {
+
+                 TaskNm = "";
+            }
+
+            var Anl1Ky = $("#cmbAnl1Id").data("kendoComboBox").value();
+            if (Anl1Ky == null || Anl1Ky == undefined || Anl1Ky == "") {
+
+                 Anl1Ky = 1;
+            }
+
+            var Anl2Ky = $("#cmbAnl2Id").data("kendoComboBox").value();
+            if (Anl2Ky == null || Anl2Ky == undefined || Anl2Ky == "") {
+
+                 Anl2Ky = 1;
+            }
+
+            var Anl3Ky = $("#cmbAnl3Id").data("kendoComboBox").value();
+            if (Anl3Ky == null || Anl3Ky == undefined || Anl3Ky == "") {
+
+                 Anl3Ky = 1;
+            }
+
+            var Anl4Ky = $("#cmbAnl4Id").data("kendoComboBox").value();
+            if (Anl4Ky == null || Anl4Ky == undefined || Anl4Ky == "") {
+
+                 Anl4Ky = 1;
+            }
+
+            var Anl5Ky = $("#cmbAnl5Id").data("kendoComboBox").value();
+            if (Anl5Ky == null || Anl5Ky == undefined || Anl5Ky == "") {
+
+                 Anl5Ky = 1;
+            }
+
+            var Anl6Ky = $("#cmbAnl6Id").data("kendoComboBox").value();
+            if (Anl6Ky == null || Anl6Ky == undefined || Anl6Ky == "") {
+
+                 Anl6Ky = 1;
+            }
+                $.ajax({
+                    url: "@Url.Content("~/WebReports/PrjCosting")",
+                    data: JSON.stringify({
+
+                        //string FrmDt, string ToDt, string PrjKy, string PrjID, string PrjNm,
+                        //string PrcsDetKy, string TaskId, string TaskNm, string Anl1Ky, string Anl2Ky,
+                        //string Anl3Ky, string Anl4Ky, string Anl5Ky, string Anl6Ky
+
+                        FrmDt: FrmDt,
+                        ToDt: ToDt,
+                        PrjKy: PrjKy,
+                        PrjID: PrjID,
+                        PrjNm:PrjNm,
+                        PrcsDetKy: PrcsDetKy,
+                        TaskId: TaskId,
+                        TaskNm: TaskNm,
+                        Anl1Ky: Anl1Ky,
+                        Anl2Ky: Anl2Ky,
+                        Anl3Ky: Anl3Ky,
+                        Anl4Ky: Anl4Ky,
+                        Anl5Ky: Anl5Ky,
+                        Anl6Ky: Anl6Ky,
+
+                    }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (data) {
+
+                        winDoialogElement = $("#idwin").kendoWindow({
+                            width: 1000,
+                            height: 1000
+                        }).data("kendoWindow");
+                        var url = "http://" + document.location.host + "/BLWEB/Report/PrjCostingReport.aspx";
+                        window.open(url, '_blank');
+
+                    },
+                    error: function (e) {
+                        return false;
+                    }
+                });
+
+
+        //  }
+
+            }
+
+
+
+
+            function Cancel() {
+                var todayDate = new Date();
+                $('#FrmDate').data("kendoDatePicker").value(todayDate);
+                $('#ToDate').data("kendoDatePicker").value(todayDate);
+                $("#cmbFmPrjId").data("kendoComboBox").value("");
+                $("#cmbFmPrjNm").data("kendoComboBox").value("");
+
+                $("#cmbTskId").data("kendoComboBox").value("");
+                $("#cmbTskNm").data("kendoComboBox").value("");
+                $("#cmbAnl1Id").data("kendoComboBox").value(null);
+                $("#cmbAnl3Id").data("kendoComboBox").value(null);
+                $("#cmbAnl2Id").data("kendoComboBox").value(null);
+                $("#cmbAnl4Id").data("kendoComboBox").value(null);
+                $("#cmbAnl5Id").data("kendoComboBox").value(null);
+                $("#cmbAnl6Id").data("kendoComboBox").value(null);
+
+            }
+
+
+
+</script>

@@ -1,0 +1,141 @@
+﻿<div id="FindForm" style="display: none; font-size:11px;">
+    <div class="k-content clearfix m-l-0" id="filterCont">
+        <div class="col-md-6 control-icons width-100" id="ButtonSet">
+            <button class="control-button preview" onclick="Search()" data-tooltip="preview"> </button>
+            <button class="control-button selected" onclick="selected()" data-tooltip="select"> </button>
+            <button class="control-button back" onclick="back()" data-tooltip="back"> </button>
+
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-12 col-sm-12 p-l-0">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- Date From -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-10 col-xs-10"><label>Date From:</label></div>
+                                    <div class="col-md-6 col-sm-10 col-xs-10"><input id="FrmDt" /></div>
+                                </div><!-- Date From -->
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!-- Date To -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>Date To:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12"><input id="ToDt" /></div>
+                                    <!-- /Date To -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- TrnNo -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12"><label>TrnNo:</label></div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6 p-r-0"><input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox width-100" /></div>
+                                </div><!-- TrnNo -->
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!-- DocNo -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>DocNo:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12"><input placeholder="Doc No" id="DocumentNo" type="text" class="k-textbox width-100" /></div>
+                                </div> <!-- /DocNo -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear:both" />
+            <div class="col-md-12 col-sm-12 p-l-0">
+                <div id="FindFormGrid"> </div>
+            </div>
+
+            @*<div class="form-group">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-3">
+                            <label>Account:</label>
+                        </div>
+                        <div class="col-md-1 col-sm-1 ">
+                            <input id="AccChk" name="AccChk" type="checkbox" onchange="AccChkChange()" />
+                        </div>
+                        <div class="col-md-3 col-sm-3 ">
+                            <input id="AccCode" style="display:none" />
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 ">
+                            <input id="AccName" style="display:none" />
+
+                        </div>
+
+                    </div>
+                </div>*@
+            @*<div class="form-group">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-3">
+                            <label>Project:</label>
+                        </div>
+                        <div class="col-md-1 col-sm-1 ">
+                            <input id="PrjChk" name="PrjChk" type="checkbox" onchange="PrjChkChange()" />
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 ">
+                            <input id="PrjCd" style="display:none" />
+
+                        </div>
+                        <div class="col-md-3 col-sm-3 ">
+                            <input id="PrjNm" style="display:none" />
+
+                        </div>
+
+                    </div>
+                </div>*@
+            @*<div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <label>Is Recurrence:</label>
+
+                        </div>
+                        <div class="col-md-1 col-sm-3 ">
+                            <input id="IsRec" name="IsRec" type="checkbox" />
+
+
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <label>Is Printed:</label>
+
+                        </div>
+                        <div class="col-md-1 col-sm-3 ">
+                            <input id="IsPrnt" name="IsPrnt" type="checkbox" />
+
+
+                        </div>
+
+
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+<script>
+
+    var urlGetJournalFind = '@Url.Content("~/Journal/LoadGridFindView")';
+    var urlGetPrjCd = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetPrjNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlAccCd = '@Url.Content("~/Journal/Accdrop")';
+    var urlAccNm = '@Url.Content("~/Journal/AccdropNM")';
+
+    var urlSelectedGrid = '@Url.Content("~/Payment/GetGridDetail")';
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+
+
+    var urlHrdSelected = '@Url.Content("~/Payment/GetHdrDetail")';
+    var urlFindInvoice =
+    {
+        Code_SelectWeb: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+    };
+
+
+</script>
+<script src="~/Scripts/HtnScripts/ChequeReturn/ChequeRtnFind.js"></script>

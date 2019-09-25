@@ -1,0 +1,188 @@
+﻿
+
+<div style="position: fixed; bottom: auto;">
+    <div id="FindEmp" style="display: none">
+       
+     
+        <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+        
+        <div id="FindFormGrid">
+            <div id="HdrSec2_DatPicDate" class="col-md-6 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec1_DatPicDate_Lbl">Entry Month:</label>
+
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                @*<input id="HdrSec1_DatPicDate_Val" class="combo" placeholder="Enter Month" />*@
+                                <input id="HdrSec1_DatPicDate_Val"
+                                       style="width:100%;"
+                                       class=""
+                                       data-role="datepicker"
+                                       data-bind="value: HdrSec1_DatPicDate_Val" />
+                            </div>
+                        </div>
+                                                
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    var Global_EmpKy = 1;
+    var UrlGetEmpDethr = '@Url.Content("~/HR/HRFind")';
+
+    $(document).ready(function () {//alert(0);
+       
+        
+        var OurCode = "@(ViewBag.ObjCaptn)";
+        $("#FindEmp").hide();
+        LoadCombo();
+        function LoadCombo() {
+           
+            //$("#HdrSec1_DatPicDate_Val").width(200).kendoDatePicker({
+            //    format: "dd/MM/yyyy",
+            //    min: new Date(31, 2, 2009),
+            //});
+        }
+        LoadDatePickers();
+        
+        LoadFindEmpGrid();
+    });
+
+    function LoadDatePickers() {
+        $("#HdrSec1_DatPicDate_Val")
+            .kendoDatePicker({
+                format: "dd/MM/yyyy",
+                min: new Date(31, 2, 2009)
+            });
+
+        var todayDate = new Date();
+        $("#HdrSec1_DatPicDate_Val").data("kendoDatePicker").value(todayDate);
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 70) {
+            //document.getElementById("HdrSec1_DatPicDate_Val").value = "";
+           
+            $("#FindEmp").show().kendoWindow({
+                width: "1000px",
+                height: "500px",
+                modal: true,
+                title: "Employee Details"
+            });
+            $('#FindEmp').data('kendoWindow').center().open();
+            e.preventDefault();
+            LoadFindEmpGrid();
+        }
+    });
+
+
+    function LoadFindEmpGrid() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: UrlGetEmpDethr,
+                    dataType: "json"
+                },
+            },
+            batch: true,
+            pageSize: 100,
+            schema: {
+                model: {
+                    id: "EmpKy",
+                    fields:
+                    {
+                        EmpNo: { editable: true, nullable: false, type: "string" },
+                        EmpNm: { editable: true, nullable: false, type: "string" },
+                        //SalDat: { editable: true, nullable: false, type: "date", format: "{0:dd/MM/yyyy}" }
+                    }
+                }
+            }
+        });
+        $("#FindEmp").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            autobind: true,
+            navigatable: true,
+            scrollable: true,
+            filterable: {
+                mode: "row"
+            },
+            pageSize: 100,
+            pageable: true,
+            selectable: "row",
+            resizable: true,
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                {
+                    field: "EmpKy",
+                    title: "#Ref No",
+                    //width: "40px"
+                    hidden: true
+                },
+                {
+                    field: "EmpNo",
+                    title: "Emp No",
+                    width: "50px",
+                },
+                {
+                    field: "EmpNm",
+                    title: "Emp Name",
+                    width: "100px",
+                },
+                //{
+                //    field: "SalDat",
+                //    title: "Salary Date",
+                //    width: "100px",
+                //},
+
+            ]
+        });
+    }
+ 
+
+    $("#FindEmp").dblclick(function () {
+      
+        if(document.getElementById("HdrSec1_DatPicDate_Val").value != ""){
+        
+        var grid = $("#FindEmp").data().kendoGrid;
+        
+        var selectedItem = grid.dataItem(grid.select());
+       
+        var EmpKy = selectedItem.EmpKy;
+     
+        //Global_EmpKy = EmpKy;
+        //alert(Global_EmpKy);
+        var EmpNm = selectedItem.EmpNm;
+        var EmpNo = selectedItem.EmpNo;
+        $('#EmpKy').val(EmpKy);
+        $('#EmpNm').val(EmpNm);
+        //$('#empName').val(EmpNm);
+        $('#EmpNo').val(EmpNo);
+        // $('#empNo').val(EmpNo);
+        $('#FindEmp').data('kendoWindow').close();
+        var EntryDate = document.getElementById("HdrSec1_DatPicDate_Val").value;
+       
+        AfterFindEmp(EmpKy, EntryDate);
+        }
+        else {
+            alert("Select Entry Month")
+
+        }
+    });
+
+</script>

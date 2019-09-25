@@ -1,0 +1,200 @@
+﻿<div class="k-content clearfix" id="MainDiv_PrcsSchDetCmpnPartial">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <button class="control-button save" onclick="SaveUpdatePrcsDetCmpn()" data-tooltip="Save"> </button>
+        <button class="control-button cancel" onclick="ClearFunction_FromOrdDetCmpn()" data-tooltip="Cancel"> </button>
+    </div>
+
+    <div class="col-lg-12" id="divSplitter">
+        <div>
+            @*ItmMas Search Div*@
+            <div class="col-md-12 col-sm-12" id="PrcsSchDetCmpnPartial_SS_Div">
+                <div style="min-height:620px">
+                    <div>
+                        <input style="width:100%;" placeholder="Item Name ..." id="HdrSec1_InptPrcsNm" type="text" class="k-textbox" />
+                    </div>
+                    <div style="min-height:500px" id="HdrSec1_PrcsSchDetGrd"></div>
+                </div>
+            </div>
+            @*ItmMas Search Div*@
+
+            <div class="col-lg-12 col-md-12 col-sm-12" id="OrdDetCmpn_HdrSec2_Main">
+                <div class="row center-txt">
+                    <h5 id="HdrSec1_InptSeleItm"></h5>
+                </div>
+                <div id="ChildHdrpart">
+                    <div id="HdrSec1" class="wr_formGroup">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <!-- Item code -->
+                                <div class="row form-group" id="HdrSec1_CmbItm">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 p-r-0-lg">
+                                        <label id="HdrSec1_CmbItm_Lbl">Item code:</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg">
+                                        <div id="HdrSec1_CmbItm_Cd" data-cpypst-blsmartcpypaste="ItmCd" class="width-100"></div>                                      
+                                    </div>
+                                    <div class="col-md-5 col-sm-6 col-xs-12 p-l-0-lg">
+                                        <div id="HdrSec1_CmbItm_Nm" data-cpypst-blsmartcpypaste="ItmNm" class="width-100"></div>
+                                    </div>
+                                </div>
+                                <!-- /Item code -->
+                                <!--Resource -->
+                                <div class="row form-group" id="HdrSec1_CmbAdr">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec1_CmbAdr_Lbl">Resource</label></div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg">
+                                        <div data-cpypst-blsmartcpypaste="" id="HdrSec1_CmbAdr_Cd" class="width-100" ></div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-6 col-xs-12 p-l-0-lg">
+                                        <div data-cpypst-blsmartcpypaste="" id="HdrSec1_CmbAdr_Nm" class="width-100"></div>
+                                    </div>                                  
+                                </div>
+                                <!--/Resource -->
+                                <!-- Des -->
+                                <div class="row form-group" id="HdrSec1_NmricDes">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec1_NmricDes_Lbl">Description:</label></div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                        <textarea id="HdrSec1_NmricDes_Val" class="k-textbox width-100" style="height:50px;" required data-bind="value: textareaValue"></textarea>                                  
+                                    </div>
+                                </div>
+                                <!--/Des -->
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <!-- Unit -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbUnit" style="height:25px;">                                      
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_CmbUnit_Lbl">Unit:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <div data-cpypst-blsmartcpypaste="Unit" id="HdrSec1_CmbUnit_Cd" class="width-100"></div>
+                                            </div>
+                                        </div>                                      
+                                    </div>
+                                    <!-- /Unit -->
+                                    <!-- Qty -->
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="HdrSec1_NmricQty" style="height:25px;">                                       
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricQty_Lbl">Time Spent:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="Qty" id="HdrSec1_NmricQty_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                     
+                                    </div>
+                                    <!--/Qty -->
+                                    <!-- WstPer -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricWstPer"  style="display:none">                                      
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricWstPer_Lbl">WstPer:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="WstPer" id="HdrSec1_NmricWstPer_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                     
+                                    </div>
+                                    <!--/WstPer -->
+                                    <!-- UsagPer -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricUsagPer_" style="height:25px;display:none"  >                                      
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricUsagPer_Lbl">UsagPer:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="UsagPer" id="HdrSec1_NmricUsagPer_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                    <!--/UsagPer -->
+                                    <!-- TrnQty -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricTrnQty" style="height:25px;display:none">                                    
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricTrnQty_Lbl">TrnQty:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="TrnQty" id="HdrSec1_NmricTrnQty_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                    <!--/TrnQty -->
+                                    <!-- CompFacPer -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricCompFacPer"  style="display:none">                                     
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricCompFacPer_Lbl">CompFacPer:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="CompFacPer" id="HdrSec1_NmricCompFacPer_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                     
+                                    </div>
+                                    <!--/CompFacPer -->
+                                    <!-- AnlQty -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricAnlQty" style="height:25px;display:none"  >                                     
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricAnlQty_Lbl">AnlQty:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="AnlQty" id="HdrSec1_NmricAnlQty_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                    <!--/AnlQty -->
+                                    <!-- ConvRate -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricConvRate" style="height:25px;display:none">                                      
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricConvRate_Lbl">ConvRate:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="ConvRate" id="HdrSec1_NmricConvRate_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                    
+                                    </div>
+                                    <!--/ConvRate -->
+                                    <!-- TrnRate -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_NmricTrnRate" style="height:25px;display:none"  >                                     
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_NmricTrnRate_Lbl">TrnRate:</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="TrnRate" id="HdrSec1_NmricTrnRate_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>                                      
+                                    </div>                                  
+                                    <!--/TrnRate -->
+                                    <!-- Rate -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_Rate" style="height:25px;display:none" >
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec1_Rate_Lbl">Rate</label></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                                                <input data-cpypst-blsmartcpypaste="Rate" id="HdrSec1_Rate_Val" type="text" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- -->
+                                    <!--  -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="">
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- -->
+                                    <!--  -->
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="">
+                                        <div class="row form-group">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"></div>
+                                            <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- -->
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <br style="clear:both" />
+                        <div id="ChildHdrpart">
+                            <div class="wr_formGroup_grid col-md-12 col-sm-12">
+                                <div id="PrcsSchDetCmpnGrid"></div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

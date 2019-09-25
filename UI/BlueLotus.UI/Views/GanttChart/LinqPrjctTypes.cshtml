@@ -1,0 +1,123 @@
+﻿<div id="linqPrjctTypes" style="display: none">
+    <div>
+        <table>
+            <tr>
+                <td><label>BaseLine Project : </label></td>
+                <td><input id="baseLinePrjtCombo" class="k-combobox" /></td>
+                <td><input id="btnBaseLinePrjtScrh" type="button" class="k-button" style="height:25px" value="---" /></td>
+            </tr>
+            <tr>
+                <td><label>Project Schudule : </label></td>
+                <td><input id="prjctSchuduleCombo" class="k-combobox" /></td>
+                <td><input id="btnPrjctSchuduleScrh" type="button" class="k-button" style="height:25px" value="---" /></td>
+            </tr>
+            <tr>
+                <td><label>MasterPlan Project : </label></td>
+                <td><input id="masterPlanPrjctCombo" class="k-combobox" /></td>
+                <td><input id="btnMasterPlanPrjctScrh" type="button" class="k-button" style="height:25px" value="---" /></td>
+
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top:20px;">
+        <input id="btnLinqPrjctTypes" type="button" class="k-button" style="height:25px" value="Linq Project Types" />
+    </div>
+</div>
+
+<script>
+    function dialogLinqProjects() {
+        $("#linqPrjctTypes").show().kendoWindow({
+            width: "325px",
+            height: "150px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: "Linq Projects"
+        });
+
+        $('#linqPrjctTypes').data('kendoWindow').center().open();
+        $('.k-window-content.k-content').css('background', '#D9D9D9');
+        $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+        $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+    }
+</script>
+
+<script>
+    var urlCdMasLookUp = '@Url.Content("~/Codes/CdMas_LookupWebByConCd")';
+    var urlBOQClient_Lookup = '@Url.Content("~/BOQ/BOQClient_Lookup")';
+</script>
+
+<script>
+    var dsLocations = new kendo.data.DataSource(
+    {
+        transport: {
+            read: {
+                url: urlCdMasLookUp,
+                data: { 'ConCd': 'Loc' },
+                dataType: "json"
+            }
+        }
+    });
+
+    $("#baseLinePrjtCombo").kendoComboBox({
+        dataValueField: "CdKy",
+        dataTextField: "Code", //Code
+        dataSource: dsLocations,
+        filter: "contains",
+        suggest: true,
+        placeholder: "Location ..."
+    });
+    $("#baseLinePrjtCombo").parent().css('width', "150px");
+</script>
+
+<script>
+    var dsLocations = new kendo.data.DataSource(
+    {
+        transport: {
+            read: {
+                url: urlCdMasLookUp,
+                data: { 'ConCd': 'Loc' },
+                dataType: "json"
+            }
+        }
+    });
+
+    $("#prjctSchuduleCombo").kendoComboBox({
+        dataValueField: "CdKy",
+        dataTextField: "Code", //Code
+        dataSource: dsLocations,
+        filter: "contains",
+        suggest: true,
+        placeholder: "Location ..."
+    });
+    $("#prjctSchuduleCombo").parent().css('width', "150px");
+</script>
+
+<script>
+    var dsLocations = new kendo.data.DataSource(
+    {
+        transport: {
+            read: {
+                url: urlCdMasLookUp,
+                data: { 'ConCd': 'Loc' },
+                dataType: "json"
+            }
+        }
+    });
+
+    $("#masterPlanPrjctCombo").kendoComboBox({
+        dataValueField: "CdKy",
+        dataTextField: "Code", //Code
+        dataSource: dsLocations,
+        filter: "contains",
+        suggest: true,
+        placeholder: "Location ..."
+    });
+    $("#masterPlanPrjctCombo").parent().css('width', "150px");
+</script>
+
+@Html.Partial("~/Views/GanttChart/LinqProjctTypes/ScrhBaseLineProjct.cshtml")
+<script>
+    $("#btnBaseLinePrjtScrh").click(function () {
+        SrchBaseLineProjectPicker();
+    });
+</script>

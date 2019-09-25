@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+    <link href="~/Src/Styles/HtnStyles/ItmDiscount/animation.css" rel="stylesheet" type="text/css" />
+</head>
+<div>
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+        <div style="height:40px; margin-left:10px;" class="k-content clearfix" id="filterCont">
+            <button class="control-button load" id="btnLoadItem" title="Load"> </button>
+            @*<button class="control-button add" onclick="insertItemDiscount()" title="Add (Alt+N or NumberPad +)"> </button>*@
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save (Ctrl+S)"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelItemDiscount()" title="Cancel (Esc)"></button>
+        </div>
+        <hr style="margin-top :50px; border-top: 3px solid #8a1e1e">
+    </div>
+
+    <div id="SearchWin1" style="margin-top:10px;margin-left:7px; height:40px;">
+
+        <div id="HdrSec1" class="Header">
+            <div id="HdrSec1_CmbTrnTyp" style="display: inline-block;">
+                <label id="HdrSec1_CmbTrnTyp_Lbl">Trn Type: </label>
+                <div id="HdrSec1_CmbTrnTyp_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbPrefix" style="display:inline-block;">
+                <label id="HdrSec1_CmbPrefix_Lbl">Prefix:</label>
+                <div id="HdrSec1_CmbPrefix_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_TxtTrnNo" style="display: inline-block;">
+                <label id="HdrSec1_TxtTrnNo_Lbl">Trn No: </label>
+                <input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox" />
+            </div>
+
+        </div>
+    </div>
+    <div>
+        <div id="HdrSec2" style="margin-top:20px; display:none;">
+            <div id="HdrSec2_NmricLiNo" style="display:none;">
+                <label id="HdrSec2_NmricLiNo_Lbl">LiNo: </label>
+                <input id="HdrSec2_NmricLiNo_Val" placeholder="LiNo" type="text" class="k-input" />
+            </div>
+            <div id="HdrSec2_InptItem" style="display: inline-block;">
+                <label id="HdrSec2_InptItem_Lbl">Item Code: </label>
+                <input placeholder="Item Code" id="HdrSec2_InptItem_Val" type="text" class="k-textbox" />
+            </div>
+            <div id="HdrSec2_TxtItem" style="display: none;">
+                <label id="HdrSec2_TxtItem_Lbl">Item Name: </label>
+                <input placeholder="Item Name" id="ItmNm" type="text" class="k-textbox" />
+            </div>
+            <div id="HdrSec2_NmricQty" style="display: inline-block;">
+                <label id="HdrSec2_NmricQty_Lbl">Qty: </label>
+                <input id="HdrSec2_NmricQty_Val" placeholder="Item Qty" type="text" class="k-input" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    <div id="UpdateItmQtyGrid" style="margin-top:20px;"></div>
+</div>
+
+<script>
+    var URLLoadItemUpdateQtyGrid = '@Url.Content("~/Transaction/LoadItemUpdateQtyGrid")';
+    var URLInsertUpdateItemUpdateQtyGrid = '@Url.Content("~/Transaction/InsertUpdateItemUpdateQtyGrid")';
+    var URLLoadPrefix = '@Url.Content("~/Codes/CdMas_LookupWebByConCd")';
+
+</script>
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var GetCdKyByConCdAndOurCd = '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")';
+    var GetCdMasBy_CdKy = '@Url.Content("~/Codes/GetCdMasBy_CdKy")';
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        OrdNo_SelectMob: '@Url.Content("~/ComboLoad/OrdNo_SelectMob")',
+        OrdItmNo_SelectMob: '@Url.Content("~/ComboLoad/OrdItmNo_SelectMob")',
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/Transaction/UpdateItmQty.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

@@ -1,0 +1,106 @@
+﻿
+
+<div id="GridResWin" >
+    <div id="gridForAloc"></div>
+</div>
+
+<script>
+
+
+    function LoadGridForResAloc(){
+
+      
+
+        var gridTaskdataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                 @*   url: '@Url.Action("ResourceForTaskAloc_Select", "PMResource")',*@
+                    dataType: "json",
+
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "read") {
+                        return ({
+                           
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        ItmKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        
+                        ResCd: { editable: false, nullable: false, validation: { required: true }, validation: { required: true }, type: "string" },
+                        ResNm: { editable: false, nullable: true, type: "string" },
+                        Unit: { editable: false, nullable: true },
+                        UnitKy: { editable: false, nullable: true, type: "number" },
+                        ItmTypCd: { editable: false, nullable: true },
+                        selectItm: { editable: false, nullable: true, type: "boolean" },
+
+
+                    }
+                }
+            }
+        });
+
+        $("#gridForAloc").kendoGrid({
+            dataSource: gridTaskdataSource,
+            autobind: true,
+            height: 150,
+            navigatable: true,
+
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columnMenu: true,
+            filterable: true,
+            columns: [
+                    { field: "ItmKy", title: "Ref #", width: "30px", hidden: true },
+                   
+                      { field: "ResCd", width: "30px" },
+                    { field: "ResNm", width: "30px", width: "100px" },
+                     { field: "Unit", width: "30px", format: "{0:N2}" },
+                      { field: "UnitKy", width: "30px", hidden: true },
+                   { field: "ItmTypCd", width: "20px" },
+                       { field: "selectItm", attributes: { style: "text-align:center;" }, template: '<input type="checkbox" #= selectItm ? checked="checked":"" # class="PinChecked" />', title: "Select", filterable: false, width: 2 },
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+           
+            editable: false
+        });
+        //  createFilterRow();
+
+        $(function () {
+            $('#gridForAloc').on('click', '.PinChecked', function () {
+                var checked = $(this).is(':checked');
+                var grid = $('#gridForAloc').data().kendoGrid;
+                var dataItem = grid.dataItem($(this).closest('tr'));
+                dataItem.set('selectItm', checked);
+            })
+        })
+
+    }
+
+
+</script>

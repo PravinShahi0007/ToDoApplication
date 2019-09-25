@@ -1,0 +1,605 @@
+﻿<div class="col-md-12 control-icons" id="ButtonSet">
+    <button class="control-button save" onclick="SaveUpdate() " data-tooltip="Save"> </button>
+    <button class="control-button add" onclick="addNew('EmployeeIndex', 'HRIS')" data-tooltip="Add New Emp" > </button>
+    @*<button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>*@
+    <button id="BtnDelete" class="control-button delete" onclick="DeleteFunction()" data-tooltip="Delete"> </button>
+</div>
+
+
+@*<div>
+    @Html.Partial("~/Views/Transaction/PopUps/ImageAttachment_View.cshtml")
+</div>*@
+
+<div>
+    <ul id="HdrSec_Menu">
+        <li id="HdrSec_MenuPersonal" class="Menu_hdr" onclick="ChangePage('EmployeeIndex', 'HRIS')">Personal Details</li>
+        <li id="HdrSec_MenuJob" class="Menu_hdr" onclick="ChangePage('EmployeeJobIndex', 'HRIS')">Job Details</li>
+        <li id="HdrSec_MenuSalary" class="Menu_hdr" onclick="ChangePage('EmployeeSalaryIndex', 'HRIS')">Salary Details</li>
+        <li id="HdrSec_MenuLeave" class="Menu_hdr" onclick="ChangePage('EmployeeLeaveIndex', 'HRIS')">Leave</li>
+        <li id="HdrSec_MenuOther" class="Menu_hdr" onclick="ChangePage('EmployeeOtherIndex', 'HRIS')">Others</li>
+        <li id="HdrSec_MenuWelfare" class="Menu_hdr" onclick="ChangePage('EmployeeWelfareIndex', 'HRIS')">Welfare</li>
+        <li id="HdrSec_MenuReport" class="Menu_hdr" onclick="ChangeReportPage()">Reports</li>
+        <li id="HdrSec_MenuMasterReport" class="Menu_hdr" onclick="ChangeMasterReportPage()">Master Reports</li>
+    </ul>
+</div>
+
+<style>
+    /*.Menu_hdr {
+        font-size:15px;
+        
+    }*/
+    .Menu_hdr:hover {
+        /*font-size: 20px;*/
+        background-color: #99ddff;
+    }
+</style>
+
+<div>
+    <div>
+        <div>@Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")</div>
+    </div>
+    <div>
+        <div>@Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")</div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <label>EMP No<label style="color:red;">*</label>:</label>
+                    </div>
+                    <div class="col-md-9 col-sm-8 ">
+                        <input placeholder="EMP No" id="HdrSec1_InptEmpNo_Val" type="text" class="k-textbox" />
+                        <input placeholder="" id="EmpKy" type="hidden" disabled class="k-textbox" />
+                        <input placeholder="" id="currentTab" type="hidden" disabled class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <label>Emp Name<label style="color:red;">*</label>:</label>
+                    </div>
+                    <div class="col-md-9 col-sm-8 ">
+                        <input placeholder="Name With Initial" id="HdrSec1_InptEmpNm_Val" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <label>EPF No<label style="color:red;">*</label>:</label>
+                    </div>
+                    <div class="col-md-9 col-sm-8 ">
+                        <input placeholder="EPF No" id="HdrSec2_InptEpfNo_Val" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Department:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-8 ">
+                        <div id="HdrSec2_CmbDept_Nm" data-cpypst-blsmartcpypaste="HdrSec2_CmbDept_Nm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Location:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-8 ">
+                        <div id="HdrSec3_CmbLoc_Nm" data-cpypst-blsmartcpypaste="HdrSec3_CmbLoc_Nm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Company:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-8 ">
+                        @*<input placeholder="EMP Name" id="HdrSec3_CmbCom_Nm" type="text" class="k-textbox" />*@
+                        <div id="HdrSec3_CmbCom_Nm" data-cpypst-blsmartcpypaste="HdrSec3_CmbCom_Nm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Designation:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-8 ">
+                        <div id="HdrSec4_CmbDesg_Nm" data-cpypst-blsmartcpypaste="HdrSec4_CmbDesg_Nm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Nature of Employement:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-8 ">
+                        <div id="HdrSec4_CmbNature_Nm" data-cpypst-blsmartcpypaste="HdrSec4_CmbNature_Nm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <label>Date of Joined:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-6 ">
+                        @*<input id="joinDate_Hdr" disabled />*@
+                        <input placeholder="Date of Join" id="joinDate_Hdr" type="text" disabled class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="position: fixed; bottom: auto;">
+    <div id="FindEmp"></div>
+
+</div>
+
+
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+<script>
+    $("#HdrSec_Menu").kendoMenu({
+        animation: { open: { effects: "fadeIn" } }
+
+      
+    });
+
+
+
+</script>
+
+
+
+<script>
+    var FormGlblData = {
+        FormObjData: null,
+        PrjTypKy: 1,
+        AccessLvlKy: 1,
+        ConfiLvlKy: 1,
+        TrnKy: 1,
+        RecKy: 1,
+        TblNm: "EmpMas"
+
+    }
+    
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        EmpKy: '@(ViewBag.EmpKy)'
+    }
+
+    $('#EmpKy').val(viewBag.EmpKy);
+    FormGlblData.RecKy = viewBag.EmpKy;
+
+    function addNew(ActionVar, ControllerVar) {
+
+        $('#currentTab').val(ActionVar);
+        var Host = document.location.host; //"localhost:3765";
+        var ObjCaptn = viewBag.ObjCaptn;
+        var OurCd = viewBag.OurCd;
+        var OurCd2 = ActionVar;
+        //var OurCd2 = viewBag.OurCd2;
+        var ObjKy = viewBag.ObjKy;
+        var EmpKy = 1;
+        var url = "http://" + Host + "/DevBL10/" + ControllerVar + "/" + ActionVar + "?ObjCaptn=" + ObjCaptn + "&OurCd=" + OurCd + "&OurCd2=" + OurCd2 + "&ObjKy=" + ObjKy + "&EmpKy=" + EmpKy;
+        window.open(url, '_self');
+
+        //$('#IsActive').is(":checked") = true;
+        //document.getElementById("IsActive").checked = true;
+        //if (ActionVar != "EmployeeJobIndex")
+        //{
+        //    disableEmpJobDet();
+        //}
+
+        //if (ActionVar != "EmployeeIndex") {
+        //    disableEmpBasicDet();
+        //}
+    }
+
+    function ChangeReportPage() {
+        var Host = document.location.host;
+        var url = "http://" + Host + "/DevBL10/Report/Index?ObjCaptn=HR Report&OurCd=&OurCd2=&ObjKy=88620";
+        window.open(url, '');
+    }
+    function ChangeMasterReportPage() {
+        var Host = document.location.host;
+        var url = "http://" + Host + "/DevBL10/Report/IntegrityChecks?ObjCaptn=Master Report&OurCd=&OurCd2=&ObjKy=106135";
+        window.open(url, '');
+    }
+    function ChangePage(ActionVar, ControllerVar) {
+
+        $('#currentTab').val(ActionVar);
+        var Host = document.location.host;
+        var ObjCaptn = viewBag.ObjCaptn;
+        var OurCd = viewBag.OurCd;
+        var OurCd2 = ActionVar;
+        //var OurCd2 = viewBag.OurCd2;
+        var ObjKy = viewBag.ObjKy;
+        var EmpKy = $('#EmpKy').val();
+        var url = "http://" + Host + "/DevBL10/" + ControllerVar + "/" + ActionVar + "?ObjCaptn=" + ObjCaptn + "&OurCd=" + OurCd + "&OurCd2=" + OurCd2 + "&ObjKy=" + ObjKy + "&EmpKy=" + EmpKy;
+        window.open(url, '_self');
+
+        viewBag.OurCd2 = ActionVar;
+        
+        //if (currentTab != "EmployeeJobIndex") {
+        //    disableEmpJobDet();
+        //}
+
+        //if (currentTab != "EmployeeIndex") {
+        //    disableEmpBasicDet();
+        //}
+
+    }
+@*</script>*@
+
+@*<script>*@
+
+    
+
+    var Global_EmpKy = 1;
+    var UrlGetEmpDet = '@Url.Content("~/HRISEmployee/GetEmpDet")';
+
+   
+    $(document).ready(function () {
+        //OPENLodingForm();
+        GetFormObjData();
+    });
+
+
+    function GetFormObjData() {
+        $.ajax({
+            url: urlUsrObjPrp_SelectAllLastChildWeb,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                PrntKy: viewBag.ObjKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (HdrSectionFromDb) {
+                FormGlblData.FormObjData = HdrSectionFromDb;
+                EmpHdrDocReadyCus();
+                DocReadyCus();
+                
+            }
+        });
+    }
+
+    function EmpHdrDocReadyCus() {
+        LoadHdrDropDown();
+        $("#FindEmp").hide();
+        //$("#AttachImage").hide();
+        LoadFindEmpGrid();
+        setTimeout('AfterFindEmp(viewBag.EmpKy)', 2000);
+        setHdrSectionPropFun();
+        //$('#IsActive').is(":checked") = true;
+        //LoadTabItems();
+        //ItmSettingsTab();
+
+        
+
+    }
+    function setHdrSectionPropFun() {
+        setHdrSectionProp("", viewBag.ObjKy, "", "HdrSec7");
+        setHdrSectionProp("", viewBag.ObjKy, "", "ButtonSec1");
+        setHdrSectionProp("", viewBag.ObjKy, "", "HdrSec_TabCtrlPersonalInfo");
+        setHdrSectionProp("", viewBag.ObjKy, "", "HdrSec_TabCtrlJob");
+        setHdrSectionProp("", viewBag.ObjKy, "", "HdrSec_TabCtrlSalary");
+        setHdrSectionProp("", viewBag.ObjKy, "", "HdrSec_MenuCtrl");
+        SetHandlingEnterKeyEvent('', viewBag.ObjKy);
+        SetFirstFocusObj();
+
+        //EmpHdrConfig();
+
+    }
+    function GetCdMas_LookupWeb(ConCd) {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: urlHRISEmployeeGetCdMas_LookupWeb,
+                      data: { ConCd: ConCd },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function LoadHdrDropDown()
+    {
+        $("#HdrSec2_CmbDept_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('Department'),
+            filter: "contains",
+            change: function () {
+                var validation = ComboValidations("HdrSec2_CmbDept_Nm");
+            },
+            suggest: true,
+            placeholder: "Select a Department"
+        });
+        $("#HdrSec3_CmbLoc_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('loc'),
+            filter: "contains",
+            change: function () {
+                var validation = ComboValidations("HdrSec3_CmbLoc_Nm");
+            },
+            suggest: true,
+            placeholder: "Select a Location"
+        });
+        $("#HdrSec3_CmbCom_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('company'),
+            filter: "contains",
+            change: function () {
+                var validation = ComboValidations("HdrSec3_CmbCom_Nm");
+            },
+            suggest: true,
+            placeholder: "Select a company"
+        });
+        $("#HdrSec4_CmbDesg_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('desg'),
+            filter: "contains",
+            change: function () {
+                var validation = ComboValidations("HdrSec4_CmbDesg_Nm");
+            },
+            suggest: true,
+            placeholder: "Select a Designation"
+        });
+        $("#HdrSec4_CmbNature_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('EmpSts'),
+            filter: "contains",
+            change: function () {
+                var validation = ComboValidations("HdrSec4_CmbNature_Nm");
+            },
+            suggest: true,
+            placeholder: "Select a nature"
+        });
+
+        EmpHdrConfig();
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 70) {
+            $("#FindEmp").show().kendoWindow({
+                width: "1000px",
+                height: "500px",
+                modal: true,
+                title: "Employee Details"
+            });
+            $('#FindEmp').data('kendoWindow').center().open();
+            e.preventDefault();
+            LoadFindEmpGrid();
+        }
+    });
+    function LoadFindEmpGrid() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: UrlGetEmpDet,
+                    dataType: "json"
+                },
+            },
+            batch: true,
+            pageSize: 100,
+            schema: {
+                model: {
+                    id: "EmpKy",
+                    fields:
+                    {
+                        EmpNo: { editable: true, nullable: false, type: "string" },
+                        EmpNm: { editable: true, nullable: false, type: "string" }
+                    }
+                }
+            }
+        });
+        $("#FindEmp").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            autobind: true,
+            navigatable: true,
+            scrollable: true,
+            filterable: {
+                mode :"row"
+            },
+            pageSize: 100,
+            pageable: true,
+            selectable: "row",
+            resizable: true,
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                {
+                    field: "EmpKy",
+                    title: "#Ref No",
+                    //width: "40px"
+                    hidden: true
+                },
+                {
+                    field: "EmpNo",
+                    title: "Emp No",
+                    width: "50px",
+                },
+                {
+                    field: "EmpNm",
+                    title: "Emp Name",
+                    width: "100px",
+                },
+            ]
+        });
+    }
+
+    $("#FindEmp").dblclick(function (e) {
+        var grid = $("#FindEmp").data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var EmpKy = selectedItem.EmpKy;
+        var EmpNm = selectedItem.EmpNm;
+        var EmpNo = selectedItem.EmpNo;
+
+        FormGlblData.RecKy = EmpKy;
+        if(viewBag.OurCd2 == "EmployeeIndex")
+            GetImage(EmpKy);
+        $('#EmpKy').val(EmpKy);
+        //$('#HdrSec1_InptEmpNm_Val').val(EmpNm);
+        $('#HdrSec1_InptEmpNo_Val').val(EmpNo);
+        $('#FindEmp').data('kendoWindow').close();
+        AfterFindEmp(EmpKy);
+    });
+
+</script>
+
+
+@*<script>
+
+    function ItmSettingsTab() {
+        var tabStrip = $("#HdrSec_Menu").kendoTabStrip().data("kendoTabStrip");
+
+        //tabstrip.select(0);
+        //ItmKy = $("#ItmKy").val();
+        //$('#EmpKy').val(viewBag.EmpKy);
+        var empky = viewBag.EmpKy;
+
+        var ind1 = 1;
+        var ind2 = 2;
+        var ind3 = 3;
+        var ind4 = 4;
+        var ind5 = 5;
+
+        tabStrip.enable(tabStrip.tabGroup.children().eq(ind1));
+        tabStrip.enable(tabStrip.tabGroup.children().eq(ind2));
+        tabStrip.enable(tabStrip.tabGroup.children().eq(ind3));
+        tabStrip.enable(tabStrip.tabGroup.children().eq(ind4));
+        tabStrip.enable(tabStrip.tabGroup.children().eq(ind5));
+        if (empky <= 10) {
+            //alert("Select an Item");
+
+            //var tabIndex = tabstrip.select(1);
+            //var tabIndex1 = tabstrip.select(2);
+            //var tabIndex2 = tabstrip.select(3);
+            //var tabIndex3 = tabstrip.select(4);
+            //var tabIndex4 = tabstrip.select(5);
+
+            tabStrip.disable(tabStrip.tabGroup.children().eq(ind1));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(ind2));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(ind3));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(ind4));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(ind5));
+
+        }
+    }
+
+
+    function LoadTabItems() {
+        var tabstrip = $("#HdrSec_Menu").kendoTabStrip().data("kendoTabStrip");
+        var tabIndx = -1;
+        var tab = tabstrip.select();
+        //var Dept = $("#HdrSec1_CmbDept_Cd").data('kendoComboBox').value();
+        tabIndx = tab.index();
+
+        if (tabIndx == 0) {
+            alert(0);
+        }
+        else if (tabIndx == 1) {
+            alert(1);
+        }
+        else if (tabIndx == 2) {
+            alert(2);
+        }
+
+    }
+
+
+
+</script>*@
+
+<script>
+
+    function EmpHdrConfig()
+    {
+        var currentTab = viewBag.OurCd2;
+
+        if (currentTab != "EmployeeJobIndex") {
+            disableEmpJobDet();
+        }
+
+        if (currentTab != "EmployeeIndex") {
+            disableEmpBasicDet();
+        }
+    }
+
+    function disableEmpBasicDet() {
+
+        $("#HdrSec2_InptEpfNo_Val").prop("disabled", true);
+        $("#HdrSec1_InptEmpNo_Val").prop("disabled", true);
+        $("#HdrSec1_InptEmpNm_Val").prop("disabled", true);
+
+    }
+
+    function disableEmpJobDet() {
+
+        var Dept = $("#HdrSec2_CmbDept_Nm").data("kendoComboBox");
+        Dept.enable(false);
+        var Loc = $("#HdrSec3_CmbLoc_Nm").data("kendoComboBox");
+        Loc.enable(false);
+        var Comp = $("#HdrSec3_CmbCom_Nm").data("kendoComboBox");
+        Comp.enable(false);
+        var Desg = $("#HdrSec4_CmbDesg_Nm").data("kendoComboBox");
+        Desg.enable(false);
+        var NatrEmp = $("#HdrSec4_CmbNature_Nm").data("kendoComboBox");
+        NatrEmp.enable(false);
+        //var Dept = $("#HdrSec1_CmbTyp_Cd").data("kendoComboBox");
+        //Dept.enable(false);
+
+    }
+
+</script>
+

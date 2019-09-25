@@ -1,0 +1,289 @@
+﻿@{
+    ViewBag.Title = "Basic Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+
+        </div>
+
+        <div>
+            @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+        </div>
+        <div>
+            @Html.Partial("~/Views/AjaxLoad/Index.cshtml")
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>EMP No:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="EMP No" id="empNo" type="text" class="k-textbox" />
+                                <input placeholder="EMP No" id="EmpKy" type="hidden" class="k-textbox" />                           </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>EMP Name:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="EMP Name" id="empName" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Name in Initial:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Name in Initial" id="nameInInitial" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Title:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbTitle" data-cpypst-blsmartcpypaste="cmbTitle"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Date of Birth:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="dateOfBirth" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>NIC No:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="NIC No" id="nicNo" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Passport:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Passport No" id="passportNo" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Passport Exp Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="passportExpDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Driving Licence:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Driving Licence" id="drivingLicence" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Nationality:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbNationality" data-cpypst-blsmartcpypaste="cmbNationality"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Religion:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbReligion" data-cpypst-blsmartcpypaste="cmbReligion"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Gender:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbGender" data-cpypst-blsmartcpypaste="cmbGender"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Blood group:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbBloodGrp" data-cpypst-blsmartcpypaste="cmbBloodGrp"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Country:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbCountry" data-cpypst-blsmartcpypaste="cmbCountry"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Civil Status:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbCivilStatus" data-cpypst-blsmartcpypaste="cmbCivilStatus"></div>
+                                @*
+                                    <input placeholder="Civil Status" id="civilStatus" type="text" class="k-textbox" />
+                                *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>EPF No:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="EPF No" id="epfNo" type="text" class="k-textbox" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Date of Joined:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="joinDate" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-5">
+                                <label>Is Active:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input type="checkbox" id="IsActive">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-5">
+                                <label>Is Aprove:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input type="checkbox" id="IsAprove">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="resign">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-5">
+                                <label>Date of Resigned:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-5">
+                                <input id="resignDate" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="BasicDetailGrid">
+
+        </div>
+
+    </div>
+</div>
+<div>
+   @* @Html.Partial("~/Views/Journal/JournalFind.cshtml")*@
+</div>
+
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+    //alert(11);
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertHdr")';
+    var UrlGetEmpPersonalDet = '@Url.Content("~/HRISEmployee/GetEmpPersonalDet")';
+</script>
+
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/Employee.js"></script>
+

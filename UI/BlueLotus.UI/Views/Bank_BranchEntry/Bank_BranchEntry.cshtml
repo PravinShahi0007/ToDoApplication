@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="wr_formGroup" style="margin-top:40px; min-height:550px; height:100%; margin:0; padding:0; overflow:hidden;" id="divSplitter">
+
+            <div class="col-md-2 col-sm-2">
+                <div class="wr_formGroup" style="min-height:520px">
+     
+                    <div>
+                        <div>
+                            <button class="control-button add" onclick="AddFunction()" data-tooltip="Add"> </button>
+                            <button class="control-button save" onclick="SaveFunction()" data-tooltip="Save"> </button>
+                            <button class="control-button cancel" onclick="CancelFunction()" data-tooltip="Cancel"> </button>
+                        </div>
+                        <div style="display:inline-block; margin-left:250px;"><h4>Bank Details</h4></div>
+
+                        <div id="GridWin" style="margin-top:20px;margin-bottom:10px;">
+                            <div id="BankGrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2">
+                <div class="wr_formGroup" style="min-height:520px">
+                    <div>
+                        <div>
+                            <button class="control-button add" onclick="BranchAddFunction()" data-tooltip="Add"> </button>
+                            <button class="control-button save" onclick="BranchSaveFunction()" data-tooltip="Save"> </button>
+                            <button class="control-button cancel" onclick="BranchCancelFunction()" data-tooltip="Cancel"> </button>
+                        </div>
+                        <div style="display:inline-block; margin-left:250px;"><h4>Branch Details</h4></div>
+                        <div id="GridWin" style="margin-top:20px;margin-bottom:10px;">
+                            <div id="BranchGrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div>
+        @Html.Partial("~/Views/ItmMas/ItmMas_ItmNm_SS_Web.cshtml")
+    </div>
+    <div>
+        @Html.Partial("~/Views/Errors/Index.cshtml")
+    </div>
+
+    <script>
+
+        var urlBank_BranchEntry = {
+            SaveBankEntry: '@Url.Content("~/Bank_BranchEntry/SaveBankEntry")',
+            LoadBankEntry: '@Url.Content("~/Bank_BranchEntry/BnkMas_SelectWeb")',
+            SaveBranchEntry: '@Url.Content("~/Bank_BranchEntry/SaveBranchEntry")',
+            LoadBranchEntry: '@Url.Content("~/Bank_BranchEntry/BrnMas_SelectWeb")'
+
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+
+        $("#divSplitter").kendoSplitter({
+
+            panes: [
+                { collapsible: false, size: "50%" },
+                { collapsible: false, size: "50%" }
+            ]
+
+        });
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+
+
+        $("#BankGrid").dblclick(function () {
+            BankRowDblClick();
+        });
+
+    </script>
+
+    <script src="~/Scripts/HtnScripts/Bank_BranchEntry/Bank_BranchEntry.js"></script>
+    <script src="~/Scripts/HtnScripts/Bank_BranchEntry/BankGridLoad.js"></script>
+    <script src="~/Scripts/HtnScripts/Bank_BranchEntry/BrachGridLoad.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+  

@@ -1,0 +1,45 @@
+﻿<div id="ItmMasmultiUnitPartialView" style="display: none">
+    <div>
+        <div class="k-content" id="filterCont">
+            <div>
+                <div id="HdrSec1_ItemMulti" style="display: inline-block">
+                    <label id="HdrSec1_ItemMulti_Lbl">Item:</label>
+                    @*<input placeholder="Item Code" id="HdrSec1_InptItm_Cd" type="text" class="k-textbox" style="width:100px;" />*@
+                    <div id="HdrSec1_ItemMulti_Cd"></div>
+                    <div id="HdrSec1_ItemMulti_Nm"></div>
+                </div>
+
+                <div id="HdrSec1_CmbUnit_Cd" style="display:none;">
+                    <label id="HdrSec1_CmbUnit_Cd_Lbl">Base Unit:</label>
+                    <div id="HdrSec1_CmbUnit_Cd"></div>
+                </div>
+                <div id="HdrSec1_InptItmKy" style="display:none;">
+                    <label id="HdrSec1_InptItmKy_Lbl">Item Ky:</label>
+                    @*<div id="HdrSec1_CmbItm_Cd"></div>*@
+                    <input placeholder="" id="HdrSec1_InptItmKy_Val" type="text" disabled class="k-textbox" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div>
+        <div>@Html.Partial("~/Views/ItmMas/Popup/_PartialMultiUnit.cshtml")</div>
+    </div>
+</div>
+<script>
+    @*var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        OrdNo_SelectMob: '@Url.Content("~/ComboLoad/OrdNo_SelectMob")',
+        OrdItmNo_SelectMob: '@Url.Content("~/ComboLoad/OrdItmNo_SelectMob")',
+    }*@
+
+</script>
+<link href="~/Src/Styles/HtnStyles/ItmDiscount/animation.css" rel="stylesheet" />

@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "ItmMasCd";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 5px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; width:1000px;">
+        <div>
+            <div class="k-content" id="filterCont">
+
+                <div id="HdrPart">
+
+                    <div style="margin-left:100px;margin-top:10px;">
+
+                        <label style="margin-left:15px;margin-top:5px;">Item Type:</label>
+                        <div id="cmbItmMasItmTyp"></div>
+
+                        <label style="margin-left:20px;">Item:</label>
+                        <div id="cmbItmCd"></div>
+
+                        <button class="control-button refresh" onclick="LoadGridView()" data-tooltip="refresh"> </button>
+                        <button class="control-button update" onclick="UpdateDetails()" data-tooltip="update"> </button>
+
+                    </div>
+                </div>
+
+                <div id="GridWin" style="margin-top:5px;margin-bottom:5px;">
+                    <div id="ItmMasItmGrid"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlCodes = {
+        LoadGridView: '@Url.Content("~/ItmMasCd/ItmMasItmLoadGridView")',
+        UpdateGrid: '@Url.Content("~/Codes/UpdateGrid")',
+        CdMasCdTypLookup: '@Url.Content("~/Codes/CdMasCdTypLookup")',
+        CdMas_LookupWebByConCd: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+    };
+
+    var viewBag = {
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        ObjKy: '@(ViewBag.ObjKy)'
+    };
+
+    var urlGrpItmCdByControlConRel_SelectWeb = '@Url.Content("~/ItmMasCd/GrpItmCdByControlConRel_SelectWeb")';
+    var UrlInsertUpdateItmMasItm = '@Url.Content("~/ItmMasCd/InsertUpdateItmMasItm")';
+</script>
+
+
+<script src="~/Scripts/HtnScripts/ItmMasCd/ItmMasCdScript.js"></script>

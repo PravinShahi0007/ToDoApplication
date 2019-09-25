@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <input type="hidden" name="Opening" id="Opening" value="0.00" />
+    <input type="hidden" name="Balanceat" id="Balanceat" value="0.00" /> 
+    <input type="hidden" name="LedBal" id="LedBal" value="0.00" />
+    <input type="hidden" name="Balnce" id="Balnce" value="0.00"/>
+    <input type="hidden" name="TempBalnce" id="TempBalnce" value="0.00" />
+
+
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button load" onclick="Preview()" data-tooltip="load"> </button>
+            @*<button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>*@
+
+            @*<button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+                <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>*@
+            @*<button class="control-button preview disabledClick" onclick="Preview()" data-tooltip="Preview"> </button>
+                <button class="control-button clean disabledClick" onclick="Clean()" data-tooltip="Clean"> </button>
+                <button class="control-button add disabledClick" onclick="Add()" data-tooltip="Add"> </button>
+                <button class="control-button attach disabledClick" onclick="Attach()" data-tooltip="Attach"> </button>
+                <button class="control-button save_as disabledClick" onclick="Save_as()" data-tooltip="Save As"> </button>
+                <button class="control-button save_and_new disabledClick" onclick="Save_and_new()" data-tooltip="Save And New"> </button>
+                <button class="control-button audio_record disabledClick" onclick="Audio_record()" data-tooltip="Audio Record"> </button>
+                <button class="control-button video_record disabledClick" onclick="Video_record()" data-tooltip="Video Record"> </button>
+                <button class="control-button delete disabledClick" onclick="Delete()" data-tooltip="Delete"> </button>
+                <button class="control-button filter disabledClick" onclick="Filter()" data-tooltip="Filter"> </button>
+                <button class="control-button filter_clear disabledClick" onclick="Filter_Clear()" data-tooltip="Filter Clear"> </button>
+                <button class="control-button search disabledClick" onclick="Search()" data-tooltip="Search"> </button>
+                <button class="control-button download disabledClick" onclick="Download()" data-tooltip="Download"> </button>
+                <button class="control-button upload disabledClick" onclick="Upload()" data-tooltip="Upload"> </button>
+                <button class="control-button back disabledClick" onclick="Back()" data-tooltip="Back"> </button>
+                <button class="control-button setting disabledClick" onclick="Setting()" data-tooltip="Setting"> </button>
+                <button class="control-button edit disabledClick" onclick="Edit()" data-tooltip="Edit"> </button>
+                <button class="control-button refresh disabledClick" onclick="Refresh()" data-tooltip="Refresh"> </button>
+                <button class="control-button update disabledClick" onclick="Update()" data-tooltip="Update"> </button>
+                <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Req" style="width: 150px; height: 30px">New From Purches Order</button>*@
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-7 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row"  id="HdrSec1_DatFrom">
+                            <div class="col-md-3 col-sm-6">
+                                <label  id="HdrSec1_DatFrom_Lbl">Date From :</label>
+                            </div>
+                            <div class="col-md-2 col-sm-8 ">
+                                <input id="HdrSec1_DatFrom_Val"/>
+                            </div>
+                        </div>
+                        <div class="row" id="HdrSec1_DatTo">
+                            <div class="col-md-3 col-sm-6">
+                                <label id="HdrSec1_DatTo_Lbl">Date To  :</label>
+                            </div>
+                            <div class="col-md-2 col-sm-8 ">
+                                <input id="HdrSec1_DatTo_Val"/>
+                            </div>
+                        </div>
+                        <div class="row" id="HdrSec1_CmbBank">
+                            <div class="col-md-3 col-sm-6">
+                                <label id="HdrSec1_CmbBank_Lbl">Bank Account :</label>
+                            </div>
+                            <div class="col-md-9 col-sm-8 ">
+                                <input id="HdrSec1_CmbBank_Cd"/>
+                                <input id="HdrSec1_CmbBank_Nm"/>
+                                <input placeholder="Account Number" id="AccountNu" type="text" class="k-textbox" style="width: 20%"  readonly="readonly"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3 col-sm-6">
+                
+            </div>
+            <div class="col-md-5 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group" id="HdrSec2_InptRecOpnBal">
+                        <div class="row">
+                            <div class="col-md-7 col-sm-6">
+                                <label id="HdrSec2_InptRecOpnBal_Lbl">Reconciled Opening Balance As At <span id="OpenDate"/>:</label>
+                            </div>
+                            <div class="col-md-4 col-sm-8 ">
+                                <input id="OpenigBalNow" type="text" readonly class="k-textbox" style="text-align:right" />
+                            </div>
+                        </div>
+                        <div class="row" id="HdrSec2_InptRecBalPrd">
+                            <div class="col-md-7 col-sm-6">
+                                <label id="HdrSec2_InptRecBalPrd_Lbl" >Reconciled Balance For Period <span id="ToFrom"/> :</label>
+                            </div>
+                            <div class="col-md-4 col-sm-8 ">
+                                <input id="BalnceForperiod" type="text" readonly class="k-textbox"  style="text-align:right" />
+                            </div>
+                        </div>
+                        <div class="row" id="HdrSec2_InptLedBal" style="display: none;">
+                            <div class="col-md-7 col-sm-6">
+                                <label id="HdrSec2_InptLedBal_Lbl">Ledger Balance as at <span id="Ledg"/>:</label>
+                            </div>
+                            <div class="col-md-4 col-sm-8 ">
+                                <input id="LedgerBalAt" type="text" readonly class="k-textbox" style="text-align:right"/>
+                            </div>
+                        </div>
+                        <div class="row" id="HdrSec2_InptRecBal">
+                            <div class="col-md-7 col-sm-6">
+                                <label id="HdrSec2_InptRecBal_Lbl">Reconciled Balance As <span id="ReconBal"/> :</label>
+                            </div>
+                            <div class="col-md-4 col-sm-8">
+                                <input id="ReconBalAt" type="text"  readonly class="k-textbox" style="text-align:right"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <br style="clear:both" />
+        <div class="col-md-12 col-sm-12">
+            <div id="BanckRec">
+
+            </div>
+            <div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>
+        </div>
+    </div>
+</div>
+<script>
+    var urlLoadBankRecGrid = '@Url.Content("~/BankRec/BankRecGridLoad")';
+    var urlGetBankAccCd = '@Url.Content("~/BankRec/BankAccCd")';
+    var urlGetBankAccNm = '@Url.Content("~/BankRec/BankAccNm")';
+    var urlGetLegBal = '@Url.Content("~/BankRec/GetLedgerBalance")';
+    var urlGetBalAt = '@Url.Content("~/BankRec/BalanceAt")';
+    var urlInserRec = '@Url.Content("~/BankRec/UpdatedRecords")';
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlGetRecogBalAt = '@Url.Content("~/BankRec/RecBalForMOnth")';
+    var UrlBankDetailSelect = '@Url.Content("~/ManageAllAccount/BankDetailsSelect")';
+    var urlGetAllAccountBalances = '@Url.Content("~/BankRec/GetAllAccountBalances")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+
+</script>
+<script src="~/Scripts/HtnScripts/Bankreconsilation/BankReconciliation.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+

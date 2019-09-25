@@ -1,0 +1,291 @@
+﻿@{
+    ViewBag.Title = "ItemSales";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+
+<style>
+    .Colour {
+        background-color: cornflowerblue;
+      }
+</style>
+
+
+@*<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+<div>
+
+    @*<div class="k-content" id="filterCont" style="height:40px;">*@
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12" id="ButtonSet">
+            @*<button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>*@
+            <button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+
+        </div>        
+    </div>
+    <div id="SearchWin1" style="margin-top:10px;margin-left:40px; height:40px; width:90%" >
+        <div id="HdrSec1">
+            <div id="HdrSec1_CmbItmTyp" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbItmTyp_Lbl">Item Type: </label>
+                <div id="HdrSec1_CmbItmTyp_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbPrj" style="display: inline-block;">
+                <label id="HdrSec1_CmbPrj_Lbl">Project:</label>
+                <div id="HdrSec1_CmbPrj_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbLoc" style="display: inline-block;">
+                <label id="HdrSec1_CmbLoc_Lbl">Location</label>
+                <div id="HdrSec1_CmbLoc_Cd"></div>
+            </div>
+            <div id="HdrSec1_CmbAcc" style="display: inline-block;">
+                <label id="HdrSec1_CmbAcc_Lbl">Account</label>
+                <div id="HdrSec1_CmbAcc_Cd"></div>
+            </div>
+            <div id="HdrSec1_DatRevDt" style="display: inline-block;">
+                <label id="HdrSec1_DatRevDt_Lbl">Revision Date</label>
+                <input id="RevsnDt"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: RevsnDt" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="GridWin">
+    <div style="margin-left:10px;margin-right:10px;margin-bottom:10px;">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<div id="pagination">@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>
+
+<script type="text/javascript">
+    
+</script>
+
+
+<script type="text/javascript">
+
+    var URLUpdateRate = '@Url.Content("~/ItmMas/UpdateItmsforRate")';
+    var URLDeleteRate = '@Url.Content("~/Home/DeleteToDoCus")';
+    var URLLoadGrid = '@Url.Action("GetItmsforRate", "ItmMas")';
+
+    var URLGetPrjIDCmb = '@Url.Content("~/Order/GetPrjListForOrder")';
+    var URLGetLocationCodeCmb = '@Url.Content("~/ItmMas/GetLocList")';
+    var URLGetBUCmb = '@Url.Content("~/Journal/BUNMLookup")';
+    var URLGetAdrIdCmb = '@Url.Action("AccAdrId", "Journal")';
+    var URLAccCdCmb = '@Url.Content("~/TransactionAcc/AccCd_SelectMob")';
+
+
+    var URLTrncDataSource = '@Url.Content("~/ItmMas/GetTrncList")';
+    var URLPusFmDatasource = '@Url.Content("~/ItmMas/GetPusFmList")';
+    var URLLocDatasource = '@Url.Content("~/ItmMas/GetLocList")';
+    var URLProjectDatasource = '@Url.Content("~/ItmMas/GetProjectListForItmMas")';
+    var URLItmTypDatasource = '@Url.Content("~/ItmMas/GetItmTyp")';
+    var URLGetControlCnKy = '@Url.Content("~/ItmMas/GetControlConKyForItmRate")';
+    var URLItmNm_SelectforItmRateDatasource = '@Url.Content("~/ItmMas/ItmNm_SelectforItmRate")';
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+
+    }
+
+
+
+
+
+
+
+    //function Remember() {
+    //    //alert("here..");
+    //    var grid = $("#grid").data("kendoGrid");
+    //    dataView = grid.dataSource.view();
+
+    //    var rowObjs = grid.tbody[0].rows;
+    //    var today = new Date();
+
+    //    var d = new Date();
+
+    //    var month = d.getMonth() + 1;
+    //    var day = d.getDate();
+
+    //    var output = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + d.getFullYear();
+
+    //    for (var i = 0; i < dataView.length; i++) {
+    //        var row = rowObjs[i];
+    //        if (dataView[i].NxtActDt === dt) {
+
+
+    //        }
+    //    }
+    //}
+
+
+    //function GridOnDataBound(arg) {
+    //    dataView = this.dataSource.view();
+    //    var grid = $("#grid").data("kendoGrid");
+
+    //    var rowObjs = grid.tbody[0].rows;
+
+    //    for (var i = 0; i < dataView.length; i++) {
+    //        var row = rowObjs[i];
+    //        //            row.className = "gridWhiteRow";
+    //        if (dataView[i].AprPrtyKy === 8941) {//low
+    //            //                row.className = "gridGreenRow";
+    //        }
+    //        if (dataView[i].AprPrtyKy === 8940) {//hight
+    //            //                row.className = "gridYellowRow";
+    //        }
+    //        if (dataView[i].AprPrtyKy === 8944) {//urgent
+    //            row.className = "gridRedRow";
+    //        }
+    //        if (dataView[i].AprPrtyKy === 8942) {//normal
+    //            //                row.className = "gridAquaRow";
+    //        }
+    //        if (dataView[i].AprPrtyKy === 8945) {//normal
+    //            //                row.className = "gridPurpleRow";
+    //        }
+    //        if (dataView[i].AprStsKy === 8946) {
+    //            row.className = "gridGreenRow";
+    //        }
+    //    }
+    //    //$("#dialog").dialog();
+    //    var today = new Date();
+    //    var dd = today.getDate();
+    //    var mm = today.getMonth() + 1; //January is 0!
+
+    //    var yyyy = today.getFullYear();
+    //    if (dd < 10) {
+    //        dd = '0' + dd
+    //    } if (mm < 10) {
+    //        mm = '0' + mm
+    //    }
+    //    var today = mm + '-' + dd + '-' + yyyy;
+    //    var text = "";
+    //    for (var j = 0; j < dataView.length; j++) {
+    //        try {
+    //            // alert(dataView[j].NxtActDt + " " + today);
+    //            var obj = dataView[j].NxtActDt.trim();
+    //            var adrkey = dataView[j].NxtActByAdrKy.trim();
+    //            if (obj === today) {
+    //                text = text + "<div class='task'>" + dataView[j].TaskNm + "</div><div class='des'>" + dataView[j].Des + "</div>";
+    //            }
+    //        } catch (e) { }
+    //    }
+    //    var window = $(".window"),
+    //                    undo = $("#undo")
+    //                            .bind("click", function () {
+    //                                window.data("kendoWindow").center().open();
+    //                                undo.hide();
+    //                            });
+
+    //    var onClose = function () {
+    //        undo.show();
+    //    }
+
+    //    if (text.trim() != "") {
+    //        $(".window").show();
+    //    }
+
+    //    window.kendoWindow({
+    //        width: "615px",
+    //        title: "Active tasks today",
+    //        content: "",
+    //        close: onClose
+    //    });
+
+    //    window.html(text);
+
+
+    //}
+
+    //function GridOnDataBinding(arg) {
+    //    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+    //}
+
+
+
+    /************** Filtering critarea ****************************/
+
+    @*function ProjectDataSource(prntKy) {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Home/GetProjectListByPrntKy")',
+                    data: { 'key': prntKy },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }*@
+
+
+
+
+
+    //function LoadAutoComplete() {
+    //    var data = GetDataSource();
+
+    //    $("#searchBox").kendoAutoComplete({
+    //        dataSource: data,
+    //        dataValueField: "PrcsDetKy",
+    //        dataTextField: "PrjNm",
+    //        select: onSelectAC,
+    //        change: onChangeAC,
+    //        close: onCloseAC,
+    //        open: onOpenAC,
+    //        dataBound: onDataBoundAC
+    //    });
+    //}
+
+
+
+    //------------------ Delete Event---------------------------------------------
+
+
+    //    $("#grid").keypress(function (e) {
+    //        //alert("e.which is :" + e.which + " and e.keyCode is:" + e.keyCode);
+    //        if ((e.keyCode == 46) || (e.which == 46)) {
+    //            var entityGrid = $("#grid").data("kendoGrid");
+    //            var selectedItem = entityGrid.dataItem(entityGrid.select());
+    //            deleteme(selectedItem.PrcsDetKy);
+    //        }
+    //    });
+
+
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/PaginationControl.js"></script>
+<script src="~/Scripts/HtnScripts/ItmMas/ItmRateScripts.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

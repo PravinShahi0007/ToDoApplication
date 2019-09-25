@@ -1,0 +1,225 @@
+
+@{
+    ViewBag.Title = "ItemSales";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+@*<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+
+
+<div>
+
+    @*<div class="k-content" id="filterCont" style="height:40px;">*@
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12" id="ButtonSet">
+            @*<button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>*@
+            <button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+
+        </div>
+    </div>
+    <div id="SearchWin1" style="margin-top:10px;margin-left:40px; height:40px; width:90%">
+        <div id="HdrSec1">
+            <div id="HdrSec1_CmbItmTyp" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbItmTyp_Lbl">Item Type: </label>
+                <div id="HdrSec1_CmbItmTyp_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbSubConAcc" style="display: inline-block;">
+                <label id="HdrSec1_CmbSubConAcc_Lbl">SubContract Account:</label>
+                <div id="HdrSec1_CmbSubConAcc_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbPrj" style="display: inline-block;">
+                <label id="HdrSec1_CmbPrj_Lbl">Project:</label>
+                <div id="HdrSec1_CmbPrj_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_CmbLoc" style="display: inline-block;">
+                <label id="HdrSec1_CmbLoc_Lbl">Location</label>
+                <div id="HdrSec1_CmbLoc_Cd"></div>
+            </div>
+
+            <div id="HdrSec1_DatRevDt" style="display: inline-block;">
+                <label id="HdrSec1_DatRevDt_Lbl">Revision Date</label>
+                <input id="RevsnDt"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: RevsnDt" />
+            </div>
+        </div>
+        <div class="col-md-12  col-sm-12"><hr /></div>
+    </div>
+    <div style="margin-top:20px;">
+        <div class="col-md-6  col-sm-12">
+            <div id="HdrSec2">
+
+                <div id="HdrSec2_CmbItem" class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec2_CmbItem_Lbl">Item:</label>
+                        </div>
+                        <div class="col-md-10 col-sm-4">
+                            <div id="HdrSec2_CmbItem_Cd"></div>
+                            <div id="HdrSec2_CmbItem_Nm" style="width:300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hdrsec2_CmbUnit" class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="hdrsec2_CmbUnit_Lbl">Unit:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-4">
+                            <div id="hdrsec2_CmbUnit_Cd"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="HdrSec2_CmbTask" class="form-group" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec2_CmbTask_Lbl">Task:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-4">
+                            <div id="HdrSec2_CmbTask_Cd"></div>
+                            <div id="HdrSec2_CmbTask_Nm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4  col-sm-12">
+            <div id="HdrSec3">
+
+                <div id="hdrsec3_CmbAdr" class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="hdrsec3_CmbAdr_Lbl">Address:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-4">
+                            <div id="hdrsec3_CmbAdr_Cd"></div>
+                            <div id="hdrsec3_CmbAdr_Nm"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hdrsec3_CmbLoc" class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="hdrsec3_CmbLoc_Lbl">Location:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-4">
+                            <div id="hdrsec3_CmbLoc_Cd"></div>
+                            <div id="hdrsec3_CmbLoc_Nm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4  col-sm-12">
+            <div id="HdrSec4">
+
+                <div id="HdrSec4_NmricRate" class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec4_NmricRate_Lbl">Rate:</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input id="HdrSec4_NmricRate_Val">
+                        </div>
+                    </div>
+                </div>
+                <div id="HdrSec4_NmricLiNo" class="form-group" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec4_NmricLiNo_Lbl">LiNo:</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input id="HdrSec4_NmricLiNo_Val">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="GridWin" class="col-md-12  col-sm-12">
+        <div>
+            <div id="grid"></div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script id="command-template" type="text/x-kendo-template">
+    <a class="k-button k-grid-evenselect">X</a>
+</script>
+
+
+<script type="text/javascript">
+
+    var URLUpdateSubconRate = '@Url.Content("~/ItmMas/UpdateSubConRate")';
+    var URLDeleteRate = '@Url.Content("~/Home/DeleteToDoCus")';
+    var URLLoadSubConGrid = '@Url.Action("GetSubConItemRate", "ItmMas")';
+
+    var URLGetPrjIDCmb = '@Url.Content("~/Order/GetPrjListForOrder")';
+    var URLGetLocationCodeCmb = '@Url.Content("~/ItmMas/GetLocList")';
+    var URLGetBUCmb = '@Url.Content("~/Journal/BUNMLookup")';
+    var URLGetAdrIdCmb = '@Url.Action("AccAdrId", "Journal")';
+    var URLAccCdCmb = '@Url.Content("~/TransactionAcc/AccCd_SelectMob")';
+
+
+    var URLTrncDataSource = '@Url.Content("~/ItmMas/GetTrncList")';
+    var URLPusFmDatasource = '@Url.Content("~/ItmMas/GetPusFmList")';
+    var URLLocDatasource = '@Url.Content("~/ItmMas/GetLocList")';
+    var URLProjectDatasource = '@Url.Content("~/ItmMas/GetProjectListForItmMas")';
+    var URLItmTypDatasource = '@Url.Content("~/ItmMas/GetItmTyp")';
+    var URLGetControlCnKy = '@Url.Content("~/ItmMas/GetControlConKyForItmRate")';
+    var URLItmNm_SelectforItmRateDatasource = '@Url.Content("~/ItmMas/ItmNm_SelectforItmRate")';
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        Task_SelectWeb: '@Url.Content("~/Transaction/GetTaskList")',
+
+    }
+
+
+</script>
+<script src="~/Scripts/HtnScripts/ItmMas/SubConItmRateScript.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

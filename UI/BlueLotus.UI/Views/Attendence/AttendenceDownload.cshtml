@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "AttendenceDownload";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+
+@*<div class="col-md-12  col-sm-12">
+    <div class="wr_formGroup_drk">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <button type="button" class="button" onclick="ConnectAttn()" value="Connect" data-tooltip="Connect" style="width:150px; height:25px;">Connect to Finger Print </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<br style="clear: both" />
+<br style="clear: both" />
+
+
+
+
+<div class="col-md-12  col-sm-12">
+    <div class="wr_formGroup_drk">
+
+        <div class="form-group">
+            <div class="row">
+
+
+                <div>
+                    <div style="margin-left:10px; color:cornflowerblue;"></div>
+                    @*<div>
+        <label style="margin-top:10px; margin-right:85px; margin-bottom:20px;">From Date</label>
+        <input id="HdrPart_FrmDate"
+               class="" style=""
+               data-role="datepicker"
+               data-bind="value: Date" />
+
+        <label style="margin-top:10px; margin-right:52px; margin-bottom:20px; margin-left:50px;">To Date</label>
+        <input id="HdrPart_ToDate"
+               class="" style=""
+               data-role="datepicker"
+               data-bind="value: Date" />
+    </div>*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-sm-8">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <label>Device No:</label>
+
+                        </div>
+                        <div class="col-md-6 col-sm-8 ">
+                            <input id="HdrSec1_CmbDevID_Cd" class="combo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <label>Device Name:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 ">
+                            <input id="HdrSec1_CmbDevID_Nm" class="combo" />
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <br style="clear: both" />
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <button type="button" id="DownloadAttendence" class="button" onclick="DownloadAttendence()" value="Download" data-tooltip="Download" style="width:200px; height:50px;">Download Attendence </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+    
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+
+
+</script>
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+
+<script>
+
+    @*var urlConnecttoDevice = '@Url.Content("~/Attendence/ConnecttoDevice")';*@
+
+    var urlDownloadAttendence = '@Url.Content("~/Attendence/DownloadAttendence")'; 
+    var urlDownloadFaceAttendence = '@Url.Content("~/Attendence/DownloadFaceAttendence")'; 
+    var urlDevice_SelectWeb = '@Url.Content("~/Attendence/Device_SelectWeb")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/Attendence/DownloadAttendence.js"></script>

@@ -1,0 +1,151 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+    </div>
+    <div>
+        @Html.Partial("~/Views/ChequeReturn/ChequeReturnFind.cshtml")
+    </div>
+    <div id="HdrPart">
+        <div class="col-md-1 col-sm-1">
+            
+        </div>
+            <div class="col-md-10 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row" style="margin-bottom: 5px">
+                            <div id="HdrSec1_InpTrnNo">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_InpTrnNo_Lbl">Trn No :</label>
+                                </div>
+                                <div class="col-md-2 col-sm-8 ">
+                                    <input id="HdrSec1_InpTrnNo_Val" placeholder="Trn No"  type="text" class="k-textbox width-100" readonly="readonly" />
+                                </div>
+                                <div class="col-md-4 col-sm-8 ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px">
+                            <div id="HdrSec1_DatFrom">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_DatFrom_Lbl">Date :</label>
+                                </div>
+                                <div class="col-md-2 col-sm-8 ">
+                                    <input id="HdrSec1_DatFrom_Val"/>
+                                </div>
+                                <div class="col-md-4 col-sm-8 ">
+                                </div>
+                            </div>
+                            <div id="HdrSec1_BU">
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="HdrSec1_BU_Lbl">BU Code :</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <input id="HdrSec1_BU_Val" type="text" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px">
+                            <div id="HdrSec1_CmbBank">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_CmbBank_Lbl">Bank :</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <input id="HdrSec1_CmbBnk_Cd"/>
+                                    <input id="HdrSec1_CmbBnk_Nm"/>
+                                </div>
+                            </div>
+                            <div id="HdrSec1_Prj">
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="HdrSec1_Prj_Lbl">Project Code :</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2 ">
+                                    <input id="HdrSec1_Prj_Val" type="text" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px">
+                            <div id="HdrSec1_NmricChqNu">
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="HdrSec1_NmricChqNu_Lbl">Cheque Number :</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <input id="HdrSec1_NmricChqNu_Val"/>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                </div>
+                            </div>
+                            <div id="HdrSec1_NmricAmt">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_NmricAmt_Lbl">Amount :</label>
+                                </div>
+                                <div class="col-md-2 col-sm-8 ">
+                                    <input id="HdrSec1_NmricAmt_Val"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px">
+                            <div id="HdrSec1_CmbAcc">
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="HdrSec1_CmbAcc_Lbl">Account :</label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 ">
+                                    <input id="HdrSec1_CmbAcc_Cd"/>
+                                    <input id="HdrSec1_CmbAcc_Nm"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</div>
+<script>
+    var urlGetAccDoropCode = '@Url.Content("~/Journal/Accdrop")';
+    var urlGetAccDoropNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlLoadChqDetail = '@Url.Content("~/ChequeReturn/GetDetails")';
+    var urlInserRec = '@Url.Content("~/ChequeReturn/InsertData")';
+    var urlSelectTrnDetail = '@Url.Content("~/ChequeReturn/SelectRecords")';
+    var urlUpdateRec = '@Url.Content("~/ChequeReturn/UpdateData")';
+
+    
+
+
+    var urlGetRecogBalAt = '@Url.Content("~/BankRec/RecBalForMOnth")';
+    var UrlBankDetailSelect = '@Url.Content("~/ManageAllAccount/BankDetailsSelect")';
+    var urlGetAllAccountBalances = '@Url.Content("~/BankRec/GetAllAccountBalances")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+
+</script>
+<script src="~/Scripts/HtnScripts/ChequeReturn/ChequeReturn.js"></script>
+<script src="~/Scripts/HtnScripts/ChequeReturn/ChequeRtnFind.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/iziToast.min.js"></script>

@@ -1,0 +1,117 @@
+
+<style>
+     /* Success template */
+                .k-notification-success.k-group {
+                    background: rgba(0%,60%,0%,.7);
+                    color: #fff;
+                }
+                .upload-success {
+                    width: 240px;
+                    height: 100px;
+                    padding: 0 30px;
+                    line-height: 100px;
+                    text-align: center;
+                }
+                .upload-success h3 {
+                    font-size: 1.7em;
+                    font-weight: normal;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+                .upload-success img {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left:-30px;
+                }
+                #successDiv {
+                     background-color: #2c85de;
+                }
+                .success-msg{
+                    color:#fff;
+                    display:inline;
+                }
+               /*==|/Success template==|*/
+</style>
+
+
+<div id="idCommonLoadingDiv" style="display:none; overflow:hidden">
+    <div id="idSubCommonLoadingDiv">
+        <div id="idSubSubCommonLoadingDiv">
+            
+        </div>
+    </div>
+</div>
+
+@*Success template*@
+<div class=".k-notification-success.k-group" id="successDiv" style="display:none; overflow:hidden">
+    <div id="idSubCommonLoadingSuccess" class="upload-success">
+        <img src="~/Images/Loading Images/success-gif_sm.gif" />
+        <div id="idSubSubCommonLoadingSuccess" class="success-msg">
+
+        </div>
+    </div>
+</div>
+@*/Success template*@
+
+<script>
+
+    function OPENLodingCommon(msg) {
+
+        $("#idCommonLoadingDiv").show().kendoWindow({
+            width: "320px",
+            height: "50px",
+            modal: true,
+            title: false
+        });
+        $("#idCommonLoadingDiv").parent().find(".k-window-action").css("visibility", "hidden");
+        $('#idCommonLoadingDiv').data('kendoWindow').center().open();
+        document.getElementById("idSubSubCommonLoadingDiv").innerHTML = msg;
+        //$(".k-overlay").css({
+        //    "background-color": "cornflowerblue",
+        //    "background-image": "none",
+        //    "opacity": "1",
+        //    "z-index": "10002",
+        //    "display": "block"
+        //});
+    }
+
+    function OPENLodingCommonDynamic(msg,height,width) {
+
+        $("#idCommonLoadingDiv").show().kendoWindow({
+            width: width + "px",
+            height: height + "px",
+            modal: true,
+            title: false
+        });
+        $("#idCommonLoadingDiv").parent().find(".k-window-action").css("visibility", "hidden");
+        $('#idCommonLoadingDiv').data('kendoWindow').center().open();
+        document.getElementById("idSubSubCommonLoadingDiv").innerHTML = msg;
+        //$(".k-overlay").css({
+        //    "background-color": "cornflowerblue",
+        //    "background-image": "none",
+        //    "opacity": "1",
+        //    "z-index": "10002",
+        //    "display": "block"
+        //});
+    }
+
+    function CLOSELoadingCommon() {
+        $('#idCommonLoadingDiv').data('kendoWindow').close();
+    }
+
+@*Success Open*@
+    function OPENLodingSuccess(msg) {
+
+        $("#successDiv").show().kendoWindow({           
+            modal: true,
+            title: false
+        });
+        $("#successDiv").parent().find(".k-window-action").css("visibility", "hidden");
+        $('#successDiv').data('kendoWindow').center().open();
+        document.getElementById("idSubSubCommonLoadingSuccess").innerHTML = msg;       
+    }
+@*Success close*@
+    function CLOSELoadingSuccess() {
+        $('#successDiv').data('kendoWindow').close();
+    }
+</script>

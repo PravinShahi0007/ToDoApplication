@@ -1,0 +1,103 @@
+﻿<div style="position: fixed; bottom: auto;">
+    <div id="FindEmp"></div>
+</div>
+    <script>
+        var Global_EmpKy = 1;
+        var UrlGetEmpDet = '@Url.Content("~/HRISEmployee/GetEmpDet")';
+
+        $(document).ready(function () {//alert(0);
+            var OurCode = "@(ViewBag.ObjCaptn)";
+            $("#FindEmp").hide();
+            LoadFindEmpGrid();
+        });
+
+        $(document.body).keydown(function (e) {
+            if (e.ctrlKey && e.keyCode == 70) {
+                $("#FindEmp").show().kendoWindow({
+                    width: "1000px",
+                    height: "500px",
+                    modal: true,
+                    title: "Employee Details"
+                });
+                $('#FindEmp').data('kendoWindow').center().open();
+                e.preventDefault();
+                LoadFindEmpGrid();
+            }
+        });
+
+
+        function LoadFindEmpGrid() {
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: UrlGetEmpDet,
+                        dataType: "json"
+                    },
+                },
+                batch: true,
+                pageSize: 100,
+                schema: {
+                    model: {
+                        id: "EmpKy",
+                        fields:
+                        {
+                            EmpNo: { editable: true, nullable: false, type: "string" },
+                            EmpNm: { editable: true, nullable: false, type: "string" }
+                        }
+                    }
+                }
+            });
+            $("#FindEmp").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                autobind: true,
+                navigatable: true,
+                scrollable: true,
+                filterable: {
+                    mode :"row"
+                },
+                pageSize: 100,
+                pageable: true,
+                selectable: "row",
+                resizable: true,
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+                columns: [
+                    {
+                        field: "EmpKy",
+                        title: "#Ref No",
+                        //width: "40px"
+                        hidden: true
+                    },
+                    {
+                        field: "EmpNo",
+                        title: "Emp No",
+                        width: "50px",
+                    },
+                    {
+                        field: "EmpNm",
+                        title: "Emp Name",
+                        width: "100px",
+                    },
+                ]
+            });
+        }
+
+        $("#FindEmp").dblclick(function () {
+            var grid = $("#FindEmp").data().kendoGrid;
+            var selectedItem = grid.dataItem(grid.select());
+            var EmpKy = selectedItem.EmpKy;
+            //Global_EmpKy = EmpKy;
+            //alert(Global_EmpKy);
+            var EmpNm = selectedItem.EmpNm;
+            var EmpNo = selectedItem.EmpNo;
+            $('#EmpKy').val(EmpKy);
+            $('#EmpNm').val(EmpNm);
+            //$('#empName').val(EmpNm);
+            $('#EmpNo').val(EmpNo);
+            // $('#empNo').val(EmpNo);
+            $('#FindEmp').data('kendoWindow').close();
+            AfterFindEmp(EmpKy);
+        });
+    </script>

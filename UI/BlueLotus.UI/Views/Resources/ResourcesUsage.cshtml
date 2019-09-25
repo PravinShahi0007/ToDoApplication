@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 col-sm-12 col-xs-12 control-icons ButtonSet w-lg-92-5pct" id="ButtonSet">
+        <div id="ButtonSec1" class="col-lg-4 col-md-4 col-sm-12">          
+        </div>
+        <div class="col-md-3 col-sm-3 pull-right">
+            <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;" />
+            <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 30px; margin-top:5px; margin-left:10px; background-color:blue; color:white; ">NxtAprStrs</button>
+        </div>       
+    </div>
+   
+
+    <div id="HdrPart" class="m-t-lg-32 m-t-md-68 m-t-sm-80">
+        <div class="col-md-12 col-sm-12  col-xs-12 wr_formGroup p-b-8">
+            <div class="row" id="HdrSec1">
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12  col-xs-12" id="HdrSec1_InpTrnNo">
+                            <!-- Trn No -->
+                            <div class="row form-group">
+                                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_InpTrnNo_lb1">Trn No</label></div>
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><input id="HdrSec1_InpTrnNo_Val" type="text" class="k-textbox" readonly /></div>
+                            </div>
+                            <!-- /Trn No  -->
+                        </div>
+                        <div class="col-md-4 col-sm-12  col-xs-12" id="HdrSec1_InpDocNo">
+                            <!-- Doc Number -->
+                            <div class="row form-group">
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 p-l-0-lg p-r-0-lg"><label id="HdrSec1_InpDocNo_Lbl">Doc Number</label></div>
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><input id="HdrSec1_InpDocNo_Val" type="text" class="k-textbox" /></div>
+                            </div>
+                            <!-- /Doc Number  -->
+                        </div>
+
+                        <div class="col-md-4 col-sm-12  col-xs-12" id="HdrSec1_DatePicDate">
+                            <!-- Date -->
+                            <div class="row form-group">
+                                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_DatePicDate_Lb1">Date:</label></div>
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Date" id="HdrSec1_DatPicDate_Val" data-role="datepicker" data-bind="value: Date" class="width-100"/></div>
+                            </div>
+                            <!-- /Date  -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <!-- Resource -->
+                    <div class="row m-b-2" id="HdrSec1_ComRes">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><label id="HdrSec1_ComRes_lb1">Resource</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 p-r-0-lg"><input id="HdrSec1_ComRes_Cd" class="width-100" /></div>
+                        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-12 p-l-2-lg"><input id="HdrSec1_ComRes_Nm" class="width-100" /></div>
+                    </div>
+                    <!-- /Resource -->
+                </div>
+            </div>                           
+        </div>
+    </div>
+    
+    
+    <div class="clearfix no-padding m-b-0" style="clear:both">
+        <div class="col-md-12 col-sm-12 wr_formGroup_grid m-t-5" id="ChildHdrpart">
+            <div class="row" id="HdrSec2">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <!-- Project -->
+                    <div class="row m-b-2" id="HdrSec2_ComPro">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"> <label id="HdrSec2_ComPro_lb1">Project </label> </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 p-l-2-lg p-r-0-lg"><input id="HdrSec2_ComPro_Cd" class="width-100" /></div>
+                        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-12 p-l-2-lg"><input id="HdrSec2_ComPro_Nm" class="width-100" /></div>
+                    </div>
+                    <!-- /Project -->
+                    <!-- Task -->
+                    <div class="row m-b-2" id="HdrSec2_ComTsk">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"> <label id="HdrSec2_ComTsk_Lb1">Task</label> </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 p-l-2-lg p-r-0-lg"><input id="HdrSec2_ComTsk_Cd" class="width-100" /></div>
+                        <div class="col-lg-6 col-md-6 col-sm-7 col-xs-12 p-l-2-lg"><input id="HdrSec2_ComTsk_Nm" class="width-100" /></div>
+                    </div>
+                    <!-- /Task -->
+                </div>
+                 
+                <div class="col-lg-7 col-md-7 col-sm-12">
+
+                    <div class="row">
+                        <!-- Resource Qty -->
+                        <div class="col-md-4 col-sm-12  col-xs-12">                         
+                            <div class="row m-b-2" id="HdrSec2_InpResQty">
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 p-l-2-lg p-r-0-lg"><label id="HdrSec2_InpResQty_lb1">Resource Qty</label> </div>
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 p-l-2-lg"><input id="HdrSec2_InpResQty_Val" type="text" class="k-textbox width-100" /> </div>
+                            </div>                          
+                        </div>
+                        <!-- /Resource Qty -->
+                        <!-- Task Qty -->
+                        <div class="col-md-4 col-sm-12  col-xs-12">                         
+                            <div class="row" id="HdrSec2_InpQty">
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec2_InpQty_lb1">Task Qty</label></div>
+                                <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 p-l-2-lg"><input id="HdrSec2_InpQty" type="text" class="k-textbox width-100" /></div>
+                            </div>                           
+                        </div>
+                        <!-- /Task Qty  -->
+                        <!-- Unit -->
+                        <div class="col-md-4 col-sm-12  col-xs-12">                         
+                            <div class="row" id="HdrSec2_CmbUnit">
+                                <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec2_CmbUnit_Lbl">Unit:</label></div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-2-lg"><input id="HdrSec2_CmbUnit_Cd" class="k-textbox  width-100" readonly /></div>
+                            </div>                     
+                        </div>
+                        <!-- /Unit -->
+                    </div> 
+                </div>
+            
+               
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" id="HdrSec3">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div id="HdrSec2_Res_Gd"></div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Partial("~/Views/Transaction/FindInvoice.cshtml")
+</div>
+
+
+<script>
+
+    var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+
+    var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlDetailAccCode = '@Url.Content("~/Payment/DtlAccCode")';
+    var urlGetAccDoropNm = '@Url.Content("~/Payment/DtlAccName")';
+
+    var ItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var ItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+
+    var ItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var ItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+   
+
+    var urlTransactionInsertDeatilHdrInvoice = '@Url.Content("~/Transaction/InsertDeatilHdrInvoice")';
+    var urlTransactionUpdateDeatilHdrInvoice = '@Url.Content("~/Transaction/UpdateDeatilHdrInvoice")';
+    var urlTransactionInsertDetailGridInvoice = '@Url.Content("~/Transaction/InsertDetailGridInvoice")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlFindInvoice = {
+        GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',
+        GetSuplist: '@Url.Content("~/Transaction/GetSuplist")',
+        GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetGRNList: '@Url.Content("~/Transaction/GetGRNList")',
+        GetGridInvoiceDetail: '@Url.Content("~/Transaction/GetGridInvoiceDetail")',
+        GetInvoiceItemsDetail: '@Url.Content("~/Transaction/GetInvoiceItemsDetail")',
+        GetPrjPrgrsItmTrn: '@Url.Content("~/Transaction/PrjPrgrsItmTrn_SelectWeb")',
+        Code_SelectWeb: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+
+    };
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        PrjTaskLocPrKy: '@(ViewBag.PrjTaskLocKy)',
+        PrjKy:'@(ViewBag.PrjKy)'
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var urlComboLoad = {
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        TaskID_SelectMob: '@Url.Content("~/ComboLoad/TaskID_SelectMob")',
+        TaskNm_SelectMob: '@Url.Content("~/ComboLoad/TaskNm_SelectMob")',
+        SubConTaskId_SelectMob: '@Url.Content("~/ComboLoad/SubConTaskId_SelectMob")',
+        SubConTaskNm_SelectMob: '@Url.Content("~/ComboLoad/SubConTaskNm_SelectMob")',
+    }
+    var ResourcesDeleteUrl = {
+        DeleteUrl :'@Url.Action("DeleteResUse", "Resources")'
+    }
+</script>
+<script src="~/Scripts/HtnScripts/Transaction/ComboDataSource.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/PopUp/FindInvoice.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/Resources/ComboLoad.js"></script>
+<script src="~/Scripts/HtnScripts/Resources/LoadForm.js"></script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/Validation.js"></script>

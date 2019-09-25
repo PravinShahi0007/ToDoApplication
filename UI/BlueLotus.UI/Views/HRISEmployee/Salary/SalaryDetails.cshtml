@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "Salary Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+        </div>
+
+
+        <div id="HdrPrt">
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/EmpGetDet.cshtml")
+            </div>
+            <div>
+                @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Basic Salary:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Basic Salary" id="basicSalary" type="text" class="k-textbox" />
+                                <input placeholder="Basic Salary" id="HiddenBasicSalary" type="hidden" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>From Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="From Date" id="BasicfromDate" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Eligible for O/T Bata:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input type="checkbox" id="IsOTBata">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Eligible for Bonus Attn:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input type="checkbox" id="IsBonus">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Reimbursements:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Reimbursements" id="Reimbursements" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Bank Name:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                @*<input placeholder="Bank Name" id="bankName" type="text" class="k-textbox" />
+                                <input placeholder="Bank Name" id="HiddenbankName" type="hidden" class="k-textbox" />*@
+
+                                <div id="cmbBankName" data-cpypst-blsmartcpypaste="cmbBankName"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Branch Code/Name:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                @*<input placeholder="Branch Code/Name" id="bankBranchCode" type="text" class="k-textbox" />*@
+
+                                <div id="cmbBrnName" data-cpypst-blsmartcpypaste="cmbBrnName"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Account No:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Account Code" id="accountCode" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br style="clear:both" />
+        <br style="clear:both" />
+
+        <div id="">
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Allowence Type:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbAllowenceType" data-cpypst-blsmartcpypaste="cmbAllowenceType"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Amount:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Amount" id="amount" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                @*</div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">*@
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>From Date:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="From Date" id="fromDate" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Remark:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Remark" id="Remark" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="SalaryDetailsGrid">
+
+        </div>
+    </div>
+</div>
+<div>
+    @* @Html.Partial("~/Views/Journal/JournalFind.cshtml")*@
+</div>
+
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    ////var urlSaveHdr = 'Url.Content("~/HRISEmployee/HRISInsert")';
+    var urlInsertSalaryDet = '@Url.Content("~/HRISEmployee/HRISInsertSalaryDet")';
+    var UrlGetEmpSalaryDet = '@Url.Content("~/HRISEmployee/HRISGetSalaryDet")';
+</script>
+
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/SalaryDetails.js"></script>
+

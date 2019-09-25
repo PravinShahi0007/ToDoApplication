@@ -1,0 +1,173 @@
+﻿@{
+	//ViewBag.Title = "Projects";
+	ViewBag.Title = ViewBag.ObjCaptn;
+	Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+	<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+@*<head>
+	<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+	<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+	<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+@*<div class="k-content" id="filterCont" style="height:40px;">*@
+<div style="height:40px;" class="k-content clearfix" id="filterCont">
+	<div style="margin-left:10px;">
+		<button class="control-button add" onclick="insertItem() " title="Add (Alt+N or NumberPad +)"> </button>
+		@*<button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>*@
+		<button class="control-button save" id="btnSave" onclick="Save()" title="Save (Ctrl+S)"></button>
+		<button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel (Esc)"></button>
+	</div>
+</div>
+
+<div class="form-group col-md-12">
+	<div class="row">
+		<div id="HdrSec1_InptPrjId">
+			<div class="col-md-2 col-sm-4">
+				<label id="HdrSec1_InptPrjId_Lbl">Project ID:</label>
+			</div>
+			<div class="col-md-2 col-sm-4">
+				<input id="HdrSec1_InptPrjId_Val" type="text" class="k-textbox" />
+			</div>
+		</div>
+		<div id="HdrSec1_InptPrjNm">
+			<div class="col-md-2 col-sm-4">
+				<label id="HdrSec1_InptPrjNm_Lbl">Project Name:</label>
+			</div>
+			<div class="col-md-2 col-sm-4">
+				<input id="HdrSec1_InptPrjNm_Val" type="text" class="k-textbox" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<br style="clear: both" />
+
+<div class="col-md-12 col-sm-12">
+	<div id="ProjectGrid"></div>
+</div>
+
+<div class="col-lg-12">
+	<div id="pagination">@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>
+</div>
+
+<div>
+	@Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<div style="display: none">
+	@Html.Partial("~/Views/ItmMas/Popup/ItmMasSerNo.cshtml")
+</div>
+
+<div style="display: none">
+	@Html.Partial("~/Views/ToDoProject/PrjHdrImageUpload_Partial.cshtml")
+</div>
+<div>
+	@Html.Partial("~/Views/ToDoProject/PartialNiceClass.cshtml")
+</div>
+<div>
+	@Html.Partial("~/Views/ToDoProject/PartialPrjStatus.cshtml")
+</div>
+<script id="command-template" type="text/x-kendo-template">
+	<a class="k-button k-grid-evenselect">Upload</a>
+</script>
+<script id="command-template-logo" type="text/x-kendo-template">
+	<a class="k-button k-grid-Logoselect">Logo</a>
+</script>
+<script type="text/javascript">
+
+
+
+	var urlCodes = {
+		CdMas_LookupWebByConCd: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+	};
+
+	var viewBag = {
+		ObjKy: '@(ViewBag.ObjKy)',
+		OurCd: '@(ViewBag.OurCd)',
+	};
+
+	var URLGetAllProjectsByPrjTyp = '@Url.Action("GetAllProjectsByPrjTyp", "ToDoProject")';
+	var URLCreateProjects = '@Url.Action("InsertProjects","ToDoProject")';
+	var URLUpdateProject = '@Url.Action("UpdateProjects","ToDoProject")';
+	var URLInsertANDUpdate = '@Url.Action("InsertandUpdateProjects","ToDoProject")';
+	var URLGoToHome = '@Url.Content("~/ToDoProject")';
+	var URLGetAllProjectTypes = '@Url.Content("~/ToDoProject/GetAllProjectTypes")';
+	var URLDeleteProjects = '@Url.Action("DeleteProjects","ToDoProject")';
+	var UrlCheckDocNo = '@Url.Action("CheckDocNo", "ToDoProject")';
+
+	var urlItmMasSerNo_SelectWeb = '@Url.Action("ItmMasSerNo_SelectWeb", "ItmMas")';
+	var urlItmMasSerNo_InsertUpdate = '@Url.Action("ItmMasSerNo_InsertUpdate", "ItmMas")';
+
+	var urlComboLoad = {
+		AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+		AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+		AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+		AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+		Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+		CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+		ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+		ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+		SerNo_SelectMob: '@Url.Content("~/ComboLoad/SerNo_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+		AccNmTyp_SelectMob: '@Url.Content("~/ComboLoad/AccNmTyp_SelectMob")',
+
+	}
+
+	var urlCodes = {
+		GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+	}
+
+	var urlGetPrjID_SelectMob = '@Url.Content("~/GanttChart/GetPrjID_SelectMobByObjKy")';
+	var urlGetPrjNm_SelectMob = '@Url.Content("~/GanttChart/GetPrjNm_SelectMobByObjKy")';
+
+	var urlCodesCdMas_LookupWebByConCd = '@Url.Content("~/Codes/CdMas_LookupWebByConCd")';
+
+	var URLGetAllProjectsByPrjTyp = '@Url.Action("GetAllProjectsByPrjTyp", "ToDoProject")';
+	var URLUpdateProject = '@Url.Action("UpdateProjects","ToDoProject")';
+	var URLDeleteProjects = '@Url.Action("DeleteProjects","ToDoProject")';
+	var URLCreateProjects = '@Url.Action("InsertProjects","ToDoProject")';
+	var URLDeleteProjects = '@Url.Action("DeleteProjects", "ToDoProject")';
+	var URLGoToHome = '@Url.Content("~/ToDoProject")';
+	var URLGetAllProjectTypes = '@Url.Content("~/ToDoProject/GetAllProjectTypes")';
+
+
+	var URLPrjTyp = '@ViewBag.Ourcd';
+	var URLSetIsActAndIsApr = '@Url.Action("SetIsActAndIsApr","ToDoProject")';
+	var URLGetAccNmCmb = '@Url.Content("~/TransactionAcc/AccNm_SelectMob")';
+	var URLGetBUNmCmb = '@Url.Content("~/Journal/BUNMLookup")';
+	var URLGetAcsLvlNmCmb = '@Url.Action("GetAllCodes","Code")';
+	var URLGetConfinLvlNmCmb = '@Url.Action("GetAllCodes","Code")';
+	var URLGetAdrNmCmb = '@Url.Action("GetAdrNmForProjects", "ToDoProject")';
+	var URLGetYurRepAdrNmCmb = '@Url.Action("GetAdrNmForProjects", "ToDoProject")';
+	var URLRepAdrNmCmb = '@Url.Action("GetAdrNmForProjects", "ToDoProject")';
+	var UrlProjectNiceClass = '@Url.Action("NiceClassDetail", "ToDoProject")';
+	var UrlNiceClassInsertUpdate = '@Url.Action("NiceClassInsertUpdate", "ToDoProject")';
+	var UrlAprSelect = '@Url.Action("InsertUpdateAprStatusSelect", "ToDoProject")';
+	var UrlAprInsertUpdate = '@Url.Action("AprStatusInsertUpdate", "ToDoProject")';
+	var UrlShowAllprStatus = '@Url.Action("ShowAllprStatus", "ToDoProject")';
+
+</script>
+
+
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+	var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+	var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/ToDoProjects/ToDoProjectScript.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/ItmMas/ItmMasPaginationScript.js"></script>
+<script src="~/Scripts/HtnScripts/ToDoProjects/NiceClasses.js"></script>
+<script src="~/Scripts/HtnScripts/ToDoProjects/PrjStatus.js"></script>
+<style>
+	#ProjectGrid{
+		height: 73vh!important;
+	}
+
+	#ProjectGrid .k-grid-content.k-auto-scrollable,#ProjectGrid .k-grid-content-locked{
+		height: 53vh!important;
+	}
+</style>

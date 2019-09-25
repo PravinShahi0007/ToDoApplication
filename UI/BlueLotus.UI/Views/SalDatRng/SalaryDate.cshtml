@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.meterial.min.css" />
+<link rel="stylesheet" href="styles/kendo.material.mobile.min.css" />
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; margin-bottom:10px; width:1000px;">
+        <div style="text-align:center"><h2></h2></div>
+        <div id="example">
+            <div>
+                <div class="k-content" id="filterCont">
+                    <div style="margin-right:100px;">
+                        <button style="margin-left:20px;" class="control-button save" onclick="Insert()" data-tooltip="refresh"> </button>
+                        <button style="margin-left:20px;" class="control-button new-form" onclick="Clear()" data-tooltip="refresh"> </button>
+                        <div id="HdrPart">
+                            <div class="row">
+                                <div id="HdrPart_CmbSalPrcsGrp">
+                                    <div class="col-md-3" style="margin-top:10px; margin-right:-60px; margin-bottom:20px;">
+                                        <label id="HdrPart_CmbSalPrcsGrp_Lbl">Salary Process Group</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div data-cpypst-blsmartcpypaste="SalPrcsGrpId" id="HdrPart_CmbSalPrcsGrp_Cd"></div>
+                                    </div>
+                                </div>
+
+                                <label style="margin-top:10px; margin-right:20px; margin-bottom:20px;">Salary Paying Date</label>
+                                <input id="HdrPart_PayDate"
+                                       class="" style=""
+                                       data-role="datepicker"
+                                       data-bind="value: Date" />
+                            </div>
+
+                            <div class="row">
+                                <div id="HdrPart_CmbSalTyp">
+                                    <div class="col-md-2" style="margin-top:10px; margin-right:20px; margin-bottom:20px;">
+                                        <label id="HdrPart_CmbSalTyp_Lbl">Salary Type</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div data-cpypst-blsmartcpypaste="SalTypId" id="HdrPart_CmbSalTyp_Cd"></div>
+                                    </div>
+                                </div>
+                                <label style="margin-top:10px; margin-right:3px; margin-bottom:20px;">Salary Process Month</label>
+                                <input id="HdrPart_ProDate"
+                                       class="" style=""
+                                       data-role="datepicker"
+                                       data-bind="value: Date" />
+                            </div>
+
+                        </div>
+                        <div>
+                            <div style="margin-left:10px; color:cornflowerblue;"><h5><b>Processing Data Range</b></h5></div>
+                            <div>
+                                <label style="margin-top:10px; margin-right:85px; margin-bottom:20px;">From Date</label>
+                                <input id="HdrPart_FrmDate"
+                                       class="" style=""
+                                       data-role="datepicker"
+                                       data-bind="value: Date" />
+
+                                <label style="margin-top:10px; margin-right:52px; margin-bottom:20px; margin-left:50px;">To Date</label>
+                                <input id="HdrPart_ToDate"
+                                       class="" style=""
+                                       data-role="datepicker"
+                                       data-bind="value: Date" />
+                            </div>
+                        </div>
+
+                        <div style="margin-left:10px;">
+                            <input type="checkbox" id="SalProApr" class="Checkboxes">
+                            <label style="">Salary Process Finalize Approval</label>
+                        </div>
+                    </div>
+                </div>
+                        </div>             
+                </div>
+            </div>
+
+    <div>
+        @Html.Partial("~/Views/SalDatRng/FindSalaryDate.cshtml")
+    </div>        
+
+</div>
+    
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlSalDtRng_Insert = {
+        SalDtRng_Insert: '@Url.Content("~/SalDatRng/SalDtRng_Insert")',
+    };
+
+</script>
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+<script src="~/Scripts/HtnScripts/SalaryDate/keydownEvent.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/SalaryDate/SalaryDate.js"></script>

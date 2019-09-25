@@ -1,0 +1,294 @@
+﻿@{
+    ViewBag.Title = "PrjPrgrsDaily";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+
+<div class="col-md-12 control-icons" id="ButtonSet">
+    <div id="ButtonSec1" class="col-md-9 col-sm-9">
+        <button id="SaveAndPrintAndNew" class="control-button ok" onclick="SaveAndPrintAndNew()" data-tooltip="SAVE &amp; PRINT &amp; New"> </button>
+        <button id="btnSave" class="control-button save" onclick="Save()" title="Save"></button>
+        <button id="btn" class="control-button cancel" onclick="ClearAll()" title="Clear"></button>
+    </div>
+</div>
+
+
+<div id="HdrPart">
+    <div class="col-md-12 col-sm-6">
+        <div class="wr_formGroup" id="HdrSec1">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2"></div>
+
+                    <div class="col-md-8 col-sm-2">
+                        <div class="row">
+                            <div id="HdrSec1_CmbTrnno">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbTrnno_Lbl"> Trn No:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px;">
+                                    <div>
+                                        <input id="HdrSec1_CmbTrnno_Val" readonly="readonly" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="HdrSec1_DatPicDate">
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_DatePicDate_Lb1"> Date:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px;">
+                                    <div>
+                                        <input data-cpypst-blsmartcpypaste="Date" id="HdrSec1_DatPicDate_Val" class="width-100" data-role="datepicker" data-bind="value: Date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="HdrSec1_Adrky">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_Adrky_lbl"> Lead Address:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="AddId" id="HdrSec1_Adrky_Cd" class="width-100"></div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="Addnm" id="HdrSec1_Adrky_Nm" class="width-100"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="HdrSec1_CmbProject">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbProject_Lbl">Project:</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="PrjId" id="HdrSec1_CmbProject_Cd" class="width-100"></div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="PrjNm" id="HdrSec1_CmbProject_Nm" class="width-100"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div id="HdrSec1_CmbAcc">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbAcc_Lbl">Sub Contract:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-7 col-sm-4" style="margin-bottom:10px;">
+                                    <div>
+                                        <div data-cpypst-blsmartcpypaste="AccCd" id="HdrSec1_CmbAcc_Cd"></div>
+                                        <div data-cpypst-blsmartcpypaste="AccNm" id="HdrSec1_CmbAcc_Nm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <div class="row">
+                            <div id="HdrSec1_CmbTask">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbTask_Lbl">Task:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="TaskCd" id="HdrSec1_CmbTask_Cd" class="width-100"></div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom:10px;">
+                                    <div data-cpypst-blsmartcpypaste="TaskNm" id="HdrSec1_CmbTask_Nm" class="width-100"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="HdrSec1_CmbUnit">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbUnit_Lbl">Unit:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9 col-sm-4" style="margin-bottom:10px;">
+                                    <div>
+                                        <div style="height:30px;" id="Unit_lbl_Cd" class="k-textbox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div id="HdrSec1_LineNo" style="display:none">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_LinNo">Line :</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9 col-sm-4" style="margin-bottom:10px;">
+                                    <div>
+                                        <input data-cpypst-blsmartcpypaste="LineNo" id="HdrSec1_LineNo_Val" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="HdrSec1_Descrip">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_Descrip_lbl">Description:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9 col-sm-4" style="margin-bottom:10px;">
+                                    <div>
+                                        <textarea id="HdrSec1_InptDesc_Val" class="k-textbox" data-bind="value: textareaValue" style="width: 50%; height: 30px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div id="HdrSec1_NmricQty">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom:10px; padding-top:10px">
+                                    <div>
+                                        <label id="HdrSec1_CmbQty_Lbl">Qty:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2 col-sm-4" style="margin-bottom:10px;">
+                                    <div>
+                                        <input data-cpypst-blsmartcpypaste="ResQty" id="HdrSec1_NmricQty_Val" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div>
+    @Html.Partial("~/Views/Transaction/FindInvoice.cshtml")
+</div>
+
+
+
+
+
+
+<script>
+        var urlCodes = {
+            GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+
+            GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+        }
+
+        var urlTransactionValidateTrnDt = '@Url.Content("~/Transaction/ValidateTrnDt")';
+        var urlTransactionInsertDeatilHdrInvoice = '@Url.Content("~/Transaction/InsertDeatilHdrInvoice")';
+        var urlTransactionUpdateDeatilHdrInvoice = '@Url.Content("~/Transaction/UpdateDeatilHdrInvoice")';
+        var urlTransactionGetAccKy = "@Url.Content("~/Transaction/GetAccKy")";
+        var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        //  var urlTransactionGetTaskList = '@Url.Content("~/Transaction/GetTaskList")';
+    var urlTransactionInsertDetailGridInvoice = '@Url.Content("~/Transaction/InsertDetailGridInvoice")';
+
+    var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlDetailAccCode = '@Url.Content("~/Payment/DtlAccCode")';
+    var urlGetAccDoropNm = '@Url.Content("~/Payment/DtlAccName")';
+
+    var ItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var ItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+
+        var urlComboLoad = {
+            PPrjKySubConAccCd_SelectMob: '@Url.Content("~/ComboLoad/PPrjKySubConAccCd_SelectMob")',
+            PPrjKySubConAccNm_SelectMob: '@Url.Content("~/ComboLoad/PPrjKySubConAccNm_SelectMob")',
+
+            TaskId_SelectMob: '@Url.Content("~/ComboLoad/TaskID_SelectMob")',
+            TaskNm_SelectMob: '@Url.Content("~/ComboLoad/TaskNm_SelectMob")',
+
+            AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+            AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+            AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+            AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+            Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+            CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+            ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+            ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+            PrjID_SelectMob: '@Url.Content("~/GanttChart/GetPrjID_SelectMobByObjKy")',
+            PrjNm_SelectMob: '@Url.Content("~/GanttChart/GetPrjNm_SelectMobByObjKy")',
+            OrdNo_SelectMob: '@Url.Content("~/ComboLoad/OrdNo_SelectMob")'
+
+        }
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+</script>
+
+
+
+
+<script>
+        //belongs to controller
+        var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+        var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+
+</script>
+
+
+
+
+
+<script src="~/Scripts/HtnScripts/Transaction/ComboDataSource.js"></script>
+<script src="~/Scripts/HtnScripts/DailyProgress/DailyProgressSubContract.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/Validation.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/ComboDataSource.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/PopUp/FindInvoice.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/Navigation.Js"></script>

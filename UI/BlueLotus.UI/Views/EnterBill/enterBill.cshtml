@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+           <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+            @*<button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+                <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>*@
+            @*<button class="control-button preview disabledClick" onclick="Preview()" data-tooltip="Preview"> </button>
+                <button class="control-button clean disabledClick" onclick="Clean()" data-tooltip="Clean"> </button>
+                <button class="control-button add disabledClick" onclick="Add()" data-tooltip="Add"> </button>
+                <button class="control-button attach disabledClick" onclick="Attach()" data-tooltip="Attach"> </button>
+                <button class="control-button save_as disabledClick" onclick="Save_as()" data-tooltip="Save As"> </button>
+                <button class="control-button save_and_new disabledClick" onclick="Save_and_new()" data-tooltip="Save And New"> </button>
+                <button class="control-button audio_record disabledClick" onclick="Audio_record()" data-tooltip="Audio Record"> </button>
+                <button class="control-button video_record disabledClick" onclick="Video_record()" data-tooltip="Video Record"> </button>
+                <button class="control-button delete disabledClick" onclick="Delete()" data-tooltip="Delete"> </button>
+                <button class="control-button filter disabledClick" onclick="Filter()" data-tooltip="Filter"> </button>
+                <button class="control-button filter_clear disabledClick" onclick="Filter_Clear()" data-tooltip="Filter Clear"> </button>
+                <button class="control-button search disabledClick" onclick="Search()" data-tooltip="Search"> </button>
+                <button class="control-button download disabledClick" onclick="Download()" data-tooltip="Download"> </button>
+                <button class="control-button upload disabledClick" onclick="Upload()" data-tooltip="Upload"> </button>
+                <button class="control-button back disabledClick" onclick="Back()" data-tooltip="Back"> </button>
+                <button class="control-button setting disabledClick" onclick="Setting()" data-tooltip="Setting"> </button>
+                <button class="control-button edit disabledClick" onclick="Edit()" data-tooltip="Edit"> </button>
+                <button class="control-button refresh disabledClick" onclick="Refresh()" data-tooltip="Refresh"> </button>
+                <button class="control-button update disabledClick" onclick="Update()" data-tooltip="Update"> </button>
+                <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Req" style="width: 150px; height: 30px">New From Purches Order</button>*@
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+        </div>
+    </div>
+</div>

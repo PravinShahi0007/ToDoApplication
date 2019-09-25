@@ -1,0 +1,588 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+<link rel="stylesheet" href="~/Src/Styles/HtnStyles/Payment2.0/ImagePopUp.css" type="text/css" />
+<input type="hidden" id="TempLinumbr"/>
+<input type="hidden" id="TrnKy" />
+<input type="hidden" id="TimeStamp" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 col-sm-12 col-xs-12 control-icons ButtonSet w-lg-92-5pct" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top: 10px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+        <div>
+            @Html.Partial("~/Views/Payment/paymentFindV2.cshtml")
+        </div>
+        <div id="HdrPart" class="m-t-lg-32 m-t-sm-80">
+            <div class="col-md-10 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <!-- Voucher Number -->
+                            <div id="HdrSec1_InptVouNo" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_InptVouNo_Lbl">Voucher Number:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <input placeholder="Voucher No" id="HdrSec1_InptVouNo_Val" type="text" class="k-textbox" readonly="readonly" />
+                                </div>
+                            </div> <!-- /Voucher Number -->
+                            <!--Voucher Date -->
+                            <div id="HdrSec1_DatVouDate" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_DatVouDate_Lbl">Voucher Date:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <input id="HdrSec1_DatVouDate_Val" />
+                                </div>
+                            </div><!--/Voucher Date -->
+                            <!--Trn Curuency-->
+                            <div id="HdrSec1_CmbTrnCurrncy" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_CmbTrnCurrncy_Lbl">Trn Curuency:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <input id="HdrSec1_CmbTrnCurrncy_Cd" data-cpypst-blsmartcpypaste="CrnCd" />
+                                </div>
+                            </div><!--/Trn Curuency-->
+                        </div><!--/row-->
+                        <div class="row">
+                            <!--Doc Number-->
+                            <div id="HdrSec1_InptDocNo" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_InptDocNo_Lbl">Doc Number:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <input placeholder="Doc No" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox" />
+                                </div>
+                            </div><!--/Doc Number-->
+                            <!--Your Ref Date-->
+                            <div id="HdrSec1_DatVouRefDate" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_DatVouRefDate_Lbl">Your Ref Date:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <input id="HdrSec1_DatVouRefDate_Val"/>
+                                </div>
+                            </div><!--/Your Ref Date-->
+                            <!--TrnExRate-->
+                            <div id="HdrSec1_InptTrnExRate" class="m-b-2">
+                                <div class="col-md-2 col-sm-12">
+                                    <label id="HdrSec1_InptTrnExRate_Lbl">TrnExRate</label>
+                                </div>
+                                <div class="col-md-2 col-sm-12" >
+                                    <input placeholder="1.00" id="HdrSec1_InptTrnExRate_Val" data-cpypst-blsmartcpypaste="ExRate" class="width-100" />
+                                </div>
+                            </div><!--/TrnExRate-->
+                        </div><!-- /row-->
+                        <div class="row">
+                            <!--Multiple credit-->
+                            <div id="HdrSec1_Chkbox_multi" class="m-b-2">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_Chkbox_multi_Lbl">Multiple credit</label>
+                                </div>
+                                <div class="col-md-2 col-sm-1">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec1_Chkbox_multi_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec1_Chkbox_multi_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input type="checkbox" id="HdrSec1_Chkbox_multi_Val">*@
+                                </div>
+                            </div><!-- /Multiple credit-->
+                            <!-- Is Recurence-->
+                            <div class="m-b-2" id="HdrSec1_Chkbox_IsRec">
+                                <div class="col-md-2 col-sm-6">
+                                    <label id="HdrSec1_Chkbox_IsRec_Lbl">Is Recurence</label>
+                                </div>
+                                <div class="col-md-2 col-sm-1">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec1_Chkbox_IsRec_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec1_Chkbox_IsRec_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>                                    
+                                    @*<input type="checkbox" id="HdrSec1_Chkbox_IsRec_Val">*@
+                                </div>
+                            </div><!-- /Is Recurence-->
+                            <!-- Your Ref-->
+                            <div id="HdrSec1_InptYurRef" class="m-b-2">
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="HdrSec1_InptYurRef_Lbl">Your Ref:</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <input placeholder="Your reference" id="HdrSec1_InptYurRef_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Yurref" />
+                                </div>
+                            </div> <!-- /Your Ref-->
+                        </div><!-- /row -->
+                    </div><!--/form-group-->
+                </div><!--/wr_formGroup-->
+            </div>
+            <div class="col-md-2 col-sm-6 p-l-0">
+                <div class="wr_formGroup">
+                    <!--Total-->
+                    <div class="form-group" id="HdrSec2_InptTotAmt">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <label id="HdrSec2_InptTotAmt_Lbl">Total :</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input id="HdrSec2_InptTotAmt_Val" data-cpypst-blsmartcpypaste="Total" class="width-100"/>
+                            </div>
+                        </div>
+                    </div><!-- /Total-->
+                    <!--EmpImagePreview-->
+                    <div  id="HdrSec2_InptEmpImagePreview">
+                        <div class="row" >
+                            <div id="HdrSec2_InptEmpImagePreview_Val" class="col-md-12 col-sm-12 margin-auto">
+
+                            </div>
+                        </div>
+
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+                            <!-- The Close Button -->
+                            <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+                            <!-- Modal Content (The Image) -->
+                            <img class="modal-content" id="img01">
+                            <!-- Modal Caption (Image Text) -->
+                            <div id="caption"></div>
+                        </div><!-- /The Modal -->
+
+                    </div> <!-- /EmpImagePreview-->
+                </div><!-- /wr_formGroup -->
+            </div>
+        </div><!--/HdrPart-->
+    </div>
+    @*Detail InsertPart*@
+    <div id="GridWin" class="clearfix m-t-0 m-b-0">
+        <div class="col-md-12 col-sm-12 wr_formGroup_grid" id="ChildHdrpart">
+            
+            <div class="row">
+                @*Detail Section 01// Common Section 3*@
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <!-- Account -->
+                    <div class="row m-b-2" id="HdrSec3_CmbAcc">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <label id="HdrSec3_CmbAcc_Lbl">
+                                <span id="CrDrDetail">Account</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding">
+                            <div id="HdrSec3_CmbAcc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100"></div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            <div id="HdrSec3_CmbAcc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100"></div>
+                        </div>
+                    </div>
+                    <!-- /Account -->
+                    <!-- Address  -->
+                    <div class="row m-b-2" id="HdrSec3_CmbAdr">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec3_CmbAdr_Lbl">Address:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec3_CmbAdr_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec3_CmbAdr_Nm" data-cpypst-blsmartcpypaste="AdrNm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Address -->
+                    <!-- BU -->
+                    <div class="row m-b-2" id="HdrSec3_CmbBU">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec3_CmbBU_Lbl">BU:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec3_CmbBU_Cd" data-cpypst-blsmartcpypaste="BUCd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec3_CmbBU_Nm" data-cpypst-blsmartcpypaste="BUNm" class="width-100"></div></div>
+                    </div>
+                    <!-- /BU -->
+                    <!-- Project -->
+                    <div class="row m-b-2" id="HdrSec3_CmbPrj">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec3_CmbPrj_Lbl">Project</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><input id="HdrSec3_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><input id="HdrSec3_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>
+                    </div>
+                    <!-- /Project -->
+                    <!-- Task -->
+                    <div class="row m-b-2" id="HdrSec3_CmbTsk">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec3_CmbTsk_Lbl">Task:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec3_CmbTsk_Cd" data-cpypst-blsmartcpypaste="TaskId" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec3_CmbTsk_Nm" data-cpypst-blsmartcpypaste="TaskNm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Task -->
+                    <br/>
+                    <!-----------------| Analysis |--------------------->
+                    <!-- Analysis 1 -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl1">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl1_Lbl">Analysis 1:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl1_Cd" data-cpypst-blsmartcpypaste="Anl1Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl1_Nm" data-cpypst-blsmartcpypaste="Anl1Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 1 -->
+                    <!-- Analysis 2 -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl2">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl2_Lbl">Analysis 2:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl2_Cd" data-cpypst-blsmartcpypaste="Anl1Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl2_Nm" data-cpypst-blsmartcpypaste="Anl1Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 2 -->
+                    <!-- Analysis 3 -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl3">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl3_Lbl">Analysis 3:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl3_Cd" data-cpypst-blsmartcpypaste="Anl1Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl3_Nm" data-cpypst-blsmartcpypaste="Anl1Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 3 -->
+                    <!--  Analysis 4 -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl4">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl4_Lbl">Analysis 4:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl4_Cd" data-cpypst-blsmartcpypaste="Anl1Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl4_Nm" data-cpypst-blsmartcpypaste="Anl1Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 4 -->
+                    <!-- Analysis 5 -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl5">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl5_Lbl">Analysis 5:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl5_Cd" data-cpypst-blsmartcpypaste="Anl5Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl5_Nm" data-cpypst-blsmartcpypaste="Anl5Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 5 -->
+                    <!--Analysis 6  -->
+                    <div class="row m-b-2" id="HdrSec7_CmbAnl6">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec7_CmbAnl6_Lbl">Analysis 6:</label></div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 no-padding"><div id="HdrSec7_CmbAnl6_Cd" data-cpypst-blsmartcpypaste="Anl6Cd" class="width-100"></div></div>
+                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><div id="HdrSec7_CmbAnl6_Nm" data-cpypst-blsmartcpypaste="Anl6Nm" class="width-100"></div></div>
+                    </div>
+                    <!-- /Analysis 6 -->
+                    <!-----------------| /Analysis |--------------------->                            
+
+                </div>
+               
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-l-0">
+                    <div class="row">
+                        @*Detail Section 02// Common Section 4*@
+                        <div class="col-lg-6 col-md-6 m-b-5">
+                            <!-- Payment Mode -->
+                            <div class="row m-b-2" id="HdrSec4_CmbPayMode">
+                                <div class="col-md-6"><label id="HdrSec4_CmbPayMode_Lbl">Payment Mode:</label></div>
+                                <div class="col-md-6 no-padding"><div id="HdrSec4_CmbPayMode_Cd" data-cpypst-blsmartcpypaste="PayModeCd" class="width-100"></div></div>
+                            </div>
+                            <!-- /Payment Mode -->                         
+                            <!-- Bank -->
+                            <div class="row m-b-2" id="HdrSec5_CmbBank">
+                                <div class="col-md-6"><label id="HdrSec5_CmbBank_Lbl">Bank:</label></div>
+                                <div class="col-md-6 no-padding"><div id="HdrSec5_CmbBank_Cd" data-cpypst-blsmartcpypaste="BankId" class="width-100"></div></div>
+                            </div>
+                            <!-- /Bank -->
+                            <!-- Branch  -->
+                            <div class="row m-b-2" id="HdrSec5_CmbBranch">
+                                <div class="col-md-6"><label id="HdrSec5_CmbBranch_Lbl">Branch:</label></div>
+                                <div class="col-md-6 no-padding"><div id="HdrSec5_CmbBranch_Cd" data-cpypst-blsmartcpypaste="Branch" class="width-100"></div></div>
+                            </div>
+                            <!-- /Branch -->
+                            <!-- Amount  -->
+                            <div class="row m-b-2" id="HdrSec5_NmricAmt">
+                                <div class="col-md-6"><label id="HdrSec5_NmricAmt_Lbl">Amount:</label></div>
+                                <div class="col-md-6 no-padding"><input id="HdrSec5_NmricAmt_Val" placeholder="Amount" data-cpypst-blsmartcpypaste="Amount" class="width-100" /></div>
+                            </div>
+                            <!-- /Amount -->
+                            <!-- ChqNo -->
+                            <div class="row m-b-2" id="HdrSec4_InptChqNO">
+                                <div class="col-md-6"><label id="HdrSec4_InptChqNO_Lbl">ChqNo:</label></div>
+                                <div class="col-md-6 no-padding"><input id="HdrSec4_InptChqNO_Val" data-cpypst-blsmartcpypaste="ChqNo" class="width-100" /></div>
+                            </div>
+                            <!-- /ChqNo -->
+                            <!-- Chq Date -->
+                            <div class="row m-b-4" id="HdrSec4_DatChqDate">
+                                <div class="col-md-6"><label id="HdrSec4_DatChqDate_Lbl">Chq Date:</label></div>
+                                <div class="col-md-6 no-padding"><input id="HdrSec4_DatChqDate_Val" data-cpypst-blsmartcpypaste="Date" class="width-100 no-padding h-23"/></div>
+                            </div>
+                            <!-- /Chq Date -->                        
+
+                            <!-- LC -->
+                            <div class="row m-b-2" id="HdrSec4_CmbLC">
+                                <div class="col-md-6"><label id="HdrSec4_CmbLC_Lbl">LC :</label></div>
+                                <div class="col-md-6 no-padding"><input id="HdrSec4_CmbLC_Cd" data-cpypst-blsmartcpypaste="LoanId" class="width-100"/></div>
+                            </div>
+                            <!-- /LC -->
+                            <!-- Image -->
+                            <div class="row m-b-2" id="HdrSec3_InpfilesImg">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec3_filesImg_Lbl">Image :</label></div>
+                                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 no-padding">
+                                    <input name="files" id="HdrSec3_InpfilesImg_Val" type="file" />
+                                    <input id="HdrSec3_InpfilesImgOld" type="hidden" />
+                                </div>
+                            </div>
+                            <!-- /Image --> 
+                          
+                        </div>
+                        @*Detail Section 03// Common Section 5*@
+                        <div class="col-lg-6 col-md-6">                                                   
+                            <!-- Order -->
+                            <div class="row m-b-2" id="HdrSec5_CmbOrder">
+                                <div class="col-md-6"><label id="HdrSec5_CmbOrder_Lbl">Order :</label></div>
+                                <div class="col-md-6 no-padding"><div id="HdrSec5_CmbOrder_Cd" data-cpypst-blsmartcpypaste="Order" class="width-100"></div></div>
+                            </div>
+                            <!-- /Order -->                         
+                            <!-- Order Det -->
+                            <div class="row m-b-2" id="HdrSec6_CmbOrderDet">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec6_CmbOrderDet_Lbl">Order Det:</label></div>
+                                <div class="col-md-6 col-xs-12 no-padding"><input id="HdrSec6_CmbOrderDet_Cd" data-cpypst-blsmartcpypaste="OrderDetId" class="width-100" /></div>
+                            </div>
+                            <!-- /Order Det -->
+                            <!-- MA Date -->
+                            <div class="row m-b-4" id="HdrSec6_DatMADate">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec6_DatMADate_Lbl">MA Date:</label></div>
+                                <div class="col-md-6 col-xs-12 no-padding"><input id="HdrSec6_DatMADate_Val" data-cpypst-blsmartcpypaste="MaDate" class="width-100 no-padding h-23" /></div>
+                            </div>
+                            <!-- /MA Date -->
+                            <!-- Loan -->
+                            <div class="row m-b-2" id="HdrSec4_CmbLoan">
+                                <div class="col-md-6"><label id="HdrSec4_CmbLoan_Lbl">Loan :</label></div>
+                                <div class="col-md-6 no-padding"><input id="HdrSec4_CmbLoan_Cd" data-cpypst-blsmartcpypaste="LoanId" class="width-100" /></div>
+                            </div>
+                            <!-- /Loan -->
+                            <!-- Cur Code -->
+                            <div class="row m-b-2" id="HdrSec6_CmbCurCode">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec6_CmbCurCode_Lbl">Cur Code:</label></div>
+                                <div class="col-md-6 col-xs-12 no-padding"><input id="HdrSec6_CmbCurCode_cd" data-cpypst-blsmartcpypaste="CrnCode" class="width-100" /></div>
+                            </div>
+                            <!-- /Cur Code -->
+                            <!-- Ex.Rate -->
+                            <div class="row m-b-2" id="HdrSec6_InptCurExRate">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec6_InptCurExRate_Lbl">Ex.Rate:</label></div>
+                                <div class="col-md-6 col-xs-12 no-padding"><input id="HdrSec6_InptCurExRate_Val" type="text" class="k-textbox width-100" data-cpypst-blsmartcpypaste="ExRate" /></div>
+                            </div>
+                            <!-- /Ex.Rate -->                           
+                            
+                            <!--Is Cash -->
+                            <div class="row m-b-2" id="HdrSec9_Chkbox_isCash">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec9_Chkbox_isCash_Lbl">Is Cash:</label></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec9_ChkboxisCash_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec9_ChkboxisCash_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input id="HdrSec9_ChkboxisCash_Val" type="checkbox"/>*@
+                                </div>
+                            </div>
+                            <!--/Is Cash -->
+
+                            <!--Is Stamp -->
+                            <div class="row m-b-2" id="HdrSec9_Chkbox_isStamp">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec9_Chkbox_isStamp_Lbl">Is Stamp:</label></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec9_Chkbox_isStamp_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec9_Chkbox_isStamp_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input id="HdrSec9_Chkbox_isStamp_Val" type="checkbox"/>*@
+                                </div>
+                            </div><!--/Is Stamp -->                          
+
+                            <!--Is AccPayee -->
+                            <div class="row m-b-2" id="HdrSec9_Chkbox_isAccPaye">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec9_Chkbox_isAccPaye_Lbl">Is AccPayee:</label></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec9_Chkbox_isAccPaye_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec9_Chkbox_isAccPaye_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input id="HdrSec9_Chkbox_isAccPaye_Val" type="checkbox"/>*@
+                                </div>
+                            </div><!--/Is AccPayee -->
+
+                           
+
+                            <!--Is Crossed -->
+                            <div class="row m-b-2" id="HdrSec9_Chkbox_isCross">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec9_Chkbox_isCross_Lbl">Is Crossed:</label></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec9_Chkbox_isCross_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec9_Chkbox_isCross_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input id="HdrSec9_Chkbox_isCross_Val" type="checkbox" />*@
+                                </div>
+                            </div><!--Is Crossed -->
+
+                            <!--Non Negotiable -->
+                            <div class="row m-b-2" id="HdrSec9_Chkbox_Nagotiable">
+                                <div class="col-md-6 col-xs-12"><label id="HdrSec9_Chkbox_Nagotiable_Lbl">Non Negotiable:</label></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="onoffswitch  margin-auto">
+                                        <input type="checkbox" id="HdrSec9_Chkbox_Nagotiable_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                        <label class="onoffswitch-label" for="HdrSec9_Chkbox_Nagotiable_Val">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                    @*<input id="HdrSec9_Chkbox_Nagotiable_Val" type="checkbox"/>*@
+                                </div>
+                            </div><!--/Non Negotiable -->
+
+                        </div>
+                    </div>
+                </div>
+
+                @*Detail Section 04// Common Section 6*@
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <!-- Residend Adr -->
+                        <div class="row m-b-2" id="HdrSec5_CmbResAdr">
+                            <div class="col-md-5"><label id="HdrSec5_CmbResAdr_Lbl">Residend Adr :</label></div>
+                            <div class="col-md-7"><div id="HdrSec5_CmbResAdr_Cd" data-cpypst-blsmartcpypaste="ResAdr" class="width-100"></div></div>
+                        </div>
+                        <!-- /Residend Adr -->
+                        <!-- Detail Ur Ref -->
+                        <div class="row m-b-2" id="HdrSec4_InptDtlUrRef">
+                            <div class="col-md-5"><label id="HdrSec4_InptDtlUrRef_Lbl">Detail Ur Ref :</label></div>
+                            <div class="col-md-7"><input id="HdrSec4_InptDtlUrRef_Val" type="text" class="k-textbox width-100 h-23" data-cpypst-blsmartcpypaste="LoanId" /></div>
+                        </div>
+                        <!-- /Detail Ur Ref -->
+                        <!-- Payee  -->
+                        <div class="row m-b-2" id="HdrSec3_InptPayee">
+                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec3_InptPayee_Lbl">Payee</label></div>
+                            <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input placeholder="Payee name" id="HdrSec3_InptPayee_Val" type="text" class="k-textbox width-100 h-23" /></div>
+                        </div>
+                        <!-- /Payee -->
+                        <!-- Due Date -->
+                        <div class="row m-b-4" id="HdrSec5_DatDueDate">
+                            <div class="col-md-5"><label id="HdrSec5_DatDueDate_Lbl">Due Date</label></div>
+                            <div class="col-md-7"><input id="HdrSec5_DatDueDate_Val" data-cpypst-blsmartcpypaste="DueDate" class="width-100 no-padding h-23" /></div>
+                        </div>
+                        <!-- /Due Date -->
+                        <!-- Detl Doc No -->
+                        <div class="row m-b-2" id="HdrSec6_InptDtlDocNo">
+                            <div class="col-md-5 col-xs-12"><label id="HdrSec6_InptDtlDocNo_Lbl">Detl Doc No :</label></div>
+                            <div class="col-md-7 col-xs-12"><input id="HdrSec6_InptDtlDocNo_Val" type="text" class="k-textbox width-100" data-cpypst-blsmartcpypaste="LoanId" /></div>
+                        </div>
+                        <!-- /Detl Doc No -->
+
+                        
+                        <!-- Desciprtion -->
+                        <div class="row m-b-2" id="HdrSec8_TxtArea_Des">
+                            <div class="col-md-5 col-xs-12" id="HdrSec8_TxtArea_Des_Lbl"><label>Desciprtion:</label></div>
+                            <div class="col-md-7 col-xs-12"><textarea rows="1" class="k-textbox width-100" style="height:100px;" id="HdrSec8_TxtArea_Des_Val" data-cpypst-blsmartcpypaste="Description"></textarea></div>
+                        </div><!-- /Desciprtion -->
+
+                        <!--  -->
+                        <div class="row m-b-2" id="HdrSec6_IntEMpt">
+                            <div class="col-md-5 col-xs-12"><label id="HdrSec6_IntEMpt_Lbl"></label></div>
+                            <div class="col-md-7 col-xs-12"></div>
+                        </div>
+                        <!-- / -->                 
+                </div>
+
+            </div><!--/row-->          
+        </div> <!-- /ChildHdrpart-->
+    </div><!--GridWin-->
+
+    <!-- grid -->
+    <div class="col-md-12 col-sm-12">
+        <div id="PmtRcprGrd">
+        </div>
+    </div>
+    <!-- /grid -->
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+    
+@*URLLIST*@
+<script>
+    //CdMas
+    var urlGetCdMasCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetCdMasNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var urlGetOrderNo = '@Url.Content("~/Payment/OdrKyCode")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlGetPaymentCode = '@Url.Content("~/Payment/PaymentMode")';
+    var urlGetBankCode = '@Url.Content("~/Payment/BankName")';
+    var urlGetBranchode = '@Url.Content("~/Payment/BranchCode")';
+    var urlGetOrderDet = '@Url.Content("~/Payment/OdrDetCode")';
+    var urlAccCode = '@Url.Content("~/Payment/HdrAccCode")';
+    var urlAccNme = '@Url.Content("~/Payment/HdrAccName")';
+    var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlDetlGetTaskCode = '@Url.Content("~/Journal/TaskCodeLookUp")';
+    var urlDetlGetTaskNm = '@Url.Content("~/Journal/TaskNameLookUp")';
+    var urlGetAllDetail = '@Url.Content("~/Journal/GetAllJournalDetail")';
+    var urlSaveHdr = '@Url.Content("~/Payment/InsertHdr")';
+    var urlInsertInsertDetail = '@Url.Content("~/Payment/InsertDetail")';
+    var urlUpdateHdr = '@Url.Content("~/Journal/UpdateHdr")';
+    var UrlBankDetailSelect = '@Url.Content("~/ManageAllAccount/BankDetailsSelect")';
+    var InsertFileswithpath = '@Url.Content("~/Payment/InsertEmpImgFilesWithPath")';
+    var urlIsCheq = '@Url.Content("~/Payment/cdmasRec")';
+    var urlIsCd13Chek = '@Url.Content("~/Payment/IsCd13Result")';
+    var urlAutoCompleteGoToMenu = '/BL10/Menu/GetSmartMenuModel';
+
+
+</script>
+
+
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var urlGetCurrencyDrop = '@Url.Content("~/Journal/CurrencyDrop")';
+    var viewBagObjCaptn = '@ViewBag.ObjCaptn';
+    var viewBagOurCd = '@ViewBag.OurCd';
+    var viewBagObjKy = '@ViewBag.ObjKy';
+    var CheqNoValdation = '@Url.Content("~/Payment/CheqNo_ValidationWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/PaymentV20.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/ComboDateLoad.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/GridLoad.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/SaveAndUpdate.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/SetValuesToGrid.Js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/ValidationAndHiding.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentV2.0/CheqPrint.js"></script>

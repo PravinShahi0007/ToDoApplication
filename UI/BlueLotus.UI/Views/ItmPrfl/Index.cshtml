@@ -1,0 +1,522 @@
+﻿@{
+    ViewBag.Title = "Item Profile";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}<!-- ============= Bootstrap Styles ============== -->
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+
+    <div class="k-content" id="filterCont">
+        <input type="hidden" id="ItmKy" />
+        <input type="hidden" id="ItmTaxKy" />
+        <input type="hidden" id="HdrSec1_InptItmKy_Val" />
+
+        <div id="HdrPart">
+            <div class="col-md-12  col-sm-12">
+                <div class="wr_formGroup">
+                    <div style="width:90%; display:inline-block;">
+                        <div class="form-group">
+                            <div class="row">
+                                <div id="HdrSec1_CmbTyp">
+                                    <div class="col-md-2 col-sm-4">
+                                        <label id="HdrSec1_CmbTyp_Lbl">Item Type:</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <input id="HdrSec1_CmbTyp_Cd" class="combo width-100"  />
+                                    </div>
+                                </div>
+                                <div id="HdrSec1_CmbDept">
+                                    <div class="col-md-2 col-sm-4">
+                                        <label id="HdrSec1_CmbDept_Lbl">Department:</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4 ">
+                                        <div id="HdrSec1_CmbDept_Cd" class="width-100"></div>
+                                        <div id="HdrSec1_CmbDept_Nm"></div>
+                                    </div>
+                                </div>
+                                <div id="HdrSec1_CmbCat">
+                                    <div class="col-md-2 col-sm-4" style="padding-left: 9.7%;">
+                                        <label id="HdrSec1_CmbCat_Lbl">Category:</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4 ">
+                                        <div id="HdrSec1_CmbCat_Cd" class="width-100"></div>
+                                        <div id="HdrSec1_CmbCat_Nm"></div>
+                                    </div>
+                                </div>
+                                @*<div id="HdrSec1_ChkboxAlwTrnRateChange">
+                                    <div class="col-md-2 col-sm-4">
+                                        <label id="HdrSec1_ChkboxAlwTrnRateChange_Lbl">Prompt User for Price:</label>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1">
+                                        <input id="HdrSec1_ChkboxAlwTrnRateChange_Val" type="checkbox">
+                                    </div>
+                                </div>*@
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div id="HdrSec1_InptItmCd">
+                                    <div class="col-md-2 col-sm-4">
+                                        <label id="HdrSec1_InptItmCd_Lbl">Item Code:</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4">
+                                        <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+                                <div id="HdrSec1_InptItmNm">
+                                    <div class="col-md-2 col-sm-6">
+                                        <label id="HdrSec1_InptItmNm_Lbl">Item Name:</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6">
+                                        <input id="HdrSec1_InptItmNm_Val" style="width:90%;" type="text" class="k-textbox" />
+                                    </div>
+                                </div>
+                                <div id="">
+                                    <div class="col-md-2 col-sm-6">
+                                        <label id="">Active Items</label>
+                                    </div>
+                                    <div class="col-md-1 col-sm-6">  
+                                       <label class="lbl-switch"> <input type="checkbox"  id="HdrSec1_AllItm_Val" checked="checked" /> <div style="margin-top: 9px;"> <span class="on">Yes</span> <span class="off">No</span> </div> <i></i> </label>                                                               
+                                        @*<input type="checkbox" id="HdrSec1_AllItm_Val" checked="checked" />*@
+                                    </div>
+                                </div>
+                                @*<div id="HdrSec1_ChkboxAgeVarification">
+                                    <div class="col-md-2 col-sm-4">
+                                        <label id="HdrSec1_ChkboxAgeVarification_Lbl">Prompt Age Verification:</label>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1">
+                                        <input id="HdrSec1_ChkboxAgeVarification_Val" type="checkbox">
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                      
+
+                    </div>
+                    <div  id="imagePreview" >
+                    </div>
+                    <div class="refreshBtnContainer">
+                        @*<a href="\\#" class="k-pager-refresh k-link k-button" title="Refresh"><span class="fa fa-repeat"></span></a>*@
+                        <button type="button" class="button" onclick="ImportItem()" value="IMPORT" title="IMPORT"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; Excel Import </button>
+                        <button type="button" class="button" onclick="LoadTabItems()" value="LOAD GRID" title="Load Gridview"><i class="fa fa-repeat" aria-hidden="true"></i>&nbsp; LOAD GRID </button>
+                        <button type="button" class="button" onclick="Clear()" value="CLEAR" title="CLEAR"><i class="fa fa-eraser" aria-hidden="true"></i>&nbsp; CLEAR </button>
+                        <button type="button" class="button" onclick="Add()" value="EDIT" title="ADD"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; ADD NEW </button>
+                        <button type="button" id="save" class="button" onclick="Save()" value="SAVE" title="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp; SAVE </button>
+                        <button type="button" class="button" onclick="Cancel()" value="CANCEL" title="CANCEL"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp; CANCEL </button>
+                        <button type="button" class="button" onclick="Post()" value="Post" title="POST"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp; POST </button>
+
+
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+
+        
+
+        <div id="toggle">
+            <div class="row">
+
+                <div id="HdrSec1_InptItmCd">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_InptItmCd_Lbl">Item Code:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptItmCd_Val1" type="text" class="k-textbox" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div id="HdrSec1_InptItmNm">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_InptItmNm_Lbl">Item Name:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptItmNm_Val1" type="text" style="width:180px; height:21px" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div id="HdrSec1_InptItmEAN">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_InptItmEAN_Lbl">Item EAN:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptItmEAN_Val1" class="k-textbox" type="text" readonly="readonly" />
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+            
+    </div>
+    <br style="clear: both" />
+  
+
+    <div id="tabstrip" class="m-t-5">
+        <ul>
+            <li id="HdrSec2_Tab1">Browse Item</li>
+            <li id="HdrSec2_Tab2">Ingredients</li>
+            <li id="HdrSec2_Tab3">Item Settings</li>
+            <li id="HdrSec2_Tab4">Price Revision</li>
+            <li id="HdrSec2_Tab5">Location wise Stock</li>
+            @*<li id="HdrSec2_Tab6">Multi-Unit</li>*@
+        </ul>
+    <div>
+            <div id="Itemgrid" style="height:56vh">
+            </div>
+            <!--| toolbar |-->
+             <script type="text/x-kendo-template" id="template">
+                 <div class="refreshBtnContainer">
+                     <i class="fa fa-repeat" aria-hidden="true"></i>
+                 </div>
+                 <div class="toolbar">
+                     <label class="category-label" for="category">Show products by Item Type:</label>
+                     <input type="search" id="category" style="width: 150px"/>
+                 </div>
+            </script><!--| /toolbar |-->
+
+            <div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>
+        </div>
+        <div>
+            <div style="width:100%" id="MainDiv_ItmMasCmpnPartialForParentDiv">
+                @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+            </div>
+        </div>
+        <div>
+            <div id="ItmSettingsgrid"></div>
+            @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+        </div>
+        <div>
+            <div id="Pricegrid"></div>
+            @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+        </div>
+        <div>
+            <div id="ItmStockgrid"></div>
+            @*<div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>*@
+        </div>
+        <div>
+            <div>
+                @*@Html.Partial("~/Views/MultiUnit/_PartialMultiUnit.cshtml")*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#toggle").hide();
+
+    $(document).ready(function () {
+        $("#HdrSec1_InptSeleItm").hide();
+        $("#ButtonSet").hide();
+        document.getElementById("divSplitter").style.minHeight = "220px";
+        itmCmpnGridHeight = 200;
+        $('#ItmMasCmpnPartial_SS_Div').hide();
+    });
+</script>
+
+<style>
+    #filterCont #HdrPart {
+        margin: 5px -15px 5px -8px;
+    }
+    .wr_formGroup_drk{
+	    margin: 0px -15px 0px -8px;
+    }
+    .k-numerictextbox {
+        width: 100%;
+    }
+    #tabstrip ul{
+        margin-left:12px!important;
+    }
+    .button {
+        background-color: lightblue;
+        border-style: inset;
+        width: 105px;
+        height: 30px;
+        color: black;
+        font: bold;
+    }
+
+    .btn-minimize {
+        width: 30px;
+        height: 20px;
+        background-color: lightblue;
+    }
+   
+    .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    #imagePreview {
+        /*width: 120px;
+        height: 90px;*/
+        width: 80px;
+        height: 55px;
+        background-position: top top;
+        background-size: cover;
+        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+        display: inline-block;
+        position: fixed;
+        margin-left:10px;
+    }
+    #imagePreview > img{
+        width:100%!important;
+        height:100%!important;
+    }
+    .non-editable {
+      background-color:white;
+    }
+    
+    .k-alt .non-editable {
+      background-color: white;
+    }
+         
+    tr.k-state-selected .non-editable {
+      background-color: initial;
+    }
+
+    .k-upload {
+       max-width: none ;
+       max-height: 30px;
+       white-space: normal ;
+}
+    .k-filename {
+    display: inline-block;
+    min-width: 120px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+    .k-filtercell>span{
+       min-width: 72%;
+    }
+    .k-dropzone {
+        padding: .1em;
+    }
+
+    .k-dropzone >.k-button {
+        line-height: 1.143em;
+        padding: 7px 14px;
+    }
+
+    /*test*/
+    #Itemgrid .k-grid-toolbar
+    {
+      padding: .6em 1.3em .6em .4em;
+    }
+  .k-header.k-grid-toolbar {
+        border-color: #c1c1c1;
+        background-color: #e8f1f3;
+    }
+    .category-label
+    {
+        vertical-align: middle;
+        padding-right: .5em;
+        color: #000;
+    }
+    #category
+   {
+      vertical-align: middle;
+   }
+  .refreshBtnContainer {
+       display: inline-block;
+   }
+   .toolbar {
+       float: right;
+   }
+
+    .item-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .item-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    /*grid edit popup start*/
+    .k-popup-edit-form.k-window-content.k-content{
+	    height: 75vh;
+        width: 40vw;
+    }
+     .k-popup-edit-form.k-window-content.k-content .k-edit-form-container{
+        width: 100%;
+    }
+     .k-edit-field .k-combobox {
+        width: 86%;
+    }
+    .k-window>div.k-popup-edit-form {
+        padding: 1em 0px;
+        font-size: 0.8em;
+    }
+    .k-edit-field, .k-edit-form-container .editor-field {
+        padding: .8em 0 1em!important;
+    }
+    .k-edit-form-container>.k-edit-field>
+    .k-widget.k-combobox.k-header.k-combobox-clearable>
+    .k-dropdown-wrap.k-state-default,
+    .k-edit-form-container>.k-edit-field>input.k-textbox{
+	    width: 100%;
+    }
+    .k-widget.k-upload.k-header.k-upload-empty .k-dropzone .k-button.k-upload-button {
+        color: #10265a;
+        border-color: #a9e2fb;
+        margin: 0px;
+    }
+    .k-edit-form-container>.k-edit-field>
+    .k-header{
+        border-color:#ffffff;
+    }
+    .k-edit-form-container>.k-edit-field>
+    .k-upload{
+        max-height: 200px;
+    } 
+    .k-icon{
+        font-size:14px;
+     }
+    .k-edit-field{
+       width: 48%;
+       margin-right: 10%;
+    } 
+     .k-upload-sync .k-upload-button {
+        margin: 0em;
+    }  
+    /*grid edit popup end*/
+    .k-grid > .k-header > .k-button {
+        color: #fff!important;
+        background-color: #3f51b5!important;
+        border-color: #3f51b5!important;
+        padding: 9px 14px;
+        border-radius: 2px;
+    }
+    span.k-icon.k-i-plus{
+        margin-top:-1px;
+    }
+</style>
+
+<script>
+    $("#tabstrip").kendoTabStrip({
+        navigatable: true
+    });
+</script>
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlComboLoad = {
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',       
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")'
+    }
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    @*var urlItmMasSelect = {
+        ItmMas_ItmNm_SS_WebColDetMulti: '@Url.Action("ItmMas_ItmNm_SS_WebColDetMulti", "ItmMasSelect")',
+        ItmMas_ItmNm_SS_WebMulti: '@Url.Action("ItmMas_ItmNm_SS_WebMulti", "ItmMasSelect")'
+    }*@
+
+    var urlCmpnBld = {
+        SaveItmCmpn: '@Url.Content("~/CmpnBld/SaveItmCmpn")',
+        ItmCmpn_SelectWeb: '@Url.Content("~/CmpnBld/ItmCmpn_SelectWeb")'
+    }
+
+    var urlMultiUnit = {
+        GetItemByCodeEAN: '@Url.Content("~/POSItmTransfer/GetItemByCodeEAN")',
+        GetItemUnitMasDet: '@Url.Content("~/MultiUnit/GetItemUnitMasDet")',
+        InsertItemUnitMasDet: '@Url.Content("~/MultiUnit/InsertItemUnitMasDet")'
+    }
+
+    var UrlGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+    var UrlUnitMas_SelectMob_Datasource = '@Url.Content("~/ComboLoad/UnitMas_SelectMob")';
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlTransactionItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var urlTransactionItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+    var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+    var urlTransactionItemsLookUpByItmCd = '@Url.Content("~/Transaction/ItemsLookUpByItmCd")';@*Set Default and Object Properties From ObjMas*@
+
+    //var URLUpdateRate = '@Url.Content("~/ItmMas/UpdateItmsforRate")';
+    //var URLDeleteRate = '@Url.Content("~/Home/DeleteToDoCus")';
+    var URLCheckItmCdExist = '@Url.Action("CheckItmCdExist", "ItmMas")';
+    var URLLoadGrid = '@Url.Action("GetItmsforRate", "ItmMas")';
+    var URLUnitCmbLoad = '@Url.Action("GetUnit","ItmMas")';
+    var urlInsert = '@Url.Content("~/ItmPrfl/Insert")';
+    var urlUpdatePost = '@Url.Content("~/ItmPrfl/UpdatePost")';
+    var urlUpdate = '@Url.Content("~/ItmPrfl/UpdatePOS")';
+    var urlInsertItmSettings = '@Url.Content("~/ItmMasCd/InsertItmSettings")';
+    var urlUpdateItmSettings = '@Url.Content("~/ItmMasCd/UpdateItmSettings")';
+    var urlSelectEAN = '@Url.Action("SelectEAN", "ItmPrfl")';
+    var urlInsertEAN = '@Url.Action("InsertEAN", "ItmPrfl")';
+    var urlUpdateEAN = '@Url.Action("UpdateEAN", "ItmPrfl")';
+    var urlGetAllItemsWithDept = '@Url.Action("GetAllItemsWithDept", "ItmPrfl")';
+    var urlGetItmSettings = '@Url.Action("GetItmSettings", "ItmMasCd")';
+    var urlGetItmTypKy = '@Url.Action("GetItmTypKy", "ItmPrfl")';
+    var urlGetControlConKy = '@Url.Content("~/ControlCon/GetControlConKy")';
+    var urlLoadPriceRevision = '@Url.Action("LoadPriceRevision", "ItmPrfl")';
+    var urlUpdatePriceRevision = '@Url.Content("~/ItmPrfl/UpdatePriceRevision")';
+    var urlLoadItmStock = '@Url.Action("LoadItmStock", "ItmPrfl")';
+    var urlGetControlConKyForItmRate = '@Url.Action("GetControlConKyForItmRate", "ItmMas")';
+    var urlInsertFileswithpath = '@Url.Content("~/ItmPrfl/InsertFileswithpath")';
+    var urlCheckItmCd = '@Url.Content("~/ItmPrfl/CheckItmCd")';
+    var urlCheckItmNm = '@Url.Content("~/ItmPrfl/CheckItmNm")';
+    var urlGetCat8ByCat7_SelectWeb = '@Url.Content("~/ComboLoad/GetCat8ByCat7_SelectWeb")';
+    //var urlItmMasExcelImportJsonData = '@Url.Content("~/ItmPrfl/ItmMasExcelImportJsonData")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/ItmPrfl/SaveFunction.js"></script>
+<script src="~/Scripts/HtnScripts/ItmPrfl/LoadGrid.js"></script>
+<script src="~/Scripts/HtnScripts/ItmPrfl/ItmPrfl.js"></script>
+

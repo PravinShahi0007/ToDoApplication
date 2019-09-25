@@ -1,0 +1,17 @@
+﻿<div id="AdrContactInsert" style="display: none">
+    <input id="ConDetailPopAdrKy" type="hidden" />
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" data-tooltip="Save" onclick="addContact()"></button>
+            <button class="control-button cancel" data-tooltip="Close" onclick="onContactClose()"></button>
+        </div>
+    </div>
+    <div>
+        <div id="ContactDetail"></div>
+    </div>
+</div>
+<script>
+    var urlInsertOnDetail = '@Url.Content("~/AddressEntry/InsertConDetail")';
+
+</script>
+<script src="~/Scripts/HtnScripts/AddressMass/ContactDetails.js"></script>

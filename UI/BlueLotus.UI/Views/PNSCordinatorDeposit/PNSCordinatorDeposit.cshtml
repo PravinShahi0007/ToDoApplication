@@ -1,0 +1,636 @@
+﻿@{
+    ViewBag.Title = "PNSCordinatorDeposit";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<style>
+    .k-numerictextbox .k-input {
+        padding-right: 5px !important;
+        text-align: right;
+        width: 96%;
+    }
+</style>
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+
+<div class="form  wr_formGroup clearfix">
+    <div class="col-md-12 control-icons hidden-xs hidden-sm">
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+        <button class="control-button clean" onclick="CleanAll()" data-tooltip="Clear"> </button>
+    </div>
+    <div class="col-md-12 form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Ref No</label>
+            <div class="col-md-7 col-sm-7">
+                <input type="text" class="k-textbox " id="RefNo" readonly/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Company</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="ComlookUP"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Deposit Date</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="datepicker"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Bank</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="BankLookup"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label" style="font-weight: bold;">Details</label>
+
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cash</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Cash"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cheque</label>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12">
+                <div id="grid"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Balance in Hand</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="BalInHnd" readonly/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Non Reconciled Balance</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="NonRecBal" readonly/>
+            </div>
+        </div>
+        <div class="col-md-12 control-icons   marging-b-500 m-t-40 hidden-lg hidden-md">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button clean fr marging-r-10" onclick="CleanAll()" data-tooltip="Clear"> </button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // SelectCheque()
+    var OurCode = "@(ViewBag.ObjCaptn)";
+    var UsrKy = "@(ViewBag.ObjCaptn)";
+    $(document).ready(function() {
+            $("#Save").kendoButton();
+            // create DatePicker from input HTML element
+            $("#datepicker")
+                .kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    min: new Date(31, 2, 2009)
+                });
+            $("#Cash")
+                .kendoNumericTextBox({
+                    decimals: 3.
+                });
+            $("#BalInHnd")
+                .kendoNumericTextBox({
+                    decimals: 3.
+                });
+            $("#NonRecBal")
+                .kendoNumericTextBox({
+                    decimals: 3.
+                });
+            LoadGridFindView1();
+
+            loadcombo();
+
+            $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+            var todayDate = new Date();
+            $("#datepicker").data("kendoDatePicker").value(todayDate);
+            //var datepicker = $("#datepicker").data("kendoDatePicker");
+            //datepicker.readonly();
+            CleanAll();
+            SetUsrKy();
+
+        });
+
+    function SetUsrKy() {
+
+        var username = '@Session["usrKy"]'; // '<%= Session["usrKy"] %>';
+        $('#RefNo').val(username);
+    }
+
+    function loadcombo() {
+        SelectChequecash();
+        SelectNonrecBal();
+        //combo from BusinessUnit Id
+        $("#ComlookUP")
+            .kendoComboBox({
+                dataValueField: "CdKy",
+                dataTextField: "Code",
+                dataSource: {
+                    type: "POST",
+                    transport: {
+                        read: '@Url.Content("~/PNSCordinatorDeposit/CompanyLookup")'
+                    }
+                },
+                change: function(e) {
+                    var cmb = $("#ComlookUP").data("kendoComboBox");
+                    var CdKy = cmb.value();
+                    if (CdKy != "") {
+                        var validate = ComboValidations("ComlookUP");
+                        if (validate) {
+                            $("#ComlookUP").data("kendoComboBox").value(CdKy);
+                            BankLoad();
+
+                            UsrCashBal();
+                            ChqeListSelect();
+
+                        } else {
+                            $("#ComlookUP").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Company"
+            });
+
+        //combo from BusinessUnit Id
+        $("#BankLookup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCode",
+                dataSource: BankDatasource(),
+                change: function(e) {
+                    var cmb = $("#BankLookup").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("BankLookup");
+                        if (validate) {
+                            $("#BankLookup").data("kendoComboBox").value(CdKy);
+
+                            UsrCashBal();
+                            ChqeListSelect();
+
+                        } else {
+                            $("#BankLookup").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Banck"
+            });
+    }
+
+    function BankLoad() {
+
+        //combo from BusinessUnit Id
+        $("#BankLookup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCode",
+                dataSource: BankDatasource(),
+                change: function(e) {
+                    var cmb = $("#BankLookup").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("BankLookup");
+                        if (validate) {
+                            $("#BankLookup").data("kendoComboBox").value(CdKy);
+
+                        } else {
+                            $("#BankLookup").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Banck"
+            });
+
+    }
+
+    function LoadGridFindView1() {
+
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        bankKy: { editable: true, nullable: false, type: "string" },
+                        bankNm: { editable: true, nullable: false, type: "string" },
+                        ChqNO: { editable: true, nullable: false, type: "string" },
+                        Amt: { editable: true, nullable: false, type: "Number" },
+
+                    }
+                }
+            }
+        });
+
+        $("#grid")
+            .kendoGrid({
+                dataSource: dataSource,
+                autobind: true,
+                editable: true,
+                navigatable: true,
+                filterable: true,
+                //columnHide: createFilterRow,
+                //columnShow: createFilterRow,
+                pageable: true,
+                sortable: true,
+                reorderable: true,
+                columnMenu: true,
+                selectable: "column",
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+                columns: [
+                    {
+                        field: "bankKy",
+                        title: "bankKy",
+                        width: "50px",
+                        hidden: true
+                    },
+                    {
+                        field: "bankNm",
+                        title: "Bank Name",
+                        width: "50px",
+                    },
+                    {
+                        field: "ChqNO",
+                        title: "Chq NO",
+                        width: "100px",
+
+                    },
+                    {
+                        field: "Amt",
+                        title: "Amt",
+                        width: "50px",
+                        format: '{0:n2}',
+
+                        attributes: { "class": "ob-right" },
+
+                    },
+                ],
+
+                resizable: true,
+
+                dataBinding: function() {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+
+            });
+        // createFilterRow();
+    }
+
+    //function CreateNewGridRow() {
+    //    var grid = $("#grid").data("kendoGrid");
+    //    if (grid) {
+    //        var dataSource = grid.dataSource;
+    //        var total = dataSource.data().length;
+    //        dataSource.insert(total, {});
+    //    }
+    //    Makedirty();
+    //}
+
+    //function Makedirty() {
+
+    //    var grid = $("#grid").data("kendoGrid");
+
+    //    var dataSource = grid.dataSource;
+
+    //    var total = dataSource.data().length;
+    //    var temp = total - 1;
+    //    var firstItem = $('#grid').data().kendoGrid.dataSource.data()[temp];
+    //    firstItem.set('Lino', total);
+
+    //    //alert(total)
+    //    //for (i = 0; i < total; i++) {
+    //    //    //     alert(i);
+    //    //    var j = i + 1;
+    //    //    var firstItem = $('#grid').data().kendoGrid.dataSource.data()[i];
+    //    //    firstItem.set('Lino', j);
+    //    //}
+
+    //}
+
+    function BankDatasource() {
+
+        var TempbanKy = $("#ComlookUP").data("kendoComboBox").value();
+        var BuKy = 1;
+        if (TempbanKy) {
+            BuKy = TempbanKy;
+
+        }
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/PNSCordinatorDeposit/BankLookup")',
+                    data: {
+                        'BuKy': BuKy,
+
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+
+    }
+
+    function SelectChequecash() {
+
+        $.ajax({
+            url: "@Url.Content("~/PNSCordinatorDeposit/BalanceInHand")",
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+                var CashInHnd = data;
+                $("#BalInHnd").data("kendoNumericTextBox").value(CashInHnd);
+
+
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+
+    function SelectNonrecBal() {
+
+        $.ajax({
+            url: "@Url.Content("~/PNSCordinatorDeposit/NonRecBal")",
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+                var NonRecBal = data;
+                $("#NonRecBal").data("kendoNumericTextBox").value(NonRecBal);
+                //$("#NonRecBal").value(NonRecBal);
+
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+
+    function UsrCashBal() {
+        var SBuKy = document.getElementById("ComlookUP").value;
+        var DepDate = document.getElementById("datepicker").value;
+
+        var BankKy = 1; //document.getElementById("BankLookup").value;
+
+        if (SBuKy && DepDate && BankKy) {
+            $.ajax({
+                url: "@Url.Content("~/PNSCordinatorDeposit/CashBalance")",
+                data: JSON.stringify({
+                    SBuKy: SBuKy,
+                    DepDate: DepDate,
+                    BankKy: SBuKy,
+
+                }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function(data) {
+                    var TotalCash = data;
+                    $("#Cash").data("kendoNumericTextBox").value(TotalCash);
+                    //$("#NonRecBal").value(NonRecBal);
+
+                },
+                error: function(e) {
+                    return false;
+                }
+            });
+
+        }
+
+    }
+
+    function ChqeListSelect() {
+        var SBuKy = document.getElementById("ComlookUP").value;
+        var DepDate = document.getElementById("datepicker").value;
+        var BankKy = 1;//$("#BankLookup").data("kendoComboBox").value();// 1; //document.getElementById("BankLookup").value;
+
+        if (SBuKy && DepDate && BankKy) {
+            $.ajax({
+                url: "@Url.Content("~/PNSCordinatorDeposit/GetChqueList")",
+                data: JSON.stringify({
+                    'SBuKy': SBuKy,
+                    'DepDate': DepDate,
+                    'BankKy': BankKy,
+
+                }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function(data) {
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.dataSource.data([]);
+                    var tempcount = 1;
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].Amt > 0) {
+                            $("#grid")
+                                .data("kendoGrid")
+                                .dataSource.add({
+                                    bankKy: data[i].BnkKy,
+                                    bankNm: data[i].bankNm,
+                                    ChqNO: data[i].ChqNo,
+                                    Amt: data[i].Amt,
+
+                                });
+                            tempcount++;
+                        }
+
+                    }
+
+                },
+                error: function(e) {
+                    return false;
+                }
+            });
+
+        }
+
+    }
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function CleanAll() {
+
+        $("#Cash").data("kendoNumericTextBox").value(0.00);
+        $("#BalInHnd").data("kendoNumericTextBox").value(0.00);
+        $("#NonRecBal").data("kendoNumericTextBox").value(0.00);
+        var todayDate = new Date();
+        // alert(todayDate)
+        $("#datepicker").data("kendoDatePicker").value(todayDate);
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.data([]);
+        $("#ComlookUP").data("kendoComboBox").value("");
+        $("#BankLookup").data("kendoComboBox").value("");
+        $('#RefNo').val("");
+        SelectChequecash();
+        SelectNonrecBal();
+        SetUsrKy();
+    }
+
+
+
+    function Save() {
+
+        var SBU = $("#ComlookUP").data("kendoComboBox").value();;
+        var BnkKy = $("#BankLookup").data("kendoComboBox").value();
+        var CashAmt = $("#Cash").data("kendoNumericTextBox").value();
+        var DepDt = document.getElementById("datepicker").value;
+
+        var grid = $("#grid").data("kendoGrid");
+        var refNo = document.getElementById("RefNo").value; //$("#RefNo").value();
+        var dataSource = grid.dataSource;
+        var totalRecords = dataSource.total();
+
+        if (refNo) {
+            if (SBU) {
+                if (BnkKy) {
+                    if (true) {
+                        DepositcashandCheque(SBU, BnkKy, CashAmt, DepDt, totalRecords, refNo);
+
+                    } else {
+                        alert("There is no cash Or cheque Data to save");
+                    }
+
+                } else {
+
+                    alert("Please Select a Bank");
+                }
+
+            } else {
+
+                alert("Please select a Company");
+            }
+        } else {
+
+            alert("Please insert Your Ref number");
+        }
+
+    }
+
+    function DepositcashandCheque(SBU, BnkKy, CashAmt, DepDt, totalRecords, refNo) {
+        var ConCord = "TrnTyp";
+        var OurCode = "@(ViewBag.MyPmtcd)";
+        var Records = [];
+        var updatedRecords = [];
+        var grid = $("#grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        for (var i = 0; i < currentData.length; i++) {
+            Records.push(currentData[i].toJSON());
+
+        }
+
+        $.ajax({
+            url: "@Url.Content("~/PNSCordinatorDeposit/DepositcashandCheque")",
+            data: JSON.stringify({
+                SBuKy: SBU,
+                DepDate: DepDt,
+                BankKy: BnkKy,
+                CashAmt: CashAmt,
+                ConCord: ConCord,
+                OurCode: OurCode,
+                refNo: refNo,
+                InsertChq: kendo.stringify(Records)
+
+            }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+
+                if (data.length > 0) {
+                    alert("Successfully Saved..!");
+                    alert("Your Transaction Number is "+data[0].TrnNo);
+
+                } else {
+
+                    alert("Plase Try again");
+                }
+
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+
+    function SelectCashDetail(trnKy) {
+
+        //Cheque insert
+        $.ajax({
+            url: "@Url.Content("~/PNSCordinatorDeposit/DepositCashSelect")",
+            data: JSON.stringify({
+                trnKy: trnKy,
+            }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+                var trnNO;
+
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].TrnKy > 0) {
+                        trnNO = data[i].TrnKy;
+                    }
+
+                }
+                alert("Your  Deposit Trn NO is " + trnNO);
+                CleanAll();
+
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+
+</script>

@@ -1,0 +1,694 @@
+﻿@{
+    ViewBag.Title = "GanttView";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link href="~/GanttChart/Src/Src%205.0.1/Styles/jQuery-ui-themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="~/GanttChart/Src/Src%205.0.1/Styles/radiantq.gantt.default.css" rel="stylesheet" />
+<link href="~/GanttChart/Src/Src%205.0.1/Styles/VW.Grid.css" rel="stylesheet" />
+<script type="text/javascript" src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery.layout-latest.min.js"></script>
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/Utils/date.js" type="text/javascript"></script>
+
+<script src="~/GanttChart/Src/Scripts%205.0.1/html2canvas.js"></script>
+<script src="~/GanttChart/Src/Scripts%205.0.1/ganttPrintDialog.js"></script>
+<script src="~/GanttChart/Src/Scripts%205.0.1/jspdf.debug.js"></script>
+
+<script src="~/GanttChart/Src/Src%205.0.1/ResourceStrings/en-US.js" type="text/javascript"></script>
+<script src='~/GanttChart/Src/Src%205.0.1/Scripts/VW.Grid.1.min.js' type='text/javascript'></script>
+<script src='~/GanttChart/Src/Src%205.0.1/Scripts/RadiantQ-jQuery.Gantt.5.0.1.trial.min.js' type='text/javascript'></script>
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/Json2Xml.js"></script>
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery.contextMenu.js"></script>
+<script src="~/GanttChart/Src/Src%205.0.1/Scripts/jquery.xml2json.js"></script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlCodesCdMas_LookupWebByConCd = '@Url.Content("~/Codes/CdMas_LookupWebByConCd")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+
+@*@*Newly added*@
+@*<script src="~/Scripts/JSFiles/EditExtenstion.js" type="text/javascript"></script>
+    <script src="~/Scripts/JSFiles/js2xml.js" type="text/javascript"></script>
+    <script src="~/Scripts/JSFiles/FileSaver.js"></script>
+    <script src="~/Scripts/JSFiles/jquery.xml2json.js"></script>*@
+
+<!-- This sample shows, how to add,insert,delete,indent,outdent and insert child  task.-->
+<!-- Here we also cache the updated tasks, added tasks and deleted tasks in separate list and pass that to the server. -->
+<style>
+    .tree-section {
+        margin: 8px 1.5em 20px -0.2em;
+    }
+    #menuTreeView {
+        width: 270px!important;
+    }
+    #Div1 > button {
+        margin: 5px;
+        font-size: 12px;
+        font-family: "Portable User Interface", Helvetica, Arial, Verdana, sans-serif;
+        width: 100%;
+    }
+
+    #body{ 
+        overflow: hidden;
+        background-color: #dfe2e5!important;
+    }
+
+    /*body {
+        margin: 0px;   
+    }*/
+
+    .ui-datepicker {
+        /*font-size: 62.5%;*/
+        font-size: 11px;
+        z-index: 10000 !important;
+    }
+
+    .button {
+        margin: 5px;
+        height: 20px;
+    }
+
+    .ui-dialog-buttonset {
+        font-size: 62.5%;
+    }
+
+    #dialog-form {
+        width: 430px;
+        font-size: 62.5%;
+    }
+
+    .text {
+        margin: 5px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    td, th {
+    padding: 1px 0px 1px 10px!important;
+}
+
+    body {
+        margin: 0px;
+        background-color: black;
+    }
+
+    .customMileStone-rect {
+        background: none !important;
+        background-color: #FFA07A !important;
+        border: 1px solid steelblue !important;
+        height: 14px !important;
+        width: 14px !important;
+    }
+
+    .customMileStone-tri {
+        background: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-top: none !important;
+        border-bottom: 18px solid steelblue !important;
+        border-right: 10px solid transparent !important;
+        border-left: 10px solid transparent !important;
+    }
+
+    /*url('../../../DevBL10/Images/greenBar.png') !important;*/
+    /*/BL10*/
+    /*url(Images/Antique_brass_Bar.png)*/
+    div.custom-taskbar {
+        /*background-image: url('../../../DevBL10/Src/Styles/Images/greenBar.png') !important;*/
+        border-color: #FFA07A !important;
+    }
+
+    .ui-slider-handle {
+        height: 12px !important;
+        width: 08px !important;
+    }
+    #pagecontent{
+        /*height:95.5vh!important;*/
+        margin:5px;
+    }
+    .k-menu .k-item>.k-link {
+    display: block;
+    padding: 9px 15px;
+    line-height: 1.34em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    .k-menu.k-header, .k-menu, .k-item {
+        background-color:#fff;
+        /*background-color: #e0e3e6;*/
+        border: solid#d6d6d6 1px;
+    }
+    .k-item>ul .k-group>li.k-item {
+        background-color: #23272f;
+        border: solid#23272f 1px;
+    }
+    /*.k-item {
+        border: solid#d6d6d6 1px;
+    }*/
+
+    .k-button {
+        padding: 8px 14px;
+        margin-right:7px;
+    }
+    td>.k-button{
+        color: #222b5a;
+    }
+
+    div.k-window {
+        min-width: 320px!important;
+        min-height: 215px!important;
+        /*width: 320px!important;
+        height: 215px!important;*/
+    }
+
+    #btnSaveNewPrj{
+        height:36px!important;
+    }
+    #menu-file-images>li{
+        color:#222b5a;
+    }
+    li>.k-link {
+    font-size: 11px!important;
+    color: #222b5a!important;
+    }
+    .fa-2x {
+        font-size: 1.7em;
+    }
+    #idPager>table>tbody>tr>td>input, #idPager>table>tbody>tr>td>.k-button {
+        background-color: #222b5a;
+        color: #ffffff;
+        padding: 5px 12px;
+    }
+    #slider{
+        background: #222b5a;
+    }
+
+    #idButtonDiv>ul>li, #idButtonDiv>ul>li>div>a, #idButtonDiv>ul>li>div {
+        display:inline!important;
+        width:45px!important;       
+    }
+    #idButtonDiv .k-button{
+        padding: 8px 14px;
+        margin-right:2px;
+    }
+    #btnLoadGanttVrsn,#btnNewVrsn,#btnDeleteVrsn{
+        font-size:19px;
+    }
+    #gantt_container_TopDivContainer{
+        height: 76.5vh!important;
+    }
+    /*#idButtonDiv>button,#idButtonDiv>div{
+        height: 41.9px;
+        width: 45px;
+    }*/
+    .ui-datepicker td {
+        border: 0;
+        padding: 1px!important;
+        font-size: 11px;
+    }
+    #bottomAddCombo, #topAddCombo, currentHeadersList {
+	    padding:4px;
+    }
+
+</style>
+
+
+
+<script>
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        UnitMas_SelectMob: '@Url.Content("~/ComboLoad/UnitMas_SelectMob")'
+    }
+
+    var urlGetProjectSchedule_Find = '@Url.Content("~/GanttChart/GetProjectSchedule_Find")';
+    var urlGetSelectProjectScheduleDetails = '@Url.Content("~/GanttChart/GetSelectProjectScheduleDetails")';
+    var urlGetNewProjectScheduleDetails = '@Url.Content("~/GanttChart/GetNewProjectScheduleDetails")';
+    var urlEmptyProject = '@Url.Content("~/EmptyProject.xml")';
+    var urlGetColumnDataSources = '@Url.Content("~/AddColumn/GetColumnDataSources")';
+    var urlSetTaskData = '@Url.Content("~/GanttChart/SetTaskData")';
+    var urlSetTaskData_Validation = '@Url.Content("~/GanttChart/SetTaskData_Validation")';
+    var urlSetTaskData_Validation_GetTask = '@Url.Content("~/GanttChart/SetTaskData_Validation_GetTask")';
+    var urlProjectResourceDetails_Select = '@Url.Content("~/GanttChart/ProjectResourceDetails_Select")';
+    var urlGetCalDate = '@Url.Content("~/GanttChart/GetCalDate")';
+    var urlUpdateProject = '@Url.Content("~/GanttChart/UpdateProject")';
+    var urlSetPrjSch_Insert = '@Url.Content("~/GanttChart/SetPrjSch_Insert")';
+    var urlSetPrjSchHdr_Update = '@Url.Content("~/GanttChart/SetPrjSchHdr_Update")';
+    var urlRedBar = '@Url.Content("~/Src/Styles/Images/redBar.png")';
+    var urlTaskBar = '@Url.Content("~/Src/Styles/Images/TaskBar.png")';
+    var urlGreenBar = '@Url.Content("~/Src/Styles/Images/greenBar.png")';
+    var urlGetProjectListByPrntKy = '@Url.Content("~/Home/GetProjectListByPrntKy")';
+    var urlGetPrjID_SelectMob = '@Url.Content("~/GanttChart/GetPrjID_SelectMobByObjKy")';
+    var urlGetPrjNm_SelectMob = '@Url.Content("~/GanttChart/GetPrjNm_SelectMobByObjKy")';
+    var urlGetAllCodes = '@Url.Content("~/GanttChart/GetAllCodes")';
+    var urlGetPrjChartTyp = '@Url.Content("~/GanttChart/GetPrjChartTyp")';
+    var urlGetSelectProjectScheduleDetailsWithPaging = '@Url.Content("~/GanttChart/GetSelectProjectScheduleDetailsWithPaging")';
+    var urlGetGanttChartTotalRowNo = '@Url.Content("~/GanttChart/GetGanttChartTotalRowNo")';
+    var urlPrjSchRel_InsertUpdate = '@Url.Content("~/GanttChart/PrjSchRel_InsertUpdate")';
+    var urlSetMSImportJsonData = '@Url.Content("~/GanttChart/SetMSImportJsonData")';
+    var urlSetMSExcelImportJsonData = '@Url.Content("~/GanttChart/SetMSExcelImportJsonData")';
+    var urlIntegrirityCheck_IC = '@Url.Content("~/ExceptionHandling/IntegrirityCheck_IC_Select")';
+</script>
+
+<div style="overflow: hidden;">
+
+    @*@Html.Partial("~/Views/GanttChart/HtnCommonBtnSetTestForGantt.cshtml")*@
+
+    @*2014 10 11*@
+    @Html.Partial("~/Views/GanttChart/SaveAsSelect.cshtml")
+    @Html.Partial("~/Views/GanttChart/TaskEditDialog.cshtml")
+    @Html.Partial("~/Views/PMResource/PMResource.cshtml")
+    @Html.Partial("~/Views/GanttChart/PMFilterOption.cshtml")
+    @Html.Partial("~/Views/GanttChart/LnkBOQPrj.cshtml")
+    @Html.Partial("~/Views/GanttChart/ProjectVersionSelectWindow.cshtml")
+    @Html.Partial("~/Views/GanttChart/MSProjectImport.cshtml")
+    @Html.Partial("~/Views/GanttChart/PMExcelImport.cshtml")
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+    @Html.Partial("~/Views/HtnShared/IntegrirityCheck_IC.cshtml")
+    @Html.Partial("~/Views/GanttChart/MasterExcutePlanLinkWindow.cshtml")
+    @*----------------*@
+
+    <div style="margin-top: 5px;">
+        <table>
+            <tr>
+                <td>
+                    <ul id="menu-file-images"></ul>
+                </td>
+                <td>
+                    <ul id="menu-home-images"></ul>
+                </td>
+                <td>
+                    <ul id="menu-edit-images"></ul>
+                </td>
+                <td>
+                    <ul id="menu-critical-images"></ul>
+                </td>
+                <td>
+                    <ul id="menu-print-images"></ul>
+                </td>
+                <td>
+                    <button title="Save" class="k-button" id="save">
+                        <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/Save.jpg" />*@
+                    </button>
+                    <button title="Load Gantt Chart" id="SelectTask" class="k-button">
+                        <i class="fa fa-spinner  fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/LoadGantt.jpg" />*@
+                    </button>
+                    <button title="Filter Options" id="idFilterOptions" class="k-button">
+                        <i class="fa fa-filter fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/filter-search.png" />*@
+                    </button>
+                    <button title="Clear Filter" id="idClearFilter" class="k-button">
+                        <i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/filter-search-clear.png" />*@
+                    </button>
+                </td>
+                <td style="padding-left:0px!important;">
+                    <button title="Collapse Buttons" id="expandButtonsUp" class="k-button">
+                        <i class="fa fa-chevron-circle-up fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/up.jpg" />*@
+                    </button>
+                    <button title="Expand Buttons" id="expandButtonsDown" class="k-button">
+                        <i class="fa fa-chevron-circle-down fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/down.png" />*@
+                    </button>
+                </td>
+                <td style="padding-left:0px!important">
+                    <input placeholder="Task ID ..." id="taskIdFilterOnMainMenu" style="height: 38px;" type="text" class="k-textbox" />
+                </td>
+                <td>
+                    <input id="taskIdFilterOnMainMenuOption" placeholder="Filter Option ..." />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="dialogDiv" title="Custom Print Dialog"></div>
+    <script id="TaskTooltipTemplate" type="text/x-jquery-tmpl">
+        <div class='TaskTooltip'>
+            <div align='center'>Name: ${data.ActivityName}</div>
+            <div>
+                <span>StartTime: ${data.StartTime_M().toString(Date.CultureInfo.formatPatterns.shortDate)}</span>
+                <br />
+                <span>EndTime: ${AdjustedEndTimeAsString(data)}</span>
+            </div>
+        </div>
+    </script>
+    <div id="pagecontent">      
+        @*2014 10 11*@
+        <div id="timeline" style="border: 1px solid gray; background-color: white/*#E3F0F7*/; height: 110px;">
+            <table class="cellItems" style="margin-left: 100px; margin-top: 10px">
+                <tr>
+                    <td style="width: 100px;"> <label>ViewWidth:</label></td>
+                    <td style="width: 200px;">&nbsp;<input type="text" title="View Width has to be in the range 300 to 10000" value='2000' id='viewWidth' style="width: 55px; height: 17px;" /></td>
+                    <td style="width: 100px;"><label>ResizeToFit</label></td>
+                    <td style="width: 200px;">&nbsp;<input type="checkbox" id='resizeTofit' /></td>
+                    <td style="width: 100px;">&nbsp;</td>
+                    <td style="width: 200px;">&nbsp;</td>
+                    <td style="width: 150px;">
+                        <select class="k-widget k-menu" id="topAddCombo"></select>
+                    </td>
+                    <td rowspan="2" style="width: 150px;">
+                        <select class="k-widget k-menu" multiple="multiple" id="currentHeadersList"></select>
+                    </td>
+                    <td style="width: 150px;">
+                        <button class="k-button min-width-80" id="deleteSel">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px;"><label>StartTime:</label></td>
+                    <td style="width: 200px;">&nbsp;<input class="k-button" type="text" id='startTime' /></td>
+                    <td style="width: 100px;"><label>End Time:</label> </td>
+                    <td style="width: 200px;">&nbsp;<input class="k-button" type="text" id='endTime' /></td>
+                    <td style="width: 100px;"><label>AnchorTime:</label></td>
+                    <td style="width: 200px;">&nbsp;<input class="k-button" type="text" id='anchorTime' /></td>
+                    <td style="width: 150px;">
+                        <select class="k-widget k-menu" id="bottomAddCombo"></select>
+                    </td>
+                    <td style="width: 150px;">
+                        <input type="button" name="name" value="Close" class="k-button min-width-80" onclick="timelineClose()" style="padding: 7px;" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        @*-------------------*@
+        <div id="idButtonDiv" style="height: 45px; border: 1px solid #8F8D8D; background-color:rgb(49, 60, 117); padding:2px 5px; overflow: auto;">
+            <ul class="m-b-0">
+                <li><button title="SaveAs" class="k-button" id="SaveAs">
+                    <img src="~/Images/PMIcons/SaveAs.png" />
+                    </button>
+                </li>
+                <li>
+                <button title="Update Project" class="k-button" onclick="updateProject()">
+                    @*<img src="~/Images/PMIcons/UpdateProject.png" />*@
+                    <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+                </button>
+                @*<input title="Update Project" type="image" name="name" src="~/Images/PMIcons/UpdateProject.png" class="k-button" onclick="updateProject()" />*@
+                </li>
+                <li style="border-left:solid 2px #fff; padding-left:5px;">          
+                    <input title="Gantt Time Scale" type="image" name="name" src="~/Images/PMIcons/GanttTimeScale.jpg" class="k-button" onclick="headerChange()" />
+                </li>
+                <li><input title="BaseLine Chart" type="image" name="name" src="~/Images/PMIcons/BaseLine.jpg" id="IDBaseLineClick" class="k-button" onclick="IsBaseLineClick()" /></li>
+                
+                    <div title="Gantt Resource" class="k-button" style="height:38px; width:50px;">         
+                        @Html.ActionLink("Resourse Gantt", "GanttResourses", new { controller = "GanttChart" }, new { target = "blank", style = "background : url(../../../DevBL10/Images/PMIcons/GanttResource.png) no-repeat top left; display: block; width: 30px; height: 30px; text-indent: -9999px; " })
+                    </div>
+               
+                <div title="MS Project Import" id="idMSImport" class="k-button"  style="height:38px; width:50px;">  <img src="~/Images/PMIcons/MSImport.jpg" /></div>
+                <div title="MS Project Export" class="k-button" id="idMSExport"  style="height:38px; width:50px;"> <img src="~/Images/PMIcons/MSExport.jpg" /> </div>
+                <li>
+                    @*<input title="Reports" type="image" name="name" src="~/Images/PMIcons/PMReports.jpg" class="k-button" onclick="showReports()" />*@ 
+                    <input title="Reports" type="image" name="name" src="~/Images/PMIcons/PMReports.png" class="k-button" onclick="showReports()" /> 
+                </li>
+                
+                    <div title="Gantt Reports View" class="k-button" style="height:38px; width:50px;">
+                        @Html.ActionLink("Gantt View", "GanttPrint", new { controller = "GanttChart" }, new { target = "blank", style = "background : url(../../../DevBL10/Images/PMIcons/GanttView.png) no-repeat top left; display: block; width: 30px; height: 30px; text-indent: -9999px; " })
+                        @*@Html.ActionLink("Gantt View", "GanttPrint", new { controller = "GanttChart" }, new { target = "blank", style = "background : url(../../../DevBL10/Images/PMIcons/GanttView.jpg) no-repeat top left; display: block; width: 30px; height: 30px; text-indent: -9999px; " })*@
+                    </div>
+                
+                <li>
+                    <button title="Collapse Task" class="k-button" id="idCollapseButton">
+                        <i class="fa fa-compress fa-2x" aria-hidden="true"></i>
+                    </button>                   
+                    @*<input title="Collapse Task" type="image" name="name" src="~/Images/PMIcons/collapse.jpg" class="k-button" id="idCollapseButton" />*@
+                </li>
+                <li>
+                    <button title="Expand Task" class="k-button" id="idExpandButton" >
+                        <i class="fa fa-expand fa-2x" aria-hidden="true"></i>
+                    </button>
+                   
+                    @*<input title="Expand Task" type="image" name="name" src="~/Images/PMIcons/expand.jpg" class="k-button" id="idExpandButton" />*@
+                </li>
+                <li>
+                    <button  title="Keep This Order" class="k-button" id="idReNumberLiNoBtn" >
+                        <i class="fa fa-sort-amount-asc fa-2x" aria-hidden="true"></i>
+                    </button>
+                    @*<input title="Keep This Order" type="image" name="name" src="~/Images/PMIcons/reNumberLinoBtn.jpg" class="k-button" id="idReNumberLiNoBtn" />*@
+                </li>
+                <li style="border-left:solid 2px #fff; padding-left:5px;">
+                    <button title="Add Task" class="k-button color-green" id="addRow">
+                        <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                         @*<img src="~/Images/PMIcons/Add.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Insert NewItem As Sibling Below" class="k-button" id="InsertNewItemAsSiblingBelow"> 
+                        @*<i class="fa fa-level-down fa-2x" aria-hidden="true"></i>*@              
+                        <img src="~/Images/PMIcons/InsertItemAsSibling.jpg" />
+                    </button>
+                </li>
+                <li>
+                    <button title="Insert NewItem As ChildOf" class="k-button" id="InsertNewItemAsChildOf">
+                        @*<i class="fa fa-level-up fa-2x" aria-hidden="true"></i>*@
+                        <img src="~/Images/PMIcons/InsrtNewAsChild.jpg" />
+                    </button>
+                </li>
+                <li>
+                    <button title="Delete Task" class="k-button color-red" id="remove">
+                        <i class="fa fa-minus-circle fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/Delete.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Indent Task" class="k-button" id="indent">
+                        <i class="fa fa-indent fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/Indent.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Outdent Task" class="k-button" id="outdent">
+                        <i class="fa fa-outdent fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/Outdent.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Move Up Task" class="k-button" id="moveup">
+                        <i class="fa fa-arrow-circle-up fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/MoveUp.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Move Down Task" class="k-button" id="movedown">
+                        <i class="fa fa-arrow-circle-down fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/MoveDown.jpg" />*@
+                    </button>
+                </li>
+                <li>
+                    <button title="Export To JSON(Current Gantt data)" class="k-button" id="exportToJSON">
+                        <i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
+                        @*<img src="~/Images/PMIcons/ExportToJson.jpg" />*@
+                    </button>
+                </li>
+                <li style="border-left:solid 2px #fff; padding-left:5px;">
+                    <input title="Update Critical Paths" type="image" name="name" src="~/Images/PMIcons/UpdateCriticalPath.png" class="k-button" onclick="updateCriticalPaths()" />
+                    @*<input title="Update Critical Paths" type="image" name="name" src="~/Images/PMIcons/UpdateCriticalPath.jpg" class="k-button" onclick="updateCriticalPaths()" />*@
+                </li>
+                <li>
+                    <input title="Clear Critical Paths" type="image" name="name" src="~/Images/PMIcons/ClearCriticalPath.png" class="k-button" onclick="clearCriticalPaths()" />
+                    @*<input title="Clear Critical Paths" type="image" name="name" src="~/Images/PMIcons/ClearCriticalPath.jpg" class="k-button" onclick="clearCriticalPaths()" />*@
+                </li>
+            </ul>
+        </div>
+            @*<div id="idButtonDiv" style="height: 45px; border: 1px solid #8F8D8D; background-color:rgb(49, 60, 117); padding:2px 5px; overflow: auto;">
+                <button title="SaveAs"  class="k-button" id="SaveAs"><img src="~/Images/PMIcons/SaveAs.jpg" /></button>
+                <input  title="Update Project" type="image" name="name" src="~/Images/PMIcons/UpdateProject.png" class="k-button" onclick="updateProject()" />
+
+                &nbsp;|&nbsp;
+
+                <input title="Gantt Time Scale" type="image" name="name" src="~/Images/PMIcons/GanttTimeScale.jpg" class="k-button" onclick="headerChange()" />
+                <input title="BaseLine Chart" type="image" name="name" src="~/Images/PMIcons/BaseLine.jpg" id="IDBaseLineClick" class="k-button" onclick="IsBaseLineClick()" />
+                <div  class="k-button" title="Gantt Resource">
+                    @Html.ActionLink("Resourse Gantt", "GanttResourses", new { controller = "GanttChart" }, new { target = "blank", style = "background : url(../../../DevBL10/Images/PMIcons/GanttResource.jpg) no-repeat top left; display: block; width: 30px; height: 30px; text-indent: -9999px; " })
+                </div>
+                <div title="MS Project Import" class="k-button" id="idMSImport">
+                    <img src="~/Images/PMIcons/MSImport.jpg" />
+                </div>
+                <div title="MS Project Export" class="k-button" id="idMSExport">
+                    <img src="~/Images/PMIcons/MSExport.jpg" />
+                </div>
+                <input title="Reports" type="image" name="name" src="~/Images/PMIcons/PMReports.jpg" class="k-button" onclick="showReports()" />
+                <div class="k-button" title="Gantt Reports View">
+                    @Html.ActionLink("Gantt View", "GanttPrint", new { controller = "GanttChart" }, new { target = "blank", style = "background : url(../../../DevBL10/Images/PMIcons/GanttView.jpg) no-repeat top left; display: block; width: 30px; height: 30px; text-indent: -9999px; " })
+                </div>
+                <input title="Collapse Task" type="image" name="name" src="~/Images/PMIcons/collapse.jpg" class="k-button" id="idCollapseButton" />
+                <input title="Expand Task" type="image" name="name" src="~/Images/PMIcons/expand.jpg" class="k-button" id="idExpandButton" />
+                <input title="Keep This Order" type="image" name="name" src="~/Images/PMIcons/reNumberLinoBtn.jpg" class="k-button" id="idReNumberLiNoBtn" />
+                &nbsp;|&nbsp;
+                <button title="Add Task" class="k-button" id="addRow">
+                    <img src="~/Images/PMIcons/Add.jpg" />
+                </button>
+                <button title="Insert NewItem As Sibling Below" class="k-button" id="InsertNewItemAsSiblingBelow">
+                    <img src="~/Images/PMIcons/InsertItemAsSibling.jpg" />
+                </button>
+                <button title="Insert NewItem As ChildOf" class="k-button" id="InsertNewItemAsChildOf">
+                    <img src="~/Images/PMIcons/InsrtNewAsChild.jpg" />
+                </button>
+                <button title="Delete Task" class="k-button" id="remove">
+                    <img src="~/Images/PMIcons/Delete.jpg" />
+                </button>
+                <button title="Indent Task" class="k-button" id="indent">
+                    <img src="~/Images/PMIcons/Indent.jpg" />
+                </button>
+                <button title="Outdent Task" class="k-button" id="outdent">
+                    <img src="~/Images/PMIcons/Outdent.jpg" />
+                </button>
+                <button title="Move Up Task" class="k-button" id="moveup">
+                    <img src="~/Images/PMIcons/MoveUp.jpg" />
+                </button>
+                <button title="Move Down Task" class="k-button" id="movedown">
+                    <img src="~/Images/PMIcons/MoveDown.jpg" />
+                </button>
+                <button title="Export To JSON(Current Gantt data)" class="k-button" id="exportToJSON">
+                    <img src="~/Images/PMIcons/ExportToJson.jpg" />
+                </button>
+                &nbsp;|&nbsp;
+                <input title="Update Critical Paths" type="image" name="name" src="~/Images/PMIcons/UpdateCriticalPath.jpg" class="k-button" onclick="updateCriticalPaths()" />
+                <input title="Clear Critical Paths" type="image" name="name" src="~/Images/PMIcons/ClearCriticalPath.jpg" class="k-button" onclick="clearCriticalPaths()" />
+
+            </div>*@
+            <!-- Div that will be transformed into the gantt widget above.-->
+            <div id="gantt_container" style="height: 80%; width: 100%;">
+            </div>
+
+            <div id="idPager" style="margin-top:5px; height: 40px; float:right" align="right">
+                <table>
+                    <tr>
+
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <input class="k-textbox" style="width:60px;" type="text" id="idSliderPercentage" readonly="readonly" />
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+
+                        <td><div id="slider" style="float: left; margin-left:20px; margin-right:20px; margin-top: 5px; height: 04px; width: 600px;"></div></td>
+                        <td><button class="k-button" id="ganttPagingFirst"><<</button></td>
+                        <td><button class="k-button" id="ganttPagingPre"><</button></td>
+
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <input class="k-textbox" style="width:40px;" type="text" id="idPageNo" />
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+
+                        <td><button class="k-button" id="ganttPagingNxt">></button></td>
+                        <td><button class="k-button" id="ganttPagingLast">>></button></td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <select style="width:70px" id="idPageSize">
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="75">75</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
+                                <option value="1200">1200</option>
+                                <option value="1500">1500</option>
+                                <option value="1800">1800</option>
+                                <option value="2000">2000</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    <link href="~/Src/Styles/HtnStyles/GanttChart/GanttChart.css" rel="stylesheet" />
+
+    @*This section for Load Scripts*@
+
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/Function.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/RoundsTimesToDay.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/BaseLine.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/CriticalPath.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/GanttChartNewLook.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/GlobalVariable.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/LoadDataSource.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/LoadHoldReady.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/Schedule.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/GanttChartNewLook/TimeLine.js"></script>
+
+
+    <script src="~/Scripts/HtnScripts/GanttChart/GantPaging.js"></script>
+    <script src="~/Scripts/HtnScripts/GanttChart/LoadComboGanttChart.js"></script>
+    <!--for Mozilla Firefox scroll bar-->
+    <script src="~/Scripts/Scripts/enscroll-0.6.2.min.js"></script> 
+    <!-- End of column template definitions.-->
+    @*@Scripts.Render("~/bundles/kendo")
+        <script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>*@
+    @*<link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />*@
+
+    @Html.Partial("~/Views/GanttChart/LinqPrjctTypes.cshtml")
+    @Html.Partial("~/Views/GanttChart/NewProject.cshtml")
+
+    <script>
+        //This Script for hide the RadiantQ trail window :p
+        $(document).ready(function () {
+
+            var lcnClrPopupIntvl = window.setInterval(function () {
+                $('#gantt_container_GanttChart').next().next().hide();
+            }, 1);
+
+            setTimeout(function () {
+                window.clearInterval(lcnClrPopupIntvl);
+            }, 10000);
+
+            //$("#gantt_container").
+            setHeight();
+        });
+
+        function setHeight() {
+            //var height = $(window).height();
+            //$("#pagecontent").height(height - (210));
+
+            //$("#body").
+            $("#pagecontent").css({ "height": "95.5vh" });
+        }
+
+
+        $('#expandButtonsDown').on('click', function () {            
+            $("#pagecontent").css({ "height": "87vh" });
+            $(".ui-grid-body").css({ "height": "59vh" });          
+            $('#gantt_container_TopDivContainer').attr("style", "height: 69.5vh !important; position: relative; overflow: hidden;");           
+        });
+        $('#expandButtonsUp').on('click', function () {            
+            $("#pagecontent").css({ "height": "95.5vh" });
+            $(".ui-grid-body").css({ "height": "65.8vh" });
+            $('#gantt_container_TopDivContainer').attr("style", "height: 76.3vh !important; position: relative; overflow: hidden;");          
+        });
+
+    </script>
+</div>

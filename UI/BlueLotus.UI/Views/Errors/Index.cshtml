@@ -1,0 +1,68 @@
+﻿@*@Scripts.Render("~/bundles/kendo")*@
+@*<script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>*@
+
+<div id="errorMsgMainDiv" style="display: none">
+    <div id="errorMsgDiv">
+
+        <div id="errorHeader" style="font-size:medium">
+        </div>
+
+        <div style="margin-top: 5px; margin-bottom:5px; float: left; width: 670px; overflow-x: auto; height: 250px; " id="errorBody"></div>
+        <div style="margin-top: 5px; margin-bottom:5px; float: left; width: 670px; overflow-x: auto; height: 300px; " id="innerErrorBody"></div>
+
+        <div>
+            <button title="Cancel" id="idCancelError" class="k-button" style="height:40px;">Cancel</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ajaxError(function (evt, xhr) {
+        try {
+            var json = $.parseJSON(xhr.responseText);
+            try{
+                var jsonInner = $.parseJSON(json.errorMessage);
+            } catch (e) {
+                openErrorPopUp("Error Message", json.errorMessage, jsonInner.InnerException.ExceptionMessage, "Error ...!");
+            }           
+        } catch (e) {
+            //alert('something bad happened');
+            //openErrorPopUp("Error Message", "An error has occurred : " + e, "None", "Error ...!");
+        }
+    });
+
+    function openErrorPopUp(Hheader, Bbody, InnerMsg, Ttitle) {
+
+        $("#errorHeader").text(Hheader);
+        $("#errorBody").text(Bbody);
+
+        $("#errorMsgMainDiv").show().kendoWindow({
+            width: "800px",
+            height: "600px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: Ttitle//"Error PopUp"
+        });
+
+        $('#errorMsgMainDiv').data('kendoWindow').center().open();
+        $('.k-window-content.k-content').css('background', '#D9D9D9');
+        $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+        $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+    }
+
+    $('#idCancelError').click(function () {
+        $('#errorMsgMainDiv').data('kendoWindow').close();
+    });
+
+    // This is the code for Show the firebug error on popup
+    //window.onerror = function (msg, url, linenumber) {
+    //    alert('Error message: ' + msg + '\nURL: ' + url + '\nLine Number: ' + linenumber);
+    //    return true;
+    //}
+
+    //window.onerror = function () {
+    //    alert('An error has occurred!')
+    //    return true
+    //}
+</script>

@@ -1,0 +1,108 @@
+﻿
+<div id="PrjImage" style="display: none; overflow-y: hidden; overflow-x: hidden;">
+
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-6 control-icons" id="ButtonSetFind">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            @*<button class="control-button preview" onclick="SearchGRN()" data-tooltip="preview"> </button>
+            <button class="control-button selected" onclick="OkGRN()" data-tooltip="select"> </button>
+            <button class="control-button back" onclick="Clear()" data-tooltip="back"> </button>
+            <button class="control-button back" onclick="btnCalGRN()" data-tooltip="back"> </button>*@
+
+
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-12 col-sm-12">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div id="HdrSec1_FileImgLoad">
+                                <div class="col-md-2 col-sm-4">
+                                    <label id="HdrSec1_FileImgLoad_Lbl">Image Upload:</label>
+                                </div>
+                                <div class="col-md-1 col-sm-4">
+                                    <input id="HdrSec1_FileImgLoad_Val" type="file" name="image" class="img" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <br style="clear: both" />
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div id="imagePreview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+
+    </div>
+</div>
+
+
+<script>
+
+        $("#HdrSec1_FileImgLoad_Val").on("change", function () {
+            var files = !!this.files ? this.files : [];
+            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+            if (/^image/.test(files[0].type)) { // only image file
+                var reader = new FileReader(); // instance of the FileReader
+                reader.readAsDataURL(files[0]); // read the local file
+
+
+                //jQuery('#imagePreview').show();
+                //jQuery('#imagePreview')[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = jQuery(this).val();
+
+                reader.onloadend = function () { // set image data as background of div
+                    $("#imagePreview").empty();
+                    $("#imagePreview").css("background-image", "url(" + this.result + ")");
+
+
+                    if (typeof FormData == "undefined") {
+                        var data = [];
+                        var opmlFile = document.getElementById('files').files[0];
+                        data.push('opmlFile', document.getElementById('HdrSec1_FileImgLoad_Val').files[0]);
+                    }
+                    else {
+                        var data = new FormData();
+
+                        var opmlFile = document.getElementById('HdrSec1_FileImgLoad_Val').files[0];
+                        data.append("opmlFile", document.getElementById('HdrSec1_FileImgLoad_Val').files[0]);
+
+                        //var GridData = $("#grid").data("kendoGrid");
+
+                        // if (GridData.VersionNo != VersionNo && GridData.InsrtDt != InsrtDt) {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url:urlInsertFileswithpath, //'@Url.Content("~/ToDoProject/InsertFileswithpath")',
+                            data: data,
+                            dataType: "html",
+                            contentType: false,
+                            processData: false,
+                            enctype: "multipart/form-data",
+                            success: function (result) {
+
+                                if (result != "false") {
+                                    alert("Success");
+                                }
+                                else {
+                                    alert("Already Exist");
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        });
+
+
+
+</script>

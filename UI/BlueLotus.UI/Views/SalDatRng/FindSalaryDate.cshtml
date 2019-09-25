@@ -1,0 +1,91 @@
+﻿
+<div id="FindFormSalary" style="display: none; overflow-y: hidden; overflow-x: hidden;">
+
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-6 control-icons" id="ButtonSetFind">
+
+            <button class="control-button preview" onclick="SearchSalary()" data-tooltip="preview"> </button>
+            <button class="control-button import" onclick="OkSalary()" data-tooltip="select"> </button>
+            <button class="control-button cancel" onclick="Clear()" data-tooltip="clear filter"> </button>
+            <button class="control-button back" onclick="btnCalSalary()" data-tooltip="close"> </button>
+
+
+        </div>
+
+        <div id="FindSalary_HdrPart">
+            <div class="col-md-12 col-sm-12">
+                <div class="wr_formGroup">
+                  
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Code</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <div id="HdrPart_CmbCode_Cd" name="HdrPart_cmbCode_Nm"></div>
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <div id="HdrPart_CmbDes_Cd" name="HdrPart_CmbDes_Nm"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-1 col-sm-3">
+                                <label>Salary Date:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="SalaryDt" style="width:175px;" class="" data-role="datepicker" data-bind="value: ToDtSalary" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                                <label>Finalize Approval: </label>
+                            </div>
+                            <div class="col-md-2 col-sm-1 " style="margin-right:20px;">
+                                <input id="fAprSal" name="fAprSal" type="checkbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br style="clear:both" />
+        
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGridSalary"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlFindSalary = {
+        LoadSalaryGridFindView: '@Url.Content("~/SalDatRng/LoadSalaryGridFindView")',
+
+
+        @*GetCodelist: '@Url.Content("~/SalaryDate/GetCodelist")',*@
+
+        @*GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetGRNList: '@Url.Content("~/Transaction/GetGRNList")',
+        GetGridInvoiceDetail: '@Url.Content("~/Transaction/GetGridInvoiceDetail")',
+        GetInvoiceItemsDetail: '@Url.Content("~/Transaction/GetInvoiceItemsDetail")'*@
+    };
+
+    var urlFindFromSalaryGrid = {
+        GetHdrDetailFromGrid: '@Url.Content("~/SalDatRng/GetHdrDetailFromGrid")',
+        };
+
+    var urlFindSalaryHome = {
+        UpdateToDo: '@Url.Action("UpdateToDo","Home")',
+        InsertToDo: '@Url.Action("InsertToDo","Home")'
+    }
+</script>
+
+<script src="~/Scripts/HtnScripts/SalaryDate/PopUp/FindSalaryDate.js"></script>

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<h1>Clear Cache UI</h1>
+<div>
+    
+    <div class="k-content clearfix" id="filterCont">
+        <div id="ButtonSec1" class="col-md-9 col-sm-9">
+        </div>
+        
+        <div>
+
+            <div class="row" id="HdrSec1_ComCache">
+                <div class="col-md-12 col-sm-6 col-lg-12">
+                    <label id="HdrSec1_ComCache_lb1" font size="6" margin-right:150px;>Cache Combo List </label>
+                    <input id="HdrSec1_ComCache_Cd" style="width: 20%;" />
+                </div>
+                <button type="button" class="k-button" onclick="load()" value="" title="Post">Load Grid</button>
+                <button type="button" class="k-button" onclick="clearcach()" value="" title="Post">Clear Cache</button>
+                <button type="button" class="k-button" onclick="claerAllcach()" value="" title="Post">Clear All Cache</button>
+            </div>
+            @*<div class="row" id="HdrSec1_InpobjKy">
+                <div class="col-md-12 col-sm-6 col-lg-12" margin-left:250px;>
+                    <label id="HdrSec1_InpbjKy_lb1">ObjKy</label>
+                    <input type="text" id="HdrSec1_InpbjKy_Cd" style="width:15%" class="k-textbox" />
+                    <label id="HdrSec1_InpCky_lb2">Company Key</label>
+                    <input type="text" id="HdrSec1_InpCky_Nm" style="width:15%" class="k-textbox" />
+                </div>
+            </div>*@
+            <div>
+                <div id="CachGrid">
+                </div>
+            </div>
+
+        </div>
+        
+
+
+
+
+
+    </div>
+</div>
+
+
+<script src="~/Scripts/HtnScripts/ClearCache/Cache.js"></script>
+<script>
+    var GetCacheUrl = '@Url.Content("~/ClearCache/GetCachelist")';
+    var ClaerCacheUrl = '@Url.Content("~/ClearCache/ClearCachItem")';
+    var ClearAllCacheUrl = '@Url.Content("~/ClearCache/ClearAllCachItem")';
+    var GetCompanyDetails = '@Url.Content("~/ClearCache/GetLoginComanyDetails")';
+    var getall = '@Url.Content("~/ClearCache/getAllrecodes")'
+    
+</script>
+
+

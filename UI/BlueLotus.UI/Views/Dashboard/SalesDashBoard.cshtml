@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Sales DashBoard";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="HdrSec1" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+    <div class="form-group">
+        <div class="row">
+            @*<div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Location:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0"><input data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Nm" class="combo width-100" /></div>
+                    </div>
+                </div>*@
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6" style="padding-top:4px"><label>Date:</label></div>
+                    <div class="col-md-8 col-sm-6 p-l-0">
+                        <input id="HdrPart_Date_From" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6" style="padding-top:4px"><label>Date:</label></div>
+                    <div class="col-md-8 col-sm-6 p-l-0">
+                        <input id="HdrPart_Date_To" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Location:</label></div>
+                    <div class="col-md-8 col-sm-6 p-l-0"><input data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Nm" class="combo width-100" /></div>
+                </div>
+            </div>
+
+            @*<div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6" style="padding-top:4px">
+                        <label> To Date:</label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 p-l-0">
+                        @*<button type="button" class="navButton" onclick="preclick()" value="Day"><</button>*@
+            @*<input id="HdrPart_Date_To" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />*@
+            @*<button type="button" class="navButton" onclick="Nxtclick()" value="Day">></button>*@
+            @*</div>
+                    </div>
+                </div>*@
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <button type="button" class="button" onclick="Filter()" value="Day">Load</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-margin">
+    <div class="col-lg-6">
+        <div id="DetailGrid"></div>
+    </div>
+    <div class="col-lg-6">
+        <div id="DetailGrid2"></div>
+    </div>
+</div>
+<br />
+<div class="row no-margin">
+
+
+    <div class="col-lg-6">
+        <div id="Chart" ></div>
+    </div>
+    <div class="col-lg-6">
+        <div id="HourlyChart"></div>
+    </div>
+</div>
+
+
+<style>
+    #Chart{
+       height:50vh;
+    }
+
+     #HourlyChart{
+       height:50vh;
+    }
+
+     #SalesLine_Chart {
+        height: 38vh;
+    }
+    .button {
+        background-color: darkblue;
+        border-style: inset;
+        width: 90px;
+        height: 27px;
+        color: white;
+        font: bold;
+    }
+
+    .navButton {
+        background-color: darkblue;
+        border-style: inset;
+        width: 40px;
+        height: 26px;
+        color: white;
+        font: bold;
+    }
+
+    html, body {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .k-datetimepicker .k-picker-wrap .k-icon {
+        margin: 2px 3px;
+    }
+    #DetailGrid{
+        height: 29vh!important;
+    }
+    #DetailGrid .k-grid-content{
+        height: 21.2vh!important;
+    }
+      #DetailGrid2{
+        height: 29vh!important;
+    }
+    #DetailGrid2 .k-grid-content{
+        height: 21.2vh!important;
+    }
+    .k-grid tr td {
+        font-weight: 700;
+    }
+</style>
+
+<script>
+        var urlComboLoad = {
+            CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")'
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+
+        }
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+</script>
+
+<script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+        var urlDrillDashBoard = {
+            ProjectDashBoard: '@Url.Content("~/DashBoard/GetSalesItem")',
+            GetChildGrid: '@Url.Content("~/DashBoard/GetRelatedSalesItem")',
+            GetRelatedHourSalesItem: '@Url.Content("~/DashBoard/GetRelatedHourSalesItem")',
+            @*GetItmDetails: '@Url.Content("~/DrillDashBoard/GetItmDetails")',*@
+        };
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/DashBoard/SalesItemDashBoard.js"></script>

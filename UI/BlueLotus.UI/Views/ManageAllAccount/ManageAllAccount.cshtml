@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <style>
+        #Maingrid {
+	        height: 70vh!important;
+        }
+        #Maingrid .k-grid-content.k-auto-scrollable{
+	        height: 54vh!important;
+        }
+    </style>
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+
+<div>
+
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+        <div class="col-md-3 col-sm-3 pull-right">
+            <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top:10px; width: 100px;" />
+            <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top:10px; margin-left:10px; background-color:blue; color:white; ">NxtAprStrs</button>
+        </div>
+
+        @*<button class="control-button add" onclick="insertItem() " data-tooltip="Add row (NumberPad + Or Alt+N)"> </button>
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>*@
+    </div>
+    @*<br style="clear:both" />*@
+
+    <br style="clear: both" />
+
+    <div class="form-group">
+        <div class="row no-margin">
+            <div id="HdrSec1_InptAccCd">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_InptAccCd_Lbl">Account Code:</label>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <input id="HdrSec1_InptAccCd_Val" type="text" class="k-textbox" />
+                </div>
+            </div>
+            <div id="HdrSec1_InptAccNm">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_InptAccNm_Lbl">Account Name:</label>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <input id="HdrSec1_InptAccNm_Val" type="text" class="k-textbox" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br style="clear: both" />
+
+
+    <div class="col-md-12 col-sm-12">
+        <div id="Maingrid">
+        </div>
+        <div>@Html.Partial("~/Views/HtnShared/PaginationControl.cshtml")</div>
+        <div>
+            @Html.Partial("~/Views/ManageAllAccount/PopUpAdress.cshtml")
+        </div>
+        <div>
+            @Html.Partial("~/Views/ManageAllAccount/PopUpCredit.cshtml")
+        </div>
+        <div>
+            @Html.Partial("~/Views/ManageAllAccount/BankDetail.cshtml")
+        </div>
+    </div>
+</div>
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var ObjKy = "@(ViewBag.ObjKy)";
+    var UrlLoadGrid = '@Url.Content("~/ManageAllAccount/GetAccGrid")';
+    var UrlAccTyps = '@Url.Content("~/ManageAllAccount/AccTyps")';
+    var UrlCurrency = '@Url.Content("~/ManageAllAccount/CurrencyList")';
+    var UrlBuList = '@Url.Content("~/ManageAllAccount/BuList")';
+    var UrlParentAcc = '@Url.Content("~/ManageAllAccount/ParentAccount")';
+    var UrlAddressTyp = '@Url.Content("~/ManageAllAccount/AddressTyp")';
+    var UrlSethomeCurrency = '@Url.Content("~/ManageAllAccount/GetHomeCuencyDetails")';
+    var UrlDeleteRecord = '@Url.Content("~/ManageAllAccount/Delete")';
+    var UrlInsertUpdateAccMass = '@Url.Content("~/ManageAllAccount/AccMassInsertUpdate")';
+    var CdMasCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var CdMasNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var PageSize = 20;
+
+</script>
+<script src="~/Scripts/HtnScripts/AllAccounts/ManageAllAccountmain.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+      var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>

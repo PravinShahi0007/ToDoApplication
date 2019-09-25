@@ -1,0 +1,289 @@
+<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    #divSplitter{
+        min-height:74vh!important;
+    }
+</style>
+
+<div class="k-content clearfix" id="MainDiv_ItmMasCmpnPartial" style="font-size:11px;">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <button class="control-button save" onclick="ComSaveFunction()" data-tooltip="Save"> </button>
+        <button class="control-button delete" onclick="DeleteAllFromItmCmpn()" data-tooltip="Delete All Selected Row"> </button>
+        <button class="control-button analize" onclick="ShowRate()" data-tooltip="Get Rate"> </button>
+        <h4 id="HdrSec1_InptSeleItm" style="display:inline-block; margin-left:36%; margin-top:5px; font-weight:700;"></h4>
+        @*<button class="control-button cancel" onclick="ClearFunction()" data-tooltip="Cancel"> </button>*@
+    </div>
+
+        <div class="wr_formGroup col-lg-12 col-md-12" id="divSplitter">
+           
+            @*ItmMas Search Div*@
+            <div class="col-md-2 col-sm-2" id="ItmMasCmpnPartial_SS_Div">
+                <div style="min-height:520px">
+                    <div>
+                        <input style="width:100%;" placeholder="Item Name ..." id="HdrSec1_InptItmNm" type="text" class="k-textbox" />
+                    </div>
+                    <div style="min-height:300px" id="HdrSec1_ItmMasGrd"></div>
+                </div>
+            </div>
+
+            @*ItmMas Search Div*@
+
+            <!--====================new Start==================================== -->
+            <div class="" id="ItmCmpn_HdrSec2_Main">
+                <div id="HdrSec2" class="col-lg-12 col-md-12 col-sm-12 p-t-15" style="background-color:#dff1f3;" >
+                    <!-- Analysis Qty -->
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 p-l-0-lg">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12"><label id="HdrSec1_NmricAnlQty_Lbl">Analysis Qty:</label></div>
+                            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 p-l-0-lg">
+                                <input data-cpypst-blsmartcpypaste="AnlQty"  id="HdrSec1_NmricAnlQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Analysis Qty -->
+                    <!-- Location --> 
+                    <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12" id="HdrSec2_Loction">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12"><label id="HdrSec2_Loction_Lbl">Location:</label></div>
+                            <div class="col-lg-10 col-md-9 col-sm-6 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 p-r-0-lg p-l-0-lg">
+                                        <div id="HdrSec2_Loction_Cd" class="width-100"></div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-12 col-xs-12 p-l-0-lg">
+                                        <div id="HdrSec2_Loction_Nm" class="width-100"></div>
+                                    </div>
+                                </div>                                                             
+                            </div>
+                        </div>
+                    </div><!-- /Location --> 
+                    <!--Date-->
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 p-l-0-lg">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12"> <label>Date:</label> </div>
+                            <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+                                <input id="HdrSec1Date_Val" class="width-100"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Date-->
+                    <!-- Unit Cost-->
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 p-l-0-lg"> <label>Unit Cost:</label> </div>
+                            <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+                                <input id="HdrSec1_Rate_Val" readonly="readonly" style="text-align: right;" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Unit Cost-->
+                    <!-- Analysis Cost-->
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 p-l-0-lg"> <label>Analysis Cost:</label> </div>
+                            <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
+                                <input id="HdrSec1_AnalCost_Val" readonly="readonly" style="text-align: right;" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Analysis Cost-->
+                </div>
+
+                <div  class="" id="ChildHdrpart">
+                    <div class="col-lg-12 col-md-12 col-sm-12  wr_formGroup_grid" id="HdrSec1">
+                        <div class="row" >
+                            <!-- Item code -->
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="HdrSec1_CmbItm">
+                                <div class="row form-group">
+                                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12"> <label id="HdrSec1_CmbItm_Lbl">Item code:</label></div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-r-0-lg">
+                                        <div id="HdrSec1_CmbItm_Cd" data-cpypst-blsmartcpypaste="ItmCd" class="width-100"></div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-5 col-sm-6 col-xs-12 p-l-2-lg">
+                                        <div id="HdrSec1_CmbItm_Nm" data-cpypst-blsmartcpypaste="ItmNm" class="width-100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Item code -->
+                            <!-- Unit -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_CmbUnit">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_CmbUnit_Lbl">Unit:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <div data-cpypst-blsmartcpypaste="Unit" id="HdrSec1_CmbUnit_Cd" class="width-100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Unit -->
+                            <!-- ResReqSchTyp -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_CmbResReqSchTyp" style="display:none">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_CmbResReqSchTyp_Lbl">ResReqSchTyp:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <div data-cpypst-blsmartcpypaste="ResReqSchTyp" id="HdrSec1_CmbResReqSchTyp_Cd" class="width-100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /ResReqSchTyp -->
+                            <!-- ItmPrp -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_CmbItmPrp" style="display:none">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_CmbItmPrp_Lbl">ItmPrp:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><div data-cpypst-blsmartcpypaste="ItmPrp" id="HdrSec1_CmbItmPrp_CD" class="width-100"></div></div>
+                                </div>
+                            </div>
+                            <!-- /ItmPrp -->
+                            <!--Qty -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricQty">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricQty_Lbl">Qty:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="Qty" id="HdrSec1_NmricQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Qty -->
+                            <!-- Req-Qty -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricReqQty">
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricReqQty_Lbl">Req-Qty:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="Qty" id="HdrSec1_NmricReqQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/Req-Qty -->
+                            <!-- WstPer -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricWstPer">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricWstPer_Lbl">WstPer:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input data-cpypst-blsmartcpypaste="WstPer" id="HdrSec1_NmricWstPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /></div>
+                                </div>
+                            </div>
+                            <!--/WstPer -->
+                            <!--WstQty -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricWstQty">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmriWstQty_Lbl">WstQty:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="WstQty" id="HdrSec1_NmricWstQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/WstQty -->
+                            <!--LiNo -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricLiNo" style="display:none">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricLiNo_Lbl">LiNo:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"><input data-cpypst-blsmartcpypaste="HdrLiNo" id="HdrSec1_NmricLiNo_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /></div>
+                                </div>
+                            </div>
+                            <!--/LiNo -->
+                            <!--UsagPer -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricUsagPer" style="display:none">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricUsagPer_Lbl">UsagPer:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="UsagPer" id="HdrSec1_NmricUsagPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/UsagPer -->
+                            <!--TrnQty -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricTrnQty" style="display:none">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricTrnQty_Lbl">TrnQty:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="TrnQty" id="HdrSec1_NmricTrnQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/TrnQty -->
+                            <!-- CompFacPer -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="HdrSec1_NmricCompFacPer" style="display:none"> 
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_NmricCompFacPer_Lbl">CompFacPer:</label></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                                        <input data-cpypst-blsmartcpypaste="CompFacPer" id="HdrSec1_NmricCompFacPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/CompFacPer -->                         
+                            <!-- -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="row form-group">
+                                    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12"></div>
+                                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12"></div>
+                                </div>
+                            </div>
+                            <!--/ -->
+                            @*<div class="row col-md-12  wr_formGroup_grid" id="ChildHdrpart" style="width: 100%">
+                                <div class="form-group" style="width: 100%">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="row" id="HdrSec1_InptDes">
+                                            <div class="col-md-2 col-sm-3">
+                                                <label id="HdrSec1_InptDes_Lbl">Des:</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-8">
+                                                <input data-cpypst-blsmartcpypaste="HdrDes" id="HdrSec1_InptDes_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@                         
+                        </div>
+                    </div>
+
+                    <br style="clear: both" />
+                    <div class="row" id="ChildHdrpart">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <div id="ItmCmpnGrid"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!--====================new End==================================== -->
+
+        </div>
+   
+</div>
+<script>
+    var urlLocLoad = '@Url.Content("~/ComboLoad/Code_SelectMob")';
+    var urlLocNmLoad = '@Url.Content("~/ComboLoad/CdNm_SelectMob")';
+    var urlRecepieGetRate = '@Url.Content("~/CmpnBld/RecepieGetRate")';
+
+</script>

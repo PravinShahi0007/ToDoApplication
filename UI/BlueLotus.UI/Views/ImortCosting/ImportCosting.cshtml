@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction('TrnHdr');" title="Next State Action" style="height: 30px; margin-top: 5px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+        <br style="clear: both" />
+        <div class="col-md-12 col-sm-12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <label>Item :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-8 ">
+                            <input id="HdrSec1_CmbItem_Cd" />
+                            <input id="HdrSec1_CmbItem_Nm" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4" id="HdrSec1_NmricQty">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Quantity :</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="HdrSec1_NmricQty_Val" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4" id="HdrSec1_NmricTrnAmt">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Rate :</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input id="HdrSec1_NmricTrnAmt_Val" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div id="HdrGrd">
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <div id="DetailGrd">
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Transaction/FindInvoice.cshtml")
+</div>
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")',
+        IsAlwTrnUpdateApr_SelectWeb: '@Url.Content("~/Common/IsAlwTrnUpdateApr_SelectWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var UrlLoadGrid = '@Url.Content("~/ImortCosting/GetGridDetail")';
+    var UrlLoadDetailGrid = '@Url.Content("~/ImortCosting/GetDetailGridDetail")';
+    var URLsaveUpdate = '@Url.Content("~/ImortCosting/SaveUpdate")';
+    var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+    var urlDetailAccCode = '@Url.Content("~/Payment/DtlAccCode")';
+    var urlGetAccDoropNm = '@Url.Content("~/Payment/DtlAccName")';
+
+    var ItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var ItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+    var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        OrdNo_SelectMob: '@Url.Content("~/ComboLoad/OrdNo_SelectMob")',
+        OrdItmNo_SelectMob: '@Url.Content("~/ComboLoad/OrdItmNo_SelectMob")',
+    }
+
+
+</script>
+<script src="~/Scripts/HtnScripts/ImportCosting/ImportCosting.js"></script>
+<script src="~/Scripts/HtnScripts/ImportCosting/ImportCostingGrid.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+@*<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>*@
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+<script src="~/Scripts/HtnScripts/Transaction/ComboDataSource.js"></script>

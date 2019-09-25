@@ -1,0 +1,681 @@
+﻿<div id="ResourceAnalysisWinForChild" style="display: none">
+
+    <div id="SelectionCritarea" style="margin-left: 40px;">
+        <div style="height: 20px"></div>
+        <input placeholder="Item Code ..." id="code" type="text" style="width: 100px;" class="k-textbox" />
+        <input placeholder="Item Name ..." id="name" style="width: 200px;" type="text" class="k-textbox" />
+        <div style="margin-top: 10px;">
+            <input style="width: 50px;" id="btnload" type="button" value="Load" class="k-button" />
+            <input type="button" name="name" id="ItemCmpSave" value="Save" class="k-button" onclick="ItemCmpSave()" />
+            <input type="button" name="name" id="ItemCmpCancel" value="Cancel" class="k-button" onclick="ItemCmpCancel()" />
+        </div>
+    </div>
+    <div id="GridWin">
+        <div id="grid3" style="margin-top: 10px;height:250px;"></div>
+        <div id="btnGrid01" style="margin-top:5px;">
+            <div>
+                <input type="button" name="name" id="assignResrcChildGrid" value="Assign" class="k-button" onclick="AssignResrcToChild()" />
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // LoadGridView();
+        var h = $("#Option").height();
+        var height = ($(window).height()) - (112 + h);
+        $("#grid3").height(height);
+
+        $("#GridWin").show();
+        //$("#Grid2Win").show();
+        $("#Win").show();
+        // GetItmData();
+
+        LoadGridView3();
+        //$("#StartDate").width(140).kendoDatePicker({
+
+        //    format: "dd/MM/yyyy",
+        //    min: new Date(31, 2, 2009)
+        //});
+        //var todayDate = new Date();
+        //$('#StartDate').data("kendoDatePicker").value(todayDate);
+
+        //$("#StartDate").closest("span.k-datepicker").width(140);
+
+        $("#Dt").width(150).kendoDatePicker({
+
+            format: "dd/MM/yyyy",
+            min: new Date(31, 2, 2009)
+        });
+        $("#Dt").closest("span.k-datepicker").width(140);
+
+        $("#FinQty").kendoNumericTextBox({
+            min: 0,
+
+        });
+    });
+
+    //$('#name').bind('input', function () {
+    //    var grid = $("#grid3").data("kendoGrid");
+    //    if (grid) {
+    //        var dataSource = grid.dataSource;
+    //        var total = dataSource.data().length;
+
+    //        if (total > 0) {
+    //            $('#grid3').data("kendoGrid").dataSource.filter(null);
+    //            var grid = $("#grid3").data("kendoGrid");
+    //            grid.dataSource.data([]);
+    //            LoadGridView3();
+    //        } else {
+
+    //            LoadGridView3();
+    //        }
+    //        // grid.removeRow($(this));
+    //    }
+
+    //});
+
+    function ItemCmpCancel() {
+
+        $("#code").val("");
+        $("#name").val("");
+        $("#cmbItmTypCd").data("kendoComboBox").value("");
+        $("#cmbItmCat1Cd").data("kendoComboBox").value("");
+        $("#cmbItmCat2Cd").data("kendoComboBox").value("");
+        $("#cmbItmCat3Cd").data("kendoComboBox").value("");
+        LoadGridView3();
+        $('#ResourceAnalysisWinForChild').data('kendoWindow').close();
+
+    }
+
+    function AssignResrcToChild() {
+
+
+        //var todayDate = new Date();
+        //$('#StartDate').data("kendoDatePicker").value(todayDate);
+        try {
+            var parent = $("#grid3").data("kendoGrid");
+            var child = $("#grid1").data("kendoGrid");
+
+            var selectedDataItem = parent.dataItem(parent.select());
+            var ItemCd = selectedDataItem.ResCd;
+            if (selectedDataItem) {
+                var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+                if (AdrKy == 0 || AdrKy == null) {
+                    var AdrKy = 1;
+                }
+                var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+                if (FrmLocKy == 0 || FrmLocKy == null) {
+                    var FrmLocKy = 1;
+                }
+                var PrjKy = 1;
+                var Dt = $("#Date").val();
+                $.ajax({
+                    url: '@Url.Content("~/ItmTransfer/ItemsLookUpByItmCd")',
+                       dataType: "json",
+                       type: "POST",
+                       data: JSON.stringify({
+                           ConCd: "TrnTyp", OurCd: '@(ViewBag.MyString)', ItmCd: ItemCd,
+                           AdrKy: AdrKy,
+                           LocKy: FrmLocKy,
+                           PrjKy: PrjKy,
+                           Dt: Dt
+
+                       }),
+                       contentType: 'application/json; charset=utf-8',
+                       success: function (list) {
+
+
+                           if (list.length == 0 || list.length == null) {
+                               alert("Cannot find the item !");
+
+                           } else {
+
+                               for (i = 0; i < list.length; i++) {
+
+                                   var itmcd = list[0].ItmCd;
+                                   var itmky = list[0].ItmKy;
+                                   var itmnm = list[0].ItmNm;
+                                   var Rate = list[0].Rate;
+                                   var UnitKy = list[0].UnitKy;
+                                   var Unit = list[0].Unit;
+                                   var DisPer = list[0].Disper;
+                                   var VAT = list[0].VAT;
+                                   var NBT = list[0].NBT;
+                                   var SVAT = list[0].SVAT;
+                                   var WHT = list[0].WHT;
+
+
+
+                                   //changeKyAndNm(itmcd, itmky, itmnm, e.model);
+                                   setPropToChild(itmcd, itmky, itmnm, Unit, UnitKy, Rate, DisPer, VAT, NBT, SVAT, WHT);
+
+
+
+                                   //cellIndex = 6;
+
+
+                                   //var cellCloseT = $('#grid1').data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+
+                                   //$('#grid1').data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+                                 //  var dataItem = $(e.currentTarget)
+                                 //var grid = $("#grid1").data("kendoGrid"),
+                                 //  model = grid.dataItem(this.element.closest("tr"));
+                                 //  var grid = $("#grid1").data("kendoGrid");
+                                 //  grid.dataSource.read();
+                                 //  var count = grid.dataSource.total();
+                                 //  setRowLine(count, model);
+
+                               }
+                           }
+
+                       },
+                       error: function (e) {
+
+                       }
+
+                   });
+                //child.dataSource.add({
+                //    ItmKy: selectedDataItem.ItmKy,
+                //    ItmCd: selectedDataItem.ResCd,
+                //    ItmNm: selectedDataItem.ResNm,
+                //    Unit: selectedDataItem.Unit,
+                //   UnitKy: selectedDataItem.UnitKy
+
+                //});
+
+               // setrateforselectedItem(ItemKey);// this is the way to saveChanges
+                $('#ResourceAnalysisWinForChild').data('kendoWindow').close();
+                //child.dataSource.add(selectedDataItem);
+            }
+            else {
+                alert("Selecte the Resource ... !")
+            }
+        } catch (exception) {
+            alert("Select Resource Detail Level ... 1")
+        }
+
+
+
+    }
+
+    function setRow(count, model) {
+        var exchangeRow = model.set("LiNo", count - 1);
+
+    }
+
+    function DeleteRow() {
+          var grid = $("#grid1").data("kendoGrid");
+            if (grid) {
+                var dataSource = grid.dataSource;
+                var total = dataSource.data().length;
+                dataSource.remove(total-1);
+               // grid.removeRow($(this));
+            }
+
+
+    }
+
+    function setPropToChild(itmcd, itmky, itmnm, Unit, UnitKy, Rate, DisPer, VAT, NBT, SVAT, WHT) {
+     // DeleteRow();
+        // $("#grid1").data("kendoGrid").removeRow();
+        //var grid = $("#grid1").data("kendoGrid");
+        //var dataSource = grid.dataSource;
+        //var total = dataSource.data().length-1;
+        var child = $("#grid1").data("kendoGrid");
+        var dataSource = child.dataSource;
+        var total = dataSource.data().length;
+
+        child.dataSource.read();
+        var count = child.dataSource.total();
+        var lineNo = count;
+
+        dataSource.insert(total - 1, {
+            ItmTrnKy: 0,
+            LiNo:lineNo,
+          ItmCd: itmcd,
+        ItmKy:itmky,
+        ItmNm:itmnm,
+        TrnRate:Rate,
+        DisPer: DisPer,
+       UnitKy:UnitKy,
+        Unit:Unit,
+       VAT:VAT,
+        NBT:NBT,
+        SVAT:SVAT,
+        WHT:WHT
+
+
+
+        });
+
+
+        var grid = $("#grid1").data("kendoGrid");
+     //  var currentSelection = grid.select();
+     //   rowIndex = [];
+     // //  currentSelection.each(function () {
+     //       var currentRowIndex = $(this).closest("tr").index();
+     //       //if (selectedRows.indexOf(currentRowIndex) == -1) {
+     //           rowIndex.push(currentRowIndex + 1);
+     //      // }
+     ////   })
+        rowIndex = (count-1);
+        cellIndex =6;
+
+
+        var cellCloseT = $('#grid1').data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+
+        $('#grid1').data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+    }
+
+
+    function setrateforselectedItem(ItemKey) {
+       var LocKy = $("#cmbLocationForSlS").data('kendoComboBox').value();
+            if (LocKy == 0 || LocKy == null) {
+                var LocKy = 1;
+            }
+            //var BUKy = $("#cmbBUId").data('kendoComboBox').value();
+            //if (BUKy == 0 || BUKy == null) {
+            var BUKy = 1;
+            //}
+            //var PrjKy = $("#cmbFmPrjId").data('kendoComboBox').value();
+            // if (PrjKy == 0 || PrjKy == null) {
+            var PrjKy = 1;
+            //}
+            var AccKy = $("#cmbAdr").data('kendoComboBox').value();
+            if (AccKy == 0 || AccKy == null) {
+                var AccKy = 1;
+            }
+            var AdrKy = $("#cmbAccAdr").data('kendoComboBox').text();
+            if (AdrKy == 0 || AdrKy == null) {
+                var AdrKy = 1;
+            }
+            //var AccKy = $("#cmbAccId").data('kendoComboBox').value();
+            // if (AccKy == 0 || AccKy == null) {
+            //var AccKy = 1;
+            // }
+
+            var Dt = $("#Date").val();
+
+
+            //var ConCd = "TrnTyp";
+            //var OurCd=""
+
+            $.ajax({
+                url: "@Url.Content("~/ItmMas/GetControlConKy")",
+                    data: JSON.stringify({
+                        GrpConCd: "ItmRate", ConCd: "ItmSale"
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (list) {
+                        for (i = 0; i < list.length; i++)
+                            var ControlConKy = list[0].ControlConKy;
+                        $.ajax({
+                            url: "@Url.Content("~/ItmTransfer/GetRate")",
+                data: JSON.stringify({
+
+                    ItmKy: ItmKy,
+                    LocKy: LocKy,
+                    BUKy: BUKy,
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    AccKy: AccKy,
+                    Dt: Dt,
+                    ControlConKy: ControlConKy
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var Rate = data[0].Rate;
+                        var exchangeTest = model.set("TrnRate", Rate);
+
+
+
+                    }
+
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+
+        },
+                    error: function (e) {
+                        return false;
+                    }
+                });
+
+
+
+
+}
+
+
+
+
+    var urlsendDataSaveChanges = '@Url.Content("~/ItmMas/InsertItemComponent")';
+    function ItemCmpSave() {
+
+        //var gridData = $("#grid2").data().kendoGrid.dataSource.view();
+        var grid = $("#grid3").data("kendoGrid");
+        var FinQty = $("#FinQty").val();
+        var ItmCmpnKy = $("#ItmCmpnKy").val();
+        var FinItmKy = $("#FinItmKy").val();
+        var StartDate = $("#Dt").val();
+
+        //var year = StartDate.year;
+        //var month = StartDate.getMonth+1; // months are zero indexed
+        //var date = StartDate.getDate();
+
+        //  var datestring = month + "/" + date + "/" + year;
+        //alert(datestring);
+        //  var StartDate= $("#StartDate").data('kendoDatePicker').value();
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                //this record is new
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        //this records are deleted
+        var deletedRecords = [];
+        for (var i = 0; i < grid.dataSource._destroyed.length; i++) {
+            deletedRecords.push(grid.dataSource._destroyed[i].toJSON());
+        }
+
+        $.ajax({
+            url: urlsendDataSaveChanges, //"/PMResource/sendDataSaveChanges",
+            data: {
+                updatedOrders: kendo.stringify(updatedRecords), deletedOrders: kendo.stringify(deletedRecords), newOrders: kendo.stringify(newRecords), FinQty: FinQty,
+                ItmCmpnKy: ItmCmpnKy, FinItmKy: FinItmKy, StartDate: StartDate
+            },
+            type: "POST",
+            error: function () {
+                //Handle the server errors using the approach from the previous example
+            },
+            success: function () {
+                alert("Saved Successfully");
+
+                grid.dataSource._destroyed = [];
+                //refresh the grid - optional
+                grid.dataSource.read();
+                LoadHdr(FinItmKy);
+            }
+        })
+
+
+     @*   var gridData = $("#grid2").data().kendoGrid.dataSource.view();
+        for (i = 0; i < gridData.length; i++) {
+            if (gridData[i].ItmCmpnDetKy > 0) {
+
+                $.ajax({
+                    url: "@Url.Content("~/ItmMas/InsertItemComponent")",
+                    data: JSON.stringify({
+                        gridData: gridData
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (data) {
+                        alert("successfully saved !");
+
+
+                    },
+                    error: function (e) {
+                        return false;
+                    }
+                });
+            }
+
+    }*@
+
+    }
+
+
+
+
+        //function createFilterRow() {
+        //    var grid = $('#grid1').data('kendoGrid');
+
+        //    var oldRow = grid.thead.find("#grid1-filter-row");
+        //    var th;
+
+        //    if (typeof oldRow === 'object') {
+        //        th = oldRow.find('th');
+        //        oldRow.remove();
+        //    }
+
+        //    var filterRow = "<tr id='grid1-filter-row'>";
+
+        //    for (var i = 0; i < grid.dataSource.group().length; i++) {
+        //        filterRow += '<th class="k-group-cell k-header">&nbsp;</th>';
+        //    }
+        //    for (var i = 0; i < th.length; i++) {
+        //        filterRow += th[i].outerHTML;
+        //    }
+        //    for (var i = 0; i < grid.columns.length; i++) {
+        //        if (!grid.columns[i].hidden)
+        //            filterRow += '<td><input type=\'search\' id=\'grid1Id-filter-column-' + grid.columns[i].field + '\' style=\'width:98%\' /></td>';
+        //    }
+        //    filterRow += '</tr>';
+        //    grid.thead.append(filterRow);
+
+        //    var searchField;
+        //    for (i = 0; i < grid.columns.length; i++) {
+        //        if (!grid.columns[i].hidden) {
+        //            searchField = $('#grid1Id-filter-column-' + grid.columns[i].field);
+        //            searchField.change({ index: i }, function (e) {
+        //                var grid = $('#grid1').data('kendoGrid');
+        //                updateSearchFilters(grid, grid.columns[e.data.index].field, 'startswith', this.value);
+        //            });
+        //        }
+        //    }
+        //}
+
+        //function updateSearchFilters(grid, field, operator, value) {
+        //    var newFilter = { field: field, operator: operator, value: value };
+        //    var dataSource = grid.dataSource;
+        //    var filters = null;
+        //    if (dataSource.filter() != null) {
+        //        filters = dataSource.filter().filters;
+        //    }
+        //    if (filters == null) {
+        //        filters = [newFilter];
+        //    }
+        //    else {
+        //        var isNew = true;
+        //        var index = 0;
+        //        for (index = 0; index < filters.length; index++) {
+        //            if (filters[index].field == field) {
+        //                isNew = false;
+        //                break;
+        //            }
+        //        }
+        //        if (isNew) {
+        //            filters.push(newFilter);
+        //        }
+        //        else {
+        //            //alert(value);
+        //            if (value == '')
+        //                filters.splice(index, 1);
+        //                //delete filters[index];
+        //            else
+        //                filters[index] = newFilter;
+        //        }
+        //    }
+        //    dataSource.filter(filters);
+        //}
+
+
+
+
+        function LoadGridView3() {
+
+            //$('#grid3').data("kendoGrid").dataSource.filter(null);
+            //var grid = $("#grid3").data("kendoGrid");
+            //grid.dataSource.data([]);
+
+            var gridTaskdataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: '@Url.Action("ResourceForItmAloc_Select", "ItmMas")',
+                    dataType: "json",
+
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'list': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>emp
+                    }
+                    if (operation == "read") {
+                        return ({
+                            'ItmCd': ($("#code").val()) ? $("#code").val() : 1,
+                            'ItmNm': ($("#name").val()) ? $("#name").val() : 1,
+                            ItmTypKy: ($("#cmbItmTypCd").data("kendoComboBox").value()) ? $("#cmbItmTypCd").data("kendoComboBox").value() : 1,
+                            ItmCat1Ky: ($("#cmbItmCat1Cd").data("kendoComboBox").value()) ? $("#cmbItmCat1Cd").data("kendoComboBox").value() : 1,
+                            ItmCat2Ky: ($("#cmbItmCat2Cd").data("kendoComboBox").value()) ? $("#cmbItmCat2Cd").data("kendoComboBox").value() : 1,
+                            ItmCat3Ky: ($("#cmbItmCat3Cd").data("kendoComboBox").value()) ? $("#cmbItmCat3Cd").data("kendoComboBox").value() : 1,
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 15,
+
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        ItmKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        LiNo: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+                        ResCd: { editable: true, nullable: false, validation: { required: true }, validation: { required: true }, type: "string" },
+                        ResNm: { editable: true, nullable: true, type: "string" },
+                        Unit: { editable: true, nullable: true },
+                        UnitKy: { editable: true, nullable: true, type: "number" },
+                        ItmTypCd: { editable: true, nullable: true },
+
+
+                    }
+                }
+            }
+        });
+
+            $("#grid3").kendoGrid({
+                dataSource: gridTaskdataSource,
+                autobind: true,
+                height: 250,
+                navigatable: true,
+
+                selectable: "row",
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+                columnMenu: true,
+                filterable: true,
+                columns: [
+                        { field: "ItmKy", title: "Ref #", width: "30px", hidden: true },
+                          { field: "LiNo", title: "Ref #", width: "30px" },
+                          { field: "ResCd", title: "Item Cd", width: "30px" },
+                        { field: "ResNm", title: "Item Nm", width: "30px", width: "100px" },
+                         { field: "Unit", title: "Unit", width: "30px", format: "{0:N2}" },
+                          { field: "UnitKy", width: "30px", hidden: true },
+                       { field: "ItmTypCd", width: "20px" },
+                ],
+
+                resizable: true,
+
+                dataBinding: function () {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+                dataBound: GridOnDataBound,
+                editable: true
+            });
+        //  createFilterRow();
+
+        }
+
+        function GridOnDataBound(arg) {
+        }
+
+        function GridOnDataBinding(arg) {
+            record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+        }
+
+        function GridOnChange(arg) {
+        }
+        //function LoadCombo() {
+        //    $("#Loc").kendoComboBox({
+        //        dataValueField: "AdrKy",
+        //        dataTextField: "AdrNm",
+        //        dataSource: PersonDataSource(),
+
+        //        filter: "contains",
+        //        suggest: true,
+        //        placeholder: "Select a name..",
+
+
+        //    });
+        //    $("#Loc").parent().css('width', "200px");
+        //}
+
+        $("#btnload").click(function () {
+            //PrjKy= 1, PrcsDetKy= 1, PrcsDetCmpnKy= 1;
+            //ItmCd= ($("#code").val()) ? $("#code").val() = 1;
+            //ItmNm= ($("#name").val()) ? $("#name").val() = 1;
+            //ItmTypKy= ($("#cmbItmTypCd").data("kendoComboBox").value()) ? $("#cmbItmTypCd").data("kendoComboBox").value() : 1;
+            //ItmCat1Ky= ($("#cmbItmCat1Cd").data("kendoComboBox").value()) ? $("#cmbItmCat1Cd").data("kendoComboBox").value() : 1;
+            //ItmCat2Ky=($("#cmbItmCat2Cd").data("kendoComboBox").value()) ? $("#cmbItmCat2Cd").data("kendoComboBox").value() : 1;
+            //ItmCat3Ky= ($("#cmbItmCat3Cd").data("kendoComboBox").value()) ? $("#cmbItmCat3Cd").data("kendoComboBox").value() : 1;
+            //ItmCat4Ky= ($("#cmbItmCat4Cd").data("kendoComboBox").value()) ? $("#cmbItmCat4Cd").data("kendoComboBox").value() : 1;
+            //ItmCat5Ky= ($("#cmbItmCat5Cd").data("kendoComboBox").value() != null) ? $("#cmbItmCat5Cd").data("kendoComboBox").value() : 1;
+            //ItmCat6Ky= ($("#cmbItmCat6Cd").data("kendoComboBox").value() != null) ? $("#cmbItmCat6Cd").data("kendoComboBox").value() : 1;
+            $("#GridWin").show();
+            var grid = $("#grid3").data("kendoGrid");
+            if (grid) {
+                var dataSource = grid.dataSource;
+                var total = dataSource.data().length;
+
+                if (total > 0) {
+                    $('#grid3').data("kendoGrid").dataSource.filter(null);
+                    var grid = $("#grid3").data("kendoGrid");
+                    grid.dataSource.data([]);
+                    LoadGridView3();
+                } else {
+
+                    LoadGridView3();
+                }
+                // grid.removeRow($(this));
+            }
+
+            //   LoadCombo();
+        });
+
+
+</script>

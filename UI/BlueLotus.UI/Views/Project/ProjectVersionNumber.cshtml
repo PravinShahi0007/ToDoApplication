@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/Scripts/HtnScripts/ProjectEntry/layOutStyle.css" type="text/css" />
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="row">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+            </div>
+        </div>
+        <div>
+            <!-- Schedule Date  -->
+            <div class="row form-group" id="HdrSec2_DatVouDate">
+                <div class="col-md-2 col-sm-6 col-xs-12"><label id="HdrSec2_DatVouDate_Lbl">Schedule Date</label></div>
+                <div class="col-md-2 col-sm-6 col-xs-12"><input id="HdrSec2_DatVouDate_Val" data-cpypst-blsmartcpypaste="Vou_Date" /></div>
+            </div>
+            <!-- /Schedule Date  -->
+            <!-- Project  -->
+            <div class="row no-padding form-group" id="HdrSec2_CmbPrj">
+                <div class="col-md-2 col-sm-12 col-xs-12"><label id="HdrSec2_CmbPrj_Lbl">Project </label></div>
+                <div class="col-md-4 col-sm-5 col-xs-12 p-r-0-lg"><input id="HdrSec2_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg"><input id="HdrSec2_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+            </div>
+            <!-- /Project  -->
+           
+            <!-- Version Number  -->
+            <div class="row form-group" id="HdrSec2_InptDocNo">
+                <div class="col-md-2 col-sm-6 col-xs-12"><label id="HdrSec2_InptDocNo_Lbl">Version Number</label></div>
+                <div class="col-md-7 col-sm-6 col-xs-12"><input placeholder="Version No" id="HdrSec2_InptDocNo_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="DocNo" /></div>
+            </div>
+            <!-- /Version Number  -->
+            <div class="row">
+                <!-- /isAct  -->
+                <div class="col-md-5 col-sm-12">
+                    <div class="row" id="HdrSec2_Chkbox_isAct">
+                        <div class="col-md-3 col-sm-5">
+                            <label id="HdrSec2_Chkbox_isAct_Lbl">isAct</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <div class="onoffswitch margin-auto">
+                                <input type="checkbox" id="HdrSec2_Chkbox_isAct_Val" name="onoffswitch" class="onoffswitch-checkbox" checked="checked">
+                                <label class="onoffswitch-label m-b-0" for="HdrSec2_Chkbox_isAct_Val">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /isAct  -->
+            </div>
+            <div class="row">
+                <!-- /isApr  -->
+                <div class="col-md-5 col-sm-12">
+                    <div class="row" id="HdrSec2_Chkbox_isApr">
+                        <div class="col-md-3 col-sm-5">
+                            <label id="HdrSec2_Chkbox_isApr_Lbl">isAct</label>
+                        </div>
+                        <div class="col-md-5 col-sm-7">
+                            <div class="onoffswitch margin-auto">
+                                <input type="checkbox" id="HdrSec2_Chkbox_isApr_Val" name="onoffswitch" class="onoffswitch-checkbox" checked="checked">
+                                <label class="onoffswitch-label m-b-0" for="HdrSec2_Chkbox_isApr_Val">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /isApr  -->
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+<div class="col-md-12 col-sm-12 p-r-0-lg m-b-sm-500">
+    <div id="PmtRcprGrd">
+    </div>
+
+    <script id="command-template-payment" type="text/x-kendo-template">
+        <a class="k-button k-grid-evenselect">X</a>
+    </script>
+</div>
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Project/ProjectVersionNumberFindForm.cshtml")
+</div>
+<script>
+    var urlHrdSelected = '@Url.Content("~/Project/ProjectVersionNumberHdrSelect")';
+    var urlDetailSelected= '@Url.Content("~/Project/ProjectVersionNumberDetailSelect")';
+    var urlInsertDetail = '@Url.Content("~/Project/ProjectVersionNumberInsert")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        PrjTaskLocPrKy: '@(ViewBag.PrjTaskLocKy)',
+        PrjKy:'@(ViewBag.PrjKy)'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var urlComboLoad = {
+        PrjID_SelectMob: '@Url.Content("~/ComboLoadV2/PrjID_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoadV2/Code_SelectMob")'
+    }
+
+     var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+    }
+</script>
+<script src="~/Scripts/HtnScripts/ObjMasV2/ObjMasCommonFunctions.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/ProjectVersionNo/LoadCombo.js"></script>
+<script src="~/Scripts/HtnScripts/ProjectVersionNo/Save.js"></script>
+<script src="~/Scripts/HtnScripts/ProjectVersionNo/ProjectVersionNoGrid.js"></script>

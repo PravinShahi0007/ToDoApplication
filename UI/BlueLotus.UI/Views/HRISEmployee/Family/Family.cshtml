@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Family";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+            <div id="">
+                <div>
+                    @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+                </div>
+                <div>
+                    @Html.Partial("~/Views/HRISEmployee/EmpGetDet.cshtml")
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="wr_formGroup">
+                        <div>
+                            @Html.Partial("~/Views/HRISEmployee/AdrMasEntry.cshtml")
+                        </div>
+                        <div>
+                            @Html.Partial("~/Views/HRISEmployee/AdrMasAdrEntry.cshtml")
+                        </div>
+                        <div>
+                            @Html.Partial("~/Views/HRISEmployee/AdrMasExtEntry.cshtml")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="familyDetailGrid">
+        </div>
+    </div>
+</div>
+
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var urlInsertFmlyDet = '@Url.Content("~/HRISEmployee/HRISInsertFmlyDet")'; //HRISInsertFmlyHdr
+    var UrlGetEmpFamilyDet = '@Url.Content("~/HRISEmployee/GetEmpFamilyDet")';
+</script>
+
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/family.js"></script>
+

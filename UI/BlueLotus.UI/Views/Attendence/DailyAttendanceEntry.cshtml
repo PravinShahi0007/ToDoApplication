@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "DailyAttendanceEntry";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div style="height:40px;" class="k-content clearfix" id="filterCont">
+    @*<button class="control-button add" onclick="insertItemforItmMas() " title="Add"> </button>*@
+    <button class="control-button save" id="btnSave" onclick="Save()" title="Save"></button>
+    <button class="control-button cancel" id="btnCancel" onclick="Cancel()" title="Cancel"></button>
+</div>
+
+<br style="clear: both" />
+
+
+<div id="HdrSec1" style="margin-top:10px;margin-left:30px;margin-right:30px;">
+    <div class="col-md-12  col-sm-12">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNo_lbl">Employee No:</label>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_CmbEmpNo_cd" class="combo" />
+                    </div>
+
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNm_lbl" >Employee Name:</label>
+                    </div>
+                    <div class="col-md-1 col-sm-4 " style="margin-left:40px">
+                        <input id="HdrSec1_CmbEmpNm_Nm" class="combo" />
+                    </div>
+                </div>
+            </div>
+            <br style="clear: both" />
+
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrSec1_DatPicRevDate">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_DatPicRevDate_Lbl">Attendance Date:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4">
+                            <input id="HdrSec1_DatPicAttDt_Val"
+                                   style="width:100%;"
+                                   class=""
+                                   data-role="datepicker"
+                                   data-bind="value: HdrSec1_DatPicAttDt_Val" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear: both" />
+            <br style="clear: both" />
+
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrSec1_CmbPrj">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_CmbPrj_lbl">Project:</label>
+                        </div>
+
+                        <div class="col-md-2 col-sm-4 ">
+                            <input id="HdrSec1_CmbPrj_Nm" class="combo" style="width:100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear: both" />
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrSec1_CmbTask">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_CmbTask_lbl">Task:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4 ">
+                            <input id="HdrSec1_CmbTask_Nm" class="combo" style="width:100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear: both" />
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrSec1_CmbBU">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_CmbBU_lbl">BU:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4 ">
+                            <input id="HdrSec1_CmbBU_Nm" class="combo" style="width:100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear: both" />
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_TmPicIn_lbl">In Time:</label>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_TmPicIn_val" />
+                    </div>
+
+                    <div class="col-md-1 col-sm-4">
+                        <label id="HdrSec1_chkPrvDt_lbl">Previous Day:</label>
+                    </div>
+                    <div class="col-md-1 col-sm-4 ">
+                        <input id="HdrSec1_chkPrvDt_val" type="checkbox" />
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_TmPicOut_lbl">Out Time:</label>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_TmPicOut_val" />
+                    </div>
+
+                    <div class="col-md-1 col-sm-4">
+                        <label id="HdrSec1_chkNxtDt_lbl">Next Day:</label>
+                    </div>
+                    <div class="col-md-1 col-sm-4 ">
+                        <input id="HdrSec1_chkNxtDt_val" type="checkbox" />
+                    </div>
+
+                </div>
+            </div>
+            <br style="clear: both" />
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_InptAddMin_lbl">Additional Min:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptAddMin_Val" type="text" class="k-textbox" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_InptDedMin_lbl">Deduction Min:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptDedMin_Val" type="text" class="k-textbox" />
+                    </div>
+
+                </div>
+            </div>
+            <br style="clear: both" />
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbBU_lbl">Description:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <input id="HdrSec1_InptDesc_Val" type="text" class="k-textbox" />
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.Partial("~/Views/Attendence/PartialAttendanceFind.cshtml")
+</div>
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+
+
+</script>
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+
+<script>
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+
+    var urlGetProjectNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlTransactionGetTaskList = '@Url.Content("~/Transaction/GetTaskList")';
+
+    var urlAttendance_InsertUpdateweb = "@Url.Content("~/Attendence/Attendance_InsertUpdateweb")";
+    var urlAttendance_SearchSelectweb = '@Url.Action("Attendance_SearchSelectweb", "Attendence")';
+
+    var urlEmpMas = {
+        Employee_LookUp_Web: '@Url.Content("~/OTEntry/GetEmployee")',
+        
+    };
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/Attendence/DailyAttendanceEntry.js"></script>

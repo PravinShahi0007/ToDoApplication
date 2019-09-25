@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "Gantt Resourses";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+}
+@Scripts.Render("~/bundles/jquery")
+
+<link href="~/Src/Styles/jQuery.ui.themes/base/jquery.ui.all.css" rel="stylesheet" />
+<link href="~/Src/Styles/jQuery.ui.themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Src/Styles/jQuery.ui.themes/base/jquery.ui.theme.css" rel="stylesheet" />
+<link href="~/Src/Styles/External/Jquery.ui.grid/jquery.ui.grid.css" rel="stylesheet" />
+<link href="~/Src/Styles/External/Jquery.contextmenu/jquery.contextMenu.css" rel="stylesheet" />
+<link href="~/Src/Styles/radiantq.gantt.default.css" rel="stylesheet" />
+<script src="~/Src/Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery-ui-1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery.layout-latest.min.js"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery.tmpl.js"></script>
+<script src="~/Src/Scripts/JQGrid/jquery.ui.grid.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/jquery.i18n.properties-min-1.0.9.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/Utils/date.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/EditExtenstion.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/jquery.contextMenu.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/ganttPrintDialog.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/html2canvas.js" type="text/javascript"></script>
+<script src='~/Src/Scripts/RadiantQ-jQuery.Gantt.4.5.trial.min.js' type='text/javascript'></script>
+<script src="~/Scripts/JSFiles/jquery.tmplPlus.js" type="text/javascript"></script>
+<script src="~/Scripts/js/jquery-ui.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/js2xml.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/FileSaver.js"></script>
+<script src="~/Scripts/JSFiles/TaskEditingDialog.js"></script>
+
+<body>
+
+    <!-- 2014/11/09 -->
+    <div id="timeline" style="border: 1px solid gray; height: 7%; background-color: aliceblue; margin-bottom: 2px;">
+        <table style="border-collapse: separate; font-size: 13px; font-family: 'verdana';">
+            <tr>
+                <td>Resource Leveling:</td>
+                <td>
+                    &nbsp;
+                    <button id="levelResources" class="k-button">Level Resources</button>
+                </td>
+                <td>Include Completing Tasks:</td>
+                <td>&nbsp;<input type="checkbox" checked="checked" id='chxIncludeCompleteingTasks' /></td>
+                <td>Start leveling at:</td>
+                <td>&nbsp;<input type="text" style="height:25px" class="k-button" id='levelStartTime' /></td>
+                <td>
+                    &nbsp;
+                    <button id="reset" class="k-button">Reset to Today</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="pagecontent" style="height: 510px;">
+
+        <div id="gantt_container" style="height: 50%;">
+        </div>
+        <div id="flexyGantt_container1" style="height: 50%;">
+        </div>
+    </div>
+
+    <!-- This table contains the column definitions for the table on the left of the gantt. -->
+    <table id="ganttTable">
+        <thead>
+            <tr>
+                <th style="width: 20px;" data-template="#idcolumn-tmpl">ID</th>
+                <th style="width: 35px;" data-editor="taskidTextBox" data-property="DataSource.PrcsID" data-template="#prcsidcolumn-tmpl">TaskID</th>
+                <th style="width: 200px;" data-editor="expandableTextBox" data-property="ActivityName" data-template="#namecolumn-tmpl">Task Name</th>
+                <th style="width: 45px;" data-type="number" data-editor-options='{"min":0, "max": 100}' data-property="DataSource.Qty" data-editor="spinner" data-template="#qtycolumn-tmpl">Qty</th>
+                <th style="width: 65px;" data-property="StartTime" data-type="string" data-editor="stringPicker" data-template="#startTimecolumn-tmpl">StartTime</th>
+                <th style="width: 65px;" data-property="EndTime" data-type="string" data-editor="stringPicker" data-template="#endTimecolumn-tmpl">End Time</th>
+                <th style="width: 110px;" data-property="Effort" data-type="TimeSpan" data-editor="durationPicker" data-template="#effortcolumn-tmpl">Effort</th>
+                <th style="width: 80px;" data-type="number" data-editor-options='{"min":0, "max": 100}' data-property="ProgressPercent" data-editor="spinner" data-template="#progresscolumn-tmpl">Progress</th>
+                <th style="width: 110px;" data-property="Assignments" data-editor="resourcePicker" data-template="#resourcecolumn-tmpl" data-type="Collection">Resource</th>
+                <th style="width: 110px;" data-property="PredecessorIndexString" data-template="#predecessorIndices-tmpl">PredecessorIndices</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <table id="flexyTable">
+        <thead>
+            <tr>
+                <th data-editor="FGExpandableTextBox" data-template="#FGnamecolumn-tmpl">Resouces Name</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <!-- This table contains the column definitions for the table on the left of the gantt1. -->
+    <!-- Beginning of Grid Column template definitions for the table on the left. -->
+    <!--  templateCallBack is defined in EditExtension.js-->
+    <script id="idcolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-idCol">
+            </div>
+        </td>
+
+    </script>
+    <script id="namecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div>
+                <div class="rq-grid-nameCol">
+                </div>
+            </div>
+        </td>
+    </script>
+    <script id="startTimecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-startTimeCol">
+            </div>
+        </td>
+    </script>
+    <script id="endTimecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-endTimeCol">
+            </div>
+        </td>
+    </script>
+
+    <script id="effortcolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-effortCol">
+            </div>
+        </td>
+    </script>
+
+    <script id="progresscolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-progressCol">
+            </div>
+        </td>
+    </script>
+    <script id="predecessorIndices-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-predecessorIndicesCol">
+            </div>
+        </td>
+    </script>
+    <script id="resourcecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-resourceCol">
+            </div>
+        </td>
+    </script>
+    <script id="prcsidcolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-prcsidCol">
+            </div>
+        </td>
+    </script>
+    <script id="qtycolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-qtyCol">
+            </div>
+        </td>
+    </script>
+    <script id="FGnamecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-nameCol">
+            </div>
+        </td>
+    </script>
+
+    <!--The template for the custom tooltip. -->
+    <script id="TaskTooltipTemplate" type="text/x-jquery-tmpl">
+        <div class='TaskTooltip'>
+            <div align='center'>Name: ${nameConverter()}</div>
+            <div>
+                <span>
+                    StartTime : ${startTimeTooltipConverter()}
+                </span></br>
+                <span>
+                    EndTime : ${endTimeTooltipConverter()}
+                </span>
+            </div>
+        </div>
+    </script>
+    <!-- End of column template definitions.-->
+    <div id="dialog-form" style="height: auto !important; min-width: 490px;" title="Edit Task">
+        <div style="display: none" id="info">Start must earlier then End.</div>
+        <label>Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+        <input type="text" name="name" id="name" class="k-button" /><br />
+        <label>StartTime&nbsp;:</label>
+        <input type="text" name="StartTime" id="StartTime" class="k-button" />
+        <label>EndDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</label>
+        <input type="text" name="EndDate" id="EndDate" class="k-button" /><br />
+        <label>Progress&nbsp;&nbsp;&nbsp;:</label>
+        <input type="text" name="Progress" id="Progress" class="k-button" />
+        <label>Predecessor :</label>
+        <input type="text" name="Predecessor" id="Predecessor" class="k-button" /><br />
+        <br />
+        <label style="margin-top: 15px;">
+            <h3>Resource Info</h3>
+        </label>
+        <div id="Resource" style="width: 95%;"></div>
+    </div>
+</body>
+
+<script>
+    var urlGetSelectProjectScheduleDetailsFrmResGant = '@Url.Content("~/GanttChart/GetSelectProjectScheduleDetailsFrmResGant")';
+    var urlResourceDetails_Select = '@Url.Content("~/GanttChart/ResourceDetails_Select")';
+</script>
+
+<link href="~/Src/Styles/HtnStyles/GanttChart/GanttResourse.css" rel="stylesheet" />
+<script src="~/Scripts/HtnScripts/GanttChart/GanttResourse.js"></script> 

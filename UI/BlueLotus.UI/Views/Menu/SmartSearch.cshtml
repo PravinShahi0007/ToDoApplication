@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "SmartSearch";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @*<h2>Smart Search</h2>*@
+            
+                <div id="SmatSerachGrid_Div" style="display:block">
+                    <div id="btnSmatSerachGridDynamicGrid"></div>
+                    <div id="SmatSerachGridDynamic">
+                        @Html.Partial("~/Views/Shared/_SmartMenuGrid.cshtml")
+                    </div>
+                </div>         
+        </div>
+  
+<script>
+    $(document).ready(function () {
+
+        function findDataItem(objKy) {
+
+            try {
+                //Refer from : http://jsfiddle.net/RZwQ2/
+
+                var theGrid = $("#SmartMenugrid").data("kendoGrid");
+                var dataItem = $("#SmartMenugrid").data("kendoGrid").dataSource.get(objKy);
+                //get grid datasource
+                var ds = theGrid.dataSource;
+                /*
+                //copy the datasource
+                var fakeDS = $.extend({}, ds);
+                //pagesize 10 gazillion, requery
+                fakeDS.query({
+                    pageSize: 10000
+                });
+                fakeDS.filter(ds.filter());
+                fakeDS.sort(ds.sort());
+                //var index = fakeDS.indexOf(dataItem); --this doesn't work, objects aren't equal
+                var view = fakeDS._view;
+                */
+                var view = kendo.data.Query.process(ds.data(), {
+                    filter: ds.filter(),
+                    sort: ds.sort()
+                }).data;
+
+                var index = -1;
+                for (var x = 0; x < view.length; x++) {
+                    if (view[x].ObjKy == dataItem.ObjKy) {
+                        index = x;
+                        break;
+                    }
+                }
+
+                if (index === -1) {
+                    return;
+                }
+
+                var page = Math.floor(index / theGrid.dataSource.pageSize());
+                var targetIndex = index - (page * theGrid.dataSource.pageSize()) + 1;
+                //page is 1-based index
+                theGrid.dataSource.page(++page);
+                //grid wants a html element. tr:eq(x) by itself searches in the first grid!
+                //var row = $("#SmartMenugrid").find("tr:eq(" + targetIndex + ")");
+                var row = $("#SmartMenugrid").data("kendoGrid").tbody.find("tr[data-uid='" + dataItem.uid + "']");
+                theGrid.select(row);
+
+                //alert("Found it at Page: " + page + "       index: " + dataItem.uid);
+            } catch (ex) { }
+            
+
+        }
+
+        function processTable(data, idField, foreignKey, rootLevel) {
+            var hash = {};
+
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                var id = item[idField];
+                var parentId = item[foreignKey];
+
+                hash[id] = hash[id] || [];
+                hash[parentId] = hash[parentId] || [];
+
+                item.items = hash[id];
+                hash[parentId].push(item);
+            }
+
+            return hash[rootLevel];
+        }
+    })
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/MenuOpenCommon.js"></script>

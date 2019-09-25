@@ -1,0 +1,137 @@
+﻿<div id="LnkBOQPrjMainDiv" style="display: none">
+    <div id="LnkBOQPrjDiv">
+
+        <table>
+            <tr>
+                <td width="100px;"><label>BOQ : </label></td>
+                <td width="100px;"><label>Project : </label></td>                
+            </tr>
+            <tr>
+                <td><div id="loadBOQCombo" class="k-combobox" /></td>
+                <td><div id="loadPrjCombo" class="k-combobox" /></td>
+                <td><button title="Link" id="idLink" class="k-button">Link</button></td>
+                <td><button title="Cancel" id="idCancel" class="k-button">Cancel</button></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<script>
+
+    var isLoadBOQCombo = false;
+    var isLoadPrjCombo = false;
+
+    var urlGetTypKy = '@Url.Content("~/HtnShared/GetTypKy")';
+    var urlBOQ_Lookup = '@Url.Content("~/GanttChart/BOQ_Lookup")';
+    var urlProjects_Lookup = '@Url.Content("~/GanttChart/Projects_Lookup")';
+    var urlLnkBOQPrj_Insert = '@Url.Content("~/GanttChart/LnkBOQPrj_Insert")';
+
+    function openLnkBOQPrjWindow() {
+
+        if (isLoadBOQCombo == false) {
+            loadBOQ_LookupCombo();
+            isLoadBOQCombo = true;
+        }
+
+        if (isLoadPrjCombo == false) {
+            loadProject_LookupCombo();
+            isLoadPrjCombo = true;
+        }
+
+
+        $("#LnkBOQPrjMainDiv").show().kendoWindow({
+            width: "465px",
+            height: "90px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: "Link BOQ with Project"
+        });
+
+        $('#LnkBOQPrjMainDiv').data('kendoWindow').center().open();
+        $('.k-window-content.k-content').css('background', '#D9D9D9');
+        $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+        $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+    }
+
+    function loadBOQ_LookupCombo() {
+        $.ajax({
+            type: "GET",
+            url: urlGetTypKy,
+            dataType: "json",
+            data: { OurCd: "boq" },
+            async: false,
+            success: function (globalTypKy) {
+
+                var dsBOQ_LookupCombo = new kendo.data.DataSource(
+                {
+                    transport: {
+                        read: {
+                            url: urlBOQ_Lookup,
+                            data: { BOQTypKy: globalTypKy },
+                            dataType: "json"
+                        }
+                    }
+                });
+
+                $("#loadBOQCombo").kendoComboBox({
+                    dataValueField: "BOQKy",
+                    dataTextField: "DocNo",
+                    dataSource: dsBOQ_LookupCombo,
+                    filter: "contains",
+                    suggest: true,
+                    placeholder: "Select Boq ..."
+                });
+                $("#loadBOQCombo").parent().css('width', "150px");
+
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function loadProject_LookupCombo() {
+        var dsProjects_Lookup = new kendo.data.DataSource(
+                {
+                    transport: {
+                        read: {
+                            url: urlProjects_Lookup,
+                            data: {},
+                            dataType: "json"
+                        }
+                    }
+                });
+
+        $("#loadPrjCombo").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjID",
+            dataSource: dsProjects_Lookup,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select project ..."
+        });
+        $("#loadPrjCombo").parent().css('width', "150px");
+    }
+
+    $('#idCancel').click(function () {
+        $('#LnkBOQPrjMainDiv').data('kendoWindow').close();
+    });
+
+    $('#idLink').click(function () {
+        $.ajax({
+            type: "GET",
+            url: urlLnkBOQPrj_Insert,
+            dataType: "json",
+            data: {
+                BOQKy: ($("#loadBOQCombo").data("kendoComboBox").value()) ? $("#loadBOQCombo").data("kendoComboBox").value() : 1,
+                PrjKy: ($("#loadPrjCombo").data("kendoComboBox").value()) ? $("#loadPrjCombo").data("kendoComboBox").value() : 1
+            },
+            async: false,
+            success: function (result) {
+                if (result == true) {
+                    alert("BOQ and Project Linked .. !");
+                }
+                $.holdReady(false);
+            }
+        });
+    });
+</script>

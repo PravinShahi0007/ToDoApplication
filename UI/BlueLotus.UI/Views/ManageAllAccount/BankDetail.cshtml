@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "BankDetail";
+}
+
+<div id="PopUpBankDetails" style="display: none">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <button class="control-button back" onclick="closeBankDetails()" data-tooltip="back"> </button>
+        <button class="control-button add" onclick="CheckToAddBank()" data-tooltip="add"> </button>
+        <button class="control-button save" onclick="BankDetailsSave()" data-tooltip="save"> </button>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div id="HdrPart">
+            <div class="col-md-6 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <input name="BankAccKy" id="BankAccKy" readonly="readonly" type="hidden"/>
+                            <div class="col-md-5 col-sm-6">
+                                <label>Account Code:</label>
+                            </div>
+                            <div class="col-md-5 col-sm-8 ">
+                                <input type="text" name="BankAccCd" id="BankAccCd" readonly="readonly" class="k-textbox"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6">
+                                <label>Account Name:</label>
+                            </div>
+                            <div class="col-md-5 col-sm-8 ">
+                                <input type="text" name="BankAccNm" id="BankAccNm" readonly="readonly" class="k-textbox" />
+                            </div>
+                        </div>
+       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div id="PopUpBank"></div>
+
+    </div>
+</div>
+    <script src="~/Scripts/HtnScripts/AllAccounts/BankDetails.js"></script>
+    <script>
+
+        var UrlBankDetailSelect = '@Url.Content("~/ManageAllAccount/BankDetailsSelect")';
+        var UrlBankName = '@Url.Content("~/Payment/BankName")';
+        var UrlBranchName = '@Url.Content("~/Payment/BranchCode")';
+        var UrlBankDetailsInsert = '@Url.Content("~/ManageAllAccount/BankDetailsInsert")';
+        var BankDetailsUpdate = '@Url.Content("~/ManageAllAccount/BankDetailsUpdate")';
+
+
+    </script>

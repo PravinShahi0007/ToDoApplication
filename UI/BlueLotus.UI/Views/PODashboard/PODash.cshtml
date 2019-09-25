@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "PODash";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<style>
+    .orange{
+        background-color:orange;
+         color:white;
+        text-align:center;
+        border-radius:5px;
+    }
+    .green{
+        background-color:green;
+        color:white;
+        text-align:center;
+        border-radius:5px;
+        
+    }
+</style>
+<div id="HdrSec1" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="col-md-4 col-sm-6 col-xs-12"><label id="HdrSec1_InptDocNo_Lbl">Project Name:</label></div>
+                <div class="col-md-8 col-sm-6 col-xs-12 p-l-0-lg"> <input placeholder="Search By Project Name" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox width-100" /> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row no-margin">
+    <div class="col-lg-12">
+        <div id="PODashGrid" style="margin-top:15px;"></div>
+    </div>
+</div>
+
+<script id="command-template-Action" type="text/x-kendo-template">
+    <a class="k-button k-grid-Actionselect">Action</a>
+</script>
+<script>
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+
+        }
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+</script>
+
+<script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+        var urlPODashBoard = {
+            PODashBoard: '@Url.Content("~/PODashboard/GetDetails")',
+            SearchByPrj: '@Url.Content("~/PODashboard/SearchDetails")'
+            @*GetItmKy: '@Url.Content("~/DrillDashBoard/GetItmKy")',
+            GetItmDetails: '@Url.Content("~/DrillDashBoard/GetItmDetails")',*@
+        };
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/DashBoard/PODashboard.js"></script>

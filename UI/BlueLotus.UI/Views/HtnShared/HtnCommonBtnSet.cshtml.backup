@@ -1,0 +1,518 @@
+﻿<style>
+    #cmnBtnSetDiv div button { /* You Can Name it what you want*/
+        margin-top: 2px;
+        margin-bottom: 2px;
+        margin-left: 2px;
+        margin-right: 2px;
+        height: 30px;
+    }
+
+    #btnSetIconOnly button { /* You Can Name it what you want*/
+        margin-top: 2px;
+        margin-bottom:2px;
+        margin-left: 2px;
+        margin-right:2px;
+
+        height:30px;
+        width:30px;
+    }
+</style>
+@*Down the line need to get the data from database : for cra\eate dynamiccally*@
+@*function add(type) {
+    //Create an input type dynamically.
+    var element = document.createElement("input");
+    //Assign different attributes to the element.
+    element.type = type;
+    element.value = type; // Really? You want the default value to be the type string?
+    element.name = type;  // And the name too?
+    element.onclick = function() { // Note this is a function
+        alert("blabla");
+    };
+
+    var foo = document.getElementById("fooBar");
+    //Append the element in page (in span).
+    foo.appendChild(element);
+}*@
+<div>
+    <div id="cmnBtnSetDiv">
+        <div style="margin-top: 1px; background-color:deepskyblue">
+            <div id="btnSetIconOnly" style="background-color:black;">
+                <div id="idFile" style="display:inline-flexbox; background-color:lightskyblue;">
+                    <button class="k-button" title="Open" id="htnComBtnOpen"></button>
+                    <button class="k-button" title="Load" id="htnComBtnLoad"></button>
+                    <button class="k-button" title="New Form" id="htnComBtnNew_Form"></button>
+                    <button class="k-button" title="Add" id="htnComBtnAdd"></button>
+                    <button class="k-button" title="Edit" id="htnComBtnEdit"></button>
+                    <button class="k-button" title="Save" id="htnComBtnSave"></button>
+                    <button class="k-button" title="Save As" id="htnComBtnSave_as"></button>
+                    <button class="k-button" title="Save Changes" id="htnComBtnSave_Changes"></button>
+                    <button class="k-button" title="Save And New" id="htnComBtnSave_And_New"></button>
+                    <button class="k-button" title="Delete" id="htnComBtnDelete"></button>
+                    <button class="k-button" title="Cancel" id="htnComBtnCancel"></button>
+                    <button class="k-button" title="Refresh" id="htnComBtnRefresh"></button>
+                    <button class="k-button" title="Ok" id="htnComBtnOk"></button>
+                @*</div>
+                <div id="idFilter" style="display: inline-block; background-color: lightskyblue; height: 34px;">*@
+                    <button class="k-button" title="Calculater" id="htnComBtnCal"></button>
+                    <button class="k-button" title="Setting" id="htnComBtnSetting"></button>
+                    <button class="k-button" title="Menu" id="htnComBtnMenu"></button>
+                    <button class="k-button" title="Smart Menu" id="htnComBtnsSmart_Menu"></button>
+                    <button class="k-button" title="Analize" id="htnComBtnAnalize"></button>
+                    <button class="k-button" title="Find" id="htnComBtnFind"></button>
+                    <button class="k-button" title="Search" id="htnComBtnSearch"></button>
+                    <button class="k-button" title="Clear" id="htnComBtnClear"></button>
+                    <button class="k-button" title="Filter" id="htnComBtnFilter"></button>
+                    <button class="k-button" title="Filter Clear" id="htnComBtnFilter_Clear"></button>
+                @*</div>
+                <div id="idHome" style="display: inline-block; background-color: lightskyblue; height: 34px;">*@
+                    <button class="k-button" title="Update" id="htnComBtnUpdate"></button>
+                    <button class="k-button" title="Attach" id="htnComBtnAttach"></button>
+                    <button class="k-button" title="Import" id="htnComBtnImport"></button>
+                    <button class="k-button" title="Export" id="htnComBtnExport"></button>
+                    <button class="k-button" title="Print" id="htnComBtnPrint"></button>
+                    <button class="k-button" title="Preview" id="htnComBtnPreview"></button>
+                    <button class="k-button" title="Upload" id="htnComBtnUpload"></button>
+                    <button class="k-button" title="Download" id="htnComBtnDownload"></button>
+                    <button class="k-button" title="Audio Record" id="htnComBtnAudio_Record"></button>
+                    <button class="k-button" title="Video Record" id="htnComBtnVideo_Record"></button>
+                @*</div>
+                <div id="idMenu" style="display: inline-block; background-color: lightskyblue; height: 34px;">*@
+                    <button class="k-button" title="Pin" id="htnComBtnPin"></button>
+                    <button class="k-button" title="Mark" id="htnComBtnMark"></button>
+                    <button class="k-button" title="Process" id="htnComBtnProcess"></button>
+                    <button class="k-button" title="Todo" id="htnComBtnTodo"></button>
+                    <button class="k-button" title="Bar Chart" id="htnComBtnBar_Chart"></button>
+                    <button class="k-button" title="Pie Chart" id="htnComBtnPie_Chart"></button>
+                @*</div>
+                <div id="idLogin" style="display: inline-block; background-color: lightskyblue; height: 34px;">*@
+                    <button class="k-button" title="Back" id="htnComBtnBack"></button>
+                    <button class="k-button" title="Close" id="htnComBtnClose"></button>
+                    <button class="k-button" title="Help" id="htnComBtnHelp"></button>
+                    <button class="k-button" title="Exit" id="htnComBtnExit"></button>
+                    <button class="k-button" title="Change Password" id="htnComBtnChange_Pass"></button>
+                    <button class="k-button" title="Login" id="htnComBtnLogin"></button>
+                    <button class="k-button" title="Logout" id="htnComBtnLogout"></button>
+                </div>
+            </div>
+
+            <div id="btnSetIconWithName">
+                <div id="idFile" style="display: inline-flexbox; background-color: deepskyblue; ">
+                    <button class="k-button" title="Open" id="mhtnComBtnOpen">Open</button>
+                    <button class="k-button" title="Load" id="mhtnComBtnLoad">Load</button>
+                    <button class="k-button" title="New Form" id="mhtnComBtnNew_Form">New Form</button>
+                    <button class="k-button" title="Add" id="mhtnComBtnAdd">Add</button>
+                    <button class="k-button" title="Edit" id="mhtnComBtnEdit">Edit</button>
+                    <button class="k-button" title="Save" id="mhtnComBtnSave">Save</button>
+                    <button class="k-button" title="Save As" id="mhtnComBtnSave_as">Save as</button>
+                    <button class="k-button" title="Save Changes" id="mhtnComBtnSave_Changes">Save changes</button>
+                    <button class="k-button" title="Save And New" id="mhtnComBtnSave_And_New">Save & new</button>
+                    <button class="k-button" title="Delete" id="mhtnComBtnDelete">Delete</button>
+                    <button class="k-button" title="Cancel" id="mhtnComBtnCancel">Cancel</button>
+                    <button class="k-button" title="Refresh" id="mhtnComBtnRefresh">Refresh</button>
+                    <button class="k-button" title="Ok" id="mhtnComBtnOk">Ok</button>
+                @*</div>
+                <div id="idFilter" style="display: inline-flexbox; background-color: lightskyblue;">*@
+                    <button class="k-button" title="Calculater" id="mhtnComBtnCal">Cal</button>
+                    <button class="k-button" title="Setting" id="mhtnComBtnSetting">Sett</button>
+                    <button class="k-button" title="Menu" id="mhtnComBtnMenu">Menu</button>
+                    <button class="k-button" title="Smart Menu" id="mhtnComBtnsSmart_Menu">S-menu</button>
+                    <button class="k-button" title="Analize" id="mhtnComBtnAnalize">Analize</button>
+                    <button class="k-button" title="Find" id="mhtnComBtnFind">Find</button>
+                    <button class="k-button" title="Search" id="mhtnComBtnSearch">Search</button>
+                    <button class="k-button" title="Clear" id="mhtnComBtnClear">Clear</button>
+                    <button class="k-button" title="Filter" id="mhtnComBtnFilter">Filter</button>
+                    <button class="k-button" title="Filter Clear" id="mhtnComBtnFilter_Clear">Fil-Clear</button>
+                @*</div>
+                <div id="idHome" style="display: inline-flexbox; background-color: deepskyblue; ">*@
+                    <button class="k-button" title="Update" id="mhtnComBtnUpdate">Update</button>
+                    <button class="k-button" title="Attach" id="mhtnComBtnAttach">Attach</button>
+                    <button class="k-button" title="Import" id="mhtnComBtnImport">Import</button>
+                    <button class="k-button" title="Export" id="mhtnComBtnExport">Export</button>
+                    <button class="k-button" title="Print" id="mhtnComBtnPrint">Print</button>
+                    <button class="k-button" title="Preview" id="mhtnComBtnPreview">Preview</button>
+                    <button class="k-button" title="Upload" id="mhtnComBtnUpload">U-load</button>
+                    <button class="k-button" title="Download" id="mhtnComBtnDownload">D-load</button>
+                    <button class="k-button" title="Audio Record" id="mhtnComBtnAudio_Record">A-rec</button>
+                    <button class="k-button" title="Video Record" id="mhtnComBtnVideo_Record">V-rec</button>
+                @*</div>
+                <div id="idMenu" style="display: inline-flexbox; background-color: lightskyblue; ">*@
+                    <button class="k-button" title="Pin" id="mhtnComBtnPin">Pin</button>
+                    <button class="k-button" title="Mark" id="mhtnComBtnMark">Mark</button>
+                    <button class="k-button" title="Process" id="mhtnComBtnProcess">Proc</button>
+                    <button class="k-button" title="Todo" id="mhtnComBtnTodo">Todo</button>
+                    <button class="k-button" title="Bar Chart" id="mhtnComBtnBar_Chart">Bar-Cha</button>
+                    <button class="k-button" title="Pie Chart" id="mhtnComBtnPie_Chart">Pie-Cha</button>
+                    <button class="k-button" title="Back" id="mhtnComBtnBack">Back</button>
+                    <button class="k-button" title="Close" id="mhtnComBtnClose">Close</button>
+                    <button class="k-button" title="Help" id="mhtnComBtnHelp">Help</button>
+                    <button class="k-button" title="Exit" id="mhtnComBtnExit">Exit</button>
+                    <button class="k-button" title="Change Password" id="mhtnComBtnChange_Pass">Change-Pass</button>
+                    <button class="k-button" title="Login" id="mhtnComBtnLogin">Login</button>
+                    <button class="k-button" title="Logout" id="mhtnComBtnLogout">Logout</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //click events
+    $(document).ready(function () {
+
+        $("#htnComBtnSave"          ).click(function () { htnComBtnSave();              });
+        $("#htnComBtnCancel"        ).click(function () { htnComBtnCancel();            });
+        $("#htnComBtnUpload"        ).click(function () { htnComBtnUpload();            });
+        $("#htnComBtnRefresh"       ).click(function () { htnComBtnRefresh();           });
+        $("#htnComBtnDelete"        ).click(function () { htnComBtnDelete();            });
+        $("#htnComBtnFilter"        ).click(function () { htnComBtnFilter();            });
+        $("#htnComBtnFilter_Clear"  ).click(function () { htnComBtnFilter_Clear();      });
+        $("#htnComBtnSave_as"       ).click(function () { htnComBtnSave_as();           });
+        $("#htnComBtnSearch"        ).click(function () { htnComBtnSearch();            });
+        $("#htnComBtnDownload"      ).click(function () { htnComBtnDownload();          });
+        $("#htnComBtnAudio_Record"  ).click(function () { htnComBtnAudio_Record();      });
+        $("#htnComBtnVideo_Record"  ).click(function () { htnComBtnVideo_Record();      });
+        $("#htnComBtnLogin"         ).click(function () { htnComBtnLogin();             });
+        $("#htnComBtnLogout"        ).click(function () { htnComBtnLogout();            });
+        $("#htnComBtnPrint"         ).click(function () { htnComBtnPrint();             });
+        $("#htnComBtnAdd"           ).click(function () { htnComBtnAdd();               });
+        $("#htnComBtnOpen"          ).click(function () { htnComBtnOpen();              });
+        $("#htnComBtnPreview"       ).click(function () { htnComBtnPreview();           });
+        $("#htnComBtnHelp"          ).click(function () { htnComBtnHelp();              });
+        $("#htnComBtnAttach"        ).click(function () { htnComBtnAttach();            });
+        $("#htnComBtnEdit"          ).click(function () { htnComBtnEdit();              });
+        $("#htnComBtnSetting"       ).click(function () { htnComBtnSetting();           });
+        $("#htnComBtnBack"          ).click(function () { htnComBtnBack();              });
+        $("#htnComBtnClear"         ).click(function () { htnComBtnClear();             });
+        $("#htnComBtnExit"          ).click(function () { htnComBtnExit();              });
+        $("#htnComBtnSave_Changes"  ).click(function () { htnComBtnSave_Changes();      });
+        $("#htnComBtnLoad"          ).click(function () { htnComBtnLoad();              });
+        $("#htnComBtnsSmart_Menu"   ).click(function () { htnComBtnsSmart_Menu();       });
+        $("#htnComBtnUpdate"        ).click(function () { htnComBtnUpdate();            });
+        $("#htnComBtnSave_And_New"  ).click(function () { htnComBtnSave_And_New();      });
+        $("#htnComBtnMenu"          ).click(function () { htnComBtnMenu();              });
+        $("#htnComBtnClose"         ).click(function () { htnComBtnClose();             });
+        $("#htnComBtnExport"        ).click(function () { htnComBtnExport();            });
+        $("#htnComBtnImport"        ).click(function () { htnComBtnImport();            });
+        $("#htnComBtnFind"          ).click(function () { htnComBtnFind();              });
+        $("#htnComBtnPin"           ).click(function () { htnComBtnPin();               });
+        $("#htnComBtnMark"          ).click(function () { htnComBtnMark();              });
+        $("#htnComBtnProcess"       ).click(function () { htnComBtnProcess();           });
+        $("#htnComBtnCal"           ).click(function () { htnComBtnCal();               });
+        $("#htnComBtnTodo"          ).click(function () { htnComBtnTodo();              });
+        $("#htnComBtnBar_Chart"     ).click(function () { htnComBtnBar_Chart();         });
+        $("#htnComBtnPie_Chart"     ).click(function () { htnComBtnPie_Chart();         });
+        $("#htnComBtnChange_Pass"   ).click(function () { htnComBtnChange_Pass();       });
+        $("#htnComBtnNew_Form"      ).click(function () { htnComBtnNew_Form();          });
+        $("#htnComBtnAnalize"       ).click(function () { htnComBtnAnalize();           });
+        $("#htnComBtnOk"            ).click(function () { htnComBtnOk();                });
+
+        //This section for Button icon with text
+        $("#mhtnComBtnSave").click(function () { htnComBtnSave(); });
+        $("#mhtnComBtnCancel").click(function () { htnComBtnCancel(); });
+        $("#mhtnComBtnUpload").click(function () { htnComBtnUpload(); });
+        $("#mhtnComBtnRefresh").click(function () { htnComBtnRefresh(); });
+        $("#mhtnComBtnDelete").click(function () { htnComBtnDelete(); });
+        $("#mhtnComBtnFilter").click(function () { htnComBtnFilter(); });
+        $("#mhtnComBtnFilter_Clear").click(function () { htnComBtnFilter_Clear(); });
+        $("#mhtnComBtnSave_as").click(function () { htnComBtnSave_as(); });
+        $("#mhtnComBtnSearch").click(function () { htnComBtnSearch(); });
+        $("#mhtnComBtnDownload").click(function () { htnComBtnDownload(); });
+        $("#mhtnComBtnAudio_Record").click(function () { htnComBtnAudio_Record(); });
+        $("#mhtnComBtnVideo_Record").click(function () { htnComBtnVideo_Record(); });
+        $("#mhtnComBtnLogin").click(function () { htnComBtnLogin(); });
+        $("#mhtnComBtnLogout").click(function () { htnComBtnLogout(); });
+        $("#mhtnComBtnPrint").click(function () { htnComBtnPrint(); });
+        $("#mhtnComBtnAdd").click(function () { htnComBtnAdd(); });
+        $("#mhtnComBtnOpen").click(function () { htnComBtnOpen(); });
+        $("#mhtnComBtnPreview").click(function () { htnComBtnPreview(); });
+        $("#mhtnComBtnHelp").click(function () { htnComBtnHelp(); });
+        $("#mhtnComBtnAttach").click(function () { htnComBtnAttach(); });
+        $("#mhtnComBtnEdit").click(function () { htnComBtnEdit(); });
+        $("#mhtnComBtnSetting").click(function () { htnComBtnSetting(); });
+        $("#mhtnComBtnBack").click(function () { htnComBtnBack(); });
+        $("#mhtnComBtnClear").click(function () { htnComBtnClear(); });
+        $("#mhtnComBtnExit").click(function () { htnComBtnExit(); });
+        $("#mhtnComBtnSave_Changes").click(function () { htnComBtnSave_Changes(); });
+        $("#mhtnComBtnLoad").click(function () { htnComBtnLoad(); });
+        $("#mhtnComBtnsSmart_Menu").click(function () { htnComBtnsSmart_Menu(); });
+        $("#mhtnComBtnUpdate").click(function () { htnComBtnUpdate(); });
+        $("#mhtnComBtnSave_And_New").click(function () { htnComBtnSave_And_New(); });
+        $("#mhtnComBtnMenu").click(function () { htnComBtnMenu(); });
+        $("#mhtnComBtnClose").click(function () { htnComBtnClose(); });
+        $("#mhtnComBtnExport").click(function () { htnComBtnExport(); });
+        $("#mhtnComBtnImport").click(function () { htnComBtnImport(); });
+        $("#mhtnComBtnFind").click(function () { htnComBtnFind(); });
+        $("#mhtnComBtnPin").click(function () { htnComBtnPin(); });
+        $("#mhtnComBtnMark").click(function () { htnComBtnMark(); });
+        $("#mhtnComBtnProcess").click(function () { htnComBtnProcess(); });
+        $("#mhtnComBtnCal").click(function () { htnComBtnCal(); });
+        $("#mhtnComBtnTodo").click(function () { htnComBtnTodo(); });
+        $("#mhtnComBtnBar_Chart").click(function () { htnComBtnBar_Chart(); });
+        $("#mhtnComBtnPie_Chart").click(function () { htnComBtnPie_Chart(); });
+        $("#mhtnComBtnChange_Pass").click(function () { htnComBtnChange_Pass(); });
+        $("#mhtnComBtnNew_Form").click(function () { htnComBtnNew_Form(); });
+        $("#mhtnComBtnAnalize").click(function () { htnComBtnAnalize(); });
+        $("#mhtnComBtnOk").click(function () { htnComBtnOk(); });
+    });
+</script>
+
+<script>
+    //Hide all buttons events
+    $(document).ready(function () {
+
+        $("#htnComBtnSave"          ).hide();
+        $("#htnComBtnCancel"        ).hide();
+        $("#htnComBtnUpload"        ).hide();
+        $("#htnComBtnRefresh"       ).hide();
+        $("#htnComBtnDelete"        ).hide();
+        $("#htnComBtnFilter"        ).hide();
+        $("#htnComBtnFilter_Clear"  ).hide();
+        $("#htnComBtnSave_as"       ).hide();
+        $("#htnComBtnSearch"        ).hide();
+        $("#htnComBtnDownload"      ).hide();
+        $("#htnComBtnAudio_Record"  ).hide();
+        $("#htnComBtnVideo_Record"  ).hide();
+        $("#htnComBtnLogin"         ).hide();
+        $("#htnComBtnLogout"        ).hide();
+        $("#htnComBtnPrint"         ).hide();
+        $("#htnComBtnAdd"           ).hide();
+        $("#htnComBtnOpen"          ).hide();
+        $("#htnComBtnPreview"       ).hide();
+        $("#htnComBtnHelp"          ).hide();
+        $("#htnComBtnAttach"        ).hide();
+        $("#htnComBtnEdit"          ).hide();
+        $("#htnComBtnSetting"       ).hide();
+        $("#htnComBtnBack"          ).hide();
+        $("#htnComBtnClear"         ).hide();
+        $("#htnComBtnExit"          ).hide();
+        $("#htnComBtnSave_Changes"  ).hide();
+        $("#htnComBtnLoad"          ).hide();
+        $("#htnComBtnsSmart_Menu"   ).hide();
+        $("#htnComBtnUpdate"        ).hide();
+        $("#htnComBtnSave_And_New"  ).hide();
+        $("#htnComBtnMenu"          ).hide();
+        $("#htnComBtnClose"         ).hide();
+        $("#htnComBtnExport"        ).hide();
+        $("#htnComBtnImport"        ).hide();
+        $("#htnComBtnFind"          ).hide();
+        $("#htnComBtnPin"           ).hide();
+        $("#htnComBtnMark"          ).hide();
+        $("#htnComBtnProcess"       ).hide();
+        $("#htnComBtnCal"           ).hide();
+        $("#htnComBtnTodo"          ).hide();
+        $("#htnComBtnBar_Chart"     ).hide();
+        $("#htnComBtnPie_Chart"     ).hide();
+        $("#htnComBtnChange_Pass"   ).hide();
+        $("#htnComBtnNew_Form"      ).hide();
+        $("#htnComBtnAnalize"       ).hide();
+        $("#htnComBtnOk"            ).hide();
+
+        $("#mhtnComBtnSave").hide();
+        $("#mhtnComBtnCancel").hide();
+        $("#mhtnComBtnUpload").hide();
+        $("#mhtnComBtnRefresh").hide();
+        $("#mhtnComBtnDelete").hide();
+        $("#mhtnComBtnFilter").hide();
+        $("#mhtnComBtnFilter_Clear").hide();
+        $("#mhtnComBtnSave_as").hide();
+        $("#mhtnComBtnSearch").hide();
+        $("#mhtnComBtnDownload").hide();
+        $("#mhtnComBtnAudio_Record").hide();
+        $("#mhtnComBtnVideo_Record").hide();
+        $("#mhtnComBtnLogin").hide();
+        $("#mhtnComBtnLogout").hide();
+        $("#mhtnComBtnPrint").hide();
+        $("#mhtnComBtnAdd").hide();
+        $("#mhtnComBtnOpen").hide();
+        $("#mhtnComBtnPreview").hide();
+        $("#mhtnComBtnHelp").hide();
+        $("#mhtnComBtnAttach").hide();
+        $("#mhtnComBtnEdit").hide();
+        $("#mhtnComBtnSetting").hide();
+        $("#mhtnComBtnBack").hide();
+        $("#mhtnComBtnClear").hide();
+        $("#mhtnComBtnExit").hide();
+        $("#mhtnComBtnSave_Changes").hide();
+        $("#mhtnComBtnLoad").hide();
+        $("#mhtnComBtnsSmart_Menu").hide();
+        $("#mhtnComBtnUpdate").hide();
+        $("#mhtnComBtnSave_And_New").hide();
+        $("#mhtnComBtnMenu").hide();
+        $("#mhtnComBtnClose").hide();
+        $("#mhtnComBtnExport").hide();
+        $("#mhtnComBtnImport").hide();
+        $("#mhtnComBtnFind").hide();
+        $("#mhtnComBtnPin").hide();
+        $("#mhtnComBtnMark").hide();
+        $("#mhtnComBtnProcess").hide();
+        $("#mhtnComBtnCal").hide();
+        $("#mhtnComBtnTodo").hide();
+        $("#mhtnComBtnBar_Chart").hide();
+        $("#mhtnComBtnPie_Chart").hide();
+        $("#mhtnComBtnChange_Pass").hide();
+        $("#mhtnComBtnNew_Form").hide();
+        $("#mhtnComBtnAnalize").hide();
+        $("#mhtnComBtnOk").hide();
+    });
+</script>
+
+<script>
+    //Icons
+    $(document).ready(function () {
+        //--\BLCloudTODO\CloudTODO\buttncss\icons16\save.png
+
+        $("#htnComBtnSave"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save.png"              });
+        $("#htnComBtnCancel"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/cancel.png"            });
+        $("#htnComBtnUpload"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/upload.png"            });
+        $("#htnComBtnRefresh"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/refresh.png"           });
+        $("#htnComBtnDelete"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/delete.png"            });
+        $("#htnComBtnFilter"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/filter.png"            });
+        $("#htnComBtnFilter_Clear"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/clear_filter.png"      });
+        $("#htnComBtnSave_as"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save_as.png"           });
+        $("#htnComBtnSearch"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/search.png"            });
+        $("#htnComBtnDownload"      ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/download.png"          });
+        $("#htnComBtnAudio_Record"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/audio_record.png"      });
+        $("#htnComBtnVideo_Record"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/video_record.png"      });
+        $("#htnComBtnLogin"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/login.png"             });
+        $("#htnComBtnLogout"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/logout.png"            });
+        $("#htnComBtnPrint"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/print.png"             });
+        $("#htnComBtnAdd"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/add.png"               });
+        $("#htnComBtnOpen"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/open.png"              });
+        $("#htnComBtnPreview"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/preview.png"           });
+        $("#htnComBtnHelp"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/help.png"              });
+        $("#htnComBtnAttach"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/attach.png"            });
+        $("#htnComBtnEdit"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/edit.png"              });
+        $("#htnComBtnSetting"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/settings.png"          });
+        $("#htnComBtnBack"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/back.png"              });
+        $("#htnComBtnClear"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/clear.png"             });
+        $("#htnComBtnExit"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/exit.png"              });
+        $("#htnComBtnSave_Changes"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save.png"              });
+        $("#htnComBtnLoad"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/load.png"              });
+        $("#htnComBtnsSmart_Menu"   ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/smart_menu.png"        });
+        $("#htnComBtnUpdate"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/update.png"            });
+        $("#htnComBtnSave_And_New"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save_and_new.png"      });
+        $("#htnComBtnMenu"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/menu.png"              });
+        $("#htnComBtnClose"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/close.png"             });
+        $("#htnComBtnExport"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/export.png"            });
+        $("#htnComBtnImport"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/import.png"            });
+        $("#htnComBtnFind"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/find.png"              });
+        $("#htnComBtnPin"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pin.png"               });
+        $("#htnComBtnMark"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/mark.png"              });
+        $("#htnComBtnProcess"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/process.png"           });
+        $("#htnComBtnCal"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/cal.png"               });
+        $("#htnComBtnTodo"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/todo.png"              });
+        $("#htnComBtnBar_Chart"     ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pie-chart.png"         });
+        $("#htnComBtnPie_Chart"     ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pie-chart.png"         });
+        $("#htnComBtnChange_Pass"   ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/change_password.png"   });
+        $("#htnComBtnNew_Form"      ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/new-form.png"          });
+        $("#htnComBtnAnalize"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/analyze.png"           });
+        $("#htnComBtnOk"            ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/ok.png"                });
+        
+        $("#mhtnComBtnSave"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save.png"             });
+        $("#mhtnComBtnCancel"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/cancel.png"           });
+        $("#mhtnComBtnUpload"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/upload.png"           });
+        $("#mhtnComBtnRefresh"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/refresh.png"          });
+        $("#mhtnComBtnDelete"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/delete.png"           });
+        $("#mhtnComBtnFilter"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/filter.png"           });
+        $("#mhtnComBtnFilter_Clear"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/clear_filter.png"     });
+        $("#mhtnComBtnSave_as"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save_as.png"          });
+        $("#mhtnComBtnSearch"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/search.png"           });
+        $("#mhtnComBtnDownload"      ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/download.png"         });
+        $("#mhtnComBtnAudio_Record"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/audio_record.png"     });
+        $("#mhtnComBtnVideo_Record"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/video_record.png"     });
+        $("#mhtnComBtnLogin"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/login.png"            });
+        $("#mhtnComBtnLogout"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/logout.png"           });
+        $("#mhtnComBtnPrint"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/print.png"            });
+        $("#mhtnComBtnAdd"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/add.png"              });
+        $("#mhtnComBtnOpen"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/open.png"             });
+        $("#mhtnComBtnPreview"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/preview.png"          });
+        $("#mhtnComBtnHelp"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/help.png"             });
+        $("#mhtnComBtnAttach"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/attach.png"           });
+        $("#mhtnComBtnEdit"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/edit.png"             });
+        $("#mhtnComBtnSetting"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/settings.png"         });
+        $("#mhtnComBtnBack"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/back.png"             });
+        $("#mhtnComBtnClear"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/clear.png"            });
+        $("#mhtnComBtnExit"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/exit.png"             });
+        $("#mhtnComBtnSave_Changes"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save.png"             });
+        $("#mhtnComBtnLoad"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/load.png"             });
+        $("#mhtnComBtnsSmart_Menu"   ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/smart_menu.png"       });
+        $("#mhtnComBtnUpdate"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/update.png"           });
+        $("#mhtnComBtnSave_And_New"  ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/save_and_new.png"     });
+        $("#mhtnComBtnMenu"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/menu.png"             });
+        $("#mhtnComBtnClose"         ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/close.png"            });
+        $("#mhtnComBtnExport"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/export.png"           });
+        $("#mhtnComBtnImport"        ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/import.png"           });
+        $("#mhtnComBtnFind"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/find.png"             });
+        $("#mhtnComBtnPin"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pin.png"              });
+        $("#mhtnComBtnMark"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/mark.png"             });
+        $("#mhtnComBtnProcess"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/process.png"          });
+        $("#mhtnComBtnCal"           ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/cal.png"              });
+        $("#mhtnComBtnTodo"          ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/todo.png"             });
+        $("#mhtnComBtnBar_Chart"     ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pie-chart.png"        });
+        $("#mhtnComBtnPie_Chart"     ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/pie-chart.png"        });
+        $("#mhtnComBtnChange_Pass"   ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/change_password.png"  });
+        $("#mhtnComBtnNew_Form"      ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/new-form.png"         });
+        $("#mhtnComBtnAnalize"       ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/analyze.png"          });
+        $("#mhtnComBtnOk"            ).kendoButton({ imageUrl: "../../../DevBL10/buttncss/icons16/ok.png"               });
+    });
+</script>
+
+save.png              BtnSave
+cancel.png            BtnCancel
+upload.png            BtnUpload
+refresh.png           BtnRefresh
+delete.png            BtnDelete
+filter.png            BtnFilter
+clear_filter.png      BtnFilter_Clear
+save_as.png           BtnSave_as
+search.png            BtnSearch
+download.png          BtnDownload
+audio_record.png      BtnAudio_Record
+video_record.png      BtnVideo_Record
+login.png             BtnLogin
+logout.png            BtnLogout
+print.png             BtnPrint
+add.png               BtnAdd
+open.png              BtnOpen
+preview.png           BtnPreview
+help.png              BtnHelp
+attach.png            BtnAttach
+edit.png              BtnEdit
+settings.png          BtnSetting
+back.png              BtnBack
+clear.png             BtnClear
+exit.png              BtnExit
+save.png              BtnSave_Changes
+load.png              BtnLoad
+smart_menu.png        BtnsSmart_Menu
+update.png            BtnUpdate
+save_and_new.png      BtnSave_And_New
+menu.png              BtnMenu
+close.png             BtnClose
+export.png            BtnExport
+import.png            BtnImport
+find.png              BtnFind
+pin.png               BtnPin
+mark.png              BtnMark
+process.png           BtnProcess
+cal.png               BtnCal
+todo.png              BtnTodo
+pie-chart.png         BtnBar_Chart
+pie-chart.png         BtnPie_Chart
+change_password.png   BtnChange_Pass
+new-form.png          BtnNew_Form
+analyze.png           BtnAnalize
+ok.png                BtnOk
+
+<script>
+    //Tool tips
+    $(document).ready(function () {
+
+        var tooltip = $("#cmnBtnSetDiv").kendoTooltip({
+            filter: "button",
+            //width: 120,
+            position: "top"
+        }).data("kendoTooltip");
+
+    });
+</script>

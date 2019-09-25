@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Stock Closing";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>
+
+<div>
+
+    @*<div class="k-content" id="filterCont" style="height:40px;">*@
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12" id="ButtonSet">
+            @*<button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>*@
+            <button class="control-button add" onclick="insertItem() " title="Add (Alt+N or NumberPad +)"> </button>
+            <button class="control-button load" id="btnLoadItem" onclick="ShowGrid()" title="Load" data-tooltip="Load"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+
+        </div>
+    </div>
+    <div id="SearchWin1" style="margin-top:10px;margin-left:40px; height:40px; width:90%">
+        <div id="HdrSec1">
+            <div id="HdrSec1_CmbOutlet" style="display: inline-block;margin-top:5px;">
+                <label id="HdrSec1_CmbOutlet_Lbl">OutLet Name: </label>
+                <div id="HdrSec1_CmbOutlet_Cd"></div>
+                <div id="HdrSec1_CmbOutlet_Nm"></div>
+            </div>
+
+            <div id="HdrSec1_DatFrmDt" style="display: inline-block;">
+                <label id="HdrSec1_DatFrmDt_Lbl">Revision Date</label>
+                <input id="FrmDt"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: FrmDt" />
+            </div>
+            <div id="HdrSec1_DatToDt" style="display: inline-block;">
+                <label id="HdrSec1_DatToDt_Lbl">Revision Date</label>
+                <input id="ToDt"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: ToDt" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="GridWin">
+    <div style="margin-left:10px;margin-right:10px;margin-bottom:10px;margin-top:-20px;">
+        <div id="ClosingStockGrid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var URLInsertUpdateClosingStock = '@Url.Content("~/StockClosing/SaveClosingStock")';
+    var URLLoadGrid = '@Url.Content("~/StockClosing/ViewClosingStock")';
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/StockClosing/StockClosing.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

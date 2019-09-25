@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - To Do Test Environment - </title>
+    <link href="~/Images/BLicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/SiteNewCSS.css" rel="stylesheet" />
+    <link href="~/Content/FontAwesome/font-awesome.min.css" rel="stylesheet" />
+
+    @*<link href="~/Src/Styles/Kendo-2015.2.902/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/Src/Styles/Kendo-2015.2.902/kendo.material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.custom.css" rel="stylesheet" />*@
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.material.min.css" rel="stylesheet" />
+    <!-- ============= Bootstrap Styles ============== -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/LatesSiteStyles.css" rel="stylesheet" />
+    @*<link href="~/Src/Styles/HtnStyles/Login/loginStyles.css" rel="stylesheet" />*@
+    <link href="~/Src/Styles/HtnStyles/Login/loginStyle.min.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- other content -->
+    @*@Styles.Render("~/Content/kendo")*@
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    <script src="~/Content/kendoui-2017.2.504/js/jquery.min.js"></script>    
+    <script src="~/Content/kendoui-2017.2.504/js/kendo.all.js"></script>
+    @*<script async src="~/Scripts/Kendo-2015.2.902/jszip.min.js"></script>*@
+</head>
+    <body>
+        @*<header>
+            <div class="container-fluid wr_header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="content-wrapper">
+                            
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>*@
+        <!-- =============| Content Body |============== -->
+        <div id="body">
+            <div class="container-fluid">
+                <div class="row">
+                    @RenderSection("featured", required: false)
+                    <section class="content-wrapper main-content clear-fix">
+                        @RenderBody()
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- =============| /Content Body |============== -->
+        <!-- ============= Footer ============== -->
+        @*<footer>
+            <div class="content-wrapper">
+                <div class="row login_details">
+                  
+
+                </div>*@
+
+                @*<div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Design & Developed by <a href="http://wwww.htnsys.com">HTN Information Systems</a></p>
+                @*</div>*@
+            @*</div>
+        </footer>*@
+        <!-- ============= /Footer ============== -->
+        @RenderSection("scripts", required: false)
+
+        <script src="~/Scripts/HtnScripts/Login/login.js"></script>
+    </body>
+</html>
+
+@*<script type="text/javascript">
+    
+    $(document).ready(function () {
+
+        var height = $(window).height() - 60;
+        $("#body").height(height);
+
+    });
+</script>*@

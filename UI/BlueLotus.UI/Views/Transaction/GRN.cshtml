@@ -1,0 +1,4464 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithOldKendoScript.cshtml";
+}
+
+
+@*@using CloudTODO.Models;
+    <script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>*@
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="ComSaveFunction()" data-tooltip="Save"> </button>
+            <button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+                <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>
+                @*<button class="control-button preview disabledClick" onclick="Preview()" data-tooltip="Preview"> </button>
+                <button class="control-button clean disabledClick" onclick="Clean()" data-tooltip="Clean"> </button>
+                <button class="control-button add disabledClick" onclick="Add()" data-tooltip="Add"> </button>
+                <button class="control-button attach disabledClick" onclick="Attach()" data-tooltip="Attach"> </button>
+                <button class="control-button save_as disabledClick" onclick="Save_as()" data-tooltip="Save As"> </button>
+                <button class="control-button save_and_new disabledClick" onclick="Save_and_new()" data-tooltip="Save And New"> </button>
+                <button class="control-button audio_record disabledClick" onclick="Audio_record()" data-tooltip="Audio Record"> </button>
+                <button class="control-button video_record disabledClick" onclick="Video_record()" data-tooltip="Video Record"> </button>
+                <button class="control-button delete disabledClick" onclick="Delete()" data-tooltip="Delete"> </button>
+                <button class="control-button filter disabledClick" onclick="Filter()" data-tooltip="Filter"> </button>
+                <button class="control-button filter_clear disabledClick" onclick="Filter_Clear()" data-tooltip="Filter Clear"> </button>
+                <button class="control-button search disabledClick" onclick="Search()" data-tooltip="Search"> </button>
+                <button class="control-button download disabledClick" onclick="Download()" data-tooltip="Download"> </button>
+                <button class="control-button upload disabledClick" onclick="Upload()" data-tooltip="Upload"> </button>
+                <button class="control-button back disabledClick" onclick="Back()" data-tooltip="Back"> </button>
+                <button class="control-button setting disabledClick" onclick="Setting()" data-tooltip="Setting"> </button>
+                <button class="control-button edit disabledClick" onclick="Edit()" data-tooltip="Edit"> </button>
+                <button class="control-button refresh disabledClick" onclick="Refresh()" data-tooltip="Refresh"> </button>
+                <button class="control-button update disabledClick" onclick="Update()" data-tooltip="Update"> </button>
+                <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Req" style="width: 150px; height: 30px">New From Purches Order</button>*@
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+             <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Ord" style="width: 150px; height: 30px">New From Purches Order</button>
+        </div>
+
+        <div id="HdrPart">
+
+            <div class="col-md-2 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>@(ViewBag.MyString) No:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <input id="PrefixOrdNo1" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="OrdNo1" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="OrdKy1" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="OrdTypKy1" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="OrdPrefixKy1" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="AccTrnKy" readonly="readonly" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Date:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <input id="Date" class="" data-role="datepicker" data-bind="value: Date" />
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Doc No:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <input placeholder="Doc No ..." id="DocNo" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Yur Ref</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <input data-cpypst-blsmartcpypaste="Qty" id="Yurref" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6  col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Project</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+
+                                <div id="cmbPrjId"></div>
+
+
+                                <div id="cmbPrjNm"></div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Location</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+
+                                <div id="cmbFmLocId"></div>
+
+
+                                <div id="cmbFmLocNm"></div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Purchase Account</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+
+                                <div id="cmbSlsACId"></div>
+
+                                <div id="cmbSlsACCd"></div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Supplier Account</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+
+                                <div id="cmbAccId"></div>
+                                <div id="cmbAccNm"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Address</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+
+                                <div id="cmbAdrId"></div>
+                                <div id="cmbAdrNm"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-2  col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>PONo:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input id="OrdNo" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="OrdKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="OrdTypKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="OrdPrefixKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Pmt Terms:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <div id="cmbPmt"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Currency:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <div id="cmbCurrency"></div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Ex Rate:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+
+                                <input id="ExRate" class="k-numerictextbox" readonly="readonly" data-format="n4" data-decimals="4" style="width:100%" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-2  col-sm-6">
+                <div class="wr_formGroup_drk form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label class="">Sub Total:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="SubTotal" readonly="readonly" type="text" class="k-textbox col-md-10" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>Discount:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Discount" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>VAT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Vat" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>WHT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="WHT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>NBT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="NBT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>SVAT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="SVAT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>Total:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Total" readonly="readonly" type="text" class="k-textbox" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        @*<div class="col-md-12" style="clear:both;">*@
+
+
+        <div id="GridWin" style="clear:both;">
+
+            <div class="col-md-12  wr_formGroup_grid" id="ChildHdrpart">
+                <div class="form-group">
+
+                    <div class="col-md-4 col-sm-4 ">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Item Cd:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+
+                                <div id="cmbItmCd" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                                <div id="cmbItmNm" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Analysis:</label>
+                            </div>
+
+                            <div class="col-md-3 col-sm-7">
+
+                                <div id="cmbAnly3"></div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Unit:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-7">
+
+                                <div id="cmbUnit"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Item Cd:</label>
+                            </div>
+                            <div class="col-md-5 col-sm-5">
+
+                                <div id="cmbItmCd" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                                <div id="cmbItmNm" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1">
+                                <label>Qty:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="Qty" id="Qty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+                            <div class="col-md-1 col-sm-1">
+                                <label>Unit:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <div id="cmbUnit"></div>
+
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Rate:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="Rate" id="Rate" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Analysis:</label>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2">
+
+                                <div id="cmbAnly3"></div>
+
+                            </div>
+                        </div>*@
+
+
+
+
+                    <div class="col-md-8 col-sm-8 ">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Qty:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="Qty" id="Qty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+
+                            <div class="col-md-1 col-sm-1">
+                                <label>Rate:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="Rate" id="Rate" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>DisPer:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrDisPer" id="HdrDisPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>DisAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrDisAmt" id="HdrDisAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-1 col-sm-1">
+                                <label>VAT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrVatPer" id="HdrVatPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>VATAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrVatAmt" id="HdrVatAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>NBT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrNBTPer" id="HdrNBTPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>NBTAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrNBTAmt" id="HdrNBTAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                           
+                            <div class="col-md-1 col-sm-1">
+                                <label>WHT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrWHTPer" id="HdrWHTPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+
+                            <div class="col-md-1 col-sm-1">
+                                <label>WHTAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrWHTAmt" id="HdrWHTAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>SVAT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrSVatPer" id="HdrSVatPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>SVATAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrSVatAmt" id="HdrSVatAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                          
+                            <div class="col-md-1 col-sm-1">
+                                <label>LiNo:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrLiNo" id="HdrLiNo" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm1">
+                                <label>Task Id:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <div id="cmbTaskId"></div>
+
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>POQty:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="HdrPOQty" id="HdrPOQty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Subtotal:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+
+                                <input data-cpypst-blsmartcpypaste="Subtotal" id="Subtotal" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                @*<div class="form-group">
+                        <label>Qty:</label>
+                        <input id="Qty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                    </div>
+                    <div class="form-group">
+                        <div id="Combo">
+                            <label>Analysis3</label>
+                            <div id="cmbAnly3"></div>
+                        </div>
+                    </div>*@
+
+            </div>
+
+
+            <br style="clear:both" />
+            <div id="@(ViewBag.MyString)">
+
+            </div>
+            @*@Html.Partial("~/Views/CommonGrid/Index.cshtml")*@
+
+
+        </div>
+        <div>
+
+        </div>
+
+        @*</div>*@
+    </div>
+</div>
+
+@*<div>
+        @Html.Partial("~/Views/Transaction/ItmSelectGrn.cshtml")
+    </div>*@
+@*<div>
+    @Html.Partial("~/Views/Transaction/FindGRN.cshtml")
+</div>*@
+@*<div>
+    @Html.Partial("~/Views/Transaction/FindFromPurOrd.cshtml")
+</div>*@
+<script id="command-template" type="text/x-kendo-template">
+    <a class="k-button k-grid-evenselect">X</a>
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>\
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var PrjKy = 1
+
+        LoadCombo();
+        LoadGridView1(PrjKy);
+
+        //Analyze(15, 0);
+        //var myComboBox = $('#cmbPmt').data('kendoComboBox');
+        //myComboBox.text("Credit");
+        ////  myComboBox.trigger("select");
+        ////$("#cmbCurrency").data("kendoComboBox").value(178);
+        //var CurrancyComboBox = $('#cmbCurrency').data('kendoComboBox');
+        //CurrancyComboBox.text("LKR");
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+        $("#OrdKy").hide();
+        $("#OrdTypKy").hide();
+        $("#OrdPrefixKy").hide();
+        $("#OrdKy1").hide();
+        $("#OrdTypKy1").hide();
+        $("#OrdPrefixKy1").hide();
+        $("#PrefixOrdNo1").hide();
+        $("#AccTrnKy").hide();
+
+        LoadAdrComboByAcc(1)
+         CreateNewGridRow();
+        setHeight();
+        $("#ExRate").data('kendoNumericTextBox').value(1);
+        $("#Qty").kendoNumericTextBox({
+            min: 0
+        });
+        $("#Rate").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrDisPer").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrDisAmt").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrVatPer").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrVatAmt").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrSVatPer").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrSVatAmt").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrNBTPer").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrNBTAmt").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrWHTPer").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrWHTAmt").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrLiNo").kendoNumericTextBox({
+            min: 0
+        });
+        $("#HdrPOQty").kendoNumericTextBox({
+            min: 0
+        });
+        $("#Subtotal").kendoNumericTextBox({
+            min: 0
+        });
+        LoadUnitCombo(1)
+        LoadTaskCombo(1);
+        setDefault();
+        DisableFeature();
+        $("#DocNo").focus();
+    });
+
+    $("#DocNo").keypress(function (event) {
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#Yurref").focus();
+        }
+    });
+
+    $("#Yurref").keypress(function (event) {
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#cmbPrjId").data("kendoComboBox").input.focus();
+        }
+    });
+    function setDisPerByDisAmt() {
+
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        if (Qty == 0 || Qty == "" || Qty == null || Qty == undefined) {
+            alert("Qty Cannot be null");
+        } else {
+            var Ratetextbox = $("#Rate").kendoNumericTextBox({
+                change: function () {
+                    var value = this.value();
+                }
+            });
+            var Rate = Ratetextbox.val();
+            var SubTotal = (Qty * Rate);
+        }
+        var HdrDisAmttextbox = $("#HdrDisAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var DisAmt = HdrDisAmttextbox.val();
+        if (SubTotal == 0) {
+            var DisPer = 0.00;
+        } else {
+            var DisPer = (DisAmt * 100) / SubTotal;
+        }
+        $("#HdrDisPer").data("kendoNumericTextBox").value(DisPer);
+
+        var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var LiNo = HdrLiNotextbox.val();
+        var LiNoForChange = (LiNo - 1);
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+
+
+
+        firstItem.set("DisPer", DisPer);
+        firstItem.set("DisAmt", DisAmt);
+        Calculatetotal();
+    }
+
+    function setVatPerByVatAmt() {
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        if (Qty == 0 || Qty == "" || Qty == null || Qty == undefined) {
+            alert("Qty Cannot be null");
+        } else {
+            var Ratetextbox = $("#Rate").kendoNumericTextBox({
+                change: function () {
+                    var value = this.value();
+                }
+            });
+            var Rate = Ratetextbox.val();
+            var SubTotal = (Qty * Rate);
+        }
+        var HdrDisAmttextbox = $("#HdrDisAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var DisAmt = HdrDisAmttextbox.val();
+        var HdrVatAmttextbox = $("#HdrVatAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var VatAmt = HdrVatAmttextbox.val();
+        if (SubTotal == 0) {
+            var VatPer = 0.00;
+        } else {
+            var VatPer = (VatAmt * 100) / (SubTotal - DisAmt - VatAmt);
+        }
+        $("#HdrVatPer").data("kendoNumericTextBox").value(VatPer);
+        var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var LiNo = HdrLiNotextbox.val();
+        var LiNoForChange = (LiNo - 1);
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+
+
+
+        firstItem.set("VAT", VatPer);
+        firstItem.set("VatAmt", VatAmt);
+        Calculatetotal();
+
+    }
+    function setNBTPerByNBTAmt() {
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        if (Qty == 0 || Qty == "" || Qty == null || Qty == undefined) {
+            alert("Qty Cannot be null");
+        } else {
+            var Ratetextbox = $("#Rate").kendoNumericTextBox({
+                change: function () {
+                    var value = this.value();
+                }
+            });
+            var Rate = Ratetextbox.val();
+            var SubTotal = (Qty * Rate);
+        }
+        var HdrNBTAmttextbox = $("#HdrNBTAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var NBTAmt = HdrNBTAmttextbox.val();
+        if (SubTotal == 0) {
+            var NBTPer = 0.00;
+        } else {
+            var NBTPer = (NBTAmt * 100) / SubTotal;
+        }
+        $("#HdrNBTPer").data("kendoNumericTextBox").value(NBTPer);
+        var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var LiNo = HdrLiNotextbox.val();
+        var LiNoForChange = (LiNo - 1);
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+
+
+
+        firstItem.set("NBT", NBTPer);
+        firstItem.set("NBTAmt", NBTAmt);
+        Calculatetotal();
+
+    }
+
+    function setWHTPerByWHTAmt() {
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        if (Qty == 0 || Qty == "" || Qty == null || Qty == undefined) {
+            alert("Qty Cannot be null");
+        } else {
+            var Ratetextbox = $("#Rate").kendoNumericTextBox({
+                change: function () {
+                    var value = this.value();
+                }
+            });
+            var Rate = Ratetextbox.val();
+            var SubTotal = (Qty * Rate);
+        }
+        var HdrWHTAmttextbox = $("#HdrWHTAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var WHTAmt = HdrWHTAmttextbox.val();
+        if (SubTotal == 0) {
+            var WHTPer = 0.00;
+        } else {
+            var WHTPer = (WHTAmt * 100) / SubTotal;
+        }
+        $("#HdrWHTPer").data("kendoNumericTextBox").value(WHTPer);
+        var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var LiNo = HdrLiNotextbox.val();
+        var LiNoForChange = (LiNo - 1);
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+
+
+
+        firstItem.set("WHT", WHTPer);
+        firstItem.set("WHTAmt", WHTAmt);
+        Calculatetotal();
+
+    }
+
+    function setSVatPerBySVatAmt() {
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        if (Qty == 0 || Qty == "" || Qty == null || Qty == undefined) {
+            alert("Qty Cannot be null");
+        } else {
+            var Ratetextbox = $("#Rate").kendoNumericTextBox({
+                change: function () {
+                    var value = this.value();
+                }
+            });
+            var Rate = Ratetextbox.val();
+            var SubTotal = (Qty * Rate);
+        }
+        var HdrSVatAmttextbox = $("#HdrSVatAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var SVatAmt = HdrSVatAmttextbox.val();
+        if (SubTotal == 0) {
+            var SVatPer = 0.00;
+        } else {
+            var SVatPer = (SVatAmt * 100) / SubTotal;
+        }
+        $("#HdrSVatPer").data("kendoNumericTextBox").value(SVatPer);
+        var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var LiNo = HdrLiNotextbox.val();
+        var LiNoForChange = (LiNo - 1);
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+
+
+
+        firstItem.set("SVAT", SVatPer);
+        firstItem.set("SVatAmt", SVatAmt);
+        Calculatetotal();
+
+
+    }
+   // $("span.k-numerictextbox").css('width', "100%");
+    function changeItemRalatedTotal() {
+
+       var Qtytextbox =  $("#Qty").kendoNumericTextBox({
+         change: function () {
+           var value = this.value();
+              }
+        });
+       var Qty = Qtytextbox.val();
+       if (Qty == 0 || Qty == "" || Qty == null || Qty== undefined) {
+           alert("Qty Cannot be null");
+        }else{
+       var Ratetextbox = $("#Rate").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+       var Rate = Ratetextbox.val();
+       var SubTotal = (Qty * Rate);
+       $("#Subtotal").data("kendoNumericTextBox").value(SubTotal);
+       var HdrDisPertextbox = $("#HdrDisPer").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+       var DisPer = HdrDisPertextbox.val();
+       var DisAmt = (DisPer / 100) * SubTotal;
+       $("#HdrDisAmt").data("kendoNumericTextBox").value(DisAmt);
+       var HdrVatPertextbox = $("#HdrVatPer").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+       var VatPer = HdrVatPertextbox.val();
+       var VatAmt = (VatPer / (100 + VatPer)) * (SubTotal - DisAmt);
+       $("#HdrVatAmt").data("kendoNumericTextBox").value(VatAmt);
+       var HdrSVatPertextbox = $("#HdrSVatPer").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+
+       var SVatPer = HdrSVatPertextbox.val();
+       var SVatAmt = (SVatPer / 100) * SubTotal;
+       $("#HdrSVatAmt").data("kendoNumericTextBox").value(SVatAmt);
+       var HdrNBTPertextbox = $("#HdrNBTPer").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+
+       var NBTPer = HdrNBTPertextbox.val();
+       var NBTAmt = (NBTPer / 100) * SubTotal;
+       $("#HdrNBTAmt").data("kendoNumericTextBox").value(NBTAmt);
+       var HdrWHTPertextbox = $("#HdrWHTPer").kendoNumericTextBox({
+           change: function () {
+               var value = this.value();
+           }
+       });
+
+       var WHTPer = HdrWHTPertextbox.val();
+       var WHTAmt = (WHTPer / 100) * SubTotal;
+       $("#HdrWHTAmt").data("kendoNumericTextBox").value(NBTAmt);
+
+       SetChangedItemDetails();
+    }
+    }
+
+
+    function SetChangedItemDetails() {
+
+        var ItmCd = $("#cmbItmCd").data("kendoComboBox").text();
+        var ItmNm = $("#cmbItmNm").data("kendoComboBox").text();
+        var ItmKy = $("#cmbItmCd").data("kendoComboBox").value();
+        var UnitKy = $("#cmbUnit").data("kendoComboBox").value();
+        var Unit = $("#cmbUnit").data("kendoComboBox").text();
+        var TaskId = $("#cmbTaskId").data("kendoComboBox").text();
+        var TaskKy = $("#cmbTaskId").data("kendoComboBox").value();
+        if (TaskKy == "" || TaskKy == null || TaskKy == 0 || TaskKy == undefined) {
+            TaskKy = 1;
+        }
+        var Qtytextbox = $("#Qty").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Qty = Qtytextbox.val();
+        var Ratetextbox = $("#Rate").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var Rate = Ratetextbox.val();
+        var HdrDisPertextbox = $("#HdrDisPer").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var DisPer = HdrDisPertextbox.val();
+        if (isNaN(DisPer)) {
+            DisPer = 0;
+        }
+        var HdrDisAmttextbox = $("#HdrDisAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var DisAmt = HdrDisAmttextbox.val();
+        if (isNaN(DisAmt)) {
+            DisAmt = 0;
+        }
+        var HdrVatAmttextbox = $("#HdrVatAmt").kendoNumericTextBox({
+            change: function () {
+                var value = this.value();
+            }
+        });
+        var VatAmt = HdrVatAmttextbox.val();
+         if (isNaN(VatAmt)) {
+            VatAmt = 0;
+         }
+         var HdrVatPertextbox = $("#HdrVatPer").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var VatPer = HdrVatPertextbox.val();
+         if (isNaN(VatPer)) {
+            VatPer = 0;
+         }
+         var HdrVatAmttextbox = $("#HdrVatAmt").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var VatAmt = HdrVatAmttextbox.val();
+         if (isNaN(VatAmt)) {
+            VatAmt = 0;
+         }
+         var HdrSVatPertextbox = $("#HdrSVatPer").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var SVatPer = HdrSVatPertextbox.val();
+         if (isNaN(SVatPer)) {
+            SVatPer = 0;
+         }
+         var HdrSVatAmttextbox = $("#HdrSVatAmt").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var SVatAmt = HdrSVatAmttextbox.val();
+         if (isNaN(SVatAmt)) {
+            SVatAmt = 0;
+         }
+         var HdrNBTPertextbox = $("#HdrNBTPer").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var NBTPer = HdrNBTPertextbox.val();
+         if (isNaN(NBTPer)) {
+            NBTPer = 0;
+         }
+         var HdrNBTAmttextbox = $("#HdrNBTAmt").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var NBTAmt = HdrNBTAmttextbox.val();
+         if (isNaN(NBTAmt)) {
+            NBTAmt = 0;
+         }
+         var HdrWHTPertextbox = $("#HdrWHTPer").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var WHTPer = HdrWHTPertextbox.val();
+         if (isNaN(WHTPer)) {
+            WHTPer = 0;
+         }
+         var HdrWHTAmttextbox = $("#HdrWHTAmt").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var WHTAmt = HdrWHTAmttextbox.val();
+         if (isNaN(WHTAmt)) {
+            WHTAmt = 0;
+         }
+         var HdrPOQtytextbox = $("#HdrPOQty").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var POQty = HdrPOQtytextbox.val();
+         if (isNaN(POQty)) {
+             POQty = 0;
+         }
+         var Subtotaltextbox = $("#Subtotal").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var subtotal = Subtotaltextbox.val();
+         var HdrLiNotextbox = $("#HdrLiNo").kendoNumericTextBox({
+             change: function () {
+                 var value = this.value();
+             }
+         });
+         var LiNo = HdrLiNotextbox.val();
+         var LiNoForChange = (LiNo -1 );
+
+
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange];
+        
+       
+        firstItem.set("TrnRate", Rate);
+        firstItem.set("DisPer", DisPer);
+        firstItem.set("VAT", VatPer);
+        firstItem.set("NBT", NBTPer);
+        firstItem.set("SVAT", SVatPer);
+        firstItem.set("WHT", WHTPer);
+        firstItem.set("TrnQty", Qty)
+        firstItem.set("SubTotal", subtotal);
+        firstItem.set("POQty", POQty)
+        firstItem.set("DisAmt", DisAmt);
+        firstItem.set("VatAmt", VatAmt);
+        firstItem.set("WHTAmt", WHTAmt);
+        firstItem.set("NBTAmt", NBTAmt);
+        firstItem.set("SVatAmt", SVatAmt);
+        firstItem.set("LiNo", LiNo);
+        firstItem.set("Unit", Unit);
+        firstItem.set("UnitKy", UnitKy);
+        firstItem.set("ItmCd", ItmCd);
+        firstItem.set("ItmNm", ItmNm);
+        firstItem.set("ItmKy", ItmKy);
+        firstItem.set("PrcsDetKy", TaskKy);
+        firstItem.set("PrcsId", TaskId);
+        Calculatetotal();
+
+    }
+    $("#" + '@(ViewBag.MyString)').on("dblclick", "tr.k-state-selected", function () {
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var ItmKy = selectedItem.ItmKy;
+        if (ItmKy != "" || ItmKy != undefined || ItmKy != null) {
+            LoadUnitCombo(ItmKy);
+            var LiNo = selectedItem.LiNo;
+            var ItmCd = selectedItem.ItmCd;
+            var ItmNm = selectedItem.ItmNm;
+            var Qty = selectedItem.TrnQty;
+            var POQty = selectedItem.POQty;
+            var Unit = selectedItem.Unit;
+            var UnitKy = selectedItem.UnitKy;
+            var Rate = selectedItem.TrnRate;
+            var LiNo = selectedItem.LiNo;
+            var DisPer = selectedItem.DisPer;
+            var DisAmt = selectedItem.DisAmt;
+            var VatAmt = selectedItem.VatAmt;
+            var VatPer = selectedItem.VAT;
+            var PrcsDetKy = selectedItem.PrcsDetKy;
+            var PrcsId = selectedItem.PrcsId;
+            var Subtotal = selectedItem.SubTotal;
+
+
+            var NBTAmt = selectedItem.NBTAmt;
+            var NBTPer = selectedItem.NBT;
+            if (NBTPer == undefined || NBTPer == "NaN" || NBTPer == null || NBTPer == NaN) {
+                NBTPer == 0.00;
+            }
+            var WHTAmt = selectedItem.WHTAmt;
+            var WHTPer = selectedItem.WHT;
+            if (WHTPer == undefined || WHTPer == "NaN" || WHTPer == null || WHTPer == NaN) {
+                WHTPer == 0.00;
+            }
+            if (POQty == undefined || POQty == "NaN" || POQty == null || POQty == NaN) {
+                POQty == 0.00;
+            }
+            var SVatAmt = selectedItem.SVatAmt;
+            var SVatPer = selectedItem.SVAT;
+
+
+            $("#cmbItmCd").data("kendoComboBox").value(ItmKy);
+            $("#cmbItmNm").data("kendoComboBox").value(ItmKy);
+            $("#cmbUnit").data("kendoComboBox").value(UnitKy);
+            $("#Qty").data("kendoNumericTextBox").value(Qty);
+            $("#Rate").data("kendoNumericTextBox").value(Rate);
+            if (isNaN(DisPer)) {
+                $("#HdrDisPer").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#HdrDisPer").data("kendoNumericTextBox").value(DisPer);
+            }
+            if (isNaN(Subtotal)) {
+                $("#Subtotal").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#Subtotal").data("kendoNumericTextBox").value(Subtotal);
+            }
+            if (PrcsDetKy == undefined || PrcsDetKy == "NaN" || PrcsDetKy == null || PrcsDetKy == NaN || PrcsDetKy ==undefined) {
+                PrcsDetKy == 1;
+            }
+            $("#cmbTaskId").data("kendoComboBox").value(PrcsDetKy);
+            $("#HdrDisAmt").data("kendoNumericTextBox").value(DisAmt);
+            if (isNaN(VatPer)) {
+                $("#HdrVatPer").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#HdrVatPer").data("kendoNumericTextBox").value(VatPer);
+            }
+
+            $("#HdrVatAmt").data("kendoNumericTextBox").value(VatAmt);
+            if (isNaN(SVatPer)) {
+                $("#HdrSVatPer").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#HdrSVatPer").data("kendoNumericTextBox").value(SVatPer);
+            }
+
+            $("#HdrSVatAmt").data("kendoNumericTextBox").value(SVatAmt);
+            if (isNaN(NBTPer)) {
+                $("#HdrNBTPer").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#HdrNBTPer").data("kendoNumericTextBox").value(NBTPer);
+            }
+
+            $("#HdrNBTAmt").data("kendoNumericTextBox").value(NBTAmt);
+            if (isNaN(WHTPer)) {
+                $("#HdrWHTPer").data("kendoNumericTextBox").value(0);
+            } else {
+                $("#HdrWHTPer").data("kendoNumericTextBox").value(WHTPer);
+            }
+
+            $("#HdrWHTAmt").data("kendoNumericTextBox").value(WHTAmt);
+            $("#HdrPOQty").data("kendoNumericTextBox").value(POQty);
+            $("#HdrLiNo").data("kendoNumericTextBox").value(LiNo);
+
+        }
+    })
+
+    function setHeight() {
+        var height = $(window).height();
+        //var hfilterCont = $("#filterCont").height();
+        var hButtonSet = $("#ButtonSet").height();
+        var hHdrPart = $("#HdrPart").height();
+        var hChildHdrpart = $("#ChildHdrpart").height();
+        //$("#body").height(height);
+        var id = ("#" + '@(ViewBag.MyString)');
+        var gridElement = $(id);
+        var dataArea = gridElement.find(".k-grid-content");
+        dataArea.height(height - (405 + hButtonSet + hHdrPart + hChildHdrpart));
+    }
+
+    function ChangeItmDetail() {
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+
+        var dataSource = grid.dataSource;
+        var total = dataSource.data().length;
+
+        if (total > 1) {
+            var answer = confirm("Are you want to update rate !");
+            if (answer) {
+                var id = ("#" + '@(ViewBag.MyString)');
+                var dataSource = $(id).data("kendoGrid").dataSource.data();
+                for (var i = 0; i < dataSource.length; i++) {
+
+                    var ItmCdForChange = dataSource[i].ItmCd;
+                    var lino = dataSource[i].LiNo;
+
+                    var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+                    if (AdrKy == 0 || AdrKy == null) {
+                        var AdrKy = 1;
+                    }
+                    var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+                    if (FrmLocKy == 0 || FrmLocKy == null) {
+                        var FrmLocKy = 1;
+                    }
+
+                    var PrjKy = 1;
+
+                    var Dt = $("#Date").val();
+
+                    if (ItmCdForChange == null || ItmCdForChange == "" || ItmCdForChange == undefined || lino == 0 || lino == undefined) {
+
+
+                    } else {
+
+
+                        $.ajax({
+                            url: '@Url.Content("~/Transaction/PnsItemsLookUpByItmCd")',
+                            dataType: "json",
+                            type: "POST",
+                            data: JSON.stringify({
+                                ConCd: "TrnTyp", OurCd: '@(ViewBag.MyString)', ItmCd: ItmCdForChange,
+                                AdrKy: AdrKy,
+                                LocKy: FrmLocKy,
+                                PrjKy: PrjKy,
+                                Dat: Dt,
+                                Lino: lino
+
+                            }),
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (list) {
+
+
+                                if (list.length == 0 || list.length == null) {
+                                    alert("Cannot find the item !");
+
+                                } else {
+
+                                    for (j = 0; j < list.length; j++) {
+
+
+                                        var Rate = list[0].Rate;
+                                        var LiNoForChange = list[0].LiNo;
+                                        var DisPer = list[0].Disper;
+                                        var VAT = list[0].VAT;
+                                        var NBT = list[0].NBT;
+                                        var SVAT = list[0].SVAT;
+                                        var WHT = list[0].WHT;
+                                        var id = ("#" + '@(ViewBag.MyString)');
+                                        var firstItem = $(id).data().kendoGrid.dataSource.data()[LiNoForChange - 1];
+
+                                        firstItem.set("TrnRate", Rate);
+                                        firstItem.set("DisPer", DisPer);
+                                        firstItem.set("VAT", VAT);
+                                        firstItem.set("NBT", NBT);
+                                        firstItem.set("SVAT", SVAT);
+                                        firstItem.set("WHT", WHT);
+
+                                        var TrnQty = firstItem.get("TrnQty")
+                                        var TSubTotal = firstItem.set("SubTotal", (TrnQty * Rate));
+                                        var SubTotal = (TrnQty * Rate);
+
+                                        var Disamt = (DisPer / 100) * SubTotal;
+                                        firstItem.set("DisAmt", Disamt);
+
+
+                                        var VATamt = (VAT / 100) * SubTotal;
+                                        firstItem.set("VatAmt", VATamt);
+
+
+                                        var WHTamt = (WHT / 100) * SubTotal;
+                                        firstItem.set("WHTAmt", WHTamt);
+
+
+                                        var NBTamt = (NBT / 100) * SubTotal;
+                                        firstItem.set("NBTAmt", NBTamt);
+
+
+                                        var SVATamt = (SVAT / 100) * SubTotal;
+                                        firstItem.set("SVatAmt", SVATamt);
+
+
+                                    }
+                                }
+
+                            },
+                            error: function (e) {
+
+                            }
+
+                        })
+
+                    }
+                }
+            }
+        }
+
+    }
+    function DisableFeature() {
+        var cmbPmt = $("#cmbPmt").data("kendoComboBox");
+        cmbPmt.enable(false);
+        var cmbCurrency = $("#cmbCurrency").data("kendoComboBox");
+        cmbCurrency.enable(false);
+
+    }
+
+    function isNumberOnlyTextField(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function AddPropToChild(itmcd, itmky, itmnm, Unit, UnitKy, Rate, DisPer, VAT, NBT, SVAT, WHT, SubTotal, Disamt, VATamt, WHTamt, NBTamt, SVATamt, qty) {
+
+        var TaskId = $("#cmbTaskId").data("kendoComboBox").text();
+        var TaskKy = $("#cmbTaskId").data("kendoComboBox").value();
+        if (TaskKy == "" || TaskKy == null || TaskKy == 0 || TaskKy == undefined) {
+            TaskKy = 1;
+        }
+        var ourcd = "@(ViewBag.MyString)";
+        if (ourcd == "SLSRTN") {
+            var Anly3Ky = $("#cmbAnly3").data('kendoComboBox').value();
+            var Anly3Cd = $("#cmbAnly3").data('kendoComboBox').text();
+        } else {
+            var Anly3Ky = 1;
+            var Anly3Cd = "";
+        }
+        var id = ("#" + '@(ViewBag.MyString)');
+        var child = $(id).data("kendoGrid");
+        var dataSource = child.dataSource;
+        var total = dataSource.data().length;
+
+        child.dataSource.read();
+        var count = child.dataSource.total();
+        var lineNo = count;
+
+        dataSource.insert(total - 1, {
+            ItmTrnKy: 0,
+            LiNo: lineNo,
+            ItmCd: itmcd,
+            ItmKy: itmky,
+            ItmNm: itmnm,
+            TrnQty: qty,
+            TrnRate: Rate,
+            SubTotal: SubTotal,
+            DisPer: DisPer,
+            DisAmt: Disamt,
+            UnitKy: UnitKy,
+            Unit: Unit,
+            VAT: VAT,
+            VatAmt: VATamt,
+            NBT: NBT,
+            NBTAmt: NBTamt,
+            SVAT: SVAT,
+            SVatAmt: SVATamt,
+            WHT: WHT,
+            WHTAmt: WHTamt,
+            PrcsDetKy: TaskKy,
+            PrcsId: TaskId
+
+        });
+        Calculatetotal();
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+
+    }
+
+
+    function Calculatetotal() {
+        CalSubTotal();
+        CalDisAmt();
+        CalVatAmt();
+        CalWHTAmt();
+        CalNBTAmt();
+        CalSVatAmt();
+        CalTotal();
+
+    }
+
+    function CalSubTotal() {
+        var Subtotal = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            Subtotal += gridData[i].SubTotal;
+            SetSubtotal(Subtotal);
+        }
+    }
+
+    function SetSubtotal(Subtotal) {
+        var newSubTValueDoble = (Subtotal).toFixed(2);
+        $("#SubTotal").val(newSubTValueDoble);
+    }
+
+    function CalDisAmt() {
+        var DisAmt = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            DisAmt += gridData[i].DisAmt;
+            SetDisAmt(DisAmt);
+        }
+    }
+
+    function SetDisAmt(DisAmt) {
+        var newDisAmtValueDoble = (DisAmt).toFixed(2);
+        $("#Discount").val(newDisAmtValueDoble);
+    }
+
+    function CalVatAmt() {
+        var VatAmt = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            VatAmt += gridData[i].VatAmt;
+            SetVatAmt(VatAmt);
+        }
+    }
+
+    function SetVatAmt(VatAmt) {
+        var newVatAmtValueDoble = (VatAmt).toFixed(2);
+        $("#Vat").val(newVatAmtValueDoble);
+    }
+
+    function CalWHTAmt() {
+        var WHTAmt = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            WHTAmt += gridData[i].WHTAmt;
+            SetWHTAmt(WHTAmt);
+        }
+    }
+
+    function SetWHTAmt(WHTAmt) {
+        var newWHTAmtValueDoble = (WHTAmt).toFixed(2);
+        $("#WHT").val(newWHTAmtValueDoble);
+    }
+
+    function CalNBTAmt() {
+        var NBTAmt = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            NBTAmt += gridData[i].NBTAmt;
+            SetNBTAmt(NBTAmt);
+        }
+    }
+
+    function SetNBTAmt(NBTAmt) {
+        var newNBTAmtValueDoble = (NBTAmt).toFixed(2);
+        $("#NBT").val(newNBTAmtValueDoble);
+    }
+
+    function CalSVatAmt() {
+        var SVatAmt = 0;
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        var gridData = grid.dataSource.view();
+        for (var i = 0; i < gridData.length; i++) {
+
+            SVatAmt += gridData[i].SVatAmt;
+            SetSVatAmt(SVatAmt);
+        }
+    }
+
+    function SetSVatAmt(SVatAmt) {
+        var newSVatAmtValueDoble = (SVatAmt).toFixed(2);
+        $("#SVAT").val(newSVatAmtValueDoble);
+    }
+
+
+    function CalTotal() {
+
+        var subtotal = $("#SubTotal").val();
+        var Discount = $("#Discount").val();
+        var NBT = $("#NBT").val();
+        var Vat = $("#Vat").val();
+        var WHT = $("#WHT").val();
+        var Svat = $("#SVAT").val();
+
+        if (subtotal == null) {
+            subtotal = 0;
+        }
+        if (Discount == null) {
+            Discount = 0;
+        }
+        if (NBT == null) {
+            NBT = 0;
+        }
+        if (Vat == null) {
+            Vat = 0;
+        }
+
+        if (WHT == null) {
+            WHT = 0;
+        }
+        if (Svat == null) {
+            Svat = 0;
+        }
+
+        //var Tax = $("#Tax").data("kendoNumericTextBox").val();
+        var TotalVal = Number(subtotal) + Number(NBT) + Number(Vat) + Number(WHT) + Number(Svat);
+        var FinalTotal = TotalVal - Number(Discount);
+        var FinalTotalDoble = (FinalTotal).toFixed(2);
+        var FinalTotalDoubleSeperate = FinalTotalDoble.toLocaleString();
+
+        $("#Total").val(FinalTotalDoubleSeperate);
+    }
+
+    $("#Qty").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+           
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                var Qty = $("#Qty").data("kendoNumericTextBox").value();
+               //' alert(Qty);
+                changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+
+    $("#Rate").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    $("#HdrDisPer").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var id = ("#" + '@(ViewBag.MyString)');
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    $("#HdrDisAmt").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                setDisPerByDisAmt();
+                //changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    $("#HdrVatPer").keypress(function (event) {
+        debugger
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    $("#HdrVatAmt").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                setVatPerByVatAmt();
+               // changeItemRalatedTotal();
+
+            }
+
+        }
+    });
+    $("#HdrNBTAmt").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                setNBTPerByNBTAmt();
+               // changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    $("#HdrNBTPer").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+        }
+    });
+    $("#HdrSVatPer").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+        }
+    });
+
+    $("#HdrSVatAmt").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                setSVatPerBySVatAmt();
+                //changeItemRalatedTotal();
+
+            }
+
+        }
+    });
+    $("#HdrWHTAmt").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                setWHTPerByWHTAmt();
+
+            }
+
+
+        }
+    });
+    $("#HdrWHTPer").keydown(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+            if (LiNo == 0 || LiNo == null || LiNo ==undefined) {
+                setItmDetailbyEnterky();
+
+            } else {
+                changeItemRalatedTotal();
+
+            }
+
+
+        }
+    });
+    function setItmDetailbyEnterky() {
+
+        var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+        if (AdrKy == 0 || AdrKy == null) {
+            var AdrKy = 1;
+        }
+        var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+
+        if (FrmLocKy == 0 || FrmLocKy == null) {
+            var FrmLocKy = 1;
+        }
+
+        var PrjKy = 1;
+
+        var Dt = $("#Date").val();
+
+    
+
+        var value = $("#cmbItmCd").data('kendoComboBox').text();
+        var qty = $("#Qty").val();
+        if (value != 0 || value != null) {
+            if (qty == 0 || qty == null || qty == undefined || qty == "") {
+                alert("Qty cannot be null !");
+
+            } else {
+
+                $.ajax({
+                    url: '@Url.Content("~/Transaction/ItemsLookUpByItmCd")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({
+                        ConCd: "TrnTyp", OurCd: '@(ViewBag.MyString)', ItmCd: value,
+                        AdrKy: AdrKy,
+                        LocKy: FrmLocKy,
+                        PrjKy: PrjKy,
+                        Dt: Dt,
+
+
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (list) {
+
+
+                        if (list.length == 0 || list.length == null) {
+                            alert("Cannot find the item !");
+
+                        } else {
+
+                            for (i = 0; i < list.length; i++) {
+
+                                var itmcd = list[0].ItmCd;
+                                var itmky = list[0].ItmKy;
+                                var itmnm = list[0].ItmNm;
+                                var Rate = list[0].Rate;
+                                var UnitKy = list[0].UnitKy;
+                                var Unit = list[0].Unit;
+                                var DisPer = list[0].Disper;
+                                var VAT = list[0].VAT;
+                                var NBT = list[0].NBT;
+                                var SVAT = list[0].SVAT;
+                                var WHT = list[0].WHT;
+
+
+                                var SubTotal = (qty * Rate);
+                                var Disamt = (DisPer / 100) * SubTotal;
+                                var VATamt = (VAT / (100 + VAT)) * (SubTotal - Disamt);
+                                var WHTamt = (WHT / 100) * SubTotal;
+                                var NBTamt = (NBT / 100) * SubTotal;
+                                var SVATamt = (SVAT / 100) * SubTotal;
+
+                                AddPropToChild(itmcd, itmky, itmnm, Unit, UnitKy, Rate, DisPer, VAT, NBT, SVAT, WHT, SubTotal, Disamt, VATamt, WHTamt, NBTamt, SVATamt, qty);
+                                $("#cmbItmCd").data('kendoComboBox').value(null);
+                                $("#cmbItmNm").data('kendoComboBox').value(null);
+
+
+                                $("#Qty").val(null);
+                                $("#cmbItmCd").data("kendoComboBox").input.focus();
+
+                                var id = ("#" + '@(ViewBag.MyString)');
+                                var grid = $(id).data("kendoGrid");
+                                grid.dataSource.read();
+                                var count = grid.dataSource.total();
+
+                                // setRow(count, e.model);
+
+
+                            }
+                        }
+
+                    },
+                    error: function (e) {
+
+                    }
+
+                });
+                //   }
+
+            }
+
+
+
+        }
+
+    }
+
+    function setDefault() {
+
+
+        var myComboBoxAccId = $('#cmbSlsACId').data('kendoComboBox');
+        myComboBoxAccId.text("PurChase");
+        var myComboBoxAccNm = $('#cmbSlsACCd').data('kendoComboBox');
+        myComboBoxAccNm.text("Purchase");
+        //LoadCombo();
+        var myComboBox = $('#cmbPmt').data('kendoComboBox');
+        myComboBox.text("Credit");
+        //  myComboBox.trigger("select");
+        //$("#cmbCurrency").data("kendoComboBox").value(178);
+        var CurrancyComboBox = $('#cmbCurrency').data('kendoComboBox');
+        CurrancyComboBox.text("LKR");
+        //var locid = "RjRMS";
+        //var locnm = "Rj - Main Stores";
+        //$("#cmbFmLocId").data("kendoComboBox").text(locid);
+        //$("#cmbFmLocNm").data("kendoComboBox").text(locnm);
+        //var credit = "Credit";
+        //var currency = "LKR";
+        //$("#cmbPmt").data("kendoComboBox").text(credit);
+        //$("#cmbCurrency").data("kendoComboBox").text(currency);
+        // var puracid ='PurChase';
+        // var puracnm = 'Purchase';
+
+        //// $("#cmbSlsACId").data("kendoComboBox").text(puracid);
+        //// $("#cmbSlsACCd").data("kendoComboBox").text(puracnm);
+        // var Slscombobox = $("#cmbSlsACId").data('kendoComboBox');
+        // Slscombobox.text('PurChase');
+        // //var SlsCdcombobox = $("#cmbSlsACCd").data("kendoComboBox");
+        // //SlsCdcombobox.te(13);
+        // LoadCombo();
+        // var a = $("#cmbSlsACId").data('kendoComboBox');
+        // var b = a.value();
+        // alert(b);
+    }
+    function CreateNewGridRow() {
+        @*var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+        if (grid) {
+            var dataSource = grid.dataSource;
+            var total = dataSource.data().length;
+            dataSource.insert(total, {});
+        }*@
+
+    }
+    $("#Date").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2009)
+    });
+    $("#Date").closest("span.k-datepicker").width('100%');
+
+    $("#YurRefDate").width(150).kendoDatePicker({
+
+        format: "yyyy/MM/dd",
+        min: new Date(2009, 2, 31)
+    });
+    $("#YurRefDate").closest("span.k-datepicker").width(150);
+
+    function ToLocDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetToLocList")',
+                      data: "ItmTrn",
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function FmLocDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetFromLocList")',
+                      data: { TrnTyp: "ItmTrn" },
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function DlvToDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetAddress")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function ProjectDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetProjectList")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+    function AccountDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetCusAccountList")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function AddressDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetAddressList")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function BUDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetBUlist")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function PurAcDatasource() {
+        var ConCd = "TrnTyp";
+        var OurCd = '@(ViewBag.MyString)';
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetPurAcList")',
+                      data: {
+                          ConCd: "TrnTyp",
+                          OurCd: '@(ViewBag.MyString)'
+                      },
+                      dataType: "json"
+                  }
+              }
+
+          });
+        return dataSource;
+    }
+
+    function PmtDatasource() {
+        var ConCd = "PmtTrm";
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetPmtList")',
+                      data: {
+                          ConCd: "PmtTrm",
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function CurrencyDatasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetCurrencyList")',
+
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+    function AdrByAccDatasource(AccKy) {
+        var data = new Array();
+        $.ajax({
+            url: '@Url.Content("~/Transaction/GetAdrByAcc")',
+            @*url: "@Url.Content("~/Transaction/GetAdrKy")",*@
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                AccKy: AccKy,
+
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (list) {
+
+
+                if (list.length == 1) {
+                    $("#cmbAdrId").data("kendoComboBox").value(null);
+                    $("#cmbAdrNm").data("kendoComboBox").value(null);
+                    for (i = 0; i < list.length; i++) {
+                        var AdrKy = list[0].AdrKy;
+                        var AdrNm = list[0].AdrNm;
+                        var AdrID = list[0].AdrID;
+                        $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrId").data("kendoComboBox").text(AdrID);
+                        $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrNm").data("kendoComboBox").text(AdrNm);
+
+                    }
+                    //  alert("Cannot find the item !");
+
+                } else if (list.length == 2) {
+                    $("#cmbAdrId").data("kendoComboBox").setDataSource(list);
+                    $("#cmbAdrId").data("kendoComboBox").value(null);
+                    $("#cmbAdrNm").data("kendoComboBox").setDataSource(list);
+                    $("#cmbAdrNm").data("kendoComboBox").value(null);
+                    for (i = 0; i < list.length; i++) {
+                        var AdrKy = list[1].AdrKy;
+                        var AdrNm = list[1].AdrNm;
+                        var AdrID = list[1].AdrID;
+                        $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrId").data("kendoComboBox").text(AdrID);
+                        $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrNm").data("kendoComboBox").text(AdrNm);
+                    }
+                }
+                else {
+
+                    $("#cmbAdrId").data("kendoComboBox").value(null);
+                    $("#cmbAdrNm").data("kendoComboBox").value(null);
+                    for (i = 0; i < list.length; i++) {
+
+                        // data.push({ dataValueField:list[i].AdrKy, dataTextField:list[i].AdrNm });
+                        $("#cmbAdrId").data("kendoComboBox").setDataSource(list);
+                        $("#cmbAdrNm").data("kendoComboBox").setDataSource(list);
+                    }
+                }
+
+            },
+            error: function (e) {
+
+            }
+
+        });
+        //var dataSource = data;
+
+
+        //return dataSource;
+    }
+
+    function ItmCdDatasourceTest() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/ItmCd_SelectWeb")',
+                      data: {
+                          OurCd: 'RM',
+                          ConCd: 'ItmTyp'
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function ItmNmDatasourceTest() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/ItmNm_SelectWeb")',
+                      data: {
+                          OurCd: 'RM',
+                          ConCd: 'ItmTyp'
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function UnitDatasource(ItmKy) {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetItemMultiUnits")',
+                      data: {
+                          ItmKy: ItmKy,
+
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+    function TaskDatasource(PrjKy) {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetTaskList")',
+                      data: {
+                          PrjKy: PrjKy,
+
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function LoadAdrComboByAcc(AccKy) {
+
+
+        $("#cmbAdrId").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrID",
+            dataSource: AdrByAccDatasource(AccKy),
+            change: function (e) {
+                var cmb = $("#cmbAdrId").data("kendoComboBox");
+                var AdrKy = cmb.value();
+                if (AdrKy != "") {
+                    var validate = ComboValidations("cmbAdrId");
+                    if (validate) {
+                        $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                        setDefault();
+                        // GetAccKyByAdrKy(AdrKy);
+                        //$("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                        //$("#cmbAccId").data("kendoComboBox").value(AccKy);
+                        // sendPrjKy();
+                        ////LoadGridView(prjky);
+                    } else {
+                        $("#cmbAdrId").data("kendoComboBox").value("");
+                        $("#cmbAdrNm").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Address.."
+        });
+        $("#cmbAdrId").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#cmbItmCd").data("kendoComboBox").input.focus();
+            }
+        });
+        $("#cmbAdrNm").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrNm",
+            dataSource: AdrByAccDatasource(AccKy),
+            change: function (e) {
+                var cmb = $("#cmbAdrNm").data("kendoComboBox");
+                var AdrKy = cmb.value();
+                if (AdrKy != "") {
+                    var validate = ComboValidations("cmbAdrNm");
+                    if (validate) {
+                        $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                        setDefault();
+                        //  GetAccKyByAdrKy(AdrKy);
+                        //$("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                        //$("#cmbAccId").data("kendoComboBox").value(AccKy);
+                        ////sendPrjKy();
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAdrNm").data("kendoComboBox").value("");
+                        $("#cmbAdrId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Address.."
+        });
+
+
+        $("#cmbAdrId").parent().css('width', "40%");
+        $("#cmbAdrNm").parent().css('width', "58%");
+
+    }
+
+    function LoadTaskCombo(PrjKy) {
+        $("#cmbTaskId").kendoComboBox({
+            dataValueField: "TaskKy",
+            dataTextField: "TaskId",
+            dataSource: TaskDatasource(PrjKy),
+            change: function (e) {
+                //var cmb = $("#cmbItmCd").data("kendoComboBox");
+                //var ItmKy = cmb.value();
+                //if (ItmKy != "") {
+
+                //}
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a ItmCd.."
+        });
+
+        $("#cmbTaskId").data("kendoComboBox").input.keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+                if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                    setItmDetailbyEnterky();
+
+                } else {
+
+                    changeItemRalatedTotal();
+
+                }
+            }
+        });
+
+    }
+
+    function LoadUnitCombo(ItmKy) {
+        $("#cmbUnit").kendoComboBox({
+            dataValueField: "UnitKy",
+            dataTextField: "Unit",
+            dataSource: UnitDatasource(ItmKy),
+            change: function (e) {
+                //var cmb = $("#cmbItmCd").data("kendoComboBox");
+                //var ItmKy = cmb.value();
+                //if (ItmKy != "") {
+
+                //}
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a ItmCd.."
+        });
+        $("#cmbUnit").data("kendoComboBox").input.keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+                if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                    setItmDetailbyEnterky();
+
+                } else {
+
+                    changeItemRalatedTotal();
+
+                }
+            }
+        });
+
+    }
+
+    function Anly3Datasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Transaction/GetAnlTyp")',
+                      data: {
+                          ConCd: "AnlTyp3"
+                      },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function LoadCombo() {
+        $("#cmbAnly3").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: Anly3Datasource(),
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Analysis.."
+        });
+
+        $("#cmbAnly3").data("kendoComboBox").input.keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                var LiNo = $("#HdrLiNo").data("kendoNumericTextBox").value();
+                if (LiNo == 0 || LiNo == null || LiNo == undefined) {
+                    setItmDetailbyEnterky();
+
+                } else {
+                   
+                    changeItemRalatedTotal();
+
+                }
+            }
+        });
+
+        $("#cmbItmCd").kendoComboBox({
+            dataValueField: "ItmKy",
+            dataTextField: "ItmCd",
+            dataSource: ItmCdDatasourceTest(),
+            change: function (e) {
+                var cmb = $("#cmbItmCd").data("kendoComboBox");
+                var ItmKy = cmb.value();
+                if (ItmKy != "") {
+                    var validate = ComboValidations("cmbItmCd");
+                    if (validate) {
+                        $("#cmbItmCd").data("kendoComboBox").value(ItmKy);
+                        $("#cmbItmNm").data("kendoComboBox").value(ItmKy);
+                        LoadUnitCombo(ItmKy);
+                       
+                        $("#Qty").data("kendoNumericTextBox").value(null);
+                        $("#Rate").data("kendoNumericTextBox").value(null);
+                        $("#HdrDisPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrDisAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrSVatPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrSVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrNBTPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrNBTAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrWHTPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrWHTAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrLiNo").data("kendoNumericTextBox").value(null);
+                        $("#cmbTaskId").data('kendoComboBox').value(null);
+                        $("#cmbUnit").data('kendoComboBox').value(null);
+                    } else {
+                        $("#cmbItmCd").data("kendoComboBox").value("");
+                        $("#cmbItmNm").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a ItmCd.."
+        });
+        $("#cmbItmCd").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#Qty").data("kendoNumericTextBox").focus();
+            }
+        });
+
+        $("#cmbItmNm").kendoComboBox({
+            dataValueField: "ItmKy",
+            dataTextField: "ItmNm",
+            dataSource: ItmNmDatasourceTest(),
+            change: function (e) {
+                var cmb = $("#cmbItmNm").data("kendoComboBox");
+                var ItmKy = cmb.value();
+                if (ItmKy != "") {
+                    var validate = ComboValidations("cmbItmNm");
+                    if (validate) {
+                        $("#cmbItmCd").data("kendoComboBox").value(ItmKy);
+                        $("#cmbItmNm").data("kendoComboBox").value(ItmKy);
+                        LoadUnitCombo(ItmKy);
+                        $("#Qty").data("kendoNumericTextBox").value(null);
+                        $("#Rate").data("kendoNumericTextBox").value(null);
+                        $("#HdrDisPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrDisAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrSVatPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrSVatAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrNBTPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrNBTAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrWHTPer").data("kendoNumericTextBox").value(null);
+                        $("#HdrWHTAmt").data("kendoNumericTextBox").value(null);
+                        $("#HdrLiNo").data("kendoNumericTextBox").value(null);
+                        $("#cmbTaskId").data('kendoComboBox').value(null);
+                        $("#cmbUnit").data('kendoComboBox').value(null);
+                    } else {
+                        $("#cmbItmCd").data("kendoComboBox").value("");
+                        $("#cmbItmNm").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a ItmNm.."
+        });
+        $("#cmbItmNm").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#Qty").data("kendoNumericTextBox").focus();
+            }
+        });
+        $("#cmbPmt").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: PmtDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Perment Terms.."
+        });
+        $("#cmbCurrency").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: CurrencyDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjId").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjId");
+                    if (validate) {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        // sendPrjKy();
+                        LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Currency.."
+        });
+        $("#cmbPrjId").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjID",
+            dataSource: ProjectDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbPrjId").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbPrjId");
+                    if (validate) {
+                        $("#cmbPrjNm").data("kendoComboBox").value(prjky);
+                        $("#cmbPrjId").data("kendoComboBox").value(prjky);
+                        setDefault();
+                        // sendPrjKy();
+                        //  LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbPrjNm").data("kendoComboBox").value("");
+                        $("#cmbPrjId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a From Project.."
+        });
+        $("#cmbPrjId").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#cmbFmLocId").data("kendoComboBox").input.focus();
+            }
+        });
+
+        $("#cmbPrjNm").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjNm",
+            dataSource: ProjectDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbPrjNm").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbPrjNm");
+                    if (validate) {
+                        $("#cmbPrjId").data("kendoComboBox").value(prjky);
+                        $("#cmbPrjNm").data("kendoComboBox").value(prjky);
+                        setDefault();
+                        //sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbPrjNm").data("kendoComboBox").value("");
+                        $("#cmbPrjId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Project.."
+        });
+
+        //$("#cmbBUId").kendoComboBox({
+        //    dataValueField: "CdKy",
+        //    dataTextField: "Code",
+        //    dataSource: BUDatasource(),
+        //    change: function (e) {
+        //        var cmb = $("#cmbBUId").data("kendoComboBox");
+        //        var CdKy = cmb.value();
+        //        if (CdKy != "") {
+        //            var validate = ComboValidations("cmbBUId");
+        //            if (validate) {
+        //                $("#cmbBUId").data("kendoComboBox").value(CdKy);
+        //                $("#cmbBUCd").data("kendoComboBox").value(CdKy);
+
+        //            } else {
+        //                $("#cmbBUCd").data("kendoComboBox").value("");
+        //                $("#cmbBUId").data("kendoComboBox").value("");
+        //            }
+        //        }
+        //    },
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Select a BU.."
+        //});
+        //$("#cmbBUCd").kendoComboBox({
+        //    dataValueField: "CdKy",
+        //    dataTextField: "CdNm",
+        //    dataSource: BUDatasource(),
+        //    change: function (e) {
+        //        var cmb = $("#cmbBUCd").data("kendoComboBox");
+        //        var CdKy = cmb.value();
+        //        if (CdKy != "") {
+        //            var validate = ComboValidations("cmbBUCd");
+        //            if (validate) {
+        //                $("#cmbBUCd").data("kendoComboBox").value(CdKy);
+        //                $("#cmbBUId").data("kendoComboBox").value(CdKy);
+
+        //            } else {
+        //                $("#cmbBUCd").data("kendoComboBox").value("");
+        //                $("#cmbBUId").data("kendoComboBox").value("");
+        //            }
+        //        }
+        //    },
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Select a BU.."
+        //});
+
+        $("#cmbSlsACId").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: PurAcDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbSlsACId").data("kendoComboBox");
+                var AccKy = cmb.value();
+                if (AccKy != "") {
+                    var validate = ComboValidations("cmbSlsACId");
+                    if (validate) {
+                        $("#cmbSlsACId").data("kendoComboBox").value(AccKy);
+                        $("#cmbSlsACCd").data("kendoComboBox").value(AccKy);
+
+                    } else {
+                        $("#cmbSlsACId").data("kendoComboBox").value("");
+                        $("#cmbSlsACCd").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Purchase A/C.."
+        });
+
+        $("#cmbSlsACId").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#cmbAccId").data("kendoComboBox").input.focus();
+            }
+        });
+
+        $("#cmbSlsACCd").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccNm",
+            dataSource: PurAcDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbSlsACCd").data("kendoComboBox");
+                var AccKy = cmb.value();
+                if (AccKy != "") {
+                    var validate = ComboValidations("cmbSlsACCd");
+                    if (validate) {
+                        $("#cmbSlsACCd").data("kendoComboBox").value(AccKy);
+                        $("#cmbSlsACId").data("kendoComboBox").value(AccKy);
+
+                    } else {
+                        $("#cmbSlsACCd").data("kendoComboBox").value("");
+                        $("#cmbSlsACId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Purchase A/C.."
+        });
+
+        $("#cmbFmLocId").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: FmLocDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmLocId").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbFmLocId");
+                    if (validate) {
+                        $("#cmbFmLocNm").data("kendoComboBox").value(CdKy);
+                        $("#cmbFmLocId").data("kendoComboBox").value(CdKy);
+                        setDefault();
+                    } else {
+                        $("#cmbFmLocNm").data("kendoComboBox").value("");
+                        $("#cmbFmLocId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a From Location.."
+        });
+        $("#cmbFmLocId").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#cmbSlsACId").data("kendoComboBox").input.focus();
+            }
+        });
+        $("#cmbFmLocNm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: FmLocDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmLocNm").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("cmbFmLocNm");
+                    if (validate) {
+                        $("#cmbFmLocId").data("kendoComboBox").value(CdKy);
+                        $("#cmbFmLocNm").data("kendoComboBox").value(CdKy);
+                        setDefault();
+                    } else {
+                        $("#cmbFmLocNm").data("kendoComboBox").value("");
+                        $("#cmbFmLocId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a From Location.."
+        });
+
+
+
+        $("#cmbAccId").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: AccountDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbAccId").data("kendoComboBox");
+                var AccKy = cmb.value();
+                if (AccKy != "") {
+                    var validate = ComboValidations("cmbAccId");
+                    if (validate) {
+                        $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                        $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                        LoadAdrComboByAcc(AccKy);
+                        setDefault();
+                        // GetAdrKyByAccKy(AccKy);
+                        //$("#cmbAdrId").data("kendoComboBox").value(AccKy);
+                        //$("#cmbAdrNm").data("kendoComboBox").value(AccKy);
+                        //sendPrjKy();
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAccNm").data("kendoComboBox").value("");
+                        $("#cmbAccId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Accounts.."
+        });
+        $("#cmbAccId").data("kendoComboBox").input.keydown(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#cmbAdrId").data("kendoComboBox").input.focus();
+            }
+        });
+        $("#cmbAccNm").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccNm",
+            dataSource: AccountDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbAccNm").data("kendoComboBox");
+                var AccKy = cmb.value();
+                if (AccKy != "") {
+                    var validate = ComboValidations("cmbAccNm");
+                    if (validate) {
+                        $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                        $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                        GetAdrKyByAccKy(AccKy);
+                        setDefault();
+                        //$("#cmbAdrId").data("kendoComboBox").value(AccKy);
+                        //$("#cmbAdrNm").data("kendoComboBox").value(AccKy);
+                        //sendPrjKy();
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbAccNm").data("kendoComboBox").value("");
+                        $("#cmbAccId").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Accounts.."
+        });
+
+
+        $("#cmbItmCd").parent().css('width', "31%");
+
+        $("#cmbItmNm").parent().css('width', "58%");
+        $("#cmbPrjId").parent().css('width', "40%");
+        $("#cmbDeliTo").parent().css('width', "40%");
+        $("#cmbPmt").parent().css('width', "100%");
+        $("#cmbCurrency").parent().css('width', "100%");
+        $("#cmbBUId").parent().css('width', "40%");
+        $("#cmbBUCd").parent().css('width', "58%");
+        $("#cmbSlsACId").parent().css('width', "40%");
+        $("#cmbSlsACCd").parent().css('width', "58%");
+        $("#cmbFmLocId").parent().css('width', "40%");
+        $("#cmbToLocId").parent().css('width', "40%");
+        $("#cmbPrjNm").parent().css('width', "58%");
+
+        $("#cmbAccId").parent().css('width', "40%");
+        $("#cmbAccNm").parent().css('width', "58%");
+        $("#cmbFmLocNm").parent().css('width', "58%");
+        $("#cmbToLocNm").parent().css('width', "58%");
+       // $("#Qty").css('width', "100%");
+        $("#HdrVatPer").css('width', "100%");
+        $("#HdrVatAmt").css('width', "100%");
+        $("#HdrSVatPer").css('width', "100%");
+        $("#HdrSVatAmt").css('width', "100%");
+        $("#HdrNBTPer").css('width', "100%");
+        $("#HdrNBTAmt").css('width', "100%");
+        $("#HdrWHTPer").css('width', "100%");
+        $("#HdrWHTAmt").css('width', "100%");
+        $("#HdrPOQty").css('width', "100%");
+       // $("#HdrDisPer").css('width', "100%");
+        //$("#HdrDisAmt").css('width', "100%");
+
+       // $("#Rate").css('width', "100%");
+        $("#cmbUnit").css('width', "100%");
+        $("#cmbAnly3").parent().css('width', "100%");
+        $("#cmbTaskId").css('width', "100%");
+
+        $("#HdrLiNo").css('width', "100%");
+    }
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            $("#" + cmbNm + "").data("kendoComboBox").input.focus();
+            return false;
+        } else {
+
+            return true;
+        }
+    }
+
+
+    function GetAdrKyByAccKy(AccKy) {
+        $.ajax({
+            url: "@Url.Content("~/Transaction/GetAdrKy")",
+            data: JSON.stringify({
+
+                AccKy: AccKy,
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    var AdrKy = data[0].AdrKy;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+    function GetAccKyByAdrKy(AdrKy) {
+        $.ajax({
+            url: "@Url.Content("~/Transaction/GetAccKy")",
+            data: JSON.stringify({
+
+                AdrKy: AdrKy,
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    var AccKy = data[0].AccKy;
+                    $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                    $("#cmbAccId").data("kendoComboBox").value(AccKy);
+
+                }
+
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+    function LoadGridView1(PrjKy) {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    @*url: '@Url.Content("~/Transaction/GetDetailByOrdKy")',*@
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            sort: ({ field: "LiNo", dir: "desc" }),// "asc"
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmTrnKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        ItmTrnKy: { editable: true, nullable: false, type: "number" },
+                        LiNo: { editable: false, nullable: false, type: "number" },
+                        ItmKy: { editable: false, nullable: false, type: "number" },
+
+                        ItmCd: { editable: false, nullable: false, type: "string" },
+                        ItmNm: { editable: false, nullable: false, type: "string" },
+                        Unit: { editable: false, nullable: false },
+                        UnitKy: { editable: true, nullable: false },
+                        Des: { editable: false, nullable: false, type: "string" },
+                        POQty: { editable: true, nullable: false, type: "number" },
+                        TrnQty: { editable: true, nullable: false },
+                        TrnRate: { editable: true, nullable: false, type: "number" },
+                        SubTotal: { editable: true, nullable: false, type: "number" },
+                        DisAmt: { editable: true, nullable: false, type: "number" },
+                        DisPer: { editable: true, nullable: false, type: "number" },
+                        VatAmt: { editable: true, nullable: false, type: "number" },
+                        VAT: { editable: true, nullable: false, type: "number" },
+                        WHT: { editable: true, nullable: false, type: "number" },
+                        WHTAmt: { editable: true, nullable: false, type: "number" },
+                        NBTAmt: { editable: true, nullable: false, type: "number" },
+                        NBT: { editable: true, nullable: false, type: "number" },
+                        SVatAmt: { editable: true, nullable: false, type: "number" },
+                        SVAT: { editable: true, nullable: false, type: "number" },
+                        Rem: { editable: false, nullable: false, type: "string" },
+                        PrcsDetKy: { editable: false, nullable: false, type: "number" },
+                        PrcsId: { editable: false, nullable: false, type: "string" },
+
+
+                    }
+                }
+            }
+        });
+        var id = ("#" + '@(ViewBag.MyString)');
+        $(id).kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+
+            navigatable: true,
+            filterable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+
+            columns: [
+            {
+                field: "ItmTrnKy", title: "Ref #", width: "100px", hidden: true,
+            },
+
+                {
+                    field: "LiNo", title: "Ref #", width: "100px",
+                   
+                },
+                  {
+                      field: "ItmKy", title: "Ref #", width: "100px", hidden: true,
+                      
+                  },
+                   {
+                       field: "ItmCd",
+                       title: "Item Cd",
+                       width: "150px",
+                      
+
+                   },
+                     {
+                         field: "ItmNm", title: "Item Name", width: "150px",
+                        
+                     },
+
+               {
+                   field: "Unit", title: "Unit", width: "100px",
+                  
+               },
+                {
+                    field: "UnitKy", title: "Unit", width: "100px", hidden: true,
+                    editor: function (container, options) {
+                        var model = options.model;
+
+                    }
+                },
+               {
+                   field: "POQty", title: "POQty", width: "150px", format: "{0:N2}",
+                   editor: function (container, options) {
+                       var model = options.model;
+
+                   }
+
+               },
+                {
+                    field: "TrnQty", title: "Qty", width: "150px",
+                   
+                    editor: function (container, options) {
+                        var model = options.model;
+
+                    }
+                },
+                {
+                    field: "TrnRate", title: "Rate", width: "150px", format: "{0:N2}",
+                    editor: function (container, options) {
+                        var model = options.model;
+
+                    }
+                },
+                   {
+                       field: "SubTotal", title: "SubTotal", width: "150px", format: "{0:N2}",
+                       editor: function (container, options) {
+                           var model = options.model;
+
+                       }
+
+                   },
+                   {
+                       field: "DisPer", title: "Discount %", width: "150px", format: "{0:N2}",
+                       editor: function (container, options) {
+                           var model = options.model;
+
+                       }
+                   },
+                   {
+                       field: "DisAmt", title: "Discount", width: "150px", format: "{0:N2}",
+                       editor: function (container, options) {
+                           var model = options.model;
+
+                       }
+
+                   },
+
+                     {
+                         field: "VAT", title: "VAT %", width: "150px", hidden: false, format: "{0:N2}",
+                         editor: function (container, options) {
+                             var model = options.model;
+
+                         }
+                     },
+                        {
+                            field: "VatAmt", title: "VAT Amount", width: "150px", format: "{0:N2}",
+                            editor: function (container, options) {
+                                var model = options.model;
+
+                            }
+                        },
+                         {
+                             field: "WHT", title: "WHT %", width: "150px", hidden: false, format: "{0:N2}",
+                             editor: function (container, options) {
+                                 var model = options.model;
+
+                             }
+                         },
+                        {
+                            field: "WHTAmt", title: "WHT Amount", width: "150px", format: "{0:N2}",
+                            editor: function (container, options) {
+                                var model = options.model;
+
+                            }
+                        },
+                         {
+                             field: "NBT", title: "NBT %", width: "150px", hidden: false, format: "{0:N2}",
+                             editor: function (container, options) {
+                                 var model = options.model;
+
+                             }
+                         },
+                          {
+                              field: "NBTAmt", title: "NBT Amount", width: "150px", hidden: false, format: "{0:N2}",
+                              editor: function (container, options) {
+                                  var model = options.model;
+
+                              }
+                          },
+
+                        {
+                            field: "SVAT", title: "SVAT %", width: "150px", format: "{0:N2}",
+                            editor: function (container, options) {
+                                var model = options.model;
+
+                            }
+                        },
+                          {
+                              field: "SVatAmt", title: "SVAT Amount", width: "150px", format: "{0:N2}",
+                              editor: function (container, options) {
+                                  var model = options.model;
+
+                              }
+                          },
+                 { field: "Des", title: "Description", width: "150px" },
+                 { field: "Rem", title: "Remarks", width: "150px" },
+                {
+                    field: "PrcsDetKy", title: "PrcsDetKy", width: "100px", hidden: true,
+                    
+                },
+                {
+                    field: "PrcsId", title: "TaskId", width: "100px",
+                    
+                },
+                {
+                    width: "60px",
+                    template: kendo.template($("#command-template").html())
+
+                },
+                   
+
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true,
+            
+            edit: function (e) {
+
+                var input = e.container.find(".k-input");
+                var td = input.closest("td");
+                var rowIndex = td.parent().index();
+                var cellIndex = td.index();
+                var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+                if (AdrKy == 0 || AdrKy == null) {
+                    var AdrKy = 1;
+                }
+                var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+
+                if (FrmLocKy == 0 || FrmLocKy == null) {
+                    var FrmLocKy = 1;
+                }
+
+                var PrjKy = 1;
+
+                var Dt = $("#Date").val();
+                input.on("keydown", function (event) {
+
+                    if (event.keyCode == 13) {
+
+                        if (cellIndex == 3) {
+
+                            var input = e.container.find(".k-input");
+                            var value = input.val();
+                            if (value != 0 || value != null) {
+
+                                $.ajax({
+                                    url: '@Url.Content("~/Transaction/PnsItemsLookUpByItmCd")',
+                                    dataType: "json",
+                                    type: "POST",
+                                    data: JSON.stringify({
+                                        ConCd: "OrdTyp", OurCd: '@(ViewBag.MyString)', ItmCd: value,
+                                        AdrKy: AdrKy,
+                                        LocKy: FrmLocKy,
+                                        PrjKy: PrjKy,
+                                        Dat: Dt
+
+                                    }),
+                                    contentType: 'application/json; charset=utf-8',
+                                    success: function (list) {
+
+
+                                        if (list.length == 0 || list.length == null) {
+                                            alert("Cannot find the item !");
+
+                                        } else {
+
+                                            for (i = 0; i < list.length; i++) {
+
+                                                var itmcd = list[0].ItmCd;
+                                                var itmky = list[0].ItmKy;
+                                                var itmnm = list[0].ItmNm;
+                                                var Rate = list[0].TrnRate;
+                                                var UnitKy = list[0].UnitKy;
+                                                var Unit = list[0].Unit;
+                                                var DisPer = list[0].Disper;
+                                                var VAT = list[0].VAT;
+                                                var NBT = list[0].NBT;
+                                                var SVAT = list[0].SVAT;
+                                                var WHT = list[0].WHT;
+                                                var input = e.container.find(".k-input");
+
+
+                                                setProp(itmcd, itmky, itmnm, Unit, UnitKy, Rate, DisPer, VAT, NBT, SVAT, WHT, e.model);
+
+
+                                                CreateNewGridRow();
+                                                cellIndex = 6;
+
+                                                var id = ("#" + '@(ViewBag.MyString)');
+                                                var cellCloseT = $(id).data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+
+                                                $(id).data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+
+                                                var grid = $(id).data("kendoGrid");
+                                                grid.dataSource.read();
+                                                var count = grid.dataSource.total();
+                                                setRow(count, e.model);
+
+                                            }
+                                        }
+
+                                    },
+                                    error: function (e) {
+
+                                    }
+
+                                });
+
+
+                            }
+
+                        } else if (cellIndex == 4) {
+
+
+                            CallItmNmWindow();
+                            cellIndex = 2;
+                            var id = ("#" + '@(ViewBag.MyString)');
+
+                            var cellCloseT = $(id).data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+                            $(id).data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+
+
+                        }
+                        else if (cellIndex == 7) {
+
+                            var qty = e.container.find(".k-input");
+                            var qtyvalue = qty.val();
+                            if (qtyvalue == "{0:N2}" || qtyvalue == null || qtyvalue == "" || qtyvalue == undefined || qtyvalue == 0.00) {
+
+                                alert("Please Insert Qty");
+                                cellIndex = 6;
+                                var id = ("#" + '@(ViewBag.MyString)');
+                                var cellCloseT = $(id).data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+                                $(id).data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+                            } else {
+
+                                rowIndex = rowIndex + 1;
+                                cellIndex = 2;
+                                var id = ("#" + '@(ViewBag.MyString)');
+                                var cellCloseT = $(id).data("kendoGrid").closeCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").parent());
+                                $(id).data("kendoGrid").editCell($(".k-grid-content").find("table").find("tbody").find("tr:eq(" + rowIndex + ")").find("td:eq(" + cellIndex + ")").next().focusin(cellCloseT));
+
+                            }
+
+
+                        }
+                        else if (cellIndex == 5) {
+                            alert();
+
+
+                        }
+                        return false;
+                    }
+
+                });
+
+            },
+        });
+
+
+
+
+        function setProp(itmcd, itmky, itmnm, Unit, UnitKy, Rate, Disper, VAT, NBT, SVAT, WHT, model) {
+
+            var exchangeTestCd = model.set("ItmCd", itmcd);
+            var exchangeTesKy = model.set("ItmKy", itmky);
+            var exchangeTesNm = model.set("ItmNm", itmnm);
+            var exchangeTesRate = model.set("TrnRate", Rate);
+            var exchangeTesDisPer = model.set("DisPer", Disper);
+            var exchangeTesunitky = model.set("UnitKy", UnitKy);
+            var exchangeTesunit = model.set("Unit", Unit);
+            var exchangeTesVAT = model.set("VAT", VAT);
+            var exchangeTesNBT = model.set("NBT", NBT);
+            var exchangeTesSVAT = model.set("SVAT", SVAT);
+            var exchangeTesWHT = model.set("WHT", WHT);
+        }
+
+
+
+        function setRow(count, model) {
+            var exchangeRow = model.set("LiNo", count);
+
+        }
+
+        function CaluculateSubTotal() {
+
+
+            var newSubTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newSubTValue += model.get("SubTotal");
+            });
+            SetTotalSubTotalVal(newSubTValue);
+
+        }
+
+        function SetTotalSubTotalVal(newSubTValue) {
+            var newSubTValueDoble = (newSubTValue).toFixed(2);
+
+            $("#SubTotal").val(newSubTValueDoble);
+        }
+        function CaluculateDisAmt() {
+
+            var newDisTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newDisTValue += model.get("DisAmt");
+            });
+            SetTotalDisAmtVal(newDisTValue);
+        }
+        function SetTotalDisAmtVal(newDisTValue) {
+            var newDisTValueDoble = (newDisTValue).toFixed(2);
+
+            $("#Discount").val(newDisTValueDoble);
+        }
+        function CaluculateVatAmt() {
+
+            var newVatTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newVatTValue += model.get("VatAmt");
+            });
+            SetTotalVatAmtVal(newVatTValue);
+        }
+        function SetTotalVatAmtVal(newVatTValue) {
+            var newVatTValueDoble = (newVatTValue).toFixed(2);
+
+            $("#Vat").val(newVatTValueDoble);
+        }
+        function CaluculateWHTAmt() {
+
+            var newWhtTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newWhtTValue += model.get("WHTAmt");
+            });
+            SetTotalWHTAmtVal(newWhtTValue);
+        }
+        function SetTotalWHTAmtVal(newWhtTValue) {
+            var newWhtTValueDoble = (newWhtTValue).toFixed(2);
+
+            $("#WHT").val(newWhtTValueDoble);
+        }
+        function CaluculateNBTAmt() {
+
+            var newNbtTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newNbtTValue += model.get("NBTAmt");
+            });
+            SetTotalNBTAmtVal(newNbtTValue);
+        }
+        function SetTotalNBTAmtVal(newNbtTValue) {
+            var newNbtTValueDoble = (newNbtTValue).toFixed(2);
+
+            $("#NBT").val(newNbtTValueDoble);
+        }
+        function CaluculateSVATAmt() {
+
+            var newSvatTValue = 0;
+            $.each(dataSource.data(), function (index, model) {
+                newSvatTValue += model.get("SVatAmt");
+            });
+            SetTotalSVatAmtVal(newSvatTValue);
+        }
+        function SetTotalSVatAmtVal(newSvatTValue) {
+            var newSvatTValueDoble = (newSvatTValue).toFixed(2);
+
+            $("#SVAT").val(newSvatTValueDoble);
+        }
+
+
+
+        function CaluculateTotal() {
+
+            var subtotal = $("#SubTotal").val();
+            var Discount = $("#Discount").val();
+            var NBT = $("#NBT").val();
+            var Vat = $("#Vat").val();
+            var WHT = $("#WHT").val();
+            var Svat = $("#SVAT").val();
+
+            if (subtotal == null) {
+                subtotal = 0;
+            }
+            if (Discount == null) {
+                Discount = 0;
+            }
+            if (NBT == null) {
+                NBT = 0;
+            }
+            if (Vat == null) {
+                Vat = 0;
+            }
+
+            if (WHT == null) {
+                WHT = 0;
+            }
+            if (Svat == null) {
+                Svat = 0;
+            }
+
+
+            var TotalVal = Number(subtotal) + Number(NBT) + Number(Vat) + Number(WHT) + Number(Svat);
+            var FinalTotal = TotalVal - Number(Discount);
+            var FinalTotalDoble = (FinalTotal).toFixed(2);
+            var FinalTotalDoubleSeperate = FinalTotalDoble.toLocaleString();
+
+            $("#Total").val(FinalTotalDoubleSeperate);
+        }
+
+    }
+    function sendPrjKy() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: '@Url.Action("sendPrjKy", "ItmTransfer")',
+            data: {
+                strPrjKy: $("#cmbFmPrjId").val(),
+
+            },
+            success: function (data) {
+
+            }
+        })
+    }
+
+ 
+    $("#ExRate").kendoNumericTextBox({
+        min: 0.0000,
+        decimals: 0,
+        format: "n4"
+
+    });
+
+    function Remember() {
+        //alert("here..");
+        var grid = $("#grid").data("kendoGrid");
+        dataView = grid.dataSource.view();
+
+        var rowObjs = grid.tbody[0].rows;
+        var today = new Date();
+
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var output = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + d.getFullYear();
+
+        for (var i = 0; i < dataView.length; i++) {
+            var row = rowObjs[i];
+            if (dataView[i].NxtActDt === dt) {
+
+
+            }
+        }
+    }
+
+
+
+    //$("#NBT").on('input', function () {
+    //    CaluculateTotal();
+
+    //});
+
+
+    function GridOnDataBinding(arg) {
+        record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+    }
+
+
+
+
+    var urlsendDataSaveChangesHdr = '@Url.Content("~/Transaction/InsertHdr")';
+
+    var urlsendDataSaveChangesDetail = '@Url.Content("~/Transaction/InsertDetail")';
+    function ComSaveFunction() {
+
+        var PrjKy = $("#cmbPrjId").data('kendoComboBox').value();
+        if (PrjKy == 0 || PrjKy == null) {
+            var PrjKy = 1;
+        }
+        var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+        if (AdrKy == 0 || AdrKy == null) {
+            var AdrKy = 1;
+        }
+        var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+        if (FrmLocKy == 0 || FrmLocKy == null) {
+            var FrmLocKy = 1;
+        }
+        //  var BuKy = $("#cmbBUId").data('kendoComboBox').value();
+        // if (BuKy != 0 || BuKy != null) {
+        //   var BUKY = BuKy;
+        //  } else {
+        var BUKY = 1;
+
+        //  }
+        //var ToLocKy = $("#cmbToLocId").data('kendoComboBox').value();
+        var AccKy = $("#cmbAccId").data('kendoComboBox').value();
+        if (AccKy == 0 || AccKy == null) {
+            var AccKy = 1;
+        }
+
+        var SlsACId = $("#cmbSlsACId").data('kendoComboBox').value();
+        if (SlsACId == 0 || SlsACId == null) {
+            var SlsACId = 1;
+        }
+
+        var Pmt = $("#cmbPmt").data('kendoComboBox').value();
+        if (Pmt == 0 || Pmt == null) {
+            var Pmt = 1;
+        }
+
+        var Currency = $("#cmbCurrency").data('kendoComboBox').value();
+        if (Currency == 0 || Currency == null) {
+            var Currency = 1;
+        }
+        var Date = $("#Date").val();
+        var ExRate = $("#ExRate").data('kendoNumericTextBox').value();
+        if (ExRate == 0 || ExRate == null) {
+            var ExRate = 1;
+        }
+        var SubTotal = $("#SubTotal").val();
+        var Dsicount = $("#Discount").val();
+        var NBT = $("#NBT").val();
+        var Vat = $("#Vat").val();
+        var Wht = $("#WHT").val();
+        var Svat = $("#SVAT").val();
+
+        var Total = $("#Total").val();
+        var Yurref = $("#Yurref").val();
+        var YurRefDate = $("#YurRefDate").val();
+        var DocNo = $("#DocNo").val();
+        var OrdKySelect = $("#OrdKy1").val();
+        var OrdTypKySelect = $("#OrdTypKy1").val();
+        var OrdPrefixKySelect = $("#OrdPrefixKy1").val();
+        var OrdNoSelect = $("#OrdNo1").val();
+        var AccTrnKy = $("#AccTrnKy").val();
+
+
+        var OurCd = '@(ViewBag.MyString)';
+        var ConCd = "TrnTyp";
+
+        var id = ("#" + '@(ViewBag.MyString)');
+        var grid = $(id).data("kendoGrid");
+
+
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew() && currentData[i].ItmKy > 0) {
+                //this record is new
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty && currentData[i].ItmKy > 0) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        //this records are deleted
+        var deletedRecords = [];
+        for (var i = 0; i < grid.dataSource._destroyed.length; i++) {
+            deletedRecords.push(grid.dataSource._destroyed[i].toJSON());
+        }
+        $.ajax({
+            url: "@Url.Content("~/Transaction/ValidateTrnDt")",
+            data: JSON.stringify({
+
+                Date: Date,
+                OurCd: OurCd,
+                ConCd: ConCd,
+                PrjKy: PrjKy,
+                LocKy: FrmLocKy,
+
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (dataList) {
+                for (i = 0; i < dataList.length; i++) {
+
+                    var validate = dataList[0].IsValidate;
+                    var message = dataList[0].Message;
+                    if (validate == 1) {
+                        if (OrdKySelect == null || OrdKySelect == undefined || OrdKySelect == "" && OrdTypKySelect == null || OrdTypKySelect == undefined || OrdTypKySelect == "" && OrdNoSelect == null || OrdNoSelect == undefined || OrdNoSelect == "") {
+
+                            $.ajax({
+                                url: "@Url.Content("~/Transaction/InsertHdrGRN")",
+                                data: JSON.stringify({
+
+                                    PrjKy: PrjKy,
+                                    AdrKy: AdrKy,
+                                    FrmLocKy: FrmLocKy,
+                                    BUKY: BUKY,
+                                    AccKy: AccKy,
+                                    Date: Date,
+                                    OurCd: OurCd,
+                                    ConCd: ConCd,
+                                    DocNo: DocNo,
+                                    Yurref: Yurref,
+                                    YurRefDate: YurRefDate,
+                                    ExRate: ExRate,
+                                    Currency: Currency,
+                                    Pmt: Pmt,
+                                    SlsACId: SlsACId,
+                                    Dsicount: Dsicount,
+                                    NBT: NBT,
+                                    Vat: Vat,
+                                    Wht: Wht,
+                                    Svat: Svat,
+                                    SubTotal: SubTotal,
+                                    Total: Total
+
+
+
+                                }),
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: "Json",
+                                type: "POST",
+                                success: function (data) {
+                                    if (data > 0) {
+                                        var ordKy = data;
+                                        $("#OrdKy1").val(ordKy);
+                                        //InsertAccounts();
+                                        InsertGrid();
+                                    }
+
+                                },
+                                error: function (e) {
+                                    return false;
+                                }
+                            });
+
+
+                        } else {
+
+                            $.ajax({
+                                url: "@Url.Content("~/Transaction/UpdateHdrGRN")",
+                                data: JSON.stringify({
+
+                                    PrjKy: PrjKy,
+                                    AdrKy: AdrKy,
+                                    FrmLocKy: FrmLocKy,
+                                    BUKY: BUKY,
+                                    AccKy: AccKy,
+                                    Date: Date,
+                                    OurCd: OurCd,
+                                    ConCd: ConCd,
+                                    DocNo: DocNo,
+                                    Yurref: Yurref,
+                                    YurRefDate: YurRefDate,
+                                    ExRate: ExRate,
+                                    Currency: Currency,
+                                    Pmt: Pmt,
+                                    SlsACId: SlsACId,
+                                    Dsicount: Dsicount,
+                                    NBT: NBT,
+                                    Vat: Vat,
+                                    Wht: Wht,
+                                    Svat: Svat,
+                                    SubTotal: SubTotal,
+                                    Total: Total,
+                                    OrdKySelect: OrdKySelect,
+                                    OrdTypKySelect: OrdTypKySelect,
+                                    OrdPrefixKySelect: OrdPrefixKySelect,
+                                    OrdNoSelect: OrdNoSelect,
+
+
+
+                                }),
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: "Json",
+                                type: "POST",
+                                success: function (data) {
+                                    //UpdateAccounts();
+                                    InsertGrid();
+                                },
+                                error: function (e) {
+                                    return false;
+                                }
+                            });
+
+                        }
+
+
+                    } else {
+                        alert(message);
+                    }
+
+
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+
+        function InsertAccounts() {
+
+            var ourcd = '@(ViewBag.MyString)';
+            var concd = "TrnTyp";
+            var ordKydata = $("#OrdKy1").val();
+            var dt = $("#Date").val();
+
+            var pmt = $("#cmbPmt").data('kendoComboBox').value();
+            if (pmt == 0 || pmt == null) {
+                var pmt = 1;
+            }
+
+            var currency = $("#cmbCurrency").data('kendoComboBox').value();
+            if (currency == 0 || currency == null) {
+                var currency = 1;
+            }
+            $.ajax({
+                url: "@Url.Content("~/Transaction/InsertAccountsInvoice")",
+                data: JSON.stringify({
+                    TrnKy: ordKydata,
+                    OurCd: ourcd,
+                    ConCd: concd,
+                    Dt: dt,
+                    Pmt: pmt,
+                    Currency: 1
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    alert("Successfully Saved..!");
+                    GetGrnGridDetail(ordKydata);
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+
+        function UpdateAccounts() {
+            var ordKydata = $("#OrdKy1").val();
+            var AccTrnKy = $("#AccTrnKy").val();
+            $.ajax({
+                url: "@Url.Content("~/Transaction/UpdateAccountsInvoice")",
+                data: JSON.stringify({
+                    TrnKy: ordKydata,
+                    CrAccKy: SlsACId,
+                    DrAccKy: AccKy,
+                    BUKy: 1,
+                    AccTrnKy: AccTrnKy
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    // alert("Successfully Saved..!");
+
+                    //  InsertGrid();
+                    var ordKydata = $("#OrdKy1").val();
+                    alert("Successfully Saved..!");
+                    GetGrnGridDetail(ordKydata);
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+
+        function InsertGrid() {
+            var ordKydata = $("#OrdKy1").val();
+            $.ajax({
+                url: "@Url.Content("~/Transaction/InsertGRNGrid")",
+                data: JSON.stringify({
+                    updatedOrders: kendo.stringify(updatedRecords), deletedOrders: kendo.stringify(deletedRecords), newOrders: kendo.stringify(newRecords),
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    AccKy: AccKy,
+                    BUKY: BUKY,
+                    Date: Date,
+                    ordKydata: ordKydata
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var ordKydata = $("#OrdKy1").val();
+                    InsertAccounts();
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+
+    function ComClearFunction() {
+        $("#cmbAdrId").data('kendoComboBox').value(null);
+        $("#cmbAdrNm").data('kendoComboBox').value(null);
+        $("#cmbTaskId").data('kendoComboBox').value(null);
+        $("#cmbAccId").data('kendoComboBox').value(null);
+        $("#cmbAccNm").data('kendoComboBox').value(null);
+        //$("#cmbSlsACId").data('kendoComboBox').value(null);
+        //$("#cmbSlsACCd").data('kendoComboBox').value(null);
+        $("#SubTotal").val(null);
+
+        $("#Yurref").val(null);
+        $("#DocNo").val(null);
+        $("#PrefixOrdNo1").val(null);
+
+        $("#OrdKy1").val(null);
+        $("#OrdTypKy1").val(null);
+        $("#OrdPrefixKy1").val(null);
+        $("#OrdNo1").val(null);
+
+        $("#cmbFmLocId").data('kendoComboBox').value(null);
+        $("#cmbFmLocNm").data('kendoComboBox').value(null);
+        $("#cmbPrjId").data('kendoComboBox').value(null);
+        $("#cmbPrjNm").data('kendoComboBox').value(null);
+
+        $("#SubTotal").val(null);
+        $("#Discount").val(null);
+        $("#NBT").val(null);
+        $("#Vat").val(null);
+        $("#WHT").val(null);
+        $("#SVAT").val(null);
+        $("#Total").val(null);
+
+
+        $("#ExRate").kendoNumericTextBox({
+            min: 1,
+
+        });
+        $("#cmbItmCd").data("kendoComboBox").value(null);
+        $("#cmbItmNm").data("kendoComboBox").value(null);
+        $("#cmbUnit").data("kendoComboBox").value(null);
+        $("#Qty").data("kendoNumericTextBox").value(null);
+        $("#Rate").data("kendoNumericTextBox").value(null);
+        $("#HdrDisPer").data("kendoNumericTextBox").value(null);
+        $("#HdrDisAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrVatPer").data("kendoNumericTextBox").value(null);
+        $("#HdrVatAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrSVatPer").data("kendoNumericTextBox").value(null);
+        $("#HdrSVatAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrNBTPer").data("kendoNumericTextBox").value(null);
+        $("#HdrNBTAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrWHTPer").data("kendoNumericTextBox").value(null);
+        $("#HdrWHTAmt").data("kendoNumericTextBox").value(null);
+        $("#HdrLiNo").data("kendoNumericTextBox").value(null);
+        $("#HdrPOQty").data("kendoNumericTextBox").value(null);
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+        var id = ("#" + '@(ViewBag.MyString)');
+        $(id).data("kendoGrid").dataSource.filter(null);
+        var grid = $(id).data("kendoGrid");
+        grid.dataSource.data([]);
+        CreateNewGridRow();
+        setDefault();
+      
+    }
+
+    $(document.body).keydown(function (e) {
+
+        if (e.ctrlKey && e.keyCode == 70) {
+
+            $("#FindFormGRN").show().kendoWindow({
+                width: "1000px",
+                height: "500px",
+                modal: true,
+                title: "Find"
+            });
+
+            $('#FindFormGRN').data('kendoWindow').center().open();
+
+        }
+    });
+
+    function CallItmNmWindow() {
+
+        $("#ResourceAnalysisWinForChild").show().kendoWindow({
+            width: "1000px",
+            height: "500px",
+            modal: true,
+            title: "Find"
+        });
+
+        $('#ResourceAnalysisWinForChild').data('kendoWindow').center().open();
+
+    }
+    function GetGrnGridDetail(ordKy) {
+
+        $.ajax({
+            url: "@Url.Content("~/Transaction/GetGridGRNDetail")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+
+                for (i = 0; i < data.length; i++) {
+                    var TrnNo = data[0].TrnNo;
+                    $("#OrdNo1").val(TrnNo);
+                    var PrefixTrnNo = data[0].PrefixTrnNo;
+                    $("#PrefixOrdNo1").val(PrefixTrnNo);
+                    var TrnPreFixKy = data[0].TrnPreFixKy;
+                    $("#OrdPrefixKy1").val(TrnPreFixKy);
+                    var TrnTypKy = data[0].TrnTypKy;
+                    $("#OrdTypKy1").val(TrnTypKy);
+
+                    var TrnKy = data[0].TrnKy;
+                    $("#OrdKy1").val(TrnKy);
+
+                    var LocKy = data[0].LocKy;
+                    $("#cmbFmLocId").data("kendoComboBox").value(LocKy);
+                    $("#cmbFmLocNm").data("kendoComboBox").value(LocKy);
+                    var SlsAccKy = data[0].SlsAccKy;
+                    $("#cmbSlsACId").data("kendoComboBox").value(SlsAccKy);
+                    $("#cmbSlsACCd").data("kendoComboBox").value(SlsAccKy);
+
+                    var AccKy = data[0].AccKy;
+                    $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                    $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+
+                    var TrnDt = data[0].TrnDt;
+                    $('#Date').data("kendoDatePicker").value(TrnDt);
+
+                    var PmtTrmKy = data[0].PmtTrmKy;
+                    $("#cmbPmt").data("kendoComboBox").value(PmtTrmKy);
+
+                    var TrnCrnKy = data[0].TrnCrnKy;
+                    $("#cmbCurrency").data("kendoComboBox").value(TrnCrnKy);
+
+
+                    var ExRate = data[0].TrnExRate;
+
+                    $("#ExRate").val(ExRate);
+
+
+                    var Yurref = data[0].YurRef;
+                    $("#Yurref").val();
+
+                    var YurRefDate = data[0].YurRefDt;
+
+                    $("#YurRefDate").val(YurRefDate);
+                    var DocNo = data[0].DocNo;
+                    $("#DocNo").val(DocNo);
+
+                    var disamt = data[0].Dsicount;
+                    $("#Discount").val(disamt);
+                    var NBT = data[0].NBT;
+                    $("#NBT").val(NBT);
+                    var Vat = data[0].Vat;
+                    $("#Vat").val(Vat);
+                    var Wht = data[0].Wht;
+                    $("#WHT").val(Wht);
+                    var Svat = data[0].Svat;
+                    $("#SVAT").val(Svat);
+                    var Total = data[0].Total;
+                    $("#Total").val(Total);
+                    var SubTotal = Number(data[0].Total) - Number(data[0].Svat) - Number(data[0].Wht) - Number(data[0].Vat) - Number(data[0].NBT) + Number(data[0].Dsicount);
+                    $("#SubTotal").val(SubTotal);
+
+                    // GetInvoiceAccountsDetail(ordKy);
+
+                    GetGrnItemsDetail(ordKy);
+
+
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+
+    }
+    function GetInvoiceAccountsDetail(ordKy) {
+        $.ajax({
+            url: "@Url.Content("~/Transaction/GetInvoiceAccountsDetail")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                var id = ("#" + '@(ViewBag.MyString)');
+                $(id).data("kendoGrid").dataSource.filter(null);
+                var grid = $(id).data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+
+                    var LocKy2 = data[0].LocKy;
+                    $("#cmbFmLocId").data("kendoComboBox").value(LocKy2);
+                    $("#cmbFmLocNm").data("kendoComboBox").value(LocKy2);
+
+                    var PrjKy = data[0].PrjKy;
+                    $("#cmbFmPrjId").data("kendoComboBox").value(PrjKy);
+                    $("#cmbFmPrjNm").data("kendoComboBox").value(PrjKy);
+
+                    var AccKy = data[0].AccKy;
+                    $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                    $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+
+                    var BuKy = data[0].BuKy;
+                    $("#cmbBUId").data("kendoComboBox").value(BuKy);
+                    $("#cmbBUCd").data("kendoComboBox").value(BuKy);
+
+                    var AdrKy1 = data[0].AdrKy;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy1);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy1);
+                    // GetGridDetail(ordKy);
+
+                    var id = ("#" + '@(ViewBag.MyString)');
+                    $(id).data("kendoGrid").dataSource.add({
+                        ItmTrnKy: data[i].ItmTrnKy,
+
+                        ItmKy: data[i].ItmKy,
+
+                        ItmCd: data[i].ItmCd,
+                        ItmNm: data[i].ItmNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+                        Des: data[i].Des,
+                        DisAmt: data[i].DisAmt,
+                        DisPer: data[i].DisPer,
+                        Rem: data[i].Rem,
+                        TrnQty: data[i].Qty,
+                        TrnRate: data[i].Rate,
+                        SubTotal: data[i].Rate * data[i].Qty,
+                        ReqDt: data[i].ReqDt,
+
+                    });
+
+
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function GetGrnItemsDetail(ordKy) {
+        $.ajax({
+            url: "@Url.Content("~/Transaction/GetGRNItemsDetail")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                var id = ("#" + '@(ViewBag.MyString)');
+                $(id).data("kendoGrid").dataSource.filter(null);
+                var grid = $(id).data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+
+                    var LocKy2 = data[0].LocKy;
+                    $("#cmbFmLocId").data("kendoComboBox").value(LocKy2);
+                    $("#cmbFmLocNm").data("kendoComboBox").value(LocKy2);
+
+                    var PrjKy = data[0].PrjKy;
+                    $("#cmbPrjId").data("kendoComboBox").value(PrjKy);
+                    $("#cmbPrjNm").data("kendoComboBox").value(PrjKy);
+
+                    var AdrKy1 = data[0].AdrKy;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy1);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy1);
+                    // GetGridDetail(ordKy);
+
+                    var id = ("#" + '@(ViewBag.MyString)');
+                    $(id).data("kendoGrid").dataSource.add({
+                        ItmTrnKy: data[i].ItmTrnKy,
+                        LiNo: data[i].LiNo,
+                        ItmKy: data[i].ItmKy,
+
+                        ItmCd: data[i].ItmCd,
+                        ItmNm: data[i].ItmNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+                        PrcsId: data[i].PrcsID,
+                        PrcsDetKy: data[i].PrcsDetKy,
+                        Des: data[i].Des,
+                        DisAmt: data[i].Dsicount,
+                        DisPer: data[i].DisPer,
+                        Rem: data[i].Rem,
+                        TrnQty: data[i].Qty,
+                        POQty: 0,
+                        TrnRate: data[i].Rate,
+                        SubTotal: data[i].Rate * data[i].Qty,
+                        VatAmt: data[i].Vat,
+                        WHTAmt: data[i].Wht,
+                        NBTAmt: data[i].NBT,
+                        SVatAmt: data[i].Svat,
+                        VAT: (data[i].Vat / (data[i].Rate * data[i].Qty)) * 100,
+                        WHT: (data[i].Wht / (data[i].Rate * data[i].Qty)) * 100,
+                        NBT: (data[i].NBT / (data[i].Rate * data[i].Qty)) * 100,
+                        SVAT: (data[i].Svat / (data[i].Rate * data[i].Qty)) * 100,
+
+
+                    });
+
+
+                }
+                CreateNewGridRow();
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    //function Prinrept() {
+
+    //    winDoialogElement = $("#idwin").kendoWindow({
+    //        width: 1000,
+    //        height: 1000
+    //    }).data("kendoWindow");
+    //    var url = "http://" + document.location.host + "/Report/TransactionPrint.aspx";
+    //    window.open(url, '_blank');
+
+
+    //}
+
+    function ItemFromPurOrd() {
+
+        $("#FindFormPo").show().kendoWindow({
+            width: "800px",
+            height: "550px",
+            modal: true,
+            title: "New From PurchesOrd"
+        });
+
+        $('#FindFormPo').data('kendoWindow').center().open();
+
+    }
+
+    function Prinrept() {
+        PrintGRN();
+    }
+
+    function PrintGRN() {
+        var OrdKy = $("#OrdKy1").val();
+        $.ajax({
+            url: "@Url.Content("~/Transaction/PrintGRN")",
+            data: JSON.stringify({
+
+                ordKy: OrdKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data == "Success") {
+                    alert("Successfully Printed")
+
+                } else if ("False") {
+                    alert("Not Printed Please Try Again")
+                    //  $('#ResourceAnalysisWinForChild').data('kendoWindow').close();
+                }
+
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function Preview() {
+        PreviewGRN();
+    }
+
+    function PreviewGRN() {
+        var OrdKy = $("#OrdKy1").val();
+        $.ajax({
+            url: "@Url.Content("~/Transaction/PreviewGRN")",
+            data: JSON.stringify({
+
+                ordKy: OrdKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+
+                winDoialogElement = $("#idwin").kendoWindow({
+                    width: 1000,
+                    height: 1000
+                }).data("kendoWindow");
+                var url = "http://" + document.location.host + "/Report/GRNPrint.aspx";
+                window.open(url, '_blank');
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+
+
+    }
+    var id = ("#" + '@(ViewBag.MyString)');
+    $(id).on("click", ".k-grid-evenselect", function () {
+
+
+        var answer = $(id).data("kendoGrid").removeRow($(this).closest("tr"));
+
+        CaluculateSubTotal();
+        CaluculateDisAmt();
+        CaluculateVatAmt();
+        CaluculateWHTAmt();
+        CaluculateNBTAmt();
+        CaluculateSVATAmt();
+        CaluculateTotal();
+
+    });
+
+</script>
+<style>
+     .k-numerictextbox{
+        width:100%;
+    }
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .k-button {
+        box-shadow: none;
+        padding: 0px;
+        border: none;
+    }
+</style>
+

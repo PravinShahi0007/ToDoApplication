@@ -1,0 +1,94 @@
+﻿<style>
+    #ErrorDiv {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+
+    #WarningDiv {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
+
+    #SucsessDiv {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+</style>
+
+<div id="ErrorDiv" style="display:none; overflow:hidden">
+    <div id="ErroeMsg"></div>
+</div>
+
+<div id="WarningDiv" style="display:none; overflow:hidden">
+    <div id="WarningMsg"></div>
+</div>
+
+<div id="SucsessDiv" style="display:none; overflow:hidden">
+    <div id="SucsessMsg"></div>
+</div>
+<div id="dialog">
+</div>
+<script>
+    function OpenError(msg) {
+        $("#ErrorDiv").kendoWindow({
+            modal: true,
+            width: "400px",
+            title: "You got an error!",
+            visible: false,
+            actions: [
+                "Close"
+            ],
+        }).data("kendoWindow").center().open();
+
+        document.getElementById("ErroeMsg").innerHTML = msg;
+        $("#ErrorDiv_wnd_title").parent().css("background-color", "#a94442");
+    }
+
+    function OpenWarning(msg) {
+        $("#WarningDiv").kendoWindow({
+            modal: true,
+            width: "400px",
+            title: "Warning!",
+            visible: false,
+            actions: [
+                "Close"
+            ],
+        }).data("kendoWindow").center().open();
+
+        document.getElementById("WarningMsg").innerHTML = msg;
+        $("#WarningDiv_wnd_title").parent().css("background-color", "#8a6d3b");
+    }
+    function OpenSucsess(msg) {
+        $("#SucsessDiv").kendoWindow({
+            modal: true,
+            width: "400px",
+            title: "Save!",
+            visible: false,
+            actions: [
+                "Close"
+            ],
+        }).data("kendoWindow").center().open();
+
+        document.getElementById("SucsessMsg").innerHTML = msg;
+        $("#SucsessDiv_wnd_title").parent().css("background-color", "#3c763d");
+    }
+
+    var dialog = $('#dialog');
+    function OpenDialog(msg) {
+        dialog.kendoDialog({
+            width: "450px",
+            title: "",
+            closable: true,
+            modal: true,
+            content: msg,
+            buttonLayout: "normal",
+            actions: [               
+                { text: 'Cancel' },
+                { text: 'Ok', primary: true }
+            ],
+        });
+    }
+</script>

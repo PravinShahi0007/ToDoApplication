@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "CompanyMenu";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+
+<div>
+    <div style="height:40px; background-color:#3F51B5">
+
+        <div class="col-md-12" id="ButtonSet">
+            @*<button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>*@
+            <button class="control-button load" id="btnLoadItem" title="Load" data-tooltip="Load"> </button>
+            <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+            <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+
+        </div>
+    </div>
+
+    <div id="HdrSec1" style="margin-top:10px;margin-left:30px;margin-right:30px;">
+        <div class="col-md-12  col-sm-12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                            
+                        <div id="HdrSec1_CmbCompany">
+                            <div class="col-md-2 col-sm-6">
+                                <label id="HdrSec1_CmbCompany_Lbl">Select Company: </label>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div id="HdrSec1_CmbCompany_Cd" style="width:100%;"></div>
+                            </div>
+                        </div>
+                        @*<div id="HdrSec1_ChkboxApplyAll">
+                            <div class="col-md-2 col-sm-6">
+                                <label id="HdrSec1_ChkboxApplyAll_Lbl">Select All:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <input id="HdrSec1_ChkboxApplyAll_Val" type="checkbox">
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-12  col-sm-12">
+        <div class="wr_formGroup" style="margin-left:60px;margin-right:60px;">
+            <div id="GridWin">
+                <div style=" margin-left:2%;margin-right:2%;margin-top:-20px;">
+                    <div id="Grid" style="height:430px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlGetCompany_LookUpWeb = '@Url.Content("~/Login/GetComNm")';
+    var urlGetCompanyMenuUsrObj_SelectWeb = '@Url.Action("GetCompanyMenuUsrObj_SelectWeb", "CompanyMenu")';
+    var urlUsrObj_InsertUpdateWeb = '@Url.Content("~/CompanyMenu/UsrObj_InsertUpdateWeb")';
+
+    @*var urlComboLoad = {
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+    }*@
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/Login/CompanyMenu.js"></script>

@@ -1,0 +1,358 @@
+﻿<div id="ItemFindPartialView" style="display: none">
+    <div>
+        <input style="width:100%;" placeholder="Item Name ..." id="itemNameSSSerachInput" type="text" class="k-textbox" />
+    </div>
+    <div id="ItmMas_ItmNm_SS_Web"></div>
+</div>
+
+<script>
+    function clearGrid() {
+        try {
+            $('#gridDivItmMas_ItmNm_SS_Web0').data().kendoGrid.destroy();
+            $('#gridDivItmMas_ItmNm_SS_Web0').empty();
+        } catch (e) { }
+    }
+    var sSData = {};
+
+    $("#itemNameSSSerachInput").keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            loadSmartSerachItems_SS($("#itemNameSSSerachInput").val(), sSData.Dt, sSData.FormObjKy,
+        sSData.ItmTypKy, sSData.TrnTypKy, sSData.PrjKy, sSData.LocKy, sSData.dataConCd, sSData.dataOurCd);
+        }
+    });
+
+    function ItemSelectionPopUpOpen(ItemName_SS, dataDt, dataFormObjKy,
+        dataItmTypKy, dataTrnTypKy, dataPrjKy, dataLocKy, dataConCd, dataOurCd) {
+
+        if (ItemName_SS.slice(-1) == "?") {
+            ItemName_SS = ItemName_SS.slice(0, -1);
+        }
+
+        //loadSmartSerachItems_SS(ItemName_SS, dataDt, dataFormObjKy,
+        //dataItmTypKy, dataTrnTypKy, dataPrjKy, dataLocKy, dataConCd, dataOurCd);
+
+        sSData.Dt = dataDt;
+        sSData.FormObjKy = dataFormObjKy;
+        sSData.ItmTyyKy = "1" ; //dataItmTypKy
+        sSData.TrntypKy = dataTrnTypKy;
+        sSData.PrjKy = dataPrjKy;
+        sSData.LocKy = dataLocKy;
+        sSData.dataConCd = dataConCd;
+        sSData.dataOurCd = dataOurCd;
+
+        $("#itemNameSSSerachInput").val(ItemName_SS);
+
+        $("#ItemFindPartialView").show().kendoWindow({
+            width: "1000px",
+            height: "560px",
+            modal: true,
+            title: "Item Find"
+        });
+
+        $('#ItemFindPartialView').data('kendoWindow').center().open();
+        clearGrid();
+        $("#itemNameSSSerachInput").focus();
+    }
+
+</script>
+
+<script>
+    function loadSmartSerachItems_SS(ItemName_SS, dataDt, dataFormObjKy,
+        dataItmTypKy, dataTrnTypKy, dataPrjKy, dataLocKy, dataConCd, dataOurCd) {
+
+        try {
+            $('#gridDivItmMas_ItmNm_SS_Web0').data().kendoGrid.destroy();
+            $('#gridDivItmMas_ItmNm_SS_Web0').empty();
+        } catch (e) { }
+
+        var columns = new Array();
+        columns[0] = [
+                   //{ field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+                   //{ field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+        ];
+
+        columns[1] = [
+                   //{ field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+                   //{ field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+        ];
+
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+
+            //ItmNm ,CKy, Dt, FormObjKy, ItmTypKy, TrnTypKy, PrjKy, LocKy, UsrKy
+            data: {
+                ItmNm: ItemName_SS,
+                Dt: dataDt,
+                FormObjKy: dataFormObjKy,
+                ItmTypKy: "1",
+                TrnTypKy: dataTrnTypKy,
+                PrjKy: dataPrjKy,
+                LocKy: dataLocKy,
+                ConCd: dataConCd,
+                OurCd: dataOurCd
+            },
+
+            url: '@Url.Action("ItmMas_ItmNm_SS_WebColDetMulti", "ItmMasSelect")',
+            converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+            success: function (data) {
+
+                for (var t = 0; t < data.length; t++) {
+
+                    if (columns[t] == undefined)
+                        columns[t] = [];
+
+                    for (var i = 0; i < columns[t].length; i++) { // Get and Bind the Column level Details
+                        for (var k = data[t].length - 1; k >= 0 ; k--) {
+                            if (columns[t][i]["field"] == data[t][k]) {
+                                data[t].splice(k, 1); // Remove if column already defined
+                            }
+                        }
+                    }
+
+                    for (i = 0; i < data[t].length; i++) { // Get and Bind the Column level Details
+                        columns[t].push({ field: data[t][i], title: data[t][i], locked: false, hidden: false, width: "200px" });
+                        if (i + 1 == data[t].length) {
+                            objMasLoadData(columns[t], t);
+                        }
+                    }
+                }
+
+                $.holdReady(false);
+            }
+        });
+
+        function objMasLoadData(columnsT, spRestCount) {
+            // UsrObjPrp_SelectWeb(string PrntKy, string ObjTyp, string ObjNm)
+            // UsrObjPrp_SelectWeb( 16640, 'FindForm', 'ItemFind'
+
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                //ItmNm ,CKy, Dt, FormObjKy, ItmTypKy, TrnTypKy, PrjKy, LocKy, UsrKy
+                data: {
+                    PrntKy: viewBag.ObjKy,
+                    ObjTyp: "FindForm",
+                    ObjNm: "ItemFind"
+                },
+                url: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+                converters:
+                {
+                    "text json": function (data) {
+                        return $.parseJSON(data, true, true);
+                    }
+                },
+                success: function (data) {
+                    var ObjKyChild = data[0].ObjKy;
+                    firstLoadData(columnsT, spRestCount, ObjKyChild, data[0]);
+                    $.holdReady(false);
+                }
+            });
+        }
+
+        function firstLoadData(columnsT, spRestCount, ObjKyChild, ObjChild) {
+            $.holdReady(true);
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                data: { ObjKy: ObjKyChild },
+                url: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")',
+                converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+                success: function (data) {
+                    if (data.length > 0 && data[0] != undefined && data[0].length > 0) {// && data[0][0]["PrntKy"] == (spRestCount + 1)) {
+                        for (var i = 0; i < data[0].length; i++) { // Get and Bind the Column level Details
+                            for (var k = columnsT.length - 1; k >= 0 ; k--) {
+                                if (columnsT[k]["field"] == data[0][i]["ObjNm"]) {
+                                    columnsT.splice(k, 1); // Remove if column already defined
+                                }
+                            }
+                        }
+
+                        for (var j = 0; j < data[0].length; j++) {
+                            var alginment = "left";
+                            if (data[0][j]["Alignment"].length > 0) {
+                                alginment = data[0][j]["Alignment"];
+                            }
+
+                            //if (data[0][j]["Aggregates"].length > 0 && data[0][j]["FooterTemplate"].length > 0 && data[0][j]["GrpFooterTemplate"].length > 0) {
+                            //    var tempAggregates = new Array();
+                            //    // this will return an array with strings "1", "2", etc.
+                            //    tempAggregates = data[0][j]["Aggregates"].substring(1, data[0][j]["Aggregates"].length - 1).split("\",\"");
+                            //    columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], aggregates: tempAggregates, footerTemplate: data[0][j]["FooterTemplate"], groupFooterTemplate: data[0][j]["GrpFooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                            //} else if (data[0][j]["Aggregates"].length > 0 && data[0][j]["FooterTemplate"].length > 0) {
+                            //    var tempAggregates = new Array();
+                            //    // this will return an array with strings "1", "2", etc.
+                            //    tempAggregates = data[0][j]["Aggregates"].substring(1, data[0][j]["Aggregates"].length - 1).split("\",\"");
+                            //    columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], aggregates: tempAggregates, footerTemplate: data[0][j]["FooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                            //} else
+                            if (data[0][j]["Template"].length > 0) {
+                                columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], template: data[0][j]["Template"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                            } else {
+                                columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], attributes: { style: "text-align:" + alginment + ";" } });
+                            }
+
+                            if (j + 1 == data[0].length) {
+                                loadWithDetLevelData(columnsT, data[0], spRestCount, ObjChild);
+                            }
+                        }
+                    }
+                    else {
+                        loadWithDetLevelData(columnsT, [], spRestCount, ObjChild);
+                    }
+                    $.holdReady(false);
+                }
+            });
+        }
+
+        function loadWithDetLevelData(columnsT, colData, spRestCount, ObjChild) {
+            $.holdReady(true);
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+
+                data: {
+                    ItmNm: ItemName_SS,
+                    Dt: dataDt,
+                    FormObjKy: dataFormObjKy,
+                    ItmTypKy: dataItmTypKy,
+                    TrnTypKy: dataTrnTypKy,
+                    PrjKy: dataPrjKy,
+                    LocKy: dataLocKy,
+                    ConCd: dataConCd,
+                    OurCd: dataOurCd
+                },
+
+                url: '@Url.Action("ItmMas_ItmNm_SS_WebMulti", "ItmMasSelect")',
+                converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+                success: function (data) {
+                    loadGrid(columnsT, colData, data[spRestCount], spRestCount, ObjChild)
+                    $.holdReady(false);
+                }
+            });
+        }
+
+        function loadGrid(col, colData, dataSrcJsonString, spRestCount, ObjChild) {
+            var iDiv = document.createElement('div');
+            iDiv.id = 'example' + spRestCount + '';
+            iDiv.style.marginTop = "7px";
+
+            // Create the inner div before appending to the body
+            var innerDiv = document.createElement('div');
+            innerDiv.id = 'gridDivItmMas_ItmNm_SS_Web' + spRestCount + '';
+
+            // The variable iDiv is still good... Just append to it.
+            iDiv.appendChild(innerDiv);
+
+            // Then append the whole thing onto the body
+            //document.getElementById("ItmMas_ItmNm_SS_Web").appendChild(iDiv);
+            $("#ItmMas_ItmNm_SS_Web").append(iDiv);
+
+            var agrt = new Array();
+            for (var i = 0; i < col.length; i++) { // Get aggregates
+                if (col[i].aggregates != undefined) {
+                    for (var hh = 0; hh < col[i].aggregates.length; hh++) {
+                        agrt.push({ field: col[i].field, aggregate: col[i].aggregates[hh] });
+                    }
+                }
+            }
+
+            var gridDivItmMas_ItmNm_SS_Web = new kendo.data.DataSource({
+                data: JSON.parse(dataSrcJsonString),
+                pageSize: 100,
+                aggregate: agrt
+            });
+            $("#gridDivItmMas_ItmNm_SS_Web" + spRestCount + "").kendoGrid({
+                //toolbar: ["excel"],
+                //excel: {
+                //    fileName: "Kendo UI Grid Export.xlsx",
+                //    filterable: true
+                //},
+                dataSource: gridDivItmMas_ItmNm_SS_Web,
+                sortable: true,
+                pageable: true,
+                //groupable: true,
+                //filterable: "row",
+                filterable: {
+                    mode: "row"
+                },
+                columnMenu: true,
+                reorderable: true,
+                resizable: true,
+                selectable: "row",
+                editable: false,
+                columns: col,
+                height: "550px"
+            });
+
+            $("#gridDivItmMas_ItmNm_SS_Web" + spRestCount + "").kendoTooltip({
+                filter: "th", //this filter selects the first column title
+                position: "top",
+                width: "200px",
+                content: function (e) {
+                    for (i = 0; i < colData.length; i++) {
+                        var target = e.target.closest("th"); // element for which the tooltip is shown
+                        var rtrn = $(target).text();
+
+                        if ($(target).text() == colData[i].ObjCaptn) {
+                            rtrn = colData[i].ToolTip;
+                        }
+                        return rtrn;
+                    }
+                }
+            }).data("kendoTooltip");
+
+            $("#gridDivItmMas_ItmNm_SS_Web" + spRestCount + "").dblclick(function () {
+
+                var grid = $("#gridDivItmMas_ItmNm_SS_Web" + spRestCount + "").data().kendoGrid;
+                var selectedItem = grid.dataItem(grid.select());
+                var ItmKy = selectedItem.ItmKy;
+                var ItmCd = selectedItem.ItmCd;
+                if (ItmKy != "" || ItmKy != undefined || ItmKy != null) {
+                    SetSelectedItemToItemCombo(ItmKy, ItmCd);
+                    $('#ItemFindPartialView').data('kendoWindow').close();
+                } else {
+                    alert("Please Select Item");
+                }
+
+            });
+
+            $("#itemNameSSSerachInput").focus();
+        }
+    }
+</script>
+
+<style>
+    #gridDivItmMas_ItmNm_SS_Web0{
+        height: 75vh!important;
+        font-size:12px;
+    }
+    #gridDivItmMas_ItmNm_SS_Web0 .k-grid-content{
+        height: 59.5vh!important;
+    }
+    .k-filtercell .k-button{
+        padding: 2px 14px;
+    }
+    span.k-icon.k-loading{
+        top: 0px;
+    }
+</style>

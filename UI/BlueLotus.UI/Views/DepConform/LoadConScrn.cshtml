@@ -1,0 +1,548 @@
+﻿@{
+    ViewBag.Title = "LoadConScrn";
+    //Layout = "~/Views/Shared/_LayOutWithLatestKendoScript_12_09.cshtml";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+
+
+<div id="HdrPart">
+    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <label>From Date</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <input id="FromDate"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <label>To Date</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <input id="Todate"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Coordinator Name</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12   ">
+                        <input id="CordinatorName"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12   ">
+                        <label>Bank Name</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12   ">
+                        <input id="BankLookup"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12   ">
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Cheque Only </label> &nbsp; <input type="checkbox" id="eq1" class="m-5"/>                                             
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <button class="control-button analize" onclick="LoadCrdDetail()" data-tooltip="Load"> </button>
+                        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+                        <button class="control-button clean" onclick="Clear()" data-tooltip="Clear"> </button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 marging-b-500">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12   ">
+                        <div id="grid">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    $(document)
+        .ready(function() {
+            $("#FromDate")
+                .kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    min: new Date(31, 2, 2009)
+                });
+            $("#Todate")
+                .kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    min: new Date(31, 2, 2009)
+                });
+
+            var today = new Date();
+            var todayDate = new Date();
+            // alert(todayDate)
+            $("#Todate").data("kendoDatePicker").value(todayDate);
+            $("#FromDate").data("kendoDatePicker").value(todayDate);
+
+            LoadDropDown();
+            LoadGrid();
+            $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+            Clear();
+            LoadGrid();
+        });
+
+    function Clear() {
+        $("#CordinatorName").data("kendoComboBox").value("");
+        $("#BankLookup").data("kendoComboBox").value("");
+        var todayDate = new Date();
+        $("#Todate").data("kendoDatePicker").value(todayDate);
+        $("#FromDate").data("kendoDatePicker").value(todayDate);
+
+        $("#grid").data('kendoGrid').dataSource.data([]);
+        LoadGrid();
+
+    }
+
+    function LoadDropDown() {
+
+        //combo from BusinessUnit Id
+        $("#CordinatorName")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCd",
+                dataSource: {
+                    type: "POST",
+                    transport: {
+                        read: '@Url.Content("~/PNSCashCollection/CordinatorName")'
+                    }
+                },
+                change: function(e) {
+                    var cmb = $("#CordinatorName").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("CordinatorName");
+                        if (validate) {
+                            $("#CordinatorName").data("kendoComboBox").value(CdKy);
+                            //  loadGridNew()
+
+                        } else {
+                            $("#cmbfmBUNm").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "contains",
+                suggest: true,
+                placeholder: "Select a Coordinator"
+            });
+
+        $("#BankLookup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCode",
+                dataSource: BankDatasource(),
+                change: function(e) {
+                    var cmb = $("#BankLookup").data("kendoComboBox");
+                    var CdKy = cmb.value();
+
+                    if (CdKy != "") {
+                        var validate = ComboValidations("BankLookup");
+                        if (validate) {
+                            $("#BankLookup").data("kendoComboBox").value(CdKy);
+
+                        } else {
+                            $("#BankLookup").data("kendoComboBox").value("");
+
+                        }
+                    }
+
+                },
+                filter: "contains",
+                suggest: true,
+                placeholder: "Select a Banck"
+            });
+
+    }
+
+    function BankDatasource() {
+
+        var BuKy = 1;
+
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/PNSCordinatorDeposit/BankLookup")',
+                    data: {
+                        'BuKy': BuKy,
+
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+
+    }
+
+    //LOad Grid
+    function LoadGrid() {
+
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        AccTrnKy: { editable: true, nullable: false, type: "string" },
+                        TrnDate: { editable: true, nullable: false, type: "string" },
+                        TrnNo: { editable: true, nullable: false, type: "string" },
+                        RefNo: { editable: true, nullable: false, type: "string" },
+                        CheqNO: { editable: true, nullable: false, type: "string" },
+                        Amt: { editable: true, nullable: false, type: "Number" },
+                        Reconsile: { editable: true, nullable: false, type: "boolean" },
+
+                    }
+                }
+            }
+        });
+
+        $("#grid")
+            .kendoGrid({
+                dataSource: dataSource,
+                autobind: true,
+                editable: true,
+                navigatable: true,
+                filterable: true,
+                //columnHide: createFilterRow,
+                //columnShow: createFilterRow,
+                pageable: true,
+                sortable: true,
+                reorderable: true,
+                columnMenu: true,
+
+                selectable: "column",
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+                columns: [
+                    {
+                        field: "Lino",
+                        title: "Lino",
+                        width: "5px",
+                        attributes: { class: "ob-Center" },
+                    },
+                    {
+                        field: "AccTrnKy",
+                        title: "AccTrnKy",
+                        width: "5px",
+                        attributes: { class: "ob-Center" },
+                        hidden: "true",
+                    },
+                    {
+                        field: "TrnDate",
+                        title: "TrnDate",
+                        width: "5px",
+                        attributes: { class: "ob-Center" }
+                    },
+                    {
+                        field: "TrnNo",
+                        title: "Trn NO",
+                        width: "5px",
+                        attributes: { class: "ob-Center" }
+
+                    },
+                    {
+                        field: "RefNo",
+                        title: "Ref NO",
+                        width: "10px",
+                        attributes: { class: "ob-Center" }
+
+                    },
+                    {
+                        field: "CheqNO",
+                        title: "Cheq NO",
+                        width: "5px",
+                        attributes: { class: "ob-Center" }
+
+                    },
+                    {
+                        field: "Amount",
+                        title: "Amount",
+                        width: "5px",
+                        format: '{0:n2}',
+                        editor: function(container, options) {
+                            var model = options.model;
+                            $('<input id="Amount" name="' +
+                                    options.field +
+                                    '" data-value-field="' +
+                                    options.field +
+                                    '" data-bind="value:' +
+                                    options.field +
+                                    '" data-format="' +
+                                    options.format +
+                                    '"/>')
+                                .appendTo(container)
+                                .kendoNumericTextBox({
+                                    change: function(e) {
+
+                                    }
+                                });
+
+                        },
+                        attributes: { "class": "ob-right" },
+
+                    },
+                    {
+                        field: "Reconsile",
+                        template:
+                            '<input type="checkbox" #= Reconsile ? "checked=checked" : "" # class="chkbx"></input>',
+                        title: "Is Aprove",
+                        width: "5px",
+                        attributes: { class: "ob-Center" }
+
+                    },
+                ],
+
+                resizable: true,
+
+                dataBinding: function() {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+
+            });
+        // createFilterRow();
+        $("#grid .k-grid-content")
+            .on("change",
+                "input.chkbx",
+                function(e) {
+
+                    var Drgrid = $("#grid").data("kendoGrid");
+                    dataItem = Drgrid.dataItem($(e.target).closest("tr"));
+                    dataItem.set("Reconsile", this.checked);
+
+                    if (dataItem.Reconsile == true) {
+
+                        dataItem.set("Reconsile", true);
+                        dataItem.dirty = true;
+
+                        // calTheSelected();
+
+                    } else {
+
+                        dataItem.set("Reconsile", false);
+
+                        dataItem.dirty = false;
+                        // calTheSelected();
+                    }
+
+                });
+
+    }
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function loadGridNew() {
+        var IsCash;
+        if ($('#eq1').is(":checked")) {
+            IsCash = 1;
+
+        } else {
+            IsCash = 0;
+
+        }
+
+        var FromDate = document.getElementById("FromDate").value;
+        var Todate = document.getElementById("Todate").value;
+        var Cordinator = $("#CordinatorName").data("kendoComboBox").value();
+        var TempBankLookup = $("#BankLookup").data("kendoComboBox").value();
+        var BankLookup;
+        if (TempBankLookup) {
+            BankLookup = TempBankLookup;
+        } else {
+            BankLookup = 1;
+        }
+
+        if (Cordinator) {
+            $.ajax({
+                url: "@Url.Content("~/DepConform/LoadGrid")",
+                data: JSON.stringify({
+                    FromDate: FromDate,
+                    Todate: Todate,
+                    Cordinator: Cordinator,
+                    IsCash: IsCash,
+                    BankLookup: BankLookup,
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function(data) {
+
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.dataSource.data([]);
+                    //var tempcount = 1;
+                    for (i = 0; i < data.length; i++) {
+                        if (true) {
+                            $("#grid")
+                                .data("kendoGrid")
+                                .dataSource.add({
+                                    Lino: data[i].Lino,
+                                    AccTrnKy: data[i].AccTrnKy,
+                                    TrnDate: data[i].TrnDt,
+                                    TrnNo: data[i].TrnNO,
+                                    CheqNO: data[i].ChqNO,
+                                    RefNo: data[i].RefNO,
+                                    Amount: data[i].Amt,
+                                    Reconsile: data[i].IsApr,
+
+                                });
+
+                        }
+
+                    }
+
+                },
+                error: function(e) {
+                    return false;
+                }
+            });
+
+        }
+
+    }
+
+    function LoadCrdDetail() {
+
+        var Cordinator = $("#CordinatorName").data("kendoComboBox").value();
+        var TempBankLookup = $("#BankLookup").data("kendoComboBox").value();
+        var BankLookup;
+        if (TempBankLookup) {
+            BankLookup = TempBankLookup;
+        } else {
+            BankLookup = 1;
+        }
+
+        if (Cordinator) {
+            if (true) {
+                loadGridNew();
+            }
+
+        } else {
+            alert("Please Select a cordinator");
+        }
+
+    }
+
+    function Save() {
+        var grid = $("#grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+
+            if (currentData[i].dirty) {
+
+                updatedRecords.push(currentData[i].toJSON());
+            }
+
+        }
+
+        $.ajax({
+            url: "@Url.Content("~/DepConform/ConfirmPayment")",
+            data: JSON.stringify({
+                updatedRecords: kendo.stringify(updatedRecords),
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+
+                if (data == true) {
+                    alert("Successfully Saved..!");
+
+                }
+
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+</script>
+<style>
+    .ob-Center { text-align: center; }
+
+    .ob-right {
+        padding-right: 28px !important;
+        text-align: right;
+    }
+    .m-5 {
+        margin: 5px;
+    }
+
+    .k-header .k-link { text-align: center; }
+</style>

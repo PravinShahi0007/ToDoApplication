@@ -1,0 +1,46 @@
+﻿@{
+   
+    Layout = "~/Views/Shared/_MobileWebViewLayout.cshtml";
+}
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div id="CrntStsChart"></div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div id="StsChart"></div>
+    </div>
+
+    <div class="row"></div>
+    <div class="row" style="padding-left:25px; padding-right:25px;">
+        <div class="col-lg-12">
+            <div id="DetailGrid"></div>
+            <div id="DrilDownGrid"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+
+    var urlDrillDashBoard = {
+        ProjectDashBoard: '@Url.Content("~/Dashboard/GetPrject_CurrentStatus")',
+        ProjectDashBoardwithTitle: '@Url.Content("~/Dashboard/Prject_CurrentStatus")',
+        PrjCurrentStatusDetail: '@Url.Content("~/Dashboard/Prject_CurrentStatusDetails")',
+        PrjCurrentStatusTrdMrk: '@Url.Content("~/Dashboard/PrjCurrentStatusTrdMrk")'
+        };
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+
+    }
+</script>
+
+
+<script src="~/Scripts/HtnScripts/DashBoard/PrjCrntStatusDashBoard.js"></script>
+
+

@@ -1,0 +1,33 @@
+﻿body {
+    margin: 0px;
+}
+
+#ui-datepicker-div {
+    z-index: 3 !important;
+}
+
+.ui-datepicker {
+    font-size: 11px;
+}
+
+.button {
+    margin: 5px;
+    height: 20px;
+}
+
+.ui-dialog-buttonset {
+    font-size: 62.5%;
+}
+
+#dialog-form {
+    width: 430px;
+    font-size: 62.5%;
+}
+
+.text {
+    margin: 5px;
+}
+
+label {
+    font-weight: bold;
+}

@@ -1,0 +1,63 @@
+﻿<div id="cmbItmTypCd"></div>
+@*<div id="cmbItmTypNm"></div>*@
+
+<script>
+    $(document).ready(function () {
+        LoadItmTypCombo();
+    });
+    
+    function LoadItmTypCombo() {
+        $("#cmbItmTypCd").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: CdMasLookUp('ItmTyp'),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Item Type Code ...",
+            //change: function (e) {
+            //    var cmb = $("#cmbItmTypCd").data("kendoComboBox");
+            //    var CdKy = cmb.value();
+            //    if (CdKy != "") {
+            //        var validate = ComboValidations("cmbPrjNm");
+            //        if (validate) {
+            //            $("#cmbItmTypCd").data("kendoComboBox").value(CdKy);
+            //            $("#cmbItmTypNm").data("kendoComboBox").value(CdKy);
+            //        } else {
+            //            $("#cmbItmTypCd").data("kendoComboBox").value("");
+            //            $("#cmbItmTypNm").data("kendoComboBox").value("");
+            //        }
+            //    }
+            //}
+        });
+        $("#cmbItmTypCd").parent().css('width', "150px");
+
+        //$("#cmbItmTypNm").kendoComboBox({
+        //    dataValueField: "CdKy",
+        //    dataTextField: "CdNm",
+        //    dataSource: CdMasLookUp('ItmTyp'),
+
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Item Type Name ...",
+        //    change: function (e) {
+        //        var cmb = $("#cmbItmTypNm").data("kendoComboBox");
+        //        var CdKy = cmb.value();
+        //        if (CdKy != "") {
+        //            var validate = ComboValidations("cmbPrjNm");
+        //            if (validate) {
+        //                $("#cmbItmTypNm").data("kendoComboBox").value(CdKy);
+        //                $("#cmbItmTypCd").data("kendoComboBox").value(CdKy);
+        //            } else {
+        //                $("#cmbItmTypNm").data("kendoComboBox").value("");
+        //                $("#cmbItmTypCd").data("kendoComboBox").value("");
+        //            }
+        //        }
+        //    }
+        //});
+        //$("#cmbItmTypNm").parent().css('width', "200px");
+    }
+    var urlCdMasLookUp = '@Url.Content("~/HtnShared/CdMasLookUp")';
+
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CdMasLookUp.js"></script>

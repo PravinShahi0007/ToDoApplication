@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<div>
+                   <div>
+                       <div class="k-content clearfix" id="filterCont">
+                           <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                           </div>
+
+                           <div id="HdrSec1">
+
+                               <div class="row" id="HdrSec1_ComCmp">
+                                   <div class="col-md-12 col-sm-6 col-lg-12">
+                                       <label id="HdrSec1_ComFmCmp_lb1" font size="6" margin-right:150px;>From Company </label>
+                                       <input id="HdrSec1_ComFmCmp_Cd" style="width: 20%;" />
+                                   </div>
+                                
+                                   <div class="col-md-12 col-sm-6 col-lg-12" margin-left:250px;>
+                                         <label id="HdrSec1_ComToCmp_lb1" font size="6" margin-right:150px;>To Company</label>
+                                         <input type="text" id="HdrSec1_ComToCmp_Cd" />
+                                    </div>
+                                   
+                               </div>
+                               <div class="row" id="HdrSec1_ComUser">
+                                   <div class="col-md-12 col-sm-6 col-lg-12">
+                                       <label id="HdrSec1_ComFmUser_lb1" font size="6" margin-right:150px;>From UserKy </label>
+                                       <input id="HdrSec1_ComFMUser_Cd" style="width: 20%;" />
+                                   </div>
+
+                                   <div class="col-md-12 col-sm-6 col-lg-12" margin-left:250px;>
+                                       <label id="HdrSec1_ComToCmp_lb1" font size="6" margin-right:150px;>To UserKy</label>
+                                       <input type="text" id="HdrSec1_ComToUser_Cd" />
+                                   </div>
+
+                               </div>
+                               
+
+                           </div>
+
+                           <div class="row" id="HdrSec2_InpColumn">
+                               <div id="HdrSec2_InpColumnGd">
+
+                               </div>
+
+                           </div>
+
+
+
+
+
+                       </div>
+
+                   </div>
+
+</div>
+//
+<script>
+    var urlGetCompanyCode = '@Url.Content("~/CopyMenuObjMass/GetCompanylist")';
+    var urlGetUserNm = '@Url.Content("~/CopyMenuObjMass/GetUserlist")';
+</script>
+<script src="~/Scripts/HtnScripts/ObjMasMenuCopy/ComLoad.js"></script>
+
+

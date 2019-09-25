@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "SHIFTGROUP";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div style="height:50px;" class="k-content clearfix" id="filterCont">
+
+    
+    <button class="control-button save" id="btnSave" onclick="Save()" title="Save"></button>
+    <button class="control-button cancel" id="btncancel" onclick="CancelGridItem()" title="Cancel"></button>
+</div>
+
+    <div id="HdrSec1" style="margin-top:30px;margin-left:80px;margin-right:40px;">
+        <div class="form-group">
+            <div class="row">
+
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_ShiftGrp_lbl">Shift Group:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_ShiftGrp_Nm" class="combo" />
+                </div>
+                <br/>
+                
+         </div><br/>
+     </div>
+
+        <div class="col-md-12  col-sm-12">
+            <div class="wr_formGroup">
+                <div id="GridWin">
+                    <div style="margin-left:10px;margin-right:10px;margin-bottom:10px;margin-top:-20px;">
+                        <div id="GridShiftGroup" style="height:380px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ </div>
+
+<script>
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        
+
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+
+</script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+        var urlShiftGroup_Selectweb = '@Url.Content("~/Shift/ShiftGroup_Selectweb")';
+        var urlShiftGroup_InsertUpdateWeb = '@Url.Content("~/Shift/ShiftGroup_InsertUpdateWeb")';
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+
+<script src="~/Scripts/HtnScripts/Shift/Shift_Group.js"></script>

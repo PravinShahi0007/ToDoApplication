@@ -1,0 +1,1755 @@
+
+.form{
+    max-width: 800px;
+    padding:5px 20px 5px 20px;
+    border-bottom: solid #008aff;
+    border-top: solid #008aff;
+    margin-top: 15px;
+    margin:auto;
+    background-color: #ffffff;
+}
+
+input.button {
+    text-indent:-9999px;
+    text-transform:capitalize;
+}
+button:focus {
+    box-shadow:10px;
+   background-color:rgba(66, 119, 163, 0.45);
+   font-family:'Times New Roman';
+  
+   
+}
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  top: 104%;
+  left: 50%;
+  margin-bottom: 5px; 
+  padding: 7px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+  z-index:1000000000;
+  border:1px #fff solid;
+  white-space:nowrap;
+}
+
+#ButtonSec3 .btn-link:focus, #ButtonSec3 .btn-link:hover{
+    text-decoration:none;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+   opacity: 1 !important;
+}
+.control-button{
+    width:15px;
+    height:15px;
+    background-size: 15px 15px !important;
+    background-position:50% 50% !important;
+    background-color:rgba(67, 185, 229, 0.81);
+    border-radius:5px;
+    padding:3px;
+    font-size:0px;
+    margin-left:1px;
+    display:inline-block;
+    border:#000 1px solid;
+    box-sizing:content-box;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -webkit-box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.03);
+    -moz-box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.03);
+    box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.03);
+}
+.control-button:first-child {
+    /*margin-left:0px;*/
+}
+button.control-button{
+        /*margin-top:10px;*/
+        margin: 5px 5px 5px 0px;
+    }
+.control-button:hover {
+    opacity:1;
+    /*background-color:rgba(29, 131, 169, 0.81);*/
+    -webkit-box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.15);
+    box-shadow: inset 0px 0px 19px 0px rgba(0,0,0,0.15);
+}
+.disabledClick{
+    opacity:0.06 !important;
+    border:1px solid #000 !important;
+}
+.disabledClick:before{
+    opacity:1 !important;
+}
+
+.ButtonSet{ 
+        position: fixed;
+        z-index:1000;
+        border-bottom:2px solid #0E3B50;
+        min-height: 35px;
+}
+
+.save {
+    background:url(../icons/save.png) no-repeat; 
+    /*background-size: 18px 18px !important;*/
+}
+.cancel {
+	background: url(../icons/cancel.png) no-repeat ;
+}
+.upload {
+	background:url(../icons/upload.png) no-repeat ;
+}
+.clean {
+	background:url(../icons/clear.png) no-repeat ;
+}
+.refresh {
+	background: url(../icons/refresh.png) no-repeat;
+}
+.delete {
+    background:url(../icons/delete.png) no-repeat ;
+    /*font-size:0px;
+    width:38px;
+    height:26px;
+    background-color:rgba(67, 185, 229, 0.81);
+    border-radius:5px;
+    box-shadow:10px;*/
+}
+/*.delete:hover {
+    background-color:rgba(29, 131, 169, 0.81);
+}*/
+.arrow-left{
+     background:url(../icons/arrow-left.png) no-repeat ;
+}
+.arrow-right{
+     background:url(../icons/arrow-right.png) no-repeat ;
+}
+
+.posting {
+    background:url(../icons/Posting.png) no-repeat; 
+    /*background-size: 18px 18px !important;*/
+}
+.rollback {
+    background: url(../icons/RollBack.png) no-repeat;
+    /*background-size: 18px 18px !important;*/
+}
+.filter {
+	background:url(../icons/filter.png) no-repeat;
+}
+.filter_clear {
+	background:url(../icons/filter_clear.png) no-repeat;
+}
+.save_as {
+    background:url(../icons/save_as.png) no-repeat;
+}
+
+.change_password {
+    background:url(../icons/change_password.png) no-repeat;
+}
+
+
+         .search {
+		     background:url(../icons/search.png) no-repeat ;
+        
+    }
+ 
+         .download {
+              background:url(../icons/download.png) no-repeat ;
+          
+    }
+  
+
+         .audio_record {
+              background:url(../icons/audio_record.png) no-repeat ;
+ 
+          
+    }
+
+
+
+.video_record {
+    background: url(../icons/video_record.png) no-repeat;
+ 
+}
+.login {
+	background: url(../icons/login.png) no-repeat;           
+}
+.logout {
+	background:url(../icons/logout.png) no-repeat;
+       
+}
+
+
+        .print {
+		     background:url(../icons/print.png) no-repeat;
+        }
+
+
+        .add {
+		     background:url(../icons/add.png) no-repeat;
+           /*font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;*/
+           
+    }
+        /*.add:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }*/
+
+         .open {
+		     background:url(../icons/open.png) no-repeat;
+
+    }
+
+         .preview {
+		     background:url(../icons/preview.png) no-repeat;
+          
+    }
+
+         .help {
+		     background:url(../icons/help.png) no-repeat;
+
+            
+    }
+        .help:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+        .analize{
+		     background: url(../icons/analyze.png) no-repeat ;
+           
+         
+    }
+        .analize:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+    .attach {
+		     background: url(../icons/attach.png) no-repeat;
+            /*font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;*/
+            
+    }
+    .attachments {
+		     background: url(../icons/attachments.png) no-repeat; 
+             background-size: 18px 18px !important;                    
+    }
+        /*.attach:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }*/
+
+         
+
+         .edit {
+		     background:url(../icons/edit.png) no-repeat;
+
+          
+    }
+
+.setting {
+		    background:url(../icons/settings.png) no-repeat;
+            
+}
+
+        .back {
+		     background:url(../icons/back.png) no-repeat;
+      
+            
+    }
+
+
+        .clear {
+		     background: #ff9900 url(../icons16/clear.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+           
+        }
+        .clear:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+ .exit {
+		     background: #ff9900 url(../icons16/exit.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+           
+    }
+        .exit:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+        .save_changes {
+		     background: #ff9900 url(../icons16/save.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .save_changes:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+  .load {
+		     background: url(../icons/load.png) no-repeat 10px;
+  
+            
+    }
+        /*.load:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }*/
+
+ .smart_menu {
+		     background: #ff9900 url(../icons16/smart_menu.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .smart_menu:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.update {
+		     background:url(../icons/update.png) no-repeat;
+  
+    }
+
+.indent{
+     background:url(../icons/indent.png) no-repeat;
+}
+
+.outdent{
+     background:url(../icons/outdent.png) no-repeat;
+}
+
+
+.save_and_new {
+		     background:url(../icons/save_and_new.png) no-repeat;
+
+    }
+
+.menu{
+		     background: #ff9900 url(../icons16/menu.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .menu:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.close{
+		     background: #ff9900 url(../icons16/close.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .close:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.export{
+		     background: #ff9900 url(../icons16/export.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .export:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.import{
+		     background: url(../icons/import.png) no-repeat;
+    }
+        .import:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.find{
+		     background: #ff9900 url(../icons16/find.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+            
+    }
+        .import:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.pin{
+		     background: #ff9900 url(../icons16/pin.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .pin:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.mark{
+		     background: #ff9900 url(../icons16/mark.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .mark:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.process{
+		     background: #ff9900 url(../icons16/process.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .process:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.cal{
+		     background: #ff9900 url(../icons16/cal.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .cal:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+.todo{
+		     background: #ff9900 url(../icons16/todo.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .todo:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.bar_chart{
+		     background: #ff9900 url(../icons16/chart.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .bar_chart:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.pie_chart{
+		     background: #ff9900 url(../icons16/pie-chart.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .pie_chart:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+
+.change_pass{
+		     background: #ff9900 url(../icons16/change_password.png) no-repeat 10px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .change_pass:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }
+		
+.new-form{
+		     background: url(../icons/new-form.png) no-repeat ;
+                 1/*0px center;
+              font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+         
+    }
+        .new_form:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);*/
+        
+        }
+		
+
+
+.ok{
+		    background:url(../icons/ok.png) no-repeat;
+              /*font-size:0px;
+            width:38px;
+            height:26px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;*/
+         
+    }
+        /*.ok:hover {
+        
+        background-color:rgba(29, 131, 169, 0.81);
+        
+        }*/
+
+       /*tooltip outline*/
+    .btn:active:focus, .btn:focus, .control-button:focus{
+        outline:none;
+        outline-width:0px;
+    }
+/*@media screen and (max-width:1000px) {
+     .save {
+         background: #ff9900 url(../icons/save.png) no-repeat 10px center; 
+          font-size:10px;
+        width:95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+            
+    }
+
+
+
+    .cancel { 
+         background: #ff9900 url(../icons/cancel.png) no-repeat 10px center; 
+	font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+    
+         .upload {
+             background: #ff9900 url(../icons/upload.png) no-repeat 10px center; 
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+       
+
+
+
+         .refresh {
+              background: #ff9900 url(../icons/refresh.png) no-repeat 10px center; 
+            font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+        
+	
+         .delete {
+		   background: #ff9900 url(../icons/delete.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+        
+.filter{
+    background: #ff9900 url(../icons/filter.png) no-repeat 10px center;
+          font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+.filter_clear{
+    background: #ff9900 url(../icons/filter_clear.png) no-repeat 10px center;
+          font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+       
+
+         .save_as {
+	    background: #ff9900 url(../icons/save_as.png) no-repeat 10px center;
+            font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+        
+
+
+         .search {
+              background: #ff9900 url(../icons/search.png) no-repeat 10px center;
+              font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+       
+        .download {
+		background: #ff9900 url(../icons/download.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+       
+
+        .audio_record {
+		background: #ff9900 url(../icons/audio_record.png) no-repeat 10px center;
+          font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+        
+
+        .video_record {
+		background: #ff9900 url(../icons/video_record.png) no-repeat 10px center;
+            font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+        
+
+.login {
+    background: #ff9900 url(../icons/login.png) no-repeat 10px center;
+           font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+      
+
+
+
+.logout {
+     background: #ff9900 url(../icons/logout.png) no-repeat 10px center;
+             font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.print {
+     background: #ff9900 url(../icons/print.png) no-repeat 10px center;
+            font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.add {
+    background: #ff9900 url(../icons/add.png) no-repeat 10px center;
+             font-size:10px;
+      width: 95px;
+        height: 51px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 40px;
+  	    padding-top: 10px;
+          padding-left: 44px;
+    }
+
+.open {
+     background: #ff9900 url(../icons/open.png) no-repeat 10px center;
+            font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.preview { 
+     background: #ff9900 url(../icons/preview.png) no-repeat 10px center;
+    font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.help {
+     background: #ff9900 url(../icons/help.png) no-repeat 10px center;
+             font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.attach {
+     background: #ff9900 url(../icons/attach.png) no-repeat 10px center;
+             font-size:10px;
+       width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.edit {
+     background: #ff9900 url(../icons/edit.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.setting {
+     background: #ff9900 url(../icons/settings.png) no-repeat 10px center;
+            font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.back {
+     background: #ff9900 url(../icons/back.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.clear {
+     background: #ff9900 url(../icons/clear.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 50px;
+    }
+
+.exit {
+     background: #ff9900 url(../icons/exit.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.save_changes {
+     background: #ff9900 url(../icons/save.png) no-repeat 10px center;
+            font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.load {
+     background: #ff9900 url(../icons/load.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+    }
+
+.smart_menu {
+     background: #ff9900 url(../icons/smart_menu.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+	
+    }
+
+.update {
+     background: #ff9900 url(../icons/update.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 30px;
+  	padding-top: 20px;
+          padding-left: 44px;
+	
+    }
+
+.save_and_new {
+     background: #ff9900 url(../icons/save_and_new.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 42px;
+  	padding-top: 8px;
+          padding-left: 44px;
+	
+    }
+
+.menu {
+     background: #ff9900 url(../icons/menu.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+.close {
+     background: #ff9900 url(../icons/close.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+.export {
+     background: #ff9900 url(../icons/export.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.import {
+     background: #ff9900 url(../icons/import.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.find {
+     background: #ff9900 url(../icons/find.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.pin {
+     background: #ff9900 url(../icons/pin.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+.mark {
+     background: #ff9900 url(../icons/mark.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.process {
+     background: #ff9900 url(../icons/process.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+.cal {
+     background: #ff9900 url(../icons/cal.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.todo {
+     background: #ff9900 url(../icons/todo.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.bar_chart {
+     background: #ff9900 url(../icons/chart.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.pie_chart {
+     background: #ff9900 url(../icons/pie-chart.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+.change_pass {
+     background: #ff9900 url(../icons/change_password.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+	
+.new_form {
+     background: #ff9900 url(../icons/new-form.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+	
+	.analize {
+     background: #ff9900 url(../icons/analyze.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+	
+	.ok {
+     background: #ff9900 url(../icons/ok.png) no-repeat 10px center;
+             font-size:10px;
+        width: 95px;
+        background-color: rgba(67, 185, 229, 0.81);
+        border-radius: 5px;
+        box-shadow: 10px;
+        padding: 32px;
+  	padding-top: 18px;
+        padding-left: 44px;
+	
+    }
+
+	
+}
+
+@media screen and (max-width:600px) {
+     .save {
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:20px;
+	 
+	font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+     
+
+
+       .cancel {
+              width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+           
+    }
+       
+
+
+         .refresh {
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+          
+    }
+        
+	
+
+         .upload {
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+            
+    }
+        
+
+
+        .delete {
+		  
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+          
+    }
+        
+        .filter {
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+          
+    }
+
+         .filter_clear {
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+          
+    }
+        
+
+         .save_as {
+		
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+          
+    }
+        
+
+        .search {
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+            
+    }
+        
+
+
+         .download {
+		
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+            
+    }
+        
+
+
+        .audio_record {
+
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+            
+    }
+        
+
+
+        .video_record {
+            
+           
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+            
+    }
+        
+
+.login{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+      
+
+.logout{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+      
+.print{
+           width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+
+.add{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:11px;
+color:rgb(144, 43, 43);
+
+    }
+
+
+.open{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.preview{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.help{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.attach{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+.edit{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.setting{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.back{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.clear{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.exit{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.save_changes{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.load{
+             width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+.smart_menu{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+.update{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.save_and_new{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+.menu{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+.close{
+            width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+
+    }
+
+.export {
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.import{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.find{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.pin{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.mark{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.process{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+.cal{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.todo{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.bar_chart{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.pie_chart{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+
+.change_pass{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+	
+.new_form{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+	
+	.analize{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+	
+	.ok{
+      width:105px;
+            height:50px;
+            background-color:rgba(67, 185, 229, 0.81);
+            border-radius:5px;
+            box-shadow:10px;
+		font-size:12px;
+color:rgb(144, 43, 43);
+	
+    }
+}*/

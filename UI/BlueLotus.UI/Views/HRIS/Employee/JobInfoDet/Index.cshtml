@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Job Details";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div>
+            @Html.Partial("~/Views/HRIS/EmpHdr.cshtml")
+        </div>
+    </div>
+    <div id="tabstrip">
+        <ul>
+            <li id="HdrSec_TabJobInfoDet">Job Information Details</li>
+            <li id="HdrSec_TabMedicalClaimDet">Medical Claim Enter Details</li>
+
+        </ul>
+
+        <div>
+            <div>@Html.Partial("~/Views/HRIS/Employee/JobInfoDet/_PartialJobInfo.cshtml")</div>
+        </div>
+        <div>
+            <div>
+                @Html.Partial("~/Views/HRIS/Employee/JobInfoDet/_PartialMedicalClaim.cshtml")
+            </div>
+            <br style="clear:both" />
+            <div id="MedicalClaimsGrid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#tabstrip").kendoTabStrip({
+        navigatable: true
+    });
+</script>
+
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var UrlInsert = {
+        BasicDet: '@Url.Content("~/HRIS/InsertBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/InsertContactDet")',
+        InsertDet: '@Url.Content("~/HRIS/InsertDet")',
+        InsertMedicalClaimDet: '@Url.Content("~/HRIS/InsertMedicalClaimDet")'
+    }
+    var UrlGet = {
+        BasicDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        ContactDet: '@Url.Content("~/HRIS/GetBasicDet")',
+        GetJobDet: '@Url.Content("~/HRIS/GetJobDet")',
+    }
+
+    var UrlDelete = {
+        DeleteMedicalClaimsDet: '@Url.Content("~/HRIS/DeleteMedicalClaimsDet")',
+        DeleteJobDet: '@Url.Content("~/HRIS/DeleteJobDet")'
+    }
+    var urlSaveHdr = '@Url.Content("~/HRISEmployee/HRISInsertHdr")';
+    var UrlGetEmpPersonalDet = '@Url.Content("~/HRISEmployee/GetEmpPersonalDet")';
+
+    var UrlGetEmpContactDet = '@Url.Content("~/HRISEmployee/GetEmpContactDet")';
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HRIS/JobInfoDet/JobInfoDet.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/JobInfoDet/LoadGrid.js"></script>
+<script src="~/Scripts/HtnScripts/HRIS/JobInfoDet/SaveFunction.js"></script>

@@ -1,0 +1,77 @@
+﻿<div id="anlWinTab1">
+    <div id="BOQDetAnlTab1Spiliter">
+
+        <div id="BOQDetAnlTab1Pane1">
+            <div id="SelectionCritarea">
+                <input placeholder="Item Code ..." id="code" type="text" style="width: 100px; height: 25px;" class="k-textbox" />
+                <input placeholder="Item Name ..." id="name" style="width: 200px; height: 25px;" type="text" class="k-textbox" />
+                @Html.Partial("~/Views/BOQ/BOQDetAnlTab1/ItmTypComboAnlTab1.cshtml")
+                @Html.Partial("~/Views/BOQ/BOQDetAnlTab1/ItmCat1ComboAnlTab1.cshtml")
+                @Html.Partial("~/Views/BOQ/BOQDetAnlTab1/ItmCat2ComboAnlTab1.cshtml")
+                @Html.Partial("~/Views/BOQ/BOQDetAnlTab1/ItmCat3ComboAnlTab1.cshtml")
+                <input style="height: 25px; width: 50px;" id="btnload" type="button" value="Load" class="k-button" />
+            </div>
+        </div>
+
+        <div id="BOQDetAnlTab1Pane2">
+            <div id="BOQComponents_SelectWeb">
+                <div id="idResourceForItmAloc_Select">
+                    <div class="demo-section k-header">
+                        <div>
+                            <div id="tGridResourceForItmAloc_Select"
+                                 data-role="grid"
+                                 data-scrollable="true"
+                                 data-editable="false"
+                                 @*data-filterable="{ mode: 'row' }"*@
+                                 data-sortable="{ mode: 'multiple' }"
+                                 data-selectable="multiple"
+                                 data-resizable="true"
+                                 data-column-menu="true"
+                                 data-reorderable="true"
+                                 data-pageable="{
+                                                    numeric: true,
+                                                    refresh: true,
+                                                    pageSizes: [ 5, 10 , 15, 25 ],
+                                                    previousNext: true,
+                                                    input: false,
+                                                    info: false
+                                                }"
+                                 data-columns="[
+                                                    { 'field': 'ItmKy', 'title': 'Resource Key', 'width': '120px' },
+                                                    { 'field': 'ResCd', 'title': 'Resource Code', 'width': '120px' },
+                                                    { 'field': 'ResNm', 'title': 'Resource Name', 'width': '400px' },
+                                                    { 'field': 'UnitKy', 'title': 'Unit Key', 'width': '120px' },
+                                                    { 'field': 'Unit', 'title': 'Unit', 'width': '120px', format: '{0:N2}' },
+                                                    { 'field': 'ItmTypCd', 'title': 'Type', 'width': '80px' }
+                                                 ]"
+                                 data-bind="source: srcResourceForItmAloc_Select"
+                                 style="width: auto; height: 240px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="BOQDetAnlTab1Pane3">
+            <div id="idGridBOQDetTakOff_SelectWeb">
+                <div id="divGrid"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    var urlBOQComponents_SelectWeb = '@Url.Content("~/BOQ/BOQComponents_SelectWeb")';
+    var urlBOQDetComponentDet_SelectWeb = '@Url.Content("~/BOQ/BOQDetComponentDet_SelectWeb")';
+    var urlBOQDetTakOff_SelectWeb_SaveChanges = '@Url.Content("~/BOQ/BOQDetTakOff_SelectWeb_SaveChanges")';
+    var urlBOQDetComponent_SelectWeb_SaveChanges = '@Url.Content("~/BOQ/BOQDetComponentSaveChanges")';
+
+    var urlTaskResourceDetails_Select = '@Url.Content("~/PMResource/TaskResourceDetails_Select")';
+    var urlResourceForItmAloc_Select = '@Url.Content("~/ItmMas/ResourceForItmAloc_Select")';
+    var urlsendDataSaveChanges = '@Url.Content("~/PMResource/sendDataSaveChanges")';
+</script>
+<script src="~/Scripts/HtnScripts/GanttChart/PMResourceTab2.js"></script>

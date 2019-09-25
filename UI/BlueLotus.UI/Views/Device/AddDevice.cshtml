@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = ViewBag.OurCd;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+
+<div style="border: solid; border-color:#0094ff; float: left; width: 100%; height: 500px; background-color:  #E3F0F7 ;font-style:normal">
+
+    <div class="form-row">
+        <br />
+        <center>
+            <div>
+                <button class="save" onclick="Insert()" data-tooltip="Save">Save</button>
+                <button class="cancel" onclick="Cancel()" data-tooltip="Cancel"> cancel</button>
+            </div>
+            <br />
+
+
+            <div class="form-row">
+                <label>Device Name </label>
+                <input id="DeviceNm" type="text" class=" k-textbox" name="DeviceNm" />
+            </div>
+            <div class="form-row">
+                <label>Device IP </label>
+
+                <input id="DeviceIP" type="text" class=" k-textbox" />
+            </div>
+
+            <div class="form-row">
+                <label>IMEI No </label>
+
+                <input id="IMEINo" type="text" class=" k-textbox" />
+            </div>
+            <div class="form-row">
+
+                <br />
+                <label>Is Active </label>
+                <input type="checkbox" id="IsAct">
+                <label>Is Approved </label>
+                <input type="checkbox" id="IsApr">
+            </div>
+        </center>
+    </div>
+
+</div>
+
+
+
+
+    <style>
+        /*.k-textbox {
+                width:300px;
+            }*/
+    </style>
+    <script>
+        var urlInsertDevice = '@Url.Content("~/Device/InsertDevice")';
+        $(document).ready(function () {
+
+            $("#DeviceNm").focus();
+        });
+        $("#DeviceNm").keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#DeviceIP").focus();
+            }
+        });
+
+        $("#DeviceIP").keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#IMEINo").focus();
+            }
+        });
+
+
+        function Insert() {
+            var DeviceNm = $("#DeviceNm").val();
+            var DeviceIP = $("#DeviceIP").val();
+            var IMEINoString = $("#IMEINo").val();
+            var IMEINo = parseInt(IMEINoString);
+            if (IsAct.checked == true)
+                var strIsAct = 1;
+            else
+                var strIsAct = 0;
+            if (IsApr.checked == true)
+                var strIsApr = 1;
+            else
+                var strIsApr = 0;
+
+            var isAct = parseInt(strIsAct);
+            var isApr = parseInt(strIsApr);
+            $.ajax({
+                url: urlInsertDevice,
+                data: JSON.stringify({
+
+                    DeviceNm: DeviceNm,
+                    DeviceIP: DeviceIP,
+                    IMEINo: IMEINo,
+                    isAct: isAct,
+                    isApr: isApr
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    if (data == true) {
+                        alert("successfully Saved!");
+                    }
+                    Cancel();
+                },
+                error: function (e) {
+                    alert("Unable to Save Device");
+                    return false;
+                }
+            });
+
+        }
+        function Cancel() {
+            $("#DeviceNm").val(null);
+            $("#DeviceIP").val(null);
+            $("#IMEINo").val(null);
+            document.getElementById("IsAct").checked = false;
+            document.getElementById("IsApr").checked = false;
+        }
+    </script>
+

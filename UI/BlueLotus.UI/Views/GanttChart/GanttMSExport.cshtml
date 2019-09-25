@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "GanttMSExport";
+}
+
+<h2>GanttMSExport</h2>
+
+<title>Gantt Control ExportToProjectXML</title>
+<link href="~/Src/Styles/jQuery.ui.themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Src/Styles/External/Jquery.ui.grid/jquery.ui.grid.css" rel="stylesheet" />
+<link href="~/Src/Styles/External/Jquery.contextmenu/jquery.contextMenu.css" rel="stylesheet" />
+<link href="~/Src/Styles/radiantq.gantt.default.css" rel="stylesheet" />
+<script src="~/Src/Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery-ui-1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery.layout-latest.min.js"></script>
+<script type="text/javascript" src="~/Src/Scripts/jquery.tmpl.js"></script>
+<script src="~/Src/Scripts/JQGrid/jquery.ui.grid.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/jquery.i18n.properties-min-1.0.9.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/Utils/date.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/EditExtenstion.js" type="text/javascript"></script>
+<script src="~/Src/Scripts/jquery.contextMenu.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/js2xml.js" type="text/javascript"></script>
+<script src="~/Scripts/JSFiles/FileSaver.js"></script>
+<script src="~/Src/Scripts/RadiantQ-jQuery.Gantt.4.5.trial.min.js" type="text/javascript"></script>
+
+<!--This sample shows, what are all the basic things to do, to visualize the project gantt-->
+<!-- Beginning of Grid Column template definitions for the table on the left. -->
+<style type="text/css">
+    body {
+        margin: 0px;
+    }
+
+    .ui-datepicker {
+        font-size: 11px;
+    }
+</style>
+
+<body>
+    <div id="pagecontent" style="height: 600px;">
+        <div id="Div1">
+            <button style="min-height: 5%; margin-top: 20px;" id="save">Save</button></div>
+        <!-- Div that will be transformed into the gantt widget above.-->
+        <div id="gantt_container" style="height: 100%;">
+        </div>
+    </div>
+    <!-- Beginning of Grid Column template definitions for the table on the left. -->
+    <!--  templateCallBack is defined in EditExtension.js-->
+    <script id="idcolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-idCol">
+            </div>
+        </td>
+
+    </script>
+    <script id="namecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-nameCol">
+            </div>
+        </td>
+    </script>
+    <script id="startTimecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-startTimeCol">
+            </div>
+        </td>
+    </script>
+    <script id="endTimecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-endTimeCol">
+            </div>
+        </td>
+    </script>
+    <script id="effortcolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-effortCol">
+            </div>
+        </td>
+    </script>
+    <script id="progresscolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-progressCol">
+            </div>
+        </td>
+    </script>
+    <script id="predecessorIndices-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-predecessorIndicesCol">
+            </div>
+        </td>
+    </script>
+    <script id="resourcecolumn-tmpl" type="text/x-jquery-tmpl">
+        <td class="ui-widget-content">
+            <div class="rq-grid-resourceCol">
+            </div>
+        </td>
+    </script>
+    <!-- End of column template definitions.-->
+    <!-- This table contains the column definitions for the table on the left of the gantt. -->
+    <table id="ganttTable">
+        <thead>
+            <tr>
+                <th style="width: 20px;" data-template="#idcolumn-tmpl">ID</th>
+                <th style="width: 200px;" data-editor="expandableTextBox" data-property="ActivityName" data-template="#namecolumn-tmpl">Name</th>
+                <th style="width: 150px;" data-property="StartTime" data-type="string" data-editor="stringPicker" data-template="#startTimecolumn-tmpl">StartTime</th>
+                <th style="width: 150px;" data-property="EndTime" data-type="string" data-editor="stringPicker" data-template="#endTimecolumn-tmpl">End Time</th>
+                <th style="width: 110px;" data-property="Effort" data-type="TimeSpan" data-editor="durationPicker" data-template="#effortcolumn-tmpl">Effort</th>
+                <th style="width: 80px;" data-type="number" data-editor-options='{"min":0, "max": 100}' data-property="ProgressPercent" data-editor="spinner" data-template="#progresscolumn-tmpl">Progress</th>
+                <th style="width: 110px;" data-property="PredecessorIndexString" data-template="#predecessorIndices-tmpl">PredecessorIndices</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+<script>
+    var urlGanttControlExportToProjectXML = '@Url.Content("~/GanttControlExportToProjectXML.json")';
+    var urlEmptyProject = '@Url.Content("~/EmptyProject.xml")';
+</script>
+
+<script src="~/Scripts/HtnScripts/GanttChart/GanttMSExport.js"></script>

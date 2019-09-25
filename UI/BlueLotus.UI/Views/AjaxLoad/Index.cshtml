@@ -1,0 +1,19 @@
+﻿<div id="AjaxLoad">
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        var OurCode = "@(ViewBag.ObjCaptn)";
+        //$("#FindEmp").hide();
+    });
+    function AjaxLoad() {
+        $("#AjaxLoad").show().kendoWindow({
+            width: "100px",
+            height: "50px",
+            modal: true,
+            title: "Loading"
+        });
+        $('#AjaxLoad').data('kendoWindow').center().open();
+    }   
+</script>

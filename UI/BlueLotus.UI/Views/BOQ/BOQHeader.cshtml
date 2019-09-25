@@ -1,0 +1,449 @@
+﻿<div id="HeaderMain">
+    <div class="col-md-5 col-sm-12">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>BOQ No:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input placeholder="BOQ No ..." id="BOQNo" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input id="isAprBOQ" type="checkbox" /> Is Approved
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Date:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input id="BOQDate" class="" data-role="datepicker" data-bind="value: Date" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input id="isContractBOQ" type="checkbox" /> Is Contract BOQ
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Bill No:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input placeholder="Bill No..." id="BillNo" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="prjCreate" type="button" style="height:25px" onclick="CreatePrj()">Create Project</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Your Reference :	</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Reference ..." id="YrRef" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>BOQ Title :</label>
+                    </div>
+                    <div class="col-md-6 col-sm-12 ">
+
+                        <input placeholder="BOQ Title ..." id="BOQTitle" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Client :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <div id="cmbClient" data-cpypst-blsmartcpypaste="cmbClient"></div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="clientSelect" type="button" style="height:25px" onclick="ClientSelect()">Client Select</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Location :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Location ..." id="cmbLoc" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="location" type="button" style="height:25px" onclick="LocSelect()">Location</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Advance % :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Advance %..." id="AdvPer" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Advance Recovery End %:</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Advance Recovery ..." id="AdvRec" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Offline Approval :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Offline Approval ..." id="cmbOffApr" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="OffAprSelect" type="button" style="height:25px" onclick="OffAprSelect()">Offline Approval</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Currency :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input placeholder="Currency ..." id="cmbCur" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="currencySelect" type="button" style="height:23px" onclick="currencySelect()">Currency</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-5 col-sm-12">
+        <div class="wr_formGroup">
+            
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Exchange Rate :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input placeholder="Exchange Rate ..." id="BOQNo" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Retention % :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <input placeholder="Retention %..." id="BillNo" type="text" class="k-textbox" />
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Max Retention % :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Max Retention % ..." id="YrRef" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Return Period Days :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Return Period Days ..." id="BOQTitle" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Guarantee :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Guarantee ..." id="Client" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Expiry Date :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input id="ExpDate" class="" data-role="datepicker" data-bind="value: Date" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Payments Lag Days :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Payments Lag Days..." id="AdvPer" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Bank OD Interest % :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Bank OD Interest % ..." id="AdvRec" type="text" class="k-textbox" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Adress Name :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input placeholder="Adress Name ..." id="cmbAdrNm" type="text" class="k-textbox" />
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+                        <button class="k-button" id="address" type="button" style="height:25px" onclick="addressSelect()">Address</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12   ">
+                        <label>Held Date And Time :</label>
+                    </div>
+                    <div class="col-md-3 col-sm-12 ">
+
+                        <input id="HeldDate" class="" data-role="datepicker" data-bind="value: Date" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlCdMas_OurCdLookup = '@Url.Content("~/BOQ/CdMas_OurCdLookup")';
+    var urlCdMasLookUp = '@Url.Content("~/Codes/GetAllCodes")';
+    var urlOfflineAprAdr_Lookup = '@Url.Content("~/BOQ/OfflineAprAdr_Lookup")';
+    var urlBOQClient_Lookup = '@Url.Content("~/BOQ/BOQClient_Lookup")';
+    var urlBOQHeader_InsertWeb = '@Url.Content("~/BOQ/BOQHeader_InsertWeb")';
+    @*var urlGetBOQNo_SelectWeb = '@Url.Content("~/BOQ/GetBOQNo_SelectWeb")';*@
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        LoadClientCombo();
+        LoadLocationCombo();
+        LoadOffLineAprCombo();
+        LoadCurCombo();
+     })
+</script>
+<script>
+    $("#BOQDate").width(140).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(2009, 2, 31)
+    });
+    $("#BOQDate").closest("span.k-datepicker").width(149);
+
+    $("#ExpDate").width(140).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(2009, 2, 31)
+    });
+    $("#ExpDate").closest("span.k-datepicker").width(149);
+
+    $("#HeldDate").width(140).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(2009, 2, 31)
+    });
+    $("#HeldDate").closest("span.k-datepicker").width(149);
+
+   
+</script>
+
+
+<script>
+    function LoadClientCombo() {
+        var dsBOQClient_Lookup = new kendo.data.DataSource(
+       {
+           transport: {
+               read: {
+                   url: urlBOQClient_Lookup,
+                   data: {},
+                   dataType: "json"
+               }
+           }
+       });
+
+        $("#cmbClient").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrID",
+            dataSource: dsBOQClient_Lookup,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Client ..."
+        });
+        $("#cmbClient").parent().css('width', "150px");
+
+
+        $("#cmbAdrNm").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrID",
+            dataSource: dsBOQClient_Lookup,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Adress ..."
+        });
+        $("#cmbAdrNm").parent().css('width', "150px");
+    }
+
+    function LoadLocationCombo(){
+        var dsLocations = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: urlCdMasLookUp,
+                    data: { 'concd': 'Loc' },
+                    dataType: "json"
+                }
+            }
+        });
+
+        $("#cmbLoc").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code", //Code
+            dataSource: dsLocations,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Location ..."
+        });
+        $("#cmbLoc").parent().css('width', "150px");
+    }
+
+    function LoadOffLineAprCombo() {
+        var dsOfflineAprAdr_Lookup = new kendo.data.DataSource(
+         {
+             transport: {
+                 read: {
+                     url: urlOfflineAprAdr_Lookup,
+                     data: { 'Dt': '11/04/2011' },  //10/02/2014
+                     dataType: "json"
+                 }
+             }
+         });
+
+        $("#cmbOffApr").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrNm",
+            dataSource: dsOfflineAprAdr_Lookup,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Offline Apr ..."
+        });
+        $("#cmbOffApr").parent().css('width', "150px");
+        $("#cmbOffApr").data("kendoComboBox").list.width(300);
+    }
+
+    function LoadCurCombo() {
+        var dsCurrency = new kendo.data.DataSource(
+         {
+             transport: {
+                 read: {
+                     url: urlCdMas_OurCdLookup, // Code_Lookup
+                     data: { ConCd: 'CRN' },
+                     dataType: "json"
+                 }
+             }
+         });
+
+        $("#cmbCur").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            //template: "<table ><tr><td width='100px'>${ Code}</td><td width='150px'>${ CdNm }</td></tr></table>",
+            dataSource: dsCurrency,
+            filter: "contains",
+            suggest: true,
+            placeholder: "Currency ..."
+        });
+        $("#cmbCur").parent().css('width', "150px");
+
+    }
+
+    function CreatePrj() {
+        var url = null;
+        var isIpAddress = document.location.host;
+
+        url = "http://" + document.location.host + "/DevBL10/" + "ToDoProject";
+
+        window.open(url, '_blank');
+    }
+
+    
+</script>
+
+@Html.Partial("~/Views/BOQ/SrchClient_Lookup.cshtml")
+<script>
+    function ClientSelect() {
+        var OurCd = '@(ViewBag.MyString)';
+
+        $("#GridSrchClient_Lookup").show().kendoWindow({
+            width: "800px",
+            height: "550px",
+            modal: true,
+            title: "Client Lookup"
+        });
+        $('#GridSrchClient_Lookup').data('kendoWindow').center().open();
+    }
+</script>
+
+
+
+
+
+

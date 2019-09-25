@@ -1,0 +1,96 @@
+﻿   #calendar.wrapper {
+            margin: 20px 10px;
+            height: 500px;
+            width: 600px;
+        }
+
+        #calendar.k-widget.k-calendar {
+            width: auto;
+            height: auto;
+        }
+
+             #calendar.k-widget.k-calendar .k-content tbody td {
+                width: 50px;
+                height: 60px;
+            }
+
+        #calendar {
+            width: 100%;
+        }
+
+        /* Template Days */
+
+        .public {
+            font-weight: bold;
+            content: "Joe's Task:";
+            background-image: url('../Calendar/holiday.png');
+            background-repeat: no-repeat;
+        }
+
+        .bank {
+            font-weight: bold;
+             background-image: url('../Calendar/bank.png');
+            background-repeat: no-repeat;
+        }
+
+        .mercantile {
+            font-weight: bold;
+             background-image: url('../Calendar/bullet_blue.png');
+            background-repeat: no-repeat;
+        }
+                .poya {
+            font-weight: bold;
+            background-image: url('../Calendar/poyaDay.png');
+            background-repeat: no-repeat;
+        }
+
+        .custom1 {
+            font-weight: bold;
+             background-image: url('../Calendar/custom1.png');
+            background-repeat: no-repeat;
+        }
+
+        .custom2 {
+            font-weight: bold;
+             background-image: url('../Calendar/custom2.png');
+            background-repeat: no-repeat;
+        }
+         .custom3 {
+            font-weight: bold;
+             background-image: url('../Calendar/custom3.png');
+            background-repeat: no-repeat;
+        }
+          .other {
+            font-weight: bold;
+             background-image: url('../Calendar/custom4.png');
+            background-repeat: no-repeat;
+        }
+
+        public {
+         color: #ff0000;
+        }
+
+        .bank {
+           color: #ff0000;
+        }
+
+        .mercantile {
+            color: #ff0000;
+        }
+        .poya {
+           color: #ff0000;
+        }
+
+        .custom1 {
+           color: #ff0000;
+        }
+
+        .custom2 {
+            color: #ff0000;
+        }
+         .custom3 {
+            color: #ff0000;
+        }
+          .other {
+            color: #ff0000;
+        }

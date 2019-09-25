@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Codes";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />   
+</head>
+
+
+@*<div class="k-content" id="filterCont" style="height:40px;">*@
+<div style="height:40px; background-color:#3F51B5">
+    <div style="margin-left:10px;" id="option">
+        <div id="ConCds">
+        </div>
+
+        <button class="control-button load" id="loadGrid" title="Load" data-tooltip="Load"> </button>
+        <button class="control-button add" onclick="insertItem() " data-tooltip="add"> </button>
+        <button class="control-button save" id="btnSave" onclick="Save()" title="Save" data-tooltip="Save"></button>
+        <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel" data-tooltip="Cancel"></button>
+
+        @*<button class="control-button load" id="Test" onclick="Test()" title="Test" data-tooltip="Test"> </button>*@
+    </div>
+</div>
+@*<div style="height:20px; border-top-left-radius:10px; background-color:royalblue"></div>*@
+    <div style="margin-top:5px;" id="grid">
+    </div>
+    <script type="text/javascript">
+        //attributes: { style: "text-align:right;" }
+
+        var URLGoToHome = '@Url.Content("~/Admin")';
+        var URLGetAllConCodesCmb = '@Url.Action("GetAllConCodes","Codes")';
+        var URLSetIsActIsApr = '@Url.Action("SetIsActAndIsApr","Codes")';
+        var URLGetCodeByCdKy = '@Url.Action("GetCodeByCdKy","Codes")';
+        var URLGetParantName = '@Url.Content("~/Code/GetAllCodes")';
+        var URLParantNmCmb = '@Url.Action("GetAllCodes","Codes")';
+        var URLAccLvlNmCmb = '@Url.Action("GetAllCodes","Codes")';
+        var URLConLvlNmCmb = '@Url.Action("GetAllCodes","Codes")';
+
+
+
+        var URLSelectCdMas = '@Url.Action("GetAllCodes","Codes")';
+        var URLCreateCdMas = '@Url.Action("InsertCode","Codes")';
+        var URLUpdateCdMas = '@Url.Action("UpdateCode","Codes")';
+        var URLInsertUpdate = '@Url.Action("InsertUpdateCode", "Codes")';
+        var URLDeleteCdMas = '@Url.Action("DeleteCode","Codes")';
+        var URLDelete = '@Url.Action("DeleteCode","Codes")';
+
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)'
+
+        }
+
+        //function createFilterRowForCodes() {
+        //    var grid = $('#grid').data('kendoGrid');
+        //    var oldRow = grid.thead.find("#grid-filter-row");
+        //    var th;
+        //    if (typeof oldRow === 'object') {
+        //        th = oldRow.find('th');
+        //        oldRow.remove();
+        //    }
+        //    var filterRow = "<tr id='grid-filter-row'>";
+        //    for (var i = 0; i < grid.dataSource.group().length; i++) {
+        //        filterRow += '<th class="k-group-cell k-header">&nbsp;</th>';
+        //    }
+        //    for (var i = 0; i < th.length; i++) {
+        //        filterRow += th[i].outerHTML;
+        //    }
+        //    for (var i = 0; i < grid.columns.length; i++) {
+        //        if (!grid.columns[i].hidden)
+        //            filterRow += '<td><input type=\'search\' id=\'gridId-filter-column-' + grid.columns[i].field + '\' style=\'width:98%\' /></td>';
+        //    }
+        //    filterRow += '</tr>';
+        //    grid.thead.append(filterRow);
+        //    var searchField;
+        //    for (i = 0; i < grid.columns.length; i++) {
+        //        if (!grid.columns[i].hidden) {
+        //            searchField = $('#gridId-filter-column-' + grid.columns[i].field);
+        //            searchField.change({ index: i }, function (e) {
+        //                var grid = $('#grid').data('kendoGrid');
+        //                //updateSearchFilters(grid, grid.columns[e.data.index].field, 'contains', this.value);
+        //            });
+        //        }
+        //    }
+        //}
+
+
+        //function updateSearchFilters(grid, field, operator, value) {
+        //    var newFilter = { field: field, operator: operator, value: value };
+        //    var dataSource = grid.dataSource;
+        //    var filters = null;
+        //    if (dataSource.filter() != null) {
+        //        filters = dataSource.filter().filters;
+        //    }
+        //    if (filters == null) {
+        //        filters = [newFilter];
+        //    }
+        //    else {
+        //        var isNew = true;
+        //        var index = 0;
+        //        for (index = 0; index < filters.length; index++) {
+        //            if (filters[index].field == field) {
+        //                isNew = false;
+        //                break;
+        //            }
+        //        }
+        //        if (isNew) {
+        //            filters.push(newFilter);
+        //        }
+        //        else {
+        //            //alert(value);
+        //            if (value == '')
+        //                filters.splice(index, 1);
+        //                //delete filters[index];
+        //            else
+        //                filters[index] = newFilter;
+        //        }
+        //    }
+        //    dataSource.filter(filters);
+        //}
+
+        var urlComboLoad = {
+            AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+            AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+            AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+            AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+            Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+            CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+            ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+            ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+        }
+
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    </script>
+    <script src="~/Scripts/HtnScripts/Codes/CdMasScripts.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

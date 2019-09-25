@@ -1,0 +1,538 @@
+@{
+    ViewBag.Title = "Integrity Check Grid";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<div class="form">
+
+    <div class="form-group">
+        <div id="IntegrityChecksGrid"></div>
+    </div>
+</div>
+
+
+<script>
+
+    var viewBag = {
+        SPName: '@(ViewBag.SPName)',
+        NeededReportParamsFromObjMas: '@(ViewBag.NeededIntegrityChecksParamsFromObjMas)',
+        NeededReportParams: '@(ViewBag.NeededIntegrityChecksParams)',
+        SelectedReportObjKy: '@(ViewBag.SelectedIntegrityChecksObjKy)'
+    }
+
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")',
+        UsrObjChild_SelectByPrntandSubObjTypWeb: '@Url.Action("UsrObjChild_SelectByPrntandSubObjTypWeb", "ObjMas")'
+    }
+
+    var urlReport = {
+        ViewIntegrityChecksColDetMulti: '@Url.Action("ViewIntegrityChecksColDetMulti", "Report")',
+        ViewIntegrityChecks: '@Url.Action("ViewIntegrityChecks", "Report")'
+    }
+
+    $(document).ready(function () {
+        loadIntegrityChecksGrid();
+    });
+
+</script>
+
+<script>
+
+    function loadIntegrityChecksGrid() {
+
+        var columns = new Array();
+        columns[0] = [
+                   //{ field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+                   //{ field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+        ];
+
+        //columns[1] = [
+        //{ field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+        //{ field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+        //];
+
+        viewBag.NeededReportParamsFromObjMas = JSON.parse(viewBag.NeededReportParamsFromObjMas.replace(/&quot;/g, '"'));
+        viewBag.NeededReportParams = JSON.parse(viewBag.NeededReportParams.replace(/&quot;/g, '"'));
+
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+
+            //ItmNm ,CKy, Dt, FormObjKy, ItmTypKy, TrnTypKy, PrjKy, LocKy, UsrKy
+            data: {
+                SPName: viewBag.SPName,
+                NeededReportParamsFromObjMas: JSON.stringify(viewBag.NeededReportParamsFromObjMas),
+                NeededReportParams: JSON.stringify(viewBag.NeededReportParams),
+                SelectedReportObjKy: viewBag.SelectedReportObjKy
+            },
+
+            url: urlReport.ViewIntegrityChecksColDetMulti,
+            converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true, true);
+                }
+            },
+            success: function (data) {
+
+                if (data.length > 0) {
+
+                    for (var t = 0; t < data.length; t++) {
+
+                        if (columns[t] == undefined)
+                            columns[t] = [];
+
+                        for (var i = 0; i < columns[t].length; i++) { // Get and Bind the Column level Details
+                            for (var k = data[t].length - 1; k >= 0 ; k--) {
+                                if (columns[t][i]["field"] == data[t][k]) {
+                                    data[t].splice(k, 1); // Remove if column already defined
+                                }
+                            }
+                        }
+
+                        if (data[t].length > 0) {
+                            for (i = 0; i < data[t].length; i++) { // Get and Bind the Column level Details
+                                columns[t].push({ field: data[t][i], title: data[t][i], locked: false, hidden: false, width: "200px" });
+                                if (i + 1 == data[t].length) {
+                                    if (t == 0) {
+                                        objMasLoadData_0(columns[t], t);
+                                    } else if (t == 1) {
+                                        objMasLoadData_1(columns[t], t);
+                                    } else if (t == 2) {
+                                        objMasLoadData_2(columns[t], t);
+                                    } else if (t == 3) {
+                                        objMasLoadData_3(columns[t], t);
+                                    } else if (t == 4) {
+                                        objMasLoadData_4(columns[t], t);
+                                    } else if (t == 5) {
+                                        objMasLoadData_5(columns[t], t);
+                                    } else if (t == 6) {
+                                        objMasLoadData_6(columns[t], t);
+                                    } else if (t == 7) {
+                                        objMasLoadData_7(columns[t], t);
+                                    } else if (t == 8) {
+                                        objMasLoadData_8(columns[t], t);
+                                    } else if (t == 9) {
+                                        objMasLoadData_9(columns[t], t);
+                                    } else if (t == 10) {
+                                        objMasLoadData_10(columns[t], t);
+                                    } else if (t == 11) {
+                                        objMasLoadData_11(columns[t], t);
+                                    } else if (t == 12) {
+                                        objMasLoadData_12(columns[t], t);
+                                    } else if (t == 13) {
+                                        objMasLoadData_13(columns[t], t);
+                                    } else if (t == 14) {
+                                        objMasLoadData_14(columns[t], t);
+                                    } else if (t == 15) {
+                                        objMasLoadData_15(columns[t], t);
+                                    } else if (t == 16) {
+                                        objMasLoadData_16(columns[t], t);
+                                    } else if (t == 17) {
+                                        objMasLoadData_17(columns[t], t);
+                                    } else if (t == 18) {
+                                        objMasLoadData_18(columns[t], t);
+                                    } else if (t == 19) {
+                                        objMasLoadData_19(columns[t], t);
+                                    } else if (t == 20) {
+                                        objMasLoadData_20(columns[t], t);
+                                    } else if (t == 21) {
+                                        objMasLoadData_21(columns[t], t);
+                                    } else if (t > 21) {
+                                        alert("This Return more 11 grid, please contect the developer :) VgSan");
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            //alert("No record return.");
+                            //window.close();
+                        }
+                    }
+
+
+                    // Give alert and close window.
+                    if (data.length == 1) {
+                        if (data[0].length <= 0) {
+                            objMasLoadData_None([], -1);
+                        }
+                    }
+
+                } else {
+                    objMasLoadData_None([], -1);
+                }
+
+                $.holdReady(false);
+            }
+        });
+
+        //function objMasLoadData(columnsT, spRestCount) {
+
+        //    spRestCount_Grid = "Grid_" + spRestCount;
+
+        //    // UsrObjPrp_SelectWeb(string PrntKy, string ObjTyp, string ObjNm)
+        //    // UsrObjPrp_SelectWeb( 16640, 'FindForm', 'ItemFind'
+
+        //    $.ajax({
+        //        type: "GET",
+        //        dataType: 'json',
+        //        //ItmNm ,CKy, Dt, FormObjKy, ItmTypKy, TrnTypKy, PrjKy, LocKy, UsrKy
+        //        data: {
+        //            PrntKy: viewBag.SelectedReportObjKy,
+        //            ObjTyp: "GridParameter",
+        //            ObjNm: ""
+        //        },
+        //        url: urlObjMas.UsrObjChild_SelectByPrntandSubObjTypWeb,
+        //        converters:
+        //        {
+        //            "text json": function (data) {
+        //                return $.parseJSON(data, true, true);
+        //            }
+        //        },
+        //        success: function (data) {
+        //            //var ObjKyChild = data[0].ObjKy;
+        //            //firstLoadData(columnsT, spRestCount, ObjKyChild);
+
+        //            alert(spRestCount_Grid);
+
+        //            for (h = 0; h < data.length; h++) {
+        //                if (data[h].ObjNm == spRestCount_Grid) {
+        //                    var ObjKyChild = data[h].ObjKy;
+        //                    firstLoadData(columnsT, spRestCount, ObjKyChild);
+        //                }
+        //            }
+
+        //            $.holdReady(false);
+        //        }
+        //    });
+        //}
+
+    }
+
+    //var agrt = new Array();
+
+
+    function firstLoadData(columnsT, spRestCount, ObjKyChild, ObjChild) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: { ObjKy: ObjKyChild },
+            url: urlObjMas.UsrObjPrp_SelectMulti,
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                //var ArrField = new Array();
+                //spRestCount = 1;
+                var returnValue = new Object();
+                returnValue.schema = {
+                    model: {
+                        fields: {
+                        }
+                    }
+                }
+                
+
+                if (data.length > 0 && data[0] != undefined && data[0].length > 0) {// && data[0][0]["PrntKy"] == (spRestCount + 1)) {
+                    for (var i = 0; i < data[0].length; i++) { // Get and Bind the Column level Details
+                        for (var k = columnsT.length - 1; k >= 0 ; k--) {
+                            if (columnsT[k]["field"] == data[0][i]["ObjNm"]) {
+                                columnsT.splice(k, 1); // Remove if column already defined
+                            }
+                        }
+                    }
+
+                    for (var j = 0; j < data[0].length; j++) {
+                        var alginment = "left";
+                        var FooterTemplate = "";
+                        //var Aggregates = "";
+                        if (data[0][j]["Alignment"].length > 0) {
+                            alginment = data[0][j]["Alignment"];
+                        }
+
+                        //if (data[0][j]["Aggregates"].length > 0) {
+                        //    Aggregates = data[0][j]["Aggregates"];
+                        //    //agrt.push({ field: data[0][j]["ObjNm"], aggregate: Aggregates });
+                        //}
+                        if (data[0][j]["FooterTemplate"].length > 0) {
+                            FooterTemplate = data[0][j]["FooterTemplate"];
+                            if (data[0][j]["Aggregates"] != "")
+                                FooterTemplate = FooterTemplate + ": " + "#=" + data[0][j]["Aggregates"] + "#";
+
+                        }
+
+                        if (data[0][j]["DataType"].length > 0) {
+                            
+                            //ArrField.push(data[0][j]["ObjNm"]+":"+{ type: data[0][j]["DataType"] }+",");
+                            returnValue.schema.model.fields[data[0][j]["ObjNm"]] = { type: data[0][j]["DataType"] };
+                        }
+                        
+
+                        //if (data[0][j]["Aggregates"].length > 0 && data[0][j]["FooterTemplate"].length > 0 && data[0][j]["GrpFooterTemplate"].length > 0) {
+                        //    var tempAggregates = new Array();
+                        //    // this will return an array with strings "1", "2", etc.
+                        //    tempAggregates = data[0][j]["Aggregates"].substring(1, data[0][j]["Aggregates"].length - 1).split("\",\"");
+                        //    columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], aggregates: tempAggregates, footerTemplate: data[0][j]["FooterTemplate"], groupFooterTemplate: data[0][j]["GrpFooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                        //} else if (data[0][j]["Aggregates"].length > 0 && data[0][j]["FooterTemplate"].length > 0) {
+                        //    var tempAggregates = new Array();
+                        //    // this will return an array with strings "1", "2", etc.
+                        //    tempAggregates = data[0][j]["Aggregates"].substring(1, data[0][j]["Aggregates"].length - 1).split("\",\"");
+                        //    columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], aggregates: tempAggregates, footerTemplate: data[0][j]["FooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                        //} else
+
+        //                columns: [
+        //{
+        //    field: "foo.bar",
+        //    footerTemplate: function (data) { return "Sum: " + data["foo.bar"].sum; }
+        //}
+        //                ]
+
+                        if (data[0][j]["Template"].length > 0) {
+                            columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, aggregates: data[0][j]["Aggregates"], footerTemplate: FooterTemplate, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], template: data[0][j]["Template"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                        } else {
+                            columnsT.push({ field: data[0][j]["ObjNm"], hidden: (data[0][j]["isVisible"] == 1) ? false : true, locked: (data[0][j]["isFreeze"] == 1) ? true : false, aggregates: data[0][j]["Aggregates"], footerTemplate: FooterTemplate, title: data[0][j]["ObjCaptn"], width: data[0][j]["Width"], format: data[0][j]["Format"], attributes: { style: "text-align:" + alginment + ";" } });
+                        }
+
+                        if (j + 1 == data[0].length) {
+                            loadWithDetLevelData(columnsT, data[0], spRestCount, ObjChild, returnValue);
+                        }
+                    }
+                }
+                else {
+                    loadWithDetLevelData(columnsT, [], spRestCount, ObjChild, returnValue);
+                }
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function ConverttoHrMin(a) {
+        var sec = (a / 60) * 3600; //Seconds
+        var hours = Math.floor(a / 60);
+        var minutes = a % 60;
+        var res = hours + ":" + minutes;
+        if (res == undefined || res == null)
+        {
+            res = 0;
+        }
+        return res;
+    }
+
+    function calc(val) {
+        var hour = Math.floor(val / 60);
+        var min = val % 60;
+        val = hour + ":" + min + " hrs";
+        return val;
+    }
+
+
+    function loadWithDetLevelData(columnsT, colData, spRestCount, ObjChild, returnValue) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+
+            data: {
+                SPName: viewBag.SPName,
+                NeededReportParamsFromObjMas: JSON.stringify(viewBag.NeededReportParamsFromObjMas),
+                NeededReportParams: JSON.stringify(viewBag.NeededReportParams),
+                SelectedReportObjKy: viewBag.SelectedReportObjKy
+            },
+
+            url: urlReport.ViewIntegrityChecks,
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                if (spRestCount == -1) {
+                    alert("Excute Done.");
+                    window.close();
+                }
+                else {
+                    loadGrid(columnsT, colData, data[spRestCount], spRestCount, ObjChild, returnValue);
+                    $.holdReady(false);
+                }
+            }
+        });
+    }
+
+    function loadGrid(col, colData, dataSrcJsonString, spRestCount, ObjChild, returnValue) {
+        var iDiv = document.createElement('div');
+        iDiv.id = 'example' + spRestCount + '';
+        iDiv.style.marginTop = "7px";
+
+        // Create the inner div before appending to the body
+        var innerDivForhdr = document.createElement('div');
+        innerDivForhdr.id = 'gridDivIntegrityChecksGridHdr' + spRestCount + '';
+        innerDivForhdr.style.marginTop = "30px";
+        innerDivForhdr.style.borderBottom = "5px";
+        innerDivForhdr.style.fontSize = "xx-large";
+        innerDivForhdr.style.width = "100%";
+        innerDivForhdr.setAttribute("align", "center");
+        innerDivForhdr.style.backgroundColor = '#CCC';
+
+        if (ObjChild != undefined)
+            innerDivForhdr.innerHTML = ObjChild.ObjCaptn;
+        else
+            innerDivForhdr.innerHTML = "Grid : " + spRestCount;
+
+        // Create the inner div before appending to the body
+        var innerDiv = document.createElement('div');
+        innerDiv.id = 'gridDivIntegrityChecksGrid' + spRestCount + '';
+
+        // The variable iDiv is still good... Just append to it.
+        iDiv.appendChild(innerDivForhdr);
+        iDiv.appendChild(innerDiv);
+
+        // Then append the whole thing onto the body
+        //document.getElementById("IntegrityChecksGrid").appendChild(iDiv);
+        $("#IntegrityChecksGrid").append(iDiv);
+
+       
+
+        //    [
+        //        { field: "LateIn", aggregate: "sum" },
+
+        //]
+
+        var ArrAggregate = new Array();
+        //var ArrField = new Array();
+        //var returnValue = new Object();
+        //returnValue.schema = {
+        //    model: {
+        //        fields: {
+        //        }
+        //    }
+        //}
+        //returnValue.schema.model.fields[col[i].field] = { type: col[i].command };
+
+        for (var i = 0; i < col.length; i++) { // Get aggregates
+            if (col[i].aggregates != "" && col[i].aggregates != undefined) {
+
+                ArrAggregate.push({ field: col[i].field, aggregate: col[i].aggregates });
+
+                //aggregate: [
+                //{ field: col[i].field, aggregate: col[i].aggregates },
+
+                //]
+
+                //for (var hh = 0; hh < col[i].aggregate.length; hh++) {
+                //    agrt.push({ field: col[i].field, aggregate: col[i].aggregate });
+                //}
+            }
+
+            //if (col[i].command != "" && col[i].command != undefined) {
+            //    var datatype = col[i].command;
+            //    ArrField.push(col[i].field + ":" + "{ " + "type: " + datatype + "},");
+                
+            //    returnValue.schema.model.fields[col[i].field] = { type: col[i].command };
+            //    //schema.model.fields[col[i].field] = { type: col[i].command };
+            //    //returnValue.schema.model.fields[col[i].field].type = datatype;
+            //}
+        }
+
+        var gridDivIntegrityChecksGrid = new kendo.data.DataSource({
+            data: JSON.parse(dataSrcJsonString),
+            //,
+            //pageSize: 100,
+            aggregate: ArrAggregate,
+
+            
+            schema: 
+            {
+                model: 
+                {
+                
+                    fields: returnValue.schema.model.fields, //Relavent fields of the grid should be bind with following model items
+                    //{
+                    //    InDtm: { type: "date" },
+                    //    OutDtm: { editable: false, nullable: false, type: "date" },
+                    //    //test: { editable: false, nullable: false, type: "date" },
+
+                    //}
+                }
+            }
+
+        });
+
+        
+
+        $("#gridDivIntegrityChecksGrid" + spRestCount + "").kendoGrid({
+            toolbar: ["excel"],
+            excel: {
+                fileName: iDiv.innerText + ".xlsx",
+                filterable: true
+            },
+            dataSource: gridDivIntegrityChecksGrid,
+            sortable: true,
+            pageable: false,
+            pageable: {
+                refresh: false,
+                pageSizes: false,
+                buttonCount: 1
+            },
+            //groupable: true,
+            //filterable: true,
+            filterable: {
+                mode: "row"
+            },
+            columnMenu: true,
+            reorderable: true,
+            resizable: true,
+            selectable: "row",
+            editable: false,
+            //aggregate: agrt1,
+            columns: col,
+            height: "490px"
+
+
+        });
+
+        $("#gridDivIntegrityChecksGrid" + spRestCount + "").kendoTooltip({
+            filter: "th", //this filter selects the first column title
+            position: "top",
+            width: "200px",
+            content: function (e) {
+                for (i = 0; i < colData.length; i++) {
+                    var target = e.target.closest("th"); // element for which the tooltip is shown
+                    var rtrn = $(target).text();
+
+                    if ($(target).text() == colData[i].ObjCaptn) {
+                        rtrn = colData[i].ToolTip;
+                    }
+                    return rtrn;
+                }
+            }
+        }).data("kendoTooltip");
+
+        $("#gridDivIntegrityChecksGrid" + spRestCount + "").dblclick(function () {
+
+            var grid = $("#gridDivIntegrityChecksGrid" + spRestCount + "").data().kendoGrid;
+            var selectedItem = grid.dataItem(grid.select());
+            var ItmKy = selectedItem.ItmKy;
+            if (ItmKy != "" || ItmKy != undefined || ItmKy != null) {
+                SetSelectedItemToItemCombo(ItmKy, selectedItem.ItmNm);
+            } else {
+                alert("Please Select Item");
+            }
+
+        });
+
+        $("#HdrSec1_InptItmNm").focus();
+    }
+</script>
+
+<script src="~/Scripts/HtnScripts/Report/IntegrityCheckGrid_0.js"></script>

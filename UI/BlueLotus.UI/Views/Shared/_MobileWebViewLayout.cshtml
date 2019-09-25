@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="overflow:hidden">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - ToDo Test Enviroment - </title>
+    <link href="~/Images/BLicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    @*<link href="~/Content/SiteNewCSS.css" rel="stylesheet" />*@
+    <link href="~/Content/SiteNewCSS.min.css" rel="stylesheet" />
+
+    <!-- ============= Bootstrap Styles ============== -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- ============= Kendo Styles ============== -->
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.material.min.css" rel="stylesheet" />
+
+    @*<link href="~/Content/LatesSiteStyles.css" rel="stylesheet" />*@
+    <link href="~/Content/LatesSiteStyles.min.css" rel="stylesheet" />
+
+    @*<link href="~/Content/main.dev.css" rel="stylesheet" />*@
+    <link href="~/Content/main.min.css" rel="stylesheet" />
+    <!-- ============= FontAwesome ============== -->
+    <link href="~/Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet" />
+    @using BlueLotus.UI.Models;
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+        var urlAdminGetKy = '@Url.Content("~/Admin/GetKy")';
+        var urlErrorsUnAuthorised = '@Url.Action("UnAuthorised", "Errors")';
+        var urlErrorsInternalError = '@Url.Action("InternalError", "Errors")';
+    </script>
+    <script src="~/Content/kendoui-2017.2.504/js/jquery.min.js"></script>
+    <script src="~/Scripts/Kendo-2015.2.902/jszip.min.js"></script>
+    <script src="~/Content/kendoui-2017.2.504/js/kendo.all.js"></script>
+    <script src="~/Scripts/Scripts/CommonFunction.js"></script>
+</head>
+<body style="height:100vh;">
+
+    <!-- =============| Content Body |============== -->
+    <div id="body">
+        <div class="container-fluid">
+            <div class="row">
+                @RenderSection("featured", required: false)
+                <section class="content-wrapper main-content clear-fix">
+                    @RenderBody()
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============| /Content Body |============== -->
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+    var RootDir = '@System.Web.Configuration.WebConfigurationManager.AppSettings["RootDirectory"]';
+    var KeySwitch = 0;
+    var allElems = document.body.getElementsByTagName("*");
+    for (var i = 0; i < allElems.length; i++) {
+
+        try {
+            document.getElementById(allElems[i].id).addEventListener('keyup', function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == 13 || keycode == '13') {
+                    event.preventDefault();
+                }
+            });
+        } catch (x) { }
+    }
+
+
+    var urlCommonReportSessionSetting = "@Url.Content("~/CommonReportViwer/CommonReportSessionSetting")";
+
+
+
+
+</script>
+@*<script> function KMobilex2250() { return 'position:relative;top:0px;left:0px;width:2000px;height:2000px;-moz-border-radius:100px;border:1px  solid #ddd;-moz-box-shadow: 0px 0px 8px  #fff;' }</script>*@
+@*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
+<script src="~/Scripts/JSFiles/bootstrap.min.js"></script>
+@*<script src="~/Scripts/HtnScripts/HtnShared/MenuOpenCommon.js"></script>*@

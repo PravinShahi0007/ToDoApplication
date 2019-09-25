@@ -1,0 +1,323 @@
+﻿@*<link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="../buttnstyle/style/css.css" />
+
+    <script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>*@
+
+<div style="overflow: auto; display: none; " id="FindForm">
+
+
+    <table>
+        <tr>
+            <td class="trr">
+
+                <label class="k-checkbox-label" for="">Is Active</label>
+
+            </td>
+            <td class="trr">
+                <input type="checkbox" id="actve" class="k-checkbox" onclick="chk()">
+
+            </td>
+
+
+
+
+
+        </tr>
+
+
+
+    </table>
+
+
+    <div id="SearchWindow" />
+    @*style="border: 2px solid #A9A9A9; margin-top: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px;height:470px; ">*@
+
+
+    <div id="grid" style="height: 400px; width:940px;   margin:10px;"></div>
+
+</div>
+
+
+
+
+
+@*</div>*@
+
+<script>
+    $(document).ready(function () {
+
+    });
+
+    $("#grid").on("dblclick", "tr.k-state-selected", function () {
+
+
+        var grid = $('#grid').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var UsrKy = selectedItem.UsrKy;
+        if (UsrKy != "" || UsrKy != undefined || UsrKy != null) {
+            //  GetHdrDetailFind(UsrId);
+            //  alert(UsrKy);
+            //var UsrKy = $("#UsrKy").val();
+
+            $.ajax({
+                url: "@Url.Content("~/Login/GetUsrDetailByUsrKy")",
+                data: JSON.stringify({
+                    UsrKy: UsrKy,
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var uid = data[0].UsrId;
+                    if (uid.indexOf(".") > 0) {
+                        var temp = uid.indexOf("."); //Str.substring(0, Str.lastIndexOf("."))
+                        var UsrId = uid.substr(0, uid.lastIndexOf("."));
+                        //var splitUserId = uid.split(".");
+                        var ccd = uid.substr(uid.lastIndexOf("."));
+                    }
+                    else { var UsrId = uid; }
+
+                    var ObjCaptn = viewBag.ObjCaptn;
+                    if (ObjCaptn == "POS User Profile") {
+                        $("#HdrSec1_InptUsrId_Val").data("kendoNumericTextBox").value(UsrId);
+                    }
+                    else {
+                        $("#HdrSec1_InptUsrId_Val").val(UsrId);
+                        if (ccd != undefined && ccd != "") {
+                            $("#HdrSec1_InptCCd_Val").val(ccd);
+                        }
+                        else { $("#HdrSec1_InptCCd_Val").val(""); }
+
+                    }
+                    var UsrKy = data[0].UsrKy;
+                    $("#UsrKy").val(UsrKy);
+                    var UsrNm = data[0].UsrNm;
+                    $("#HdrSec1_InptUsrNm_Val").val(UsrNm);
+
+                    if (ObjCaptn == "User Profiles") {
+                        var AdrKy = data[0].AdrKy;
+                        $("#HdrSec1_CmbAdr_Cd").data("kendoComboBox").value(AdrKy);
+                    }
+
+                    var IsActive = data[0].IsActive;
+                    if (IsActive == 1) {
+                        //  $("#chckact").checked(true);
+                        $('#HdrSec1_ChkboxisAct_Val').each(function () { this.checked = true; });
+                    }
+                    else {
+                        $('#HdrSec1_ChkboxisAct_Val').each(function () { this.checked = false; });
+                    }
+
+                    var GrpKy = data[0].GrpKy;
+                    if (GrpKy == 0) {
+
+                        $("#cmb_usrgrp").data("kendoComboBox").value(null);
+                    } else {
+                        //     $("#hid").show();
+                        //$("#cmb_usrgrp").data("kendoComboBox").value(GrpKy);
+                    }
+
+                    if (ObjCaptn == "POS User Profile") {
+                        LoadLocGrid();
+                        var isPOS = data[0].isPOS;
+                        var isPDA = data[0].isPDA;
+                        var isSupvisor = data[0].isSupvisor;
+
+                        var grid = $("#usergrid").data("kendoGrid");
+                        //var length = $('#usergrid table tr[role=row]').length;
+
+                        var currentData = grid.dataSource.data();
+
+                        for (var i = 0; i < currentData.length; i++) {
+                            if (currentData[i].ObjKy == 106163) {
+                                currentData[i].set('isAlwAcs', isPOS);
+                            }
+                            else if (currentData[i].ObjKy == 106167) {
+                                currentData[i].set('isAlwAcs', isPDA);
+                            }
+                            else if (currentData[i].ObjKy == 106168) {
+                                currentData[i].set('isAlwAcs', isSupvisor);
+                            }
+                        }
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            var CKY = data[i].CKy;
+
+                            var grid = $("#Grid").data("kendoGrid");
+                            var currentData = grid.dataSource.data();
+
+                            for (var j = 0; j < currentData.length; j++) {
+                                if (currentData[j].CKy == CKY) {
+                                    currentData[j].set('isAct', 1);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        } else {
+            alert("please Select Any Trancsaction");
+        }
+
+        $('#FindForm').data('kendoWindow').close();
+
+    });
+    function chk() {
+        var IsActive = document.getElementById("actve").checked;
+        if (IsActive == true) {
+
+            LoadFindGrid();
+        } else {
+            $("#grid").data('kendoGrid').dataSource.data([]);
+        }
+
+
+    }
+
+    function LoadFindGrid() {
+        var IsActive = document.getElementById("actve").checked;
+        //alert(IsActive);
+
+        var ObjCaptn = viewBag.ObjCaptn;
+        if (ObjCaptn == "POS User Profile") {
+            var isPOS = "1";
+        }
+        else { var isPOS = "0"; }
+        ////  var IsActive = $("#chck").val();
+        //  alert(IsActive);
+        //  if (IsActive == true) {
+
+        @*$.ajax({
+            url: "@Url.Content("~/Login/FindUsrGrid")",
+            data: JSON.stringify({
+                IsActive: IsActive,
+                isPOS: isPOS,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+
+                    $("#grid").data("kendoGrid").dataSource.add({
+                        UsrId: data[i].UsrId,
+                        UsrNm: data[i].UsrNm,
+                        //  UsrGrp: data[i].UsrGrp,
+                        UsrKy: data[i].UsrKy,
+                    })
+                }
+            }
+             ,
+            error: function (e) {
+                return false;
+            }
+        });*@
+
+
+
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Content("~/Login/FindUsrGrid")",
+                    data: {
+                        'IsActive': IsActive, //'92670',
+                        'isPOS': isPOS
+                       
+                    },
+
+                    dataType: "json"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 10,
+            //   group: [{ field: "date"}, { field: "Fg" }],
+            schema: {
+                model: {
+                    //  id: "Key",
+                    fields: {
+                        UsrId: { editable: false, nullable: false, type: "string" },
+                        UsrNm: { editable: false, nullable: false, type: "string" },
+                        //  UsrGrp: { editable: false, nullable: false, type: "string" },
+                        UsrKy: { editable: false, nullable: false, type: "number" },
+                    }
+                }
+            },
+
+
+        });
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            navigatable: true,
+            filterable: {
+                mode: "row"
+            },
+            autobind: true,
+            resizable: true,
+            sortable: true,
+            Scrollable: true,
+            selectable: "row",
+            pageable: true,
+            height: 395,
+            columnMenu: true,
+            columns: [
+                 {
+                     field: "UsrId", title: "UsrId", suggest: true,
+                     filterable: {
+                         cell: {
+                             operator: "contains",
+                             suggestionOperator: "contains"
+                         }
+                     }
+                 },
+                {
+                    field: "UsrNm", title: "UserName", suggest: true,
+                    filterable: {
+                        cell: {
+                            operator: "contains",
+                            suggestionOperator: "contains"
+                        }
+                    }
+                },
+
+
+                //  { field: "UsrGrp", title: "UserGroup", },
+                   { field: "UsrKy", title: "", hidden: true },
+
+            ],
+            editable: false
+        });
+    };
+
+
+</script>
+
+<style>
+    .trr {
+        padding: 4px 10px;
+    }
+</style>

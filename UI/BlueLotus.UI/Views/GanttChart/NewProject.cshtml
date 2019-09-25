@@ -1,0 +1,93 @@
+﻿<div id="NewProjectDiv" style="display: none" title="New Project">
+    <div>
+        <table>
+            <tr>
+                <td>Project No : </td>
+                <td><input placeholder="01" id="newPrjNo" type="text" style="width:150px;" class="k-textbox" /></td>
+            </tr>
+            <tr>
+                <td>Doc No : </td>
+                <td><input placeholder="Demo 01" id="newPrjDocNo" type="text" style="width:150px;" class="k-textbox" /></td>
+            </tr>
+            <tr>
+                <td>Project Name : </td>
+                <td><input placeholder="Demo Road 01" id="newPrjNm" type="text" style="width:150px;" class="k-textbox" /></td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-top:20px;">
+        <input id="btnSaveNewPrj" type="button" class="k-button" style="height:25px" value="Create" />
+    </div>
+</div>
+
+<script>
+
+    var globalPrjTypKy = 487;
+    var urlGetItmTypKy = '@Url.Content("~/ItmMas/GetItmTypKy")';
+    var urlProjectsHeader_InsertWeb = '@Url.Content("~/GanttChart/ProjectsHeader_InsertWeb")';
+
+    $(function () {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            url: urlGetItmTypKy,
+            dataType: "json",
+            data: { ConCd: 'PrjTyp', OurCd: 'Project' },
+            async: false,
+            success: function (data) {
+                //alert("Typ Ky : " + data[0].CdKy);
+                globalPrjTypKy = data[0].CdKy;
+                $.holdReady(false);
+            }
+        });
+    });
+
+    $("#btnSaveNewPrj").click(function () {
+        tempPrjKy = 1;
+        var headerData = "[{ \"PrjTypKy\":\"" + globalPrjTypKy +
+                                        "\",\"PrjNo\":\"" + $("#newPrjNo").val() +
+                                        "\",\"DocNo\":\"" + $("#newPrjDocNo").val() +
+                                        "\",\"PrjNm\":\"" + $("#newPrjNm").val() +
+                                        "\"}]";
+
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            url: urlProjectsHeader_InsertWeb,
+            dataType: "json",
+            data: { projectsHeaderDetails: headerData },
+            async: false,
+            success: function (data) {
+                if (data > 1) {
+                    tempPrjKy = data;
+                    alert("Header Saving Done. Prj Ky : " + data);
+                    $('#NewProjectDiv').data('kendoWindow').close();
+                    callNewPrjSchEmpty();
+                } else {
+                    alert("Saving Error Check the Data");
+                    $.holdReady(false);
+                }
+            }
+        });
+    });
+
+    function callNewPrjSchEmpty() {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            //data: { PageNo: pageNo, PageSize: pageSize, PrjKy: PrjKy, PrcsSchKy: PrcsSchKy, IsShowBaseLine: IsShowBaseLine, ObjKy: 1, FrmDt: filterOptionFrmDt, ToDt: filterOptionToDt, TaskId: varTaskIdFilterOnFilterOptinMenu, TaskFilter: varTaskIdFilterOnFilterOptinMenuOption, isCrtclTask: temponlyCriticalTask, IsShowPreviousNonComplted: tempwithNotCompletedTask },
+            url: urlGetNewProjectScheduleDetails,//'/GanttChart/GetSelectProjectScheduleDetails',//'@Url.Action("GetSelectProjectScheduleDetails", "GanttChart")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                LoadDataSource(data);
+                $.holdReady(false);
+            }
+        });
+    }
+</script>

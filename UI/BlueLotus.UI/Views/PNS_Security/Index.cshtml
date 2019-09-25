@@ -1,0 +1,425 @@
+﻿@{
+    ViewBag.Title = "PNS Security";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+
+<head>
+    @*<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />*@
+    <link href="~/Src/Styles/HtnStyles/ItmDiscount/animation.css" rel="stylesheet" />
+</head>
+
+<div style="height:40px;" class="k-content clearfix" id="filterCont">
+    <button style="margin-left:20px;" class="control-button load" id="btnLoadItem" title="Load" onclick="LoadGridView()"></button>
+    <button class="control-button save" id="btnSave" onclick="UpdateDetails()" title="Save (Ctrl+S)"></button>
+</div>
+<div class="col-md-12 col-xs-12">
+    <div class="PNS_Title" style="font-family:'Segoe UI'; font-size:25px;">PNS Security Check</div>
+    <div id="HdrSec1" class="col-md-12 col-xs-12 wr_formGroup">
+
+        <div style="margin-left:-20px;margin-top:10px;">
+            <div class="col-md-3" id="HdrSec1_DatePicDate">
+                <label id="HdrSec1_DatePicDate_Lbl" style="margin-left:10px;margin-top:5px;">Date:</label>
+                <input id="HdrSec1_DatePicDate_Val"
+                       data-role="datepicker"
+                       data-bind="value: HdrSec1_DatePicDate_Val" />
+            </div>
+
+            <div class="col-md-3" id="HdrSec1_cmbDeliveryNo">
+                <label id="HdrSec1_cmbDeliveryNo_Lbl" style="margin-left:15px;margin-top:5px;">Delivery No:</label>
+                <div id="HdrSec1_cmbDeliveryNo_Cd"></div>
+            </div>
+
+            <div class="col-md-3" id="HdrSec1_cmbVehNo">
+                <label id="HdrSec1_cmbVehNo_Lbl" style="margin-left:20px;">vehicle No:</label>
+                <div id="HdrSec1_cmbVehNo_Cd"></div>
+            </div>
+
+            <div class="col-md-3" id="HdrSec1_cmbOutlet">
+                <label id="HdrSec1_cmbOutlet_Lbl" style="margin-left:20px;">Outlet:</label>
+                <div id="HdrSec1_cmbOutlet_Cd"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-10 col-xs-12" id="GridWin">
+
+        <div id="grid"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)'
+    }
+
+    $(document).ready(function () {
+        LoadCombo();
+
+        var h = $("#option").height();
+        var height = ($(window).height()) - (180 + h);
+        $("#grid").height(height);
+
+
+        var currentDate = new Date();
+        $('#HdrSec1_DatePicDate_Val').data("kendoDatePicker").value(currentDate);
+        $('#HdrSec1_DatePicDate_Val').data("kendoDatePicker").enable(true);
+        //$("#Date").kendoDatePicker();
+        //CreateNewGridRow();;
+
+    });
+
+    $("#HdrSec1_DatePicDate_Val").width(150).kendoDatePicker({
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2009)
+    });
+
+    // =================== Create Grid View
+    function Add() {
+
+        var grid = $("#grid").data("kendoGrid");
+        if (grid) {
+            var dataSource = grid.dataSource;
+            var total = dataSource.data().length;
+            dataSource.insert(total, {});
+        }
+
+    }
+
+
+    function DeliveryNoLookupDatasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/PNS_Security/DeliveryNoLookup")',
+
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function VehicleLookupDatasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/PNS_Security/VehicleLookup")',
+                      data: {
+                          ObjKy: viewBag.ObjKy
+                      },
+
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+
+    function OutletLookupDatasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/PNS_Security/OutletLookup")',
+
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+
+    function LoadCombo() {
+
+        $("#HdrSec1_cmbOutlet_Cd").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: OutletLookupDatasource(),
+            change: function (e) {
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Outlet."
+        });
+
+        $("#HdrSec1_cmbVehNo_Cd").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrID",
+            dataSource: VehicleLookupDatasource(),
+            change: function (e) {
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Vehicle No."
+        });
+
+
+        $("#HdrSec1_cmbDeliveryNo_Cd").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: DeliveryNoLookupDatasource(),
+            change: function (e) {
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Delivery No."
+        });
+
+        $("#HdrSec1_cmbVehNo_Cd").parent().css('width', "150px");
+        $("#HdrSec1_cmbOutlet_Cd").parent().css('width', "180px");
+
+
+
+    }
+
+    function LoadGridView() {
+
+
+        var Date = $("#HdrSec1_DatePicDate_Val").val();
+        var TrnKy = $("#HdrSec1_cmbDeliveryNo_Cd").data('kendoComboBox').value();
+        var AccKy = $("#HdrSec1_cmbOutlet_Cd").data('kendoComboBox').value();
+        var AdrKy = $("#HdrSec1_cmbVehNo_Cd").data('kendoComboBox').value();
+
+        $.ajax({
+            url: "@Url.Content("~/PNS_Security/LoadGridView")",
+            data: JSON.stringify({
+                Date: Date,
+                TrnKy: TrnKy,
+                AccKy: AccKy,
+                AdrKy: AdrKy
+            }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $("#grid").data('kendoGrid').dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+                    $("#grid").data("kendoGrid").dataSource.add({
+                        TrnKy: data[i].TrnKy,
+                        TrnDt: data[i].TrnDt,
+                        Prefix: data[i].Prefix,
+                        TrnNo: data[i].TrnNo,
+                        DlvryNo: data[i].DlvryNo,
+                        AccNm: data[i].AccNm,
+                        Checked: data[i].Checked = 1 ? false : true
+                    });
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    @*url: '@Url.Content("~/HR/GetEmpDetails")',*@
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateGrid", "PNSSecurity")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+                            //'Bu': Bu,
+                            //'Dt': Dt,
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "TrnKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        TrnKy: { editable: false, nullable: false, },
+                        TrnDt: { editable: false, nullable: false, },
+                        Prefix: { editable: false, nullable: false },
+                        TrnNo: { editable: false, nullable: false },
+                        DlvryNo: { editable: false, nullable: false },
+                        AccNm: { editable: false, nullable: false },
+                        Checked: { editable: true, nullable: false, type: "boolean" },
+                    }
+                }
+            }
+        });
+
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+            //height: 720,
+            navigatable: true,
+            filterable: {
+                mode: "row"
+            },
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+
+            selectable: "row",
+
+
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+            {
+                field: "TrnKy", title: "Ref #", width: "100px", hidden: true,
+            },
+            {
+                field: "TrnDt", title: "Date", width: "100px", hidden: true,
+            },
+            {
+                field: "Prefix", title: "Prefix", width: "20px", hidden: false,
+            },
+            {
+                field: "DlvryNo", title: "Dlvry No", width: "100px", hidden: true,
+            },
+             {
+                 field: "TrnNo",
+                 title: "Invoice No",
+                 width: "50px",
+             },
+             {
+                 field: "AccNm",
+                 title: "Outlet",
+                 width: "180px",
+             },
+
+
+            {
+                field: "Checked",
+                title: "State",
+                template: '<input type="checkbox"  #= Checked? "checked=checked" : "" # class="CheckedPinChecked"></input>',
+                width: "40px",
+            },
+
+
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            //   dataBound: GridOnDataBound,
+            editable: true,
+
+        });
+    }
+
+
+    function UpdateDetails() {
+
+        var grid = $("#grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].dirty && currentData[i].Checked == true) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        if (updatedRecords.length) {
+
+            $.ajax({
+
+                url: "@Url.Content("~/PNS_Security/UpdateGrid")",
+                data: JSON.stringify({
+                    GridUpdateDetail: kendo.stringify(updatedRecords),
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    if (data) {
+                        alert("Update Successfully");
+                        //$("#grid").data("kendoGrid").dataSource.read();
+                        $("#grid").data('kendoGrid').dataSource.data([]);
+                        LoadGridView();
+                    } else {
+                        alert("Please Try Again");
+                    }
+                }
+            });
+
+        }
+
+    }
+
+    $('#grid').on('click', '.CheckedPinChecked', function () {
+        var checked = $(this).is(':checked');
+        var grid = $('#grid').data().kendoGrid;
+        var dataItem = grid.dataItem($(this).closest('tr'));
+        if (dataItem != undefined) {
+            dataItem.set('Checked', checked);
+        }
+    });
+
+</script>

@@ -1,0 +1,522 @@
+﻿ <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+<link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />
+<script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>
+
+<div id="FindFormInvoiceSO" style="display: none">
+    
+    <div  style="margin-top:5px;" >
+        <label style="margin-left:12px;">Delivery Date</label>
+     
+          <input id="DlyDt"
+                    class=""
+                    data-role="datepicker"
+                    data-bind="value: DlyDate" /> 
+      @*  <label style="margin-left:12px;">Invoice Date</label>
+     
+          <input id="InvDt"
+                    class=""
+                    data-role="datepicker"
+                    data-bind="value: InvDate" /> *@
+       
+        <label style="margin-left:5px;">Delivery No</label>  
+        <div id="cmbDlivryNo"></div>
+    </div>
+    <div  style="margin-top:5px;">
+       
+        <button class="k-button" id="btnSearchInvoice" onclick="SearchInvoice();" title="Search" style="margin-left:600px; width: 50px; height: 30px"><img src="~/Images/Search.PNG" /></button>
+         <button class="k-button" id="btnSelectAll" onclick="SelectAll();" title="SelectAll" style="margin-left:5px; width: 50px; height: 30px">SelectAll</button>
+          <button class="k-button" id="btnUnSelectAll" onclick="UnSelectAll();" title="UnSelectAll" style="margin-left:5px; width: 60px; height: 30px">UnSelectAll</button>
+          <button class="k-button" id="btnChangeSelect" onclick="ChangeSelect();" title="Change SelectAll" style="margin-left:5px; width: 60px; height: 30px">Invent</button>
+        <button class="k-button" id="btnCalIvoce" onclick="btnCalInvoice();" title="Cancel" style=" margin-left:5px; width: 50px; height: 30px"><img src="~/Images/Cancel.PNG" /></button>
+    </div>
+    <div  style="margin-top:10px;">
+        <div id="FindInvoiceFormGrid"></div>
+          <button class="k-button" id="btnOkPrint" onclick="OkPrint();" title="Search" style="width: 50px; height: 30px">Ok</button>
+        <button class="k-button" id="btnCalcelPtn" onclick="btnCalPrint();" title="Search" style="width: 50px; height: 30px">Cancel</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        LoadComboInvoiceFindForm();
+        LoadGridInvoiceFindView();
+
+        //var todayDate = new Date();
+        //$('#ToDt1').data("kendoDatePicker").value(todayDate);
+
+        var height = $(window).height() - 70;
+        var h2 = $("#filterCont").height();
+        $("#body").height(height);
+        $("#grid").height(height - (35 + h2 + 40));
+    });
+
+    $("#DlyDt").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(2009,2,31)
+    });
+    $("#DlyDt").closest("span.k-datepicker").width(150);
+    //$("#InvDt").width(150).kendoDatePicker({
+
+    //    format: "dd/MM/yyyy",
+    //    min: new Date(31, 2, 2009)
+    //});
+    //$("#InvDt").closest("span.k-datepicker").width(150);
+
+    function SelectAll(){
+        var dataSource = $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.data();
+        $.each(dataSource, function (i, item) {
+            item.set("IsPrint", true);
+        });
+        // var grid = $('#FindInvoiceFormGrid').data('kendoGrid');
+
+        // grid.table.find("tr")
+        //.find("td:last input")
+        //.attr("checked", true);
+        //.trigger("change");
+    }
+
+    function UnSelectAll() {
+        var dataSource = $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.data();
+        $.each(dataSource, function (i, item) {
+            item.set("IsPrint", false);
+            
+        });
+        // var grid = $('#FindInvoiceFormGrid').data('kendoGrid');
+
+        // grid.table.find("tr")
+        //.find("td:last input")
+        //.attr("checked", true);
+        //.trigger("change");
+    }
+    function ChangeSelect() {
+        var dataSource = $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.data();
+
+        for (i = 0; i < dataSource.length; i++) {
+
+            $.each(dataSource, function (i, item) {
+                if (dataSource[i].IsPrint == true) {
+                    item.set("IsPrint", false);
+                } else {
+                    item.set("IsPrint", true);
+                }
+            });
+
+
+
+        }
+        // var grid = $('#FindInvoiceFormGrid').data('kendoGrid');
+
+        // grid.table.find("tr")
+        //.find("td:last input")
+        //.attr("checked", true);
+        //.trigger("change");
+    }
+
+    function OkPrint() {
+        var dataSource = $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.data();
+        var DlyDt = $("#DlyDt").val();
+        if (DlyDt == undefined || DlyDt == "" || DlyDt == null) {
+            var DlyDt = "1/1/1900";
+        }
+        for (i = 0; i < dataSource.length; i++) {
+            if (dataSource[i].IsPrint == true) {
+                var OrdKy = dataSource[i].OrdKy;
+                var isPrint = dataSource[i].IsPrint;
+                Save(OrdKy, isPrint, DlyDt)
+            }
+        }
+       
+       
+    }
+
+    function Save(OrdKy, isPrint, DlyDt) {
+        var ConCd = "OrdTyp";
+        var OurCd = "SPLORD";
+        $.ajax({
+            url:  "@Url.Content("~/SplOrder/UpdatePrintedInvoce")",
+            data: JSON.stringify({
+                OrdKy:OrdKy,
+                isPrint: isPrint,
+                ConCd: ConCd,
+                OurCd: OurCd,
+                DlyDt: DlyDt
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+            PrintFunction(OrdKy,ConCd, OurCd);
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+    
+    
+    
+    }
+    function UpdatePrinteFunctionTrue(OrdKy,ConCd, OurCd) {
+        //$("#OrdKy1").val(data);
+        //  var ordKydata = data;
+        $.ajax({
+            url:  "@Url.Content("~/SplOrder/UpdatePrinteFunctionTrue")",
+            data: JSON.stringify({
+                OrdKy: OrdKy,
+                ConCd:ConCd,
+                OurCd:OurCd
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+
+            SearchInvoice();
+
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+    }
+
+
+
+    function InsertPnsOrdInvToAlert(OrdKy,ConCd, OurCd) {
+        //$("#OrdKy1").val(data);
+        //  var ordKydata = data;
+        $.ajax({
+            url:  "@Url.Content("~/SplOrder/InsertPnsOrdInvToAlert")",
+            data: JSON.stringify({
+                ordKydata: OrdKy
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                UpdatePrinteFunctionTrue(OrdKy,ConCd, OurCd);
+                
+
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function RunExeFileForInv() {
+
+        var ExeFile = "file.exe";
+        var Arguments = "C:\\inetpub\\wwwroot\\PNSTest\\bin\\SMSapplication.exe";
+        @*var ExeFilePath =@"C:\Windows\System32\Notepad.exe";*@
+        var Arguments = "mytextfile.txt";
+        $.ajax({
+            url:  "@Url.Content("~/SplOrder/RunExeFileForInv")",
+            data: JSON.stringify({
+                ExeFile: ExeFile,
+                Arguments: Arguments
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+
+
+
+
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+    }
+    function PrintFunction(OrdKy, ConCd, OurCd) {
+        //var dataSource = $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.data();
+        
+        //for (i = 0; i < dataSource.length; i++) {
+        //    if (dataSource[i].IsPrint == true) {
+        //        var OrdKy = dataSource[i].OrdKy;
+              
+                $.ajax({
+            url:  "@Url.Content("~/SplOrder/PrintPendingInvoice")",
+            data: JSON.stringify({
+                OrdKy: OrdKy,
+              }),
+             contentType: 'application/json; charset=utf-8',
+             dataType: "Json",
+             type: "POST",
+             success: function (data) {
+                 InsertPnsOrdInvToAlert(OrdKy,ConCd, OurCd)
+                // SearchInvoice();
+
+
+             },
+             error: function (e) {
+                 return false;
+             }
+         });
+    //    }
+    //}
+ }
+
+    function DlyNoDatasource() {
+
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Order/GetDlivNo")',
+
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function LoadComboInvoiceFindForm() {
+        $("#cmbDlivryNo").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: DlyNoDatasource(),
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Delivery No.."
+        });
+
+
+    }
+
+    function LoadGridInvoiceFindView() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    @* url: '@Url.Content("~/ItmTransfer/GetDetailByFromTrnKy")',*@
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        Lino: { editable: false, nullable: false, type: "number" },
+                        OrdKy: { editable: false, nullable: false, type: "number" },
+                        Prefix: { editable: false, nullable: false, type: "number" },
+                        OrdNo: { editable: false, nullable: false, type: "number" },
+                        OrdDt: { editable: false, nullable: false, type: "date" },
+                        DocNo: { editable: false, nullable: false, type: "string" },
+                        YurRef: { editable: false, nullable: true, type: "string" },
+                        Des: { editable: false, nullable: true, type: "number" },
+                        RepID: { editable: false, nullable: false, type: "string" },
+                        AprSts: { editable: false, nullable: false, type: "string" },
+                        IsPrint: { editable:true, nullable: true, type: "boolean" },
+                    }
+                }
+            }
+        });
+
+        $("#FindInvoiceFormGrid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+
+            navigatable: true,
+            filterable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                 {
+                     field: "Lino", title: "LiNo", width: "50px",
+                 },
+
+                     {
+                         field: "OrdKy", title: "Ref #", width: "100px", hidden: true,
+                     },
+
+                   {
+                       field: "OrdNo",
+                       title: "OrdNo",
+                       width: "150px",
+                   },
+
+
+               {
+                   field: "OrdDt", title: "OrdDt", width: "100px", format: "{0: MM-dd-yyyy}",
+                   template: "#= kendo.toString(kendo.parseDate(OrdDt, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+               },
+                {
+                    field: "DocNo", title: "DocNo", width: "150px",
+
+                },
+                {
+                    field: "YurRef", title: "YurRef", width: "150px",
+                },
+
+               {
+                   field: "Des", title: "Des", width: "150px",
+               },
+
+                {
+                    field: "IsPrint", title: "IsPrint", width: "150px",
+                    template: '<input type="checkbox" #= IsPrint ? "checked=checked" : "" # disabled="disabled" >'
+
+                },
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true
+        });
+
+    }
+
+    function SearchInvoice() {
+        $('#FindInvoiceFormGrid').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#FindInvoiceFormGrid").data("kendoGrid");
+        grid.dataSource.data([]);
+
+
+        var DlyNm = $("#cmbDlivryNo").data('kendoComboBox').value();
+        if (DlyNm == undefined || DlyNm == "" || DlyNm == null) {
+            var DlyNm = 1;
+        }
+
+
+
+        var DlyDt = $("#DlyDt").val();
+        if (DlyDt == undefined || DlyDt == "" || DlyDt == null) {
+            var DlyDt = "1/1/1900";
+        }
+
+
+        var ConCd = "OrdTyp";
+        var OurCd = "SPLORD";
+
+        $.ajax({
+            url:  "@Url.Content("~/SplOrder/PNSGetPendingInvoiceSearch")",
+            data: JSON.stringify({
+
+
+                DlyDt: DlyDt,
+                DlyNm: DlyNm,
+                DocNo: "",
+                ConCd: ConCd,
+                OurCd: OurCd
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].IsPrint == false) {
+                        $("#FindInvoiceFormGrid").data("kendoGrid").dataSource.add({ Lino: data[i].Lino, OrdKy: data[i].OrdKy, Prefix: data[i].Prefix, OrdNo: data[i].OrdNo, OrdDt: data[i].OrdDt, DocNo: data[i].DocNo, YurRef: data[i].YurRef, Des: data[i].Des, RepID: data[i].RepID, AprSts: data[i].AprSts, IsPrint: data[i].IsPrint });
+                    }
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function OkPrint1() {
+
+        var grid = $('#FindInvoiceFormGrid').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var ordKy = selectedItem.OrdKy;
+        if (ordKy != "" || ordKy != undefined || ordKy != null) {
+            //   GetHdrDetailFind(ordKy);
+
+        } else {
+            alert("please Select Any Trancsaction");
+        }
+    }
+
+
+
+    //function fixedHdr() {
+
+    //    $("#cmbDlyNo").kendoComboBox({ enable: false });
+
+    //}
+
+
+
+</script>
+

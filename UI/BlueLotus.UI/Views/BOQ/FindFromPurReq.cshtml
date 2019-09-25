@@ -1,0 +1,505 @@
+﻿<div id="FindFormPR" style="display: none">
+    <div class="col-md-12  col-sm-12" style="margin-top:5px;">
+        <div style="margin-top:5px;">
+            <div class="col-md-4  col-sm-4">
+                <label>DateFrom</label>
+
+                <input id="FrmDtFromPR"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: FrmDtFromPR" />
+            </div>
+            <div class="col-md-4  col-sm-4">
+                <label>DateTo</label>
+                <input id="ToDtFromPR"
+                       class=""
+                       data-role="datepicker"
+                       data-bind="value: ToDtFromPR" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12  col-sm-12" style="margin-top:5px;">
+        <div style="margin-top:5px;">
+            <div class="col-md-4  col-sm-4">
+                <label id="Pr" style="margin-right:25px">PRNo</label>
+                <input id="OrdNoFromPR" type="text" style="width:150px;" class="k-textbox" />
+            </div>
+            <div class="col-md-4  col-sm-4">
+                <label>Project</label>
+                <div id="cmbPrjectIdPR"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:5px;">
+        <button class="control-button search" id="btnSearchItemPR" onclick="SearchPR();" title="Search"></button>
+        <button class="control-button clean" id="btnCalPR" onclick="CancelPRFunc();" title="ClearGrid"></button>
+    </div>
+    <div style="margin-top:10px;">
+        <div id="FindFormPRGrid"></div>
+    </div>
+</div>
+
+<script>
+
+    var isloadFindFromPurReqDocumentReady = true;
+
+    function loadFindFromPurReqDocumentReady() {
+
+        if (isloadFindFromPurReqDocumentReady) {
+            isloadFindFromPurReqDocumentReady = false;
+
+            LoadComboFindFormPR();
+            LoadGridFindViewPR();
+            var OurForFind = "";
+
+
+            var height = $(window).height() - 70;
+            var h2 = $("#filterCont").height();
+            $("#body").height(height);
+            $("#grid").height(height - (35 + h2 + 40));
+        }
+    }
+
+    $("#FrmDtFromPR").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2009)
+    });
+    $("#FrmDtFromPR").closest("span.k-datepicker").width(150);
+    $("#ToDtFromPR").width(150).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2009)
+    });
+    $("#ToDtFromPR").closest("span.k-datepicker").width(150);
+
+    function ProjectDataSource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Order/GetPrjListForOrder")',
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    function SupDatasource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Order/GetSuplistForOrder")',
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    function LoadComboFindFormPR() {
+        $("#cmbSupPR").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: SupDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a suplier.."
+        });
+
+        $("#cmbPrjectIdPR").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjID",
+            dataSource: ProjectDataSource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Project.."
+        });
+    }
+
+    function LoadGridFindViewPR() {
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    @* url: '@Url.Content("~/ItmTransfer/GetDetailByFromTrnKy")',*@
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        Lino: { editable: false, nullable: false, type: "number" },
+                        OrdKy: { editable: false, nullable: false, type: "number" },
+                        Prefix: { editable: false, nullable: false, type: "number" },
+                        Supplier: { editable: false, nullable: false, type: "string" },
+                        OrdNo: { editable: false, nullable: false, type: "number" },
+                        OrdDt: { editable: false, nullable: false, type: "date" },
+                        DocNo: { editable: false, nullable: false, type: "string" },
+
+                    }
+                }
+            }
+        });
+
+        $("#FindFormPRGrid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+
+            navigatable: true,
+            filterable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                 {
+                     field: "Lino", title: "LiNo", width: "50px",
+                 },
+
+                     {
+                         field: "OrdKy", title: "Ref #", width: "100px", hidden: true,
+                     },
+                      {
+                          field: "Prefix", title: "Prefix", width: "150px",
+
+                      },
+                      {
+                          field: "Supplier", title: "Supplier", width: "150px",
+
+                      },
+                   {
+                       field: "OrdNo",
+                       title: "OrdNo",
+                       width: "150px",
+                   },
+
+
+               {
+                   field: "OrdDt", title: "OrdDt", width: "100px", format: "{0: MM-dd-yyyy}",
+                   template: "#= kendo.toString(kendo.parseDate(OrdDt, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+               },
+                {
+                    field: "DocNo", title: "DocNo", width: "150px",
+
+                },
+
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true
+        });
+
+    }
+
+    function SearchPR() {
+        $('#FindFormPRGrid').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#FindFormPRGrid").data("kendoGrid");
+        grid.dataSource.data([]);
+
+
+        var PrjKy = $("#cmbPrjectIdPR").data('kendoComboBox').value();
+        if (PrjKy == undefined || PrjKy == "" || PrjKy == null) {
+            var PrjKy = 1;
+        }
+
+        var SupKy = 1;
+        var FrmDt = $("#FrmDtFromPR").val();
+        if (FrmDt == undefined || FrmDt == "" || FrmDt == null) {
+            var FrmDt = "1/1/1900";
+        }
+        var ToDt = $("#ToDtFromPR").val();
+        if (ToDt == undefined || ToDt == "" || ToDt == null) {
+            var ToDt = "1/1/2078";
+        }
+
+
+        var OrdNo = document.getElementById("OrdNoFromPR").value;
+        if (OrdNo == undefined || OrdNo == "" || OrdNo == null) {
+            var OrdNo = 1;
+        }
+
+
+        var ConCd = "OrdTyp";
+        var OurCd = OurForFind;
+
+
+        $.ajax({
+            url: "@Url.Content("~/Order/GetfrmPurOrdSearch")",
+            data: JSON.stringify({
+                PRFindDet: JSON.stringify({
+                    PrjKy: PrjKy,
+                    SupKy: SupKy,
+                    ConCd: ConCd,
+                    OurCd: OurCd,
+                    FrmDt: FrmDt,
+                    ToDt: ToDt,
+                    ToOrdNo: OrdNo
+                })
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                for (i = 0; i < data.length; i++) {
+                    $("#FindFormPRGrid").data("kendoGrid").dataSource.add({
+                        Lino: data[i].Lino,
+                        OrdKy: data[i].OrdKy,
+                        //Prefix: data[i].Prefix,
+                        Supplier: data[i].SupAccCd,
+                        OrdNo: data[i].OrdNo,
+                        OrdDt: new Date(data[i].OrdDt),
+                        DocNo: data[i].DocNo
+                    });
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function CancelPRFunc() {
+        $("#FindFormPRGrid").data("kendoGrid").dataSource.data([]);
+        $("#FrmDtFromPR").data("kendoDatePicker").value("");
+        $("#ToDtFromPR").data("kendoDatePicker").value("");
+        $("#cmbPrjectIdPR").data("kendoComboBox").value("");
+
+    }
+
+    $("#FindFormPRGrid").on("dblclick", "tr.k-state-selected", function () {
+
+        var grid = $('#FindFormPRGrid').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var ordKy = selectedItem.OrdKy;
+        if (ordKy != "" || ordKy != undefined || ordKy != null) {
+            GetHdrDetailFromPR(ordKy);
+
+        } else {
+            alert("please Select Any Trancsaction");
+        }
+
+        CancelPRFunc();
+    });
+
+    function GetHdrDetailFromPR(ordKy) {
+
+        var ConCd = "OrdTyp"
+        var OurCd = OurForFind;
+        $.ajax({
+            url: "@Url.Content("~/Order/GetHdrDetailFromPOForOrder")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+                ConCd: ConCd,
+                OurCd: OurCd
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                var OrdDetKy = "";
+
+                for (i = 0; i < data.length; i++) {
+                    var OrdKy = data[i].OrdKy;
+                    $("#OrdKy").val(OrdKy);
+
+                    OrdDetKy += data[i].OrdDetKy + " ";
+
+                    var OrdNo = data[i].PrefixTrnNo;
+                    $("#OrdNo").val(OrdNo);
+
+                    var YurRef = data[i].YurRef;
+                    $("#HdrSec1_InptYurRef_Val").val(YurRef);
+
+                    var DocNo = data[i].DocNo;
+                    $("#HdrSec1_InptDocNo_Val").val(DocNo);
+
+                    var OrdDt = new Date(data[i].OrdDt);
+                    $('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(OrdDt);
+
+                    var AccKy = data[i].AccKy;
+                    $("#HdrSec2_CmbSupAcc_Cd").data("kendoComboBox").value(AccKy);
+                    $("#HdrSec2_CmbSupAcc_Nm").data("kendoComboBox").value(AccKy);
+                    var PrjKy = data[i].PrjKy;
+                    $("#HdrSec2_CmbPrj_Cd").data("kendoComboBox").value(PrjKy);
+                    $("#HdrSec2_CmbPrj_Nm").data("kendoComboBox").value(PrjKy);
+
+                    var Datasource = [];
+                    Datasource.push({ AdrKy: data[i].AdrKy, AdrID: data[i].AdrId, AdrNm: data[i].AdrNm });
+                    $("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").setDataSource(Datasource);
+                    $("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").setDataSource(Datasource);
+                    var OrdAdrId = data[i].AdrId;
+                    var OrdAdrNm = data[i].AdrNm;
+                    var OrdAdrKy = data[i].AdrKy;
+                    $("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").value(OrdAdrKy);
+                    $("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").text(OrdAdrId);
+                    $("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").value(OrdAdrKy);
+                    $("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").text(OrdAdrNm);
+
+                    var LocKy = data[i].LocKy;
+                    $("#HdrSec2_CmbLoc_Cd").data("kendoComboBox").value(LocKy);
+                    $("#HdrSec2_CmbLoc_Nm").data("kendoComboBox").value(LocKy);
+
+
+                }
+                $("#OrdDetKy").val(OrdDetKy);
+                //alert(OrdDetKy);
+
+                GetGRNGridDetailFromPR(ordKy)
+
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function GetGRNGridDetailFromPR(ordKy) {
+        var ConCd = "OrdTyp"
+        var OurCd = OurForFind;
+        $.ajax({
+            url: "@Url.Content("~/Order/GetGridDetailFromPOForOrder")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+                ConCd: ConCd,
+                OurCd: OurCd
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                var id = ("#" + '@(ViewBag.OurCd)');
+
+                $(id).data("kendoGrid").dataSource.filter(null);
+                var grid = $(id).data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+
+                    var child = $(id).data("kendoGrid");
+                    var dataSource = child.dataSource;
+                    var total = dataSource.data().length;
+
+                    child.dataSource.read();
+                    var count = child.dataSource.total();
+                    var lineNo = count;
+
+                    $(id).data("kendoGrid").dataSource.add({
+                        OrdNo: lineNo + 1,
+                        ItmKy: data[i].ItmKy,
+                        LiNo: data[i].LiNo,
+                        ItmCd: data[i].ItmCd,
+                        ItmNm: data[i].ItmNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+                        Des: data[i].Des,
+                        DisAmt: data[i].TrnDisAmt,
+                        DisPer: data[i].DisPer,
+                        Rem: data[i].Rem,
+                        TrnQty: data[i].TrnQty,
+                        PRQty: data[i].TrnQty,
+                        TrnRate: data[i].TrnRate,
+                        SubTotal: data[i].TrnRate * data[i].TrnQty,
+                        VatAmt: data[i].VatAmt,
+                        WHTAmt: data[i].WHTAmt,
+                        NBTAmt: data[i].NBTAmt,
+                        SVatAmt: data[i].SVatAmt,
+                        VAT: data[i].VAT,
+                        WHT: data[i].WHT,
+                        NBT: data[i].NBT,
+                        SVAT: data[i].SVAT,
+                        ReqDt: data[i].ReqDt
+                    });
+
+                }
+
+                $('#FindFormPR').data('kendoWindow').close();
+                //CreateNewGridRow();
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+
+</script>
+

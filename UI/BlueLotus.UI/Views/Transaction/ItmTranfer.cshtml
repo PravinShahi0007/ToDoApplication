@@ -1,0 +1,696 @@
+﻿@{
+    ViewBag.Title = ViewBag.OurCd;
+    Layout = "~/Views/Shared/_LayOutWithOldKendoScript.cshtml";
+
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 col-sm-12 col-xs-12 control-icons w-lg-94pct ButtonSet" id="ButtonSet">
+            <div id="ButtonSec1" class="col-lg-6 col-md-5 col-sm-12">
+                <div class="dropdown" style="display:inline;top: -8px;left: 1px;"> <!-- more option -->
+                    <button id="ButtonSec1_More" class="control-button" title="More" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="ButtonSec1_More">
+                        <div id="ButtonSec3"> </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-11" id="pager" style="display:none;"></div>
+        </div>
+    
+        <div id="HdrPart" class="m-t-lg-32 m-t-sm-80">
+            <div class="col-lg-12 col-md-12 p-l-0-lg p-r-0-lg wr_formGroup">
+
+                <div class="col-md-12 col-sm-12  col-xs-12 p-l-0-lg p-r-0-lg">
+                    <div class="row no-margin">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <!--section1-->
+                                <div class="col-md-4 col-sm-12  col-xs-12" id="HdrSec1">
+                                    <!-- Trn No -->
+                                    <div class="row form-group" id="HdrSec1_InptTrnNo">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec1_InptTrnNo_Lbl">Trn No:</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <input id="HdrSec1_InptTrnNo_TrnOutNo_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_FrmTrnKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_ToTrnKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_FrmTrnNo_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_ToTrnNo_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_FrmTrnPrefixKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_ToTrnPrefixKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_FrmTrnTypKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_ToTrnTypKy_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_FrmTmStmp_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                            <input id="HdrSec1_InptTrnNo_ToTmStmp_Val" readonly="readonly" type="text" class="k-textbox width-100" />
+                                        </div>
+                                    </div>
+                                    <!-- /Trn No -->
+                                    <!-- Date -->
+                                    <div class="row form-group" id="HdrSec1_DatPicDate">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_DatPicDate_Lbl">Date:</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <input id="HdrSec1_DatPicDate_Val" class="" data-role="datepicker" data-bind="value: Date" /> </div>
+                                    </div>
+                                    <!-- /Date -->
+                                    <!-- Doc No -->
+                                    <div class="row form-group" id="HdrSec1_InptDocNo">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_InptDocNo_Lbl">Doc No:</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <input placeholder="Doc No .." id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox" /></div>
+                                    </div>
+                                    <!-- /Doc No -->
+                                    <!-- Yur Ref -->
+                                    <div class="row form-group" id="HdrSec1_InptYurRef">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_InptYurRef_Lbl">Yur Ref</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Qty" id="HdrSec1_InptYurRef_Val" type="text" class="k-textbox" /> </div>
+                                    </div>
+                                    <!-- /Yur Ref -->
+                                    <!-- Is Recurrence -->
+                                    <div class="row form-group" id="HdrSec1_IsRecorrence">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec1_IsRecorrence_Lbl">Is Recurrence:</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <div class="onoffswitch margin-auto m-r-lg-5">
+                                                <input type="checkbox" id="HdrSec1_IsRecorrence_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                                                <label class="onoffswitch-label" for="HdrSec1_IsRecorrence_Val">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Is Recurrence --> 
+                                </div><!--/section1-->
+
+                                <!--section2-->
+                                <div class="col-md-8 col-sm-12  col-xs-12" id="HdrSec2">
+                                    <!-- From Project -->
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbFrmPrj">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"> <label id="HdrSec2_CmbFrmPrj_Lbl">From Project</label> </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbFrmPrj_Cd" class="width-100"></div></div>
+                                        @* <div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbFrmPrj_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /From Project -->
+                                    <!-- To Project -->
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbToPrj">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"><label id="HdrSec2_CmbToPrj_Lbl">To Project</label>  </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbToPrj_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbToPrj_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /To Project -->                                    
+                                    <!-- Account -->
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbAcc" style="display:none">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"> <label id="HdrSec2_CmbAcc_Lbl">Account </label> </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbAcc_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbAcc_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /Account -->
+                                    <!-- From Address -->
+
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbFrmAdr">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"> <label id="HdrSec2_CmbFrmAdr_Lbl">From Address</label> </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"> <div id="HdrSec2_CmbFrmAdr_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbFrmAdr_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /From Address -->
+                                    <!-- To Address -->
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbToAdr">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"> <label id="HdrSec2_CmbToAdr_Lbl">To Address</label> </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbToAdr_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbToAdr_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /To Address -->
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbAdr" style="display:none">
+                                        <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg"> <label id="HdrSec2_CmbAdr_Lbl">Address </label> </div>
+                                        <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbAdr_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbAdr_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                    <!-- /Address -->
+                                    <!--  Description -->
+                                        <div class="row form-group" id="HdrSec5_InptDesc">
+                                            <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg">
+                                                <label id="HdrSec5_InptDesc_Lbl" class="">Description</label>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg">
+                                                <textarea id="HdrSec5_InptDesc_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height: 30px;"></textarea>
+                                            </div>
+                                        </div>
+                                    <!--  /Description -->
+                                    <!--  Remarks -->
+                                        <div class="row form-group" id="HdrSec5_InptRemark">
+                                            <div class="col-md-2 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg">
+                                                <label id="HdrSec5_InptRemark_Lbl" class="">Remarks</label>
+                                            </div>
+                                            <div class="col-md-10 col-sm-12 col-xs-12 p-l-0-lg">
+                                                <textarea id="HdrSec5_InptRemark_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height:30px;"></textarea>
+                                            </div>
+                                        </div>
+                                    <!--  /Remarks -->
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-5 col-sm-12 col-xs-12">
+                            <div class="row wr_formGroup_drk m-t-lg--11 m-b-5" id="HdrSec4">
+                                <!-- Sub Total -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptSubTot">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptSubTot_Lbl" class="">Sub Total:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptSubTot_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /Sub Total -->
+                                <!-- Total -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptTotal">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptTotal_Lbl">Total:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptTotal_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /Total -->
+                                <!-- Discount -->
+                                <div class="col-md-6 col-sm-12 col-xs-12"  id="HdrSec4_InptDisc">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptDisc_Lbl">Discount:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptDisc_Val" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" readonly="readonly" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /Discount -->
+                                <!-- NBT -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptNBT">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptNBT_Lbl">NBT:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptNBT_Val" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" readonly="readonly" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /NBT -->
+                                <!-- VAT -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptVat">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptVat_Lbl">VAT:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptVat_Val" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" readonly="readonly" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /VAT -->
+                                <!-- SVAT -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptSVAT">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptSVAT_Lbl">SVAT:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptSVAT_Val" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" readonly="readonly" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /SVAT -->
+                                <!-- WHT -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec4_InptWHT">
+                                    <div class="row form-group">
+                                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0-lg"><label id="HdrSec4_InptWHT_Lbl">WHT:</label> </div>
+                                        <div class="col-md-8 col-sm-6 col-xs-12"> <input id="HdrSec4_InptWHT_Val" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" readonly="readonly" type="text" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /WHT -->
+                            </div>
+
+                            <div class="row" id="HdrSec3">
+                                <!-- From Location -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec2_CmbFrmLoc">
+                                    <div class="row no-padding form-group">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec2_CmbFrmLoc_Lbl">From Location</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <div id="HdrSec2_CmbFrmLoc_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbFrmLoc_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                </div>
+                                <!-- /From Location -->
+                                <!-- To Location -->
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <div class="row no-padding form-group" id="HdrSec2_CmbToLoc">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec2_CmbToLoc_Lbl">To Location</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><div id="HdrSec2_CmbToLoc_Cd" class="width-100"></div></div>
+                                        @*<div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg p-r-0-lg"><div id="HdrSec2_CmbToLoc_Nm" class="width-100"></div></div>*@
+                                    </div>
+                                </div>
+                                <!-- /To Location -->
+                                <!-- Pmt Terms -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec3_CmbPmtTerm">
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec3_CmbPmtTerm_Lbl">Pmt Terms:</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <div id="HdrSec3_CmbPmtTerm_Cd" class="width-100"></div> </div>
+                                    </div>
+                                </div>
+                                <!-- /Pmt Terms -->
+                                <!-- Currency -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec3_CmbCurrency">
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec3_CmbCurrency_Lbl">Currency:</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <div id="HdrSec3_CmbCurrency_Cd" class="width-100"></div> </div>
+                                    </div>
+                                </div>
+                                <!-- /Currency -->
+                                <!-- Ex Rate -->
+                                <div class="col-md-6 col-sm-12 col-xs-12" id="HdrSec3_InptExRate">
+                                    <div class="row form-group" style="display:none">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec3_InptExRate_Lbl">Ex Rate:</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <input id="HdrSec3_InptExRate_Val" class="k-numerictextbox width-100" readonly="readonly" data-format="n4" data-decimals="4" /> </div>
+                                    </div>
+                                </div>
+                                <!-- /Ex Rate -->    
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <hr style="border-top: 1px solid #a0a0a0; margin-top:10px; margin-bottom:10px;" />
+                </div>
+                             
+                <div id="GridWin" class="no-padding">
+                    <div class="row p-l-15 p-r-15" style="clear:both" id="ChildHdrpart">
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">                         
+                            <!-- Item code -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row form-group" id="HdrSec6_CmbItm">
+                                        <div class="col-md-3 col-sm-6 col-xs-12"><label id="HdrSec6_CmbItm_Lbl">Item Cd:</label></div>
+                                        <div class="col-md-9 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <div id="HdrSec6_CmbItm_Cd" data-cpypst-blsmartcpypaste="GRNItmCd" class="width-100"></div>
+                                            @*<div id="HdrSec6_CmbItm_Nm" data-cpypst-blsmartcpypaste="GRNItmCd" class="width-100"></div>*@
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <label id="">Serial No</label>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <button id="HdrSec6_SerNo_Btn" class="btn-sm" style="padding: 3px 5px;"> Select Serial No </button>
+                                            <label id="HdrSec6_CmbItmLdd_Lbl">...</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Item code -->
+                           
+                            <!-- LiNo -->
+                            <div class="row form-group" id="HdrSec10_InptLiNo">
+                                <div class="col-md-3 col-sm-6 col-xs-12"><label id="HdrSec10_InptLiNo_Lbl">LiNo:</label></div>
+                                <div class="col-md-4 p-l-0-lg">
+                                    <input data-cpypst-blsmartcpypaste="HdrLiNo" id="HdrSec10_InptLiNo_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                </div>
+                            </div>   
+                            <!-- /LiNo -->
+                            <!-- Analysis -->
+                            <div class="row form-group" id="HdrSec6_CmbAnal">
+                                <div class="col-md-3 col-sm-6 col-xs-12"> <label id="HdrSec6_CmbAnal_Lbl">Analysis:</label> </div>
+                                <div class="col-md-9 col-sm-6 col-xs-12 p-l-0-lg">
+                                    <div id="HdrSec6_CmbAnal_Cd" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Analysis -->
+                           
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <!-- Unit -->
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"  id="HdrSec6_CmbUnit">
+                                    <div class="row form-group">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec6_CmbUnit_Lbl">Unit:</label> </div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                            <div id="HdrSec6_CmbUnit_Cd" class="width-100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Unit -->
+                                <!-- Qty -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec7_InptQty">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec7_InptQty_Lbl">Qty:</label></div>
+                                        <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                            <input data-cpypst-blsmartcpypaste="Qty" id="HdrSec7_InptQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Qty -->
+                                <!-- Rate -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec7_InptRate">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec7_InptRate_Lbl">Rate:</label></div>
+                                        <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                            <input data-cpypst-blsmartcpypaste="Rate" id="HdrSec7_InptRate_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Rate -->
+                                <!-- Task Id -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec10_CmbTskId">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec10_CmbTskId_Lbl">Task Id:</label></div>
+                                        <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg"><div id="HdrSec10_CmbTskId_Cd" class="width-100"></div></div>
+                                    </div>
+                                </div>
+                                <!-- /Task Id -->
+                                <!-- Sub Total -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec10_InptSubTot">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec10_InptSubTot_Lbl">Sub Total:</label></div>
+                                        <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Subtotal" id="HdrSec10_InptSubTot_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Sub Total -->
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <!-- Dis % -->
+                                        <div class="row form-group" id="HdrSec7_InptDis">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec7_InptDis_Lbl">Dis %:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrDisPer" id="HdrSec7_InptDis_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /Dis % -->
+                                    <!-- DisAmt -->
+                                        <div class="row form-group" id="HdrSec7_InptDisAmt">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec7_InptDisAmt_Lbl">DisAmt:</label> </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrDisAmt" id="HdrSec7_InptDisAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /DisAmt -->
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <!-- NBT % -->
+                                        <div class="row form-group" id="HdrSec8_InptNBT">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec8_InptNBT_Lbl">NBT %:</label> </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrNBTPer" id="HdrSec8_InptNBT_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /NBT % -->
+                                    <!-- NBTAmt -->
+                                        <div class="row form-group" id="HdrSec8_InptNBTAmt">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec8_InptNBTAmt_Lbl">NBTAmt:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrNBTAmt" id="HdrSec8_InptNBTAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /NBTAmt -->
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <!-- VAT % -->
+                                        <div class="row form-group" id="HdrSec8_InptVat">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec8_InptVat_Lbl">VAT %:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrVatPer" id="HdrSec8_InptVat_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /></div>
+                                        </div>
+                                    <!-- /VAT % -->
+                                    <!-- VATAmt -->
+                                        <div class="row form-group" id="HdrSec8_InptVatAmt">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec8_InptVatAmt_Lbl">VATAmt:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrVatAmt" id="HdrSec8_InptVatAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /VATAmt -->
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <!-- SVAT % -->
+                                        <div class="row form-group" id="HdrSec9_InptSVAT">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec9_InptSVAT_Lbl">SVAT %:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg"> <input data-cpypst-blsmartcpypaste="HdrSVatPer" id="HdrSec9_InptSVAT_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" /></div>
+                                        </div>
+                                    <!-- /SVAT % -->
+                                    <!-- SVATAmt -->
+                                        <div class="row form-group" id="HdrSec9_InptSVATAmt">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec9_InptSVATAmt">SVATAmt:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrSVatAmt" id="HdrSec9_InptSVATAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /SVATAmt -->
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    <!-- WHT % -->
+                                        <div class="row form-group" id="HdrSec9_InptWHT">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec9_InptWHT_Lbl">WHT %:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrWHTPer" id="HdrSec9_InptWHT_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /WHT % -->
+                                    <!-- WHTAmt -->
+                                        <div class="row form-group" id="HdrSec9_InptWHTAmt">
+                                            <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec9_InptWHTAmt_Lbl">WHTAmt:</label></div>
+                                            <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg">
+                                                <input data-cpypst-blsmartcpypaste="HdrWHTAmt" id="HdrSec9_InptWHTAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input width-100" />
+                                            </div>
+                                        </div>
+                                    <!-- /WHTAmt -->
+                                </div>
+                            </div>
+                            <div class="row">                              
+                                <!-- Description -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="HdrSec6_InptDesc">
+                                    <div class="row form-group">
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <label id="HdrSec6_InptDesc_Lbl">Description</label>
+                                        </div>
+                                        <div class="col-md-10 col-sm-6 col-xs-12">
+                                            <textarea id="HdrSec6_InptDesc_Val" class="k-textbox width-100" data-bind="value: HdrtextareaValue" style="height: 30px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Description -->
+                                <!-- Remarks -->
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="HdrSec10_InptRem">
+                                    <div class="row form-group">
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <label id="HdrSec10_InptRem_Lbl">Rem</label>
+                                        </div>
+                                        <div class="col-md-10 col-sm-6 col-xs-12">
+                                            <textarea id="HdrSec10_InptRem_Val" class="k-textbox width-100" data-bind="value: HdrRemValue" style="height: 30px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- /Remarks -->
+                                </div>
+                         </div>
+
+
+                       
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="row">
+                               
+                               
+                               
+                                
+                               
+                               
+                               
+                                
+                                
+                                <div class="row">
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div style="clear:both"></div>
+
+        <div id="@(ViewBag.OurCd)">
+
+        </div>
+    </div>
+</div>
+
+@*<div>
+        @Html.Partial("~/Views/Transaction/ItmSelectGrn.cshtml")
+    </div>*@ 
+<div>
+    @Html.Partial("~/Views/Transaction/TrnTypPendingOrdTyp.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Transaction/TrnTypPendingTrnTyp.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Transaction/FindGRN.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/ItmMas/ItmMas_ItmNm_SS_Web.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+
+<div>
+    @Html.Partial("~/Views/Transaction/PopUps/SrlNo_View.cshtml")
+</div>
+@*<div>
+        @Html.Partial("~/Views/Transaction/FindFromPurOrd.cshtml")
+    </div>*@
+<script id="command-template" type="text/x-kendo-template">
+    <a class="k-button k-grid-evenselect">X</a>
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")',
+        GetUserPermission: '@Url.Content("~/Common/TrnHdrApr_NextState")'
+    }
+    var urlGetAvilableQty = '@Url.Content("~/Transaction/GetAvailableQty")';
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoadV2/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoadV2/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoadV2/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoadV2/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoadV2/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoadV2/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoadV2/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',       
+        @*PrjIdFromTrnTypPendingOrdTyp: '@Url.Content("~/Order/GetPrjListForOrder")'*@
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlTransaction = {
+
+        SerialNo: {
+            ItmTrnSer_SelectWeb: '@Url.Content("~/Transaction/ItmTrnSer_SelectWeb")',
+            ItmTrnSer_InsertUpdateWeb: '@Url.Content("~/Transaction/ItmTrnSer_InsertUpdateWeb")'
+        },
+
+        PnsItemsLookUpByItmCd: '@Url.Content("~/Transaction/PnsItemsLookUpByItmCd")',
+        ItemsLookUpByItmCd: '@Url.Content("~/Transaction/ItemsLookUpByItmCd")',
+        GetToLocList: '@Url.Content("~/Transaction/GetToLocList")',
+        GetFromLocList: '@Url.Content("~/Transaction/GetFromLocList")',
+        GetAddress: '@Url.Content("~/Transaction/GetAddress")',
+        GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',
+        GetAddressList: '@Url.Content("~/Transaction/GetAddressList")',
+        GetBUlist: '@Url.Content("~/Transaction/GetBUlist")',
+        GetPurAcList: '@Url.Content("~/Transaction/GetPurAcList")',
+        ItmCd_SelectWeb: '@Url.Content("~/Transaction/ItmCdItmTrnsfer_SelectWeb")',
+        ItmNm_SelectWeb: '@Url.Content("~/Transaction/ItmNmItmTrnsfer_SelectWeb")',
+        GetItemMultiUnits: '@Url.Content("~/Transaction/GetItemMultiUnits")',
+        GetTaskList: '@Url.Content("~/Transaction/GetTaskList")',
+        GetAnlTyp: '@Url.Content("~/Transaction/GetAnlTyp")',
+        GetToProjectList: '@Url.Content("~/Transaction/GetToProjectList")',
+        GetAdrKy: "@Url.Content("~/Transaction/GetAdrKy")",
+        GetAccKy: "@Url.Content("~/Transaction/GetAccKy")",
+
+
+        sendPrjKy: '@Url.Action("sendPrjKy", "Transaction")',
+        InsertHdr: '@Url.Content("~/Transaction/InsertHdr")',
+        InsertDetail: '@Url.Content("~/Transaction/InsertDetail")',
+        InsertItmTransferOutHdr: "@Url.Content("~/Transaction/InsertItmTransferOutHdr")",// replace with transaction path
+
+        InsertTrnOutDetail: "@Url.Content("~/Transaction/InsertTrnOutDetail")",
+        ItmTrnOut_FIFO_PTrnKyItmTrnToAccTrn: "@Url.Content("~/Transaction/ItmTrnOut_FIFO_PTrnKyItmTrnToAccTrn")",
+        UpdateItmTransferOutHdr: "@Url.Content("~/Transaction/UpdateItmTransferOutHdr")",
+        GetTrnOutNo: "@Url.Content("~/Transaction/GetTrnOutNo")",
+        GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetGRNItemsDetail: "@Url.Content("~/Transaction/GetGRNItemsDetail")",
+        PrintGRN: "@Url.Content("~/Transaction/PrintGRN")",
+        PreviewGRN: "@Url.Content("~/Transaction/PreviewGRN")"
+    };
+
+    var urlInvoice = {
+        GetGridInvoiceDetail: "@Url.Content("~/Transaction/GetGridInvoiceDetail")",
+        GetInvoiceItemsDetail: "@Url.Content("~/Transaction/GetInvoiceItemsDetail")",
+        GetInvoiceAccountsDetail: "@Url.Content("~/Transaction/GetInvoiceAccountsDetail")",
+        GetCusAccountList: '@Url.Content("~/Transaction/GetCusAccountList")',
+        GetPmtList: '@Url.Content("~/Transaction/GetPmtList")',
+        GetCurrencyList: '@Url.Content("~/Transaction/GetCurrencyList")',
+        PreviewInvoice: "@Url.Content("~/Transaction/PreviewInvoice")"
+    };
+
+    var urlHome = {
+        UpdateToDo: '@Url.Action("UpdateToDo","Home")',
+        InsertToDo: '@Url.Action("InsertToDo","Home")'
+    };
+
+    var urlOrder = {
+        GetAdrByAcc: '@Url.Content("~/Transaction/GetAdrByAcc")'
+    };
+
+
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")'
+    }
+    
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+    // var tempCKy = '@Session["cky"]';
+    var tempCKy = '@Request.RequestContext.HttpContext.Session["cky"]';
+    var GetCdKyByConCdAndOurCd = '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+
+    var UrlIsCd87 = '@Url.Content("~/Transaction/IsCd87")';
+    var UrlAutoPostingToPR = '@Url.Content("~/Transaction/AutoPostingToPR")';
+    //alert(tempCKy);
+</script>
+
+<script src="~/Scripts/HtnScripts/ItmTranfer/DocReady.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/ItmTranfer.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/SaveFunction.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/ComboDataSource.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/keydownEvent.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/DetailChangeEvent.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/Calculation.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/Print.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/GetItmRateDisTax.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/Validation.js"></script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/PopUp/TrnTypPendingOrdTyp.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/Navigation.Js"></script>
+
+<style>
+    .k-numerictextbox {
+        width: 100%;
+    }
+
+    #GridWin .form-group {
+        float: initial;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    /* more option dropdown styles  start*/
+    .dropdown.open {
+        background: none;
+    }
+    #ButtonSec3 [data-tooltip]:hover:before {
+        visibility: hidden;
+    }/* more option dropdown styles  end*/
+</style>

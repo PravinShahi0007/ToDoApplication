@@ -1,0 +1,1132 @@
+﻿@{
+    ViewBag.Title = "Item Count";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+<div style="border: 1px solid #07789E;width:100%">
+
+    <div class="col-lg-12">
+        <div class="control-icons p-l-40" id="ButtonSet">
+            @*<button id="VariencePost" class="control-button posting" onclick="location.href='@Url.Action("IntegrityChecks", "Report" ,new { OurCd = "", ObjKy = 72420, ObjCaptn = "Stock Variance Post" })'" title="Varience Post"></button>*@
+            <button id="Save" class="control-button save" onclick="Post()" title="Save"></button>
+            @*  <button id="Save" class="control-button save" onclick="Save()" title="save"></button>*@
+        </div>
+    </div>
+
+    <div class="k-content padding-15" id="filterCont">
+       @*<div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button minimize" onclick="minimize()" data-tooltip="minimize"></button>
+            <button class="control-button minimize" onclick="maximize()" data-tooltip="minimize"></button>
+        </div>*@
+
+        <div>
+            <div>@Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")</div>
+        </div>
+        <div>
+            <div>@Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")</div>
+        </div>
+        <div class="p-l-10" >
+            <div id="HdrSec1_DatCountDt" style="display: inline-block">
+                <label id="HdrSec1_DatCountDt_Lbl">Count Date:</label>
+                <input id="CountDt" data-role="datepicker" data-bind="value: Date" />
+            </div>
+            <div id="HdrSec1_CatKy" style="display:none; ">
+                <label id="HdrSec1_DatCountDt_Lbl">CatKy:</label>
+                <input id="HiddenSelectedCatKy" />
+            </div>
+            <div id="HdrSec1_CmbLoc" style="display: inline-block">
+                <label id="HdrSec1_CmbLoc_Lbl">Location:</label>
+                <div id="HdrSec1_CmbLoc_Nm"></div>
+            </div>
+
+            <div id="HdrSec1_InptYurRef" style="display: inline-block">
+                <label id="HdrSec1_InptYurRef_Lbl">Your Ref:</label>
+                <input placeholder="Your Ref" id="HdrSec1_InptYurRef_Val" type="text" class="k-textbox" />
+            </div>
+           
+        </div>
+
+        @*<div class="col-md-12 control-icons" id="ButtonSet">*@
+        
+
+        @*<button id="maximize" class="control-button minimize" onclick="minimize()" data-tooltip="maximize"></button>*@
+        @*</div>*@
+        @*<div id="GridWin">*@
+            <div style="margin-left:10px;margin-right:10px;margin-bottom:10px;margin-top:30px;">
+                <div id="CatGrid"></div>
+            </div>
+        @*<div style="position: fixed; bottom: 25px; right: 0; width: 100%; height: 50%; ">*@
+        <div @*style="position: fixed; bottom: auto;"*@>
+            <label style="padding-left: 1083px; margin-right:10px;"  >Final Posting: </label>
+            <button id="Posting" class="control-button posting" onclick="VariancePost()" title="Post"></button>
+             <div id="ItemGrid"></div>
+            @*</div>*@
+        </div>
+        </div>
+</div>
+
+<script type="text/javascript">
+    var urlItemCount = {
+        GetLocCategory: '@Url.Content("~/ItemCount/GetLocCategory")',
+        GetCategoryItem: '@Url.Content("~/ItemCount/GetCategoryItem")',
+        GetLocLocation: '@Url.Content("~/ItemCount/GetLocLocation")',
+        InsertLocItm: '@Url.Content("~/ItemCount/InsertLocItm")',
+        GetTimeStatus: '@Url.Content("~/ItemCount/GetTimeStatus")',
+        PostLocItm: '@Url.Content("~/ItemCount/PostLocItm")',
+        VariencePost: '@Url.Content("~/ItemCount/VariencePost")'
+
+
+    }
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var CdMas_LookupWeb = '@Url.Content("~/ItemCount/CdMas_LookupWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        Ourcd: '@(ViewBag.Ourcd)'
+    };
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    @*var urlIntegrityChecks='@Url.Content("~/Report/IntegrityChecks")';*@
+
+    var FormGlblData = {
+        FormObjData: null,
+        PrjTypKy: 1,
+        AccessLvlKy: 1,
+        ConfiLvlKy: 1,
+        TrnKy: 1
+    }
+    var LocKyList = {
+        LocKy1: 1,
+        LocKy2: 1,
+        LocKy3: 1,
+        LocKy4: 1,
+        LocKy5: 1,
+        LocKy6: 1,
+        LocKy7: 1
+    };
+
+    $(document).ready(function () {
+        $.ajax({
+            url: urlCodes.GetCdKyByConCdAndOurCd,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                ObjKy: viewBag.ObjKy,
+                ConCd: 'Loc',
+                OurCd: viewBag.Ourcd
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (PrjTypKy) {
+                FormGlblData.PrjTypKy = PrjTypKy;
+                GetFormObjData();
+            }
+        });
+    });
+
+    function GetFormObjData() {
+        $.ajax({
+            url: urlUsrObjPrp_SelectAllLastChildWeb,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                PrntKy: viewBag.ObjKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (HdrSectionFromDb) {
+                FormGlblData.FormObjData = HdrSectionFromDb;
+                DocReadyCus();
+            }
+        });
+    }
+
+    function DocReadyCus() {
+        OPENLodingForm();
+        setTimeout(setHdrSectionPropFun, 2000);
+        LoadCombo();
+        DatePicker();
+        var todayDate = new Date();
+        $('#CountDt').data("kendoDatePicker").value(todayDate);
+
+        LoadCatGrid();
+        $('#HdrSec1_CmbLoc_Nm , #CountDt').change(function () {
+            $('#HiddenSelectedCatKy').val("");
+            var LocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+            if (LocKy > 1) {
+                InsertToGrid('ItmCat8');
+                LoadItemGrid(LocKy);
+
+            }
+        });
+
+
+        $('#ItemGrid').on('click', '.PinChecked', function () {
+            //alert('on click');
+          
+            var CatKy = $('#HiddenSelectedCatKy').val();
+
+            var grid = $('#ItemGrid').data().kendoGrid;
+            var dataItem = grid.dataItem($(this).closest('tr'));
+            var ItmKy = dataItem.ItmKy;
+
+            var grid = $("#CatGrid").data("kendoGrid");
+            var currentData = grid.dataSource.data();
+
+            if (dataItem != undefined && dataItem.TotalStk !=null) {
+                var checked = $(this).is(':checked');
+                dataItem.set('Status', checked);
+
+                if (checked) {
+
+                    //$(this).prop("disabled", true);
+                    //$(this).attr('disabled', 'disabled');
+                    //$(this).attr("checked", true);
+
+                    var Itmgrid = $("#ItemGrid").data("kendoGrid");
+                    var ItmgridCurrentData = Itmgrid.dataSource.data();
+
+                    for (var i = 0; i < currentData.length ; i++) {
+                        if (currentData[i].CategoryKy == CatKy) {
+                            //currentData[i].LinesCounted = currentData[i].LinesCounted - 1;
+                            $("#CatGrid").data("kendoGrid").dataSource.data(currentData);
+                        }
+                    }
+                    StatusUpdate();
+                   // CheckSave(ItmKy);
+                    VariancePost();
+
+                    //$(this).attr(disabled, true);
+
+                }
+            }
+
+            //if (checked) {
+
+            //    //$(this).prop("disabled", true);
+            //    //$(this).attr('disabled', 'disabled');
+            //    //$(this).attr("checked", true);
+
+            //    var Itmgrid = $("#ItemGrid").data("kendoGrid");
+            //    var ItmgridCurrentData = Itmgrid.dataSource.data();
+
+            //    for (var i = 0; i < currentData.length ; i++) {
+            //        if (currentData[i].CategoryKy == CatKy) {
+            //            currentData[i].LinesCounted = currentData[i].LinesCounted - 1;
+            //            $("#CatGrid").data("kendoGrid").dataSource.data(currentData);
+            //        }
+            //    }
+            //    StatusUpdate();
+            //    CheckSave(ItmKy);
+                
+              
+            //    //$(this).attr(disabled, true);
+
+            //}
+            //else {
+            //    //var checked= $(this).is(':checked');
+            //    dataItem.set('Status', true);
+         
+            //}
+        });
+        CLOSELoadingForm();
+    }
+   
+
+       function updateCheckbox(){
+        var Itmgrid = $("#ItemGrid").data("kendoGrid");
+        var ItmgridCurrentData = Itmgrid.dataSource.data();
+        if (ItmgridCurrentData.TotalStk == 0) {
+
+        }
+    }
+    function UpdateLineNo()
+    {
+        var CatKy = $('#HiddenSelectedCatKy').val();
+        var grid = $("#CatGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        for (var i = 0; i < currentData.length ; i++) {
+            if (currentData[i].CategoryKy == CatKy) {
+                currentData[i].LinesCounted = currentData[i].LinesCounted - 1;
+                $("#CatGrid").data("kendoGrid").dataSource.data(currentData);
+            }
+        }
+
+    }
+    function minimize() {
+        var isHidden = $('#CatGrid').is(':hidden');
+        if (isHidden) {
+            $('#CatGrid').show();
+        } else {
+            $('#CatGrid').hide();
+        }
+    }
+    function LoadCombo() {
+        $("#HdrSec1_CmbLoc_Nm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('loc'), //CdNm_SelectMob_Datasource('HdrSec1_CmbLoc_Nm'),
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Location .."
+        });
+        $("#HdrSec1_CmbLoc_Nm").parent().css('width', "200px");
+    }
+
+    function DatePicker() {
+        $("#CountDt").width(200).kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date(2009, 2, 31)
+        });
+    }
+
+    function LoadCatGrid() {
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        LiNo: { editable: false, nullable: false, type: "number" },
+                        CategoryKy: { editable: true, nullable: false, type: "number" },
+                        CategoryCode: { editable: true, nullable: false, type: "string" },
+                        CategoryName: { editable: true, nullable: false, type: "string" },
+                        LinesToBeCounted: { editable: true, nullable: false, type: "string" },
+                        LinesCounted: { editable: true, nullable: false, type: "string" },
+                        TimeStarted: { editable: true, nullable: false, type: "string" },
+                        TimeFinished: { editable: true, nullable: false, type: "string" },
+                        Status: { editable: true, nullable: false, type: "string" },
+                        Date: { editable: true, nullable: false, type: "string" }
+                    }
+                }
+            },
+        });
+        $("#CatGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            autobind: true,
+            navigatable: true,
+            //groupable : true,
+            scrollable: true,
+            pageSize: 10,
+            pageable: true,
+            selectable: "row",
+            resizable: true,
+            reorderable: true,
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+            columns: [
+                {
+                    field: "LiNo",
+                    title: "LiNo",
+                    width: "40px",
+                    attributes: { class: "ob-Center" }
+                },
+                {
+                    field: "CategoryCode",
+                    title: "Category Code",
+                    width: "100px",
+                },
+                {
+                    field: "CategoryKy",
+                    title: "CategoryKy",
+                    //width: "40px",
+                    hidden: true,
+                },
+                {
+                    field: "CategoryName",
+                    title: "Category Name",
+                    width: "100px",
+                },
+                {
+                    field: "LinesToBeCounted",
+                    title: "Total Lines",
+                    width: "50px",
+                },
+                {
+                    field: "LinesCounted",
+                    title: "Remaining Lines",
+                    width: "50px",
+                },
+                {
+                    field: "TimeStarted",
+                    title: "Time Started",
+                    width: "100px",
+                },
+                {
+                    field: "TimeFinished",
+                    title: "Time Finished",
+                    width: "100px",
+                },
+                {
+                    field: "Status",
+                    title: "Status",
+                    width: "100px",
+                },
+                {
+                    field: "Date",
+                    title: "Date",
+                    //width: "70px",
+                    hidden : true
+                }
+            ]
+        });
+    }
+
+    //$("#ItemGrid").keypress(function (e) {
+
+    //                   var keyCode = e.keyCode || e.which;
+    //                   if (keyCode == 38) {
+    //                       alert('dfvdf');
+    //                           debugger;
+    //                           var grid = $("#ItemGrid").data("kendoGrid");
+    //                           var curCell = grid.table.find(".k-edit-cell");
+    //                         grid.saveRow();
+    //                          grid.editCell(curCell.next()); // To move the cursor to the next cell and put the cell in edit mode
+    //                         grid.select(curCell.next()); // To select the next cell
+    //                           //grid.focus(curCell.next()); // To set focus on to next cell
+    //                        e.preventDefault(); // To prevent the default behavior of the enter key press
+    //                       }
+    //              });
+
+
+    function LoadItemGrid(LocKy) {
+        try {
+            $('#ItemGrid').data().kendoGrid.destroy();
+            $('#ItemGrid').empty();
+        } catch (e) { }
+        //var LocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+
+        var gridWidget;
+
+        var readonlyEditor = function (container, options) {
+            if (options.model.TotalStk == 0) {
+              //  gridWidget.closeCell();
+            }
+          
+        };
+        if (LocKy > 1) {
+            var cusColumns = [
+                    {
+                        field: "LiNo",
+                        title: "LiNo",
+                        width: "40px",
+                        attributes: { class: "ob-Center" }
+                    },
+                    {
+                        field: "ItmCd",
+                        title: "Item Code",
+                        width: "50px",
+                    },
+                    {
+                        field: "EAN",
+                        title: "EAN",
+                        width: "50px",
+                    },
+                    {
+                        field: "ItmKy",
+                        title: "Item Ky",
+                        hidden: true,
+                        //width: "50px",
+                    },
+                    {
+                        field: "ItemName",
+                        title: "Item Name",
+                        width: "200px",
+                    },
+                    {
+                        field: "Unit",
+                        title: "Unit",
+                        width: "50px",
+                    },
+                    {
+                        field: "UnitKy",
+                        title: "Unit",
+                        hidden:true
+                    },
+                    {
+                        field: "Loc1",
+                        title: "Loc1",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc2",
+                        title: "Loc2",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc3",
+                        title: "Loc3",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc4",
+                        title: "Loc4",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc5",
+                        title: "Loc5",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc6",
+                        title: "Loc6",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "Loc7",
+                        title: "Loc7",
+                        width: "70px",
+                        hidden: false,
+                    },
+                    {
+                        field: "ItmTrnKy1",
+                        title: "ItmTrnKy1",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy2",
+                        title: "ItmTrnKy2",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy3",
+                        title: "ItmTrnKy3",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy4",
+                        title: "ItmTrnKy4",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy5",
+                        title: "ItmTrnKy5",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy6",
+                        title: "ItmTrnKy6",
+                        hidden: true,
+                    },
+                    {
+                        field: "ItmTrnKy7",
+                        title: "ItmTrnKy7",
+                        hidden: true,
+                    },
+                    {
+                        field: "TotalStk",
+                        title: "Count Stk",
+                        width: "80px",
+                    },
+                    {
+                        field: "StkAsAt",
+                        title: "Stk as at",
+                        width: "80px",
+                    },
+                    {
+                        //field: "Status",
+                        title: "Status",
+                        template: '<label class="lbl-switch"> <input type="checkbox"  #= Status? "checked=checked" : "" # class="PinChecked"/> <div> <span class="on">Yes</span> <span class="off">No</span> </div> <i></i> </label>',
+                        //template: '<input type="checkbox"  #= Status? "checked=checked" : "" # class="PinChecked" ></input>',
+                       // template: '<div class=\"center-txt\"><label class=\"switch margin-auto\"> <input type=\"checkbox\" #= Status? "checked=checked" : "" # class="PinChecked" > <span class=\"slider round\"></span></label></div>',
+                        width: "40px",
+                    },
+                    {
+                        field: "TimeConfirmed",
+                        title: "Time Confirmed",
+                        width: "80px",
+                    }
+            ];
+
+            $.ajax({
+                url: urlItemCount.GetLocLocation,
+                data: {
+                    LocKy: LocKy
+                },
+                dataType: "Json",
+                type: "POST",
+                success: function (DBData) {
+                    var i = 1;
+                    for (var j = 0; j < cusColumns.length ; j++) {
+                        if (cusColumns[j].field == "Loc" + i) {
+                            if (i <= DBData.length) {
+                                cusColumns[j].title = DBData[i - 1].CdNm;
+                                LocKyList["LocKy" + i] = DBData[i - 1].CdKy;
+                            }
+                            else {
+                                cusColumns[j].hidden = true;
+                            }
+                            i++;
+                        }
+                    }
+
+                    var dataSource = new kendo.data.DataSource({
+                        batch: true,
+                        pageSize: 10,
+                        schema: {
+                            model: {
+                                id: "ItmKy",
+                                fields: //Relavent fields of the grid should be bind with following model items
+                                {
+                                    LiNo: { editable: false, nullable: false, type: "number" },
+                                    ItmCd: { editable: false, nullable: false, type: "string" },
+                                    ItemName: { editable: false, nullable: false, type: "string" },
+                                    EAN: { editable: false, nullable: false, type: "string" },
+                                    Unit: { editable: false, nullable: false, type: "string" },
+                                    UnitKy: { editable: false, nullable: true, type: "number" },
+                                    Loc1: { editable: true, nullable: true, type: "string" },
+                                    Loc2: { editable: true, nullable: true, type: "string" },
+                                    Loc3: { editable: true, nullable: true, type: "string" },
+                                    Loc4: { editable: true, nullable: true, type: "string" },
+                                    Loc5: { editable: true, nullable: true, type: "string" },
+                                    Loc6: { editable: true, nullable: true, type: "string" },
+                                    Loc7: { editable: true, nullable: true, type: "string" },
+                                    Loc1_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc2_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc3_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc4_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc5_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc6_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    Loc7_Pre: { editable: true, nullable: true, type: "string" ,hidden:true},
+                                    ItmTrnKy1: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy2: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy3: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy4: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy5: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy6: { editable: false, nullable: true, type: "number" },
+                                    ItmTrnKy7: { editable: false, nullable: true, type: "number" },
+                                    Status: { editable: true, nullable: false, type: "boolean"},
+                                    TotalStk: { editable: true, nullable: false, type: "string" },
+                                    StkAsAt: { editable: false, nullable: false, type: "string" },
+                                    TimeConfirmed: { editable: false, nullable: false, type: "string" }
+                                }
+                            }
+                        },
+                    });
+                    $("#ItemGrid").kendoGrid({
+                        dataSource: dataSource,
+                        sortable: true,
+                        autobind: true,
+                        navigatable: true,
+                        scrollable: true,
+                        pageSize: 10,
+                        edit: onEdit,
+                        //save: function (e) {
+                        //    //$("[name='Loc1']", e.container).blur(function () {
+                        //        //var id = ("#ItemGrid");
+                        //        //var grid = $(id).data().kendoGrid;
+                        //        //var selectedItem = grid.dataItem(grid.select());
+                        //        //var loc1 = selectedItem.Loc1;
+                        //        //alert(loc1)
+                        //        //CheckCdMasCodeExist(Code);
+                        //        //alert(0)
+                        //    //});
+                        //},
+
+                        pageable: true,
+                        editable: function(e){
+                            if (e.model.TotalStk == 0) {
+                                e.model.Status.closeCell();
+                            }
+                        },
+               
+                        //change : function() {
+                        //    alert();
+                        //},
+                        selectable: "row",
+                        resizable: true,
+                        reorderable: true,
+                        pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+                        //dataBound: function(){
+                        //    var grid = $("#ItemGrid").data("kendoGrid");
+                        //    for (var i = 0; i < grid.columns.length; i++) {
+                        //        grid.autoFitColumn(i);
+                        //    }
+                        //},
+                        columns: cusColumns
+                    });
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+
+    function OnChangeGrid() {
+    }
+
+    $('#ItemGrid').change(function ()
+    {
+        var grid = $("#ItemGrid").data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var Status = selectedItem.Status;
+
+        if (Status == true) {
+            var ItmKy = 1;
+            StatusUpdate();
+           CheckSave(ItmKy); 
+        }
+    });
+    function InsertToGrid(ConCd) {
+        try {
+            $('#CatGrid').data().kendoGrid.destroy();
+            $('#CatGrid').empty();
+        } catch (e) { }
+        var Date = document.getElementById("CountDt").value;
+        var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+        $.ajax({
+            url: urlItemCount.GetLocCategory,
+            data: {
+                ConCd: ConCd,
+                Date: Date,
+                PrntLocKy: PrntLocKy
+            },
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                try {
+                    $('#CatGrid').data().kendoGrid.destroy();
+                    $('#CatGrid').empty();
+                } catch (e) { }
+                LoadCatGrid();
+                $("#CatGrid").data("kendoGrid").dataSource.data(data);
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function LocDatasource() {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/ItmMas/GetLocList")',
+                    dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    $("#CatGrid").dblclick(function () {
+        var ItmGrid = $("#ItemGrid").data("kendoGrid").dataSource.data();
+        //if (ItmGrid.length > 0) {
+        //    //Save();
+            ClearGriddetails();
+        //}
+        //else {
+            var grid = $("#CatGrid").data().kendoGrid;
+            var selectedItem = grid.dataItem(grid.select());
+            var Date = document.getElementById("CountDt").value;
+            var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+            var CatKy = selectedItem.CategoryKy;
+            var line = selectedItem.LiNo;
+            $('#HiddenSelectedCatKy').val(CatKy);
+            $.ajax({
+                url: urlItemCount.GetCategoryItem,
+                data: {
+                    CatKy: CatKy,
+                    PrntLocKy: PrntLocKy,
+                    Date: Date
+                },
+                dataType: "Json",
+                type: "POST",
+                success: function (DBData) {
+                    $("#ItemGrid").data("kendoGrid").dataSource.data(DBData);
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        //}
+    });
+
+    function GetCdMas_LookupWeb(ConCd) {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: CdMas_LookupWeb,
+                      data: { ConCd: ConCd },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+    function formatDate(dt) {
+        var day = dt.getDate();
+        var month = dt.getMonth() + 1;
+        var year = dt.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var formatedDate = day + "/" + month + "/" + year;
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+    }
+    function StatusUpdate() {
+        var grid = $("#CatGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var CatKy = $('#HiddenSelectedCatKy').val();
+        //var Date1 = document.getElementById("CountDt").value;
+        var LocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+
+        var dt = new Date();
+        var day = dt.getDate();
+        var month = dt.getMonth() + 1;
+        var year = dt.getFullYear();
+        //if (day < 10) {
+        //    day = "0" + day;
+        //}
+        //if (month < 10) {
+        //    month = "0" + month;
+        //}
+        var formatedDate = month + "/" + day + "/" + year;
+        var time = '';
+        if (dt.getHours() > 11)
+            time = (dt.getHours() - 12) + ":" + dt.getMinutes() + ":" + dt.getSeconds() + ' PM';
+        else
+            time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds() + ' AM';
+        for (var i = 0; i < currentData.length ; i++) {
+          //  if (currentData[i].TimeStarted == null && currentData[i].CategoryKy == CatKy && currentData[i].TotalStk != 0) {
+                if (currentData[i].TimeStarted == null && currentData[i].CategoryKy == CatKy ) {
+                currentData[i].TimeStarted = formatedDate + ' '+ time;
+                currentData[i].Status = 'Started';
+                $("#CatGrid").data("kendoGrid").dataSource.data(currentData);
+            }
+              //  if (currentData[i].TimeFinished == null && currentData[i].CategoryKy == CatKy && currentData[i].LinesCounted == 0 || currentData[i].LinesCounted < 0 && currentData[i].TotalStk != null) {
+                    if (currentData[i].TimeFinished == null && currentData[i].CategoryKy == CatKy && currentData[i].LinesCounted == 0 || currentData[i].LinesCounted < 0 ) {
+
+                if (currentData[i].LinesCounted <= 0) {
+                    currentData[i].LinesCounted = 0;
+                }
+                currentData[i].TimeFinished =formatedDate+ ' '+ time;
+                currentData[i].Status = 'Finished';
+               // currentData[i].Date = formatedDate;
+                $("#CatGrid").data("kendoGrid").dataSource.data(currentData);
+            }
+        }
+    }
+ 
+    function onEdit(e) {//alert(0)
+      //  StatusUpdate();
+        if (e.model.Status) {
+            this.closeCell();
+        }
+        else
+        {
+            $(e.container).find("input[type=text]").select();
+        }
+    }
+
+    //function OnEdit(e) {
+    //    if (!e.model.isNew()) { // Make sure it's not a new entry
+    //        var TotalStk = e.container.find("input[name=TotalStk]").data("kendoNumericTextBox").value();
+    //        if (TotalStk == 0) {
+    //            var disableField = e.container.find("input[name=Status]").data("checkbox");
+    //            disableField.enable(false);
+    //        }
+    //    }
+    //}
+
+    function ClearGriddetails() {
+        var grid = $("#ItemGrid").data("kendoGrid");
+        grid.dataSource.data([]);
+    }
+
+    function setHdrSectionPropFun() {
+        setHdrSectionProp('', viewBag.ObjKy, '', 'HdrSec1');
+    }
+
+    //function Save() {
+    //    var grid = $("#ItemGrid").data("kendoGrid");
+    //    var currentData = grid.dataSource.data();
+    //    var updatedRecords = [];
+    //    var newRecords = [];
+
+    //    var Date = document.getElementById("CountDt").value;
+    //    var YourRef = document.getElementById("HdrSec1_InptYurRef_Val").value;
+    //    var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+
+    //    var newRecordsHdr = {
+    //        Date: Date,
+    //        YourRef: YourRef,
+    //        PrntLocKy: PrntLocKy,
+    //        LocKyList: LocKyList
+    //    }
+
+    //    for (var i = 0; i < currentData.length; i++) {
+    //        if (currentData[i].isNew()) {
+    //            newRecords.push(currentData[i].toJSON());
+    //        } else if (currentData[i].dirty) {
+    //            updatedRecords.push(currentData[i].toJSON());
+    //        }
+    //    }
+
+
+    //    if (newRecords.length != 0 || updatedRecords.length != 0) {
+    //        $.ajax({
+    //            url: urlItemCount.InsertLocItm,
+    //            data: JSON.stringify({
+    //                Updatedata: kendo.stringify(updatedRecords),
+    //                NewData: kendo.stringify(updatedRecords),
+    //                NewDataHdr: JSON.stringify(newRecordsHdr),
+    //                BulkSave:true
+    //            }),
+    //            contentType: "application/json; charset=utf-8",
+    //            dataType: "Json",
+    //            type: "POST",
+    //            success: function (data) {
+    //                ClearGriddetails();
+    //                alert("Successfully Saved..!");
+    //            },
+    //            error: function (e) {
+    //                return false;
+    //            }
+    //        });
+    //    }
+    //}
+
+    function VariancePost() {
+       
+        var updatedRecords = [];
+        var newRecords = [];
+
+        var Date = document.getElementById("CountDt").value;
+        var YourRef = document.getElementById("HdrSec1_InptYurRef_Val").value;
+        var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+        var CatKy = $('#HiddenSelectedCatKy').val();
+
+        var grid = $("#ItemGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+
+        var newRecordsHdr = {
+            Date: Date,
+            YourRef: YourRef,
+            PrntLocKy: PrntLocKy,
+            LocKyList: LocKyList,
+         
+        }
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].TotalStk >= 0 && currentData[i].TotalStk != null) {
+                //if (currentData[i].Status == false) {
+                   // UpdateLineNo();
+                    updatedRecords.push(currentData[i].toJSON());
+                //}
+
+            }
+        }
+        if (newRecords.length != 0 || updatedRecords.length != 0) {
+            $.ajax({
+                url: urlItemCount.PostLocItm,
+                data: JSON.stringify({
+                    Updatedata: kendo.stringify(updatedRecords),
+                    NewData: kendo.stringify(updatedRecords),
+                    NewDataHdr: JSON.stringify(newRecordsHdr),
+                    BulkSave: true
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    StatusUpdate();
+                    ClearGriddetails();
+                    alert("Successfully Posted...!");
+                },
+                error: function (e) {
+                    return false;
+                    alert("Posting failed");
+                }
+            });
+        }
+
+
+        //$.ajax({
+        //    url: urlItemCount.VariencePost,
+        //    dataType: "json",
+        //    type: "POST",
+        //    data: JSON.stringify({
+        //        LocKy: LocKy,
+        //        AsAtDt: date,
+        //        CountDt: Countdate,
+        //    }),
+        //    contentType: 'application/json; charset=utf-8',
+        //    success: function (Data) {
+        //        StatusUpdate();
+        //        ClearGriddetails();
+        //        alert("Successfully Posted...!");
+             
+        //    }
+        //});
+    }
+
+    function Post() {
+        var grid = $("#ItemGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        var Date = document.getElementById("CountDt").value;
+        var YourRef = document.getElementById("HdrSec1_InptYurRef_Val").value;
+        var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+
+        var newRecordsHdr = {
+            Date: Date,
+            YourRef: YourRef,
+            PrntLocKy: PrntLocKy,
+            LocKyList: LocKyList
+        }
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                newRecords.push(currentData[i].toJSON());
+            }
+            else if (currentData[i].TotalStk >= 0 && currentData[i].TotalStk!=null) {
+                if (currentData[i].Status == false) {
+                    if (currentData[i].LinesCounted != 0) {
+                        UpdateLineNo();
+                    }
+                    else
+                        currentData[i].LinesCounted = 0;
+                   
+                    updatedRecords.push(currentData[i].toJSON());
+                }
+
+            }
+        }
+
+        if (newRecords.length != 0 || updatedRecords.length != 0) {
+            $.ajax({
+                url: urlItemCount.PostLocItm,
+                data: JSON.stringify({
+                    Updatedata: kendo.stringify(updatedRecords),
+                    NewData: kendo.stringify(updatedRecords),
+                    NewDataHdr: JSON.stringify(newRecordsHdr),
+                    BulkSave: false
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                   // StatusUpdate();
+                    ClearGriddetails();
+                    alert("Successfully Saved..!");
+                },
+                error: function (e) {
+                    return false;
+                    alert("Save failed");
+                }
+            });
+        }
+    }
+
+    function CheckSave(ItmKy) {
+        OPENLodingCommon('Saving.....');
+        if (ItmKy == 1) {
+            var grid = $("#ItemGrid").data().kendoGrid;
+            var selectedItem = grid.dataItem(grid.select());
+            ItmKy = selectedItem.ItmKy;
+            //alert(ItmKy);
+            //var grid = $('#ItemGrid').data().kendoGrid;
+            //var dataItem = grid.dataItem($(this).closest('tr'));
+            //ItmKy = dataItem.ItmKy;
+        }
+        var updatedRecords = [];
+        var newRecords = [];
+
+        var Date = document.getElementById("CountDt").value;
+        var YourRef = document.getElementById("HdrSec1_InptYurRef_Val").value;
+        var PrntLocKy = (!$("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value()) ? 1 : $("#HdrSec1_CmbLoc_Nm").data("kendoComboBox").value();
+        var CatKy = $('#HiddenSelectedCatKy').val();
+
+        var grid = $("#ItemGrid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+
+
+        var newRecordsHdr = {
+            Date: Date,
+            YourRef: YourRef,
+            PrntLocKy: PrntLocKy,
+            LocKyList: LocKyList,
+            ItmKy: ItmKy
+        }
+
+        for (var i = 0; i < currentData.length; i++) {
+           // if (currentData[i].isNew()) {
+            newRecords.push(currentData[i].toJSON());
+            //} else if (currentData[i].dirty) {
+                //updatedRecords.push(currentData[i].toJSON());
+            //}
+        }
+
+        if (newRecords.length != 0 || updatedRecords.length != 0) {
+            $.ajax({
+                url: urlItemCount.InsertLocItm,
+                data: JSON.stringify({
+                    Updatedata: kendo.stringify(updatedRecords),
+                    NewData: kendo.stringify(newRecords),
+                    NewDataHdr: JSON.stringify(newRecordsHdr)
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    $.ajax({
+                        url: urlItemCount.GetCategoryItem,
+                        data: {
+                            newRecordsHdr : newRecordsHdr,
+                            CatKy: CatKy,
+                            PrntLocKy: PrntLocKy,
+                            Date: Date
+                        },
+                        dataType: "Json",
+                        type: "POST",
+                        success: function (DBData) {
+                            $("#ItemGrid").data("kendoGrid").dataSource.data(DBData);
+                            CLOSELoadingCommon();
+                            //CLOSELoadingForm();
+                            //alert("Successfully Saved..!");
+                        },
+                        error: function (e) {
+                            return false;
+                        }
+                    });
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>

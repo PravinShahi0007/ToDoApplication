@@ -1,0 +1,1002 @@
+﻿<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    @@media only screen and (max-width: 991px) {
+        #FindFormOrder {
+            font-size: 14px !important;
+        }
+    }
+</style>
+<div id="FindFormOrder" style="display: none; font-size:11px">
+
+    <div id="filterCont" style="background-color: #ffffff;">
+        <div class="row m-l--15">
+            <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+                <div id="ButtonSec2" class="col-lg-5 col-md-5"></div>
+            </div>
+            @*<div class="col-md-6 control-icons" id="ButtonSetFind">
+                    <button class="control-button search" id="btnSearch" onclick="SearchFunc();" data-tooltip="Search"></button>
+                    <button class="control-button clean" id="btnCancel1" onclick="CancelFunc();" data-tooltip="Cancel Grid"></button>
+                </div>*@
+        </div>
+
+        <div class="row m-t-10">
+            <!-- section 01 -->
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <!-- From -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_FromDate">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_FromDate_Lbl">From:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12  "><input id="HdrSec16_Dat_FF_FromDate_Val" class="width-100"  placeholder="From Date" /></div>
+                </div>
+                <!-- /From -->
+                <!-- To -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_Todt">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_Todt_Lbl">To:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="HdrSec16_Dat_FF_Todt_Val" class="width-100" placeholder="To Date" /></div>
+                </div>
+                <!-- /To -->
+                @*<!-- Order No -->
+                    <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_OrdNo">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_OrdNo_Lbl">Order No:</label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Order No" id="HdrSec16_Inpt_FF_OrdNo_Val" type="text" class="k-textbox width-100" /></div>
+                    </div>
+                    <!-- /Order No -->*@
+                <!-- Doc No -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_DocNo">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_DocNo_Lbl">Doc No:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Document No" id="HdrSec16_Inpt_FF_DocNo_Val" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Doc No -->
+                <!-- Your Ref -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_YurRef">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_YurRef_Lbl">Your Ref:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Your Reference" id="HdrSec16_Inpt_FF_YurRef_Val" data-cpypst-blsmartcpypaste="Yurref" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Your Ref -->
+                <!-- ApproveStatus -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_AprStatesAction">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Cmb_FF_AprStatesAction_Lbl">ApproveStatus:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Status" id="HdrSec16_Cmb_FF_AprStatesAction_Nm" class="width-100" /></div>
+                </div>
+                <!-- /ApproveStatus -->
+            </div>
+            <!-- section 02 -->
+            <div class="col-md-6 col-sm-12 col-xs-12 p-r-lg-25">
+                <!-- Trn No -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_TrnNo">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_TrnNo_Lbl">Trn No:</label></div>
+                    <div class="col-md-3 col-sm-4 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_TrnNo_Cd" class="width-100"/></div>  <!-- id="Prefix" -->
+                    <div class="col-md-4 col-sm-8 col-xs-12 p-l-0-lg form-group">
+                        @*<input placeholder="Trn No" id="HdrSec16_Cmb_FF_TrnNo_Val" type="text" class="k-textbox width-100" />*@
+                        <!-- Order No -->
+                        <div id="HdrSec16_Inpt_FF_OrdNo">
+                            <input placeholder="Order No" id="HdrSec16_Inpt_FF_OrdNo_Val" type="text" class="k-textbox width-100" />
+                        </div>
+                        <!-- /Order No -->
+                    </div>
+                </div>
+                <!-- /Trn No -->
+                <!-- Address -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_HdrAdr">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_HdrAdr_Lbl">Address:</label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Nm" data-cpypst-blsmartcpypaste="AdrNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Address -->
+                <!-- Location -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Loc">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Loc_Lbl"><span id="CrDrDetail">Location:</span> </label></div>
+                    <div class="col-md-10 col-sm-12 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_Loc_Cd" data-cpypst-blsmartcpypaste="" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Loc_Nm" data-cpypst-blsmartcpypaste="" class="width-100" /></div>*@
+                </div>
+                <!-- /Location -->
+                <!-- Project -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Prj">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Prj_Lbl">Project:</label></div>
+                    <div class="col-md-10 col-sm-12 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_Prj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Prj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Project -->
+                <!-- supplier -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Supp">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Supp_Lbl">Supplier:</label></div>
+                    <div class="col-md-10 col-sm-12 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_Supp_Cd" data-cpypst-blsmartcpypaste="" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Supp_Nm" data-cpypst-blsmartcpypaste="" class="width-100" /></div>*@
+                </div>
+                <!-- /supplier -->
+            </div>
+            <!-- section 03 -->
+            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsRec">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsRec_Lbl">Is Recurrence:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsRec_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsRec_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsPrnt">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsPrnt_Lbl">Printed:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsPrnt_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsPrnt_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row m-l--15 m-b-sm-500">
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGridData"> </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var todayDate = new Date();           
+        //LoadOrderCombo_Form_FinPO();
+        //LoadGridFindView_Form_FinPO();
+        //LoadGridWithColumnPropTwo();
+        $('#HdrSec16_Chkbox_FF_IsRec_Val').prop('checked', false);
+        $('#HdrSec16_Chkbox_FF_IsPrnt_Val').prop('checked', false);                   
+        $('#HdrSec16_Dat_FF_Todt_Val').data("kendoDatePicker").value(todayDate);
+    });
+     
+    $("#HdrSec16_Dat_FF_FromDate_Val").kendoDatePicker({
+        format: "dd/MM/yyyy",
+    });
+    $("#HdrSec16_Dat_FF_Todt_Val").kendoDatePicker({
+        format: "dd/MM/yyyy",
+    });
+     
+
+    function LoadOrderCombo_Form_FinPO() {
+
+        @*$("#cmbDay").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")',
+                        data: { ConCd: "RecurOrdDay" },
+                        dataType: "json"
+                    }
+                }
+
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Day"
+        });*@
+
+
+
+        @*$("#cmbAdrIDPO").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrID",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: '@Url.Content("~/Order/GetAdrForOrder")',
+                        dataType: "json"
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a address.."
+        });*@
+        $("#HdrSec16_Cmb_FF_HdrAdr_Nm").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrNM",
+            dataSource: AddressName('HdrSec16_Cmb_FF_HdrAdr'),
+            change: function (e) {
+                var comboboxText = $("#HdrSec16_Cmb_FF_HdrAdr_Nm").data("kendoComboBox");
+                var cmbValue = comboboxText.value();
+
+                if (isNaN(cmbValue)) {
+                    alert("'" + cmbValue + "' is not a Valid input");
+                    comboboxText.value("");
+                    $("#HdrSec16_Cmb_FF_HdrAdr_Cd").data("kendoComboBox").value("");
+                }
+                else
+                    $("#HdrSec16_Cmb_FF_HdrAdr_Cd").data("kendoComboBox").value(cmbValue);
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a address.."
+        });
+
+        $("#HdrSec16_Cmb_FF_HdrAdr_Cd").kendoComboBox({
+            dataValueField: "AdrKy",
+            dataTextField: "AdrCode",
+            dataSource: AddressCode('HdrSec16_Cmb_FF_HdrAdr'),
+            change: function (e) {
+                var comboboxText = $("#HdrSec16_Cmb_FF_HdrAdr_Cd").data("kendoComboBox");
+                var cmbValue = comboboxText.value();
+
+                if (isNaN(cmbValue)) {
+                    alert("'" + cmbValue + "' is not a Valid input");
+                    comboboxText.value("");
+                    $("#HdrSec16_Cmb_FF_HdrAdr_Nm").data("kendoComboBox").value("");
+                }
+                else
+                    $("#HdrSec16_Cmb_FF_HdrAdr_Nm").data("kendoComboBox").value(cmbValue);
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a address.."
+        });
+        $("#HdrSec16_Cmb_FF_Prj_Cd").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjId",
+            //dataSource: ProjectCd('HdrSec16_Cmb_FF_Prj'),
+            dataSource: ProjectCd('HdrSec16_Cmb_FF_Prj'),
+            change: function (e) {
+                var comboboxText = $("#HdrSec16_Cmb_FF_Prj_Cd").data("kendoComboBox");
+                var cmbValue = comboboxText.value();
+
+                if (isNaN(cmbValue)) {
+                    alert("'" + cmbValue + "' is not a Valid input");
+                    comboboxText.value("");
+                    //$("#HdrSec16_Cmb_FF_Prj_Nm").data("kendoComboBox").value("");
+                }
+                
+                    //$("#HdrSec16_Cmb_FF_Prj_Nm").data("kendoComboBox").value(cmbValue);
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Project Code"
+        });
+
+        //$("#HdrSec16_Cmb_FF_Prj_Nm").kendoComboBox({
+        //    dataValueField: "PrjKy",
+        //    dataTextField: "PrjNm",
+        //    dataSource: ProjectNm('HdrSec16_Cmb_FF_Prj'),
+        //    change: function (e) {
+        //        var comboboxText = $("#HdrSec16_Cmb_FF_Prj_Nm").data("kendoComboBox");
+        //        var cmbValue = comboboxText.value();
+
+        //        if (isNaN(cmbValue)) {
+        //            alert("'" + cmbValue + "' is not a Valid input");
+        //            comboboxText.value("");
+        //            $("#HdrSec16_Cmb_FF_Prj_Cd").data("kendoComboBox").value("");
+        //        }
+        //        else
+        //            $("#HdrSec16_Cmb_FF_Prj_Cd").data("kendoComboBox").value(cmbValue);
+        //    },
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Project Name"
+        //});
+        $("#HdrSec16_Cmb_FF_Supp_Cd").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCode",
+            dataSource: DetailAccountCdload('HdrSec16_Cmb_FF_Supp'),
+            change: function (e) {
+                var comboboxText = $("#HdrSec16_Cmb_FF_Supp_Cd").data("kendoComboBox");
+                var cmbValue = comboboxText.value();
+
+                if (isNaN(cmbValue)) {
+                    alert("'" + cmbValue + "' is not a Valid input");
+                    comboboxText.value("");
+                    $("#HdrSec16_Cmb_FF_Supp_Nm").data("kendoComboBox").value("");
+                }
+                else
+                    $("#HdrSec16_Cmb_FF_Supp_Nm").data("kendoComboBox").value(cmbValue);
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Supplier Code"
+        });
+        //$("#HdrSec16_Cmb_FF_Supp_Nm").kendoComboBox({
+        //    dataValueField: "AccKy",
+        //    dataTextField: "AccNM",
+        //    dataSource: DetailAccountNmload('HdrSec16_Cmb_FF_Supp'),
+        //    change: function (e) {
+        //        var comboboxText = $("#HdrSec16_Cmb_FF_Supp_Nm").data("kendoComboBox");
+        //        var cmbValue = comboboxText.value();
+
+        //        if (isNaN(cmbValue)) {
+        //            alert("'" + cmbValue + "' is not a Valid input");
+        //            comboboxText.value("");
+        //            $("#HdrSec16_Cmb_FF_Supp_Cd").data("kendoComboBox").value("");
+        //        }
+        //        else
+        //            $("#HdrSec16_Cmb_FF_Supp_Cd").data("kendoComboBox").value(cmbValue);
+        //    },
+        //    filter: "contains",
+        //    suggest: true,
+        //    placeholder: "Supplier Name"
+        //});
+
+    }
+
+    //Grid
+    function FindGridDefaultColumns() {
+        var columnsDefine = [
+            {
+                field: "Lino", title: "LiNo", width: "50px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "TrnKy", title: "Ref #", width: "100px", hidden: true,
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "Prefix", title: "Prefix", width: "50px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "TrnNo", title: "OrdNo", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "TrnDt", title: "TrnDt", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "DocNo", title: "DocNo", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "Des", title: "Des", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "Day", title: "Day", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "YurRef", title: "YurRef", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "DeliNo", title: "DeliNo", width: "100px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "AdrId", title: "Address Code", width: "120px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+            {
+                field: "AdrNm", title: "Address Name", width: "120px",
+                editor: function (container, options) {
+                    var model = options.model;
+                }
+            },
+
+        ];
+        var gridNo = 2;
+        //Old ObjMas Concept
+        //var columnsFinal = setColumnProp(columnsDefine, viewBag.ObjKy, '', 'FindFormGridData', gridNo);
+
+        //New ObjMas Function
+        var columnsFinal = setGridColumnProp(columnsDefine, 'FindFormGridPayment', gridNo);
+    }
+
+
+    function LoadGridWithColumnPropTwo(columnsFinal, gridNo) {
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            sort: ({ field: "LiNo", dir: "desc" }),
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        Lino: { editable: false, nullable: false, type: "number" },
+                        TrnKy: { editable: false, nullable: false, type: "number" },
+                        Prefix: { editable: false, nullable: false, type: "number" },
+                        TrnNo: { editable: false, nullable: false, type: "number" },
+                        TrnDt: { editable: false, nullable: false, type: "string" },
+                        DocNo: { editable: false, nullable: false, type: "string" },
+                        Des: { editable: false, nullable: true, type: "string" },
+                        Day: { editable: false, nullable: true, type: "string" },
+                        YurRef: { editable: false, nullable: true, type: "string" },
+                        DeliNo: { editable: false, nullable: true, type: "string" },
+                        AdrId: { editable: false, nullable: true, type: "string" },
+                        AdrNm: { editable: false, nullable: true, type: "string" }
+                    }
+                }
+            }
+        });
+
+        $("#FindFormGridData")
+            .kendoGrid({
+                dataSource: dataSource,
+                columnMenu: true,
+                sortable: true,
+                autobind: true,
+                navigatable: true,
+                editable: true,
+                filterable: {
+                    mode: "row"
+                },
+                reorderable: true,
+                scrollable: true,
+                pageSize: 10,
+                pageable: true,
+                selectable: "row",
+                resizable: true,
+                dataBound: onDataBound,
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+                columns: columnsFinal,
+                height:"40vh"
+
+            });
+    }
+
+    function onDataBound(e) {
+        var id = ("#FindFormGridData");
+        var grid1 = $(id).data("kendoGrid");
+        var dataSource = grid1.dataSource.data();
+        for (var i = 0; i < dataSource.length; i++) {
+            if (dataSource[i].IsAct == 0) {
+                grid1.tbody.find("tr[data-uid='" + dataSource[i].uid + "']").hide();
+            }
+        }
+    }
+
+    //function LoadGridFindView_Form_FinPO() {
+
+    //    var dataSource = new kendo.data.DataSource({
+    //        batch: true,
+    //        pageSize: 10,
+    //        schema: {
+    //            model: {
+    //                id: "ItmKy",
+    //                fields: //Relavent fields of the grid should be bind with following model items
+    //                {
+    //                    Lino: { editable: false, nullable: false, type: "number" },
+    //                    TrnKy: { editable: false, nullable: false, type: "number" },
+    //                    Prefix: { editable: false, nullable: false, type: "number" },
+    //                    TrnNo: { editable: false, nullable: false, type: "number" },
+    //                    TrnDt: { editable: false, nullable: false, type: "string" },
+    //                    DocNo: { editable: false, nullable: false, type: "string" },
+    //                    Des: { editable: false, nullable: true, type: "string" },
+    //                    Day: { editable: false, nullable: true, type: "string" },
+    //                    YurRef: { editable: false, nullable: true, type: "string" },
+    //                    DeliNo: { editable: false, nullable: true, type: "string" },
+    //                    AdrId: { editable: false, nullable: true, type: "string" },
+    //                    AdrNm: { editable: false, nullable: true, type: "string" }
+
+
+    //                }
+    //            }
+    //        }
+    //    });
+
+    //    $("#FindFormGridData").kendoGrid({
+    //        dataSource: dataSource,
+    //        autobind: true,
+
+    //        navigatable: true,
+    //        filterable: {
+    //            mode: "row"
+    //        },
+
+    //        pageable: true,
+    //        sortable: {
+    //            mode: "single",
+    //            allowUnsort: true
+    //        },
+    //        reorderable: true,
+    //        columnMenu: true,
+
+    //        selectable: "row",
+    //        pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+    //        columns: [
+
+    //             { field: "Lino", title: "LiNo", width: "50px", },
+    //             { field: "TrnKy", title: "Ref #", width: "100px", hidden: true, },
+    //             { field: "Prefix", title: "Prefix", width: "50px", },
+    //             { field: "TrnNo", title: "OrdNo", width: "100px", },
+    //             { field: "TrnDt", title: "TrnDt", width: "100px", },
+    //             { field: "DocNo", title: "DocNo", width: "100px", },
+    //             { field: "Des", title: "Des", width: "100px", },
+    //             { field: "Day", title: "Day", width: "100px", },
+    //             { field: "YurRef", title: "YurRef", width: "100px", },
+    //             { field: "DeliNo", title: "DeliNo", width: "100px", },
+    //             { field: "AdrId", title: "Address Code", width: "120px", },
+    //             { field: "AdrNm", title: "Address Name", width: "120px", },
+
+    //        ],
+
+    //        resizable: true,
+
+    //        dataBinding: function () {
+    //            record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+    //        },
+
+    //        editable: true
+    //    });
+
+    //}
+
+    function SearchFunc() {
+        try {
+            $('#FindFormGridData').data("kendoGrid").dataSource.filter(null);
+            var grid = $("#FindFormGridData").data("kendoGrid");
+            grid.dataSource.data([]);
+        } catch (e) {
+            console.log("Error Loading Find Data Source");
+        }
+
+
+        var FrmDt = $("#HdrSec16_Dat_FF_FromDate_Val").val();
+        if (FrmDt == undefined || FrmDt == "" || FrmDt == null) {
+            var FrmDt = "1/1/1900";
+        }
+
+        var ToDt = $("#HdrSec16_Dat_FF_Todt_Val").val();
+        if (ToDt == undefined || ToDt == "" || ToDt == null) {
+            var ToDt = "1/1/2078";
+        }
+
+        var OrdNo = $("#HdrSec16_Inpt_FF_OrdNo_Val").val();
+        if (OrdNo == undefined || OrdNo == "" || OrdNo == null) {
+            var OrdNo = 0;
+        }
+
+        var DocNo = $("#HdrSec16_Inpt_FF_DocNo_Val").val();
+        if (DocNo == undefined || DocNo == "" || DocNo == null) {
+            var DocNo = '';
+        }
+
+        var YurRef = $("#HdrSec16_Inpt_FF_YurRef_Val").val();
+        if (YurRef == undefined || YurRef == "" || YurRef == null) {
+            var YurRef = '';
+        }
+
+        var AprStsKy = $("#HdrSec16_Cmb_FF_AprStatesAction_Nm").data('kendoComboBox').value();
+        if (AprStsKy == "" || AprStsKy == undefined || AprStsKy == null) AprStsKy = 1;
+
+        var Prefix = $("#HdrSec16_Cmb_FF_TrnNo_Cd").data('kendoComboBox').value();
+        if (Prefix == "" || Prefix == undefined || Prefix == null) Prefix = 1;
+
+        var TrnNo = $("#HdrSec16_Cmb_FF_TrnNo_Val").val();
+        if (TrnNo == undefined || TrnNo == "" || TrnNo == null) {
+            var TrnNo = null;
+        }
+
+        var AdrKy = $("#HdrSec16_Cmb_FF_HdrAdr_Cd").data('kendoComboBox').value();
+        if (AdrKy == "" || AdrKy == undefined || AdrKy == null) AdrKy = 1;
+
+        var LocKy = $("#HdrSec16_Cmb_FF_Loc_Cd").data('kendoComboBox').value();
+        if (LocKy == "" || LocKy == undefined || LocKy == null) LocKy = 1;
+
+        var PrjKy = $("#HdrSec16_Cmb_FF_Prj_Cd").data('kendoComboBox').value();
+        if (PrjKy == undefined || PrjKy == "" || PrjKy == null) {
+            var PrjKy = 1;
+        }
+
+        var SupKy = $("#HdrSec16_Cmb_FF_Supp_Cd").data('kendoComboBox').value();
+        if (SupKy == undefined || SupKy == "" || SupKy == null) {
+            var SupKy = 1;
+        }
+
+        var isRecur = ($("#HdrSec16_Chkbox_FF_IsRec_Val").is(':checked')) ? 1 : 0;
+        var isPrinted = ($("#HdrSec16_Chkbox_FF_IsPrnt_Val").is(':checked')) ? 1 : 0;
+
+        var ConCd = "OrdTyp";
+        var OurCd = '@(ViewBag.OurCd)';
+
+
+        $.ajax({
+            url: "@Url.Content("~/Order/GetOrdFind")",
+            data: JSON.stringify({
+                ordFindDet: JSON.stringify({
+                    FrmDt: FrmDt,
+                    ToDt: ToDt,
+                    OrdNo: OrdNo,
+                    DocNo: DocNo,
+                    YurRef: YurRef,
+                    AprStsKy: AprStsKy,
+                    Prefix: Prefix,
+                    TrnNo: TrnNo,
+                    AdrKy: AdrKy,
+                    LocKy: LocKy,
+                    PrjKy: PrjKy,
+                    SupKy: SupKy,
+                    ConCd: ConCd,
+                    OurCd: OurCd,
+                    ObjKy: viewBag.ObjKy,
+                    isRecur: isRecur,
+                    isPrinted: isPrinted
+                })
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                try {
+                    $('#FindFormGridData').data("kendoGrid").dataSource.filter(null);
+                } catch (e) {
+                    console.log("Filter Null");
+                }
+
+                
+                var grid = $("#FindFormGridData").data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+                    $("#FindFormGridData").data("kendoGrid").dataSource.add({ Lino: data[i].Lino, TrnKy: data[i].OrdKy, Prefix: data[i].Prefix, TrnNo: data[i].OrdNo, TrnDt: data[i].OrdDt, DocNo: data[i].DocNo, AdrId: data[i].Des, Day: data[i].Day, YurRef: data[i].YurRef, DeliNo: data[i].DlryNo, AdrId: data[i].AdrId, AdrNm: data[i].AdrNm });
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function CancelFunc() {
+        //$("#FindFormGridData").data("kendoGrid").dataSource.data([]);
+        //$("#HdrSec16_Dat_FF_FromDate_Val").data("kendoDatePicker").value("");
+        $("#HdrSec16_Dat_FF_Todt_Val").data("kendoDatePicker").value("");
+        $("#HdrSec16_Cmb_FF_Supp_Cd").data("kendoComboBox").value("");
+        //$("#HdrSec16_Cmb_FF_Supp_Nm").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_Prj_Cd").data("kendoComboBox").value("");
+        //$("#HdrSec16_Cmb_FF_Prj_Nm").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_HdrAdr_Cd").data("kendoComboBox").value("");
+        //$("#HdrSec16_Cmb_FF_HdrAdr_Nm").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_Loc_Cd").data("kendoComboBox").value("");
+        //$("#HdrSec16_Cmb_FF_Loc_Nm").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_AprStatesAction_Nm").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_TrnNo_Cd").data("kendoComboBox").value("");
+        // $("#HdrSec16_Cmb_FF_TrnNo_Cd").data("kendoComboBox").value("");
+        $("#HdrSec16_Cmb_FF_TrnNo_Val").val("");
+        $("#HdrSec16_Inpt_FF_OrdNo_Val").val("");
+        $("#HdrSec16_Inpt_FF_DocNo_Val").val("");
+        $("#HdrSec16_Inpt_FF_YurRef_Val").val("");
+        //$("#HdrSec16_Cmb_FF_AprStatesAction_Val").val("");
+        $("#HdrSec16_Dat_FF_FromDate_Val").val("");
+    }
+
+    $("#FindFormGridData").on("dblclick", "tr.k-state-selected", function () {
+
+        var grid = $('#FindFormGridData').data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+
+        var TrnKy = selectedItem.TrnKy;
+
+        if (TrnKy != "" || TrnKy != undefined || TrnKy != null) {
+            FormGlblData.ISNeworUpdateTranction = 0;
+            setDates();
+            Set_Navigation("FindFormGridData", TrnKy);
+        }
+        CancelFunc();
+        FormGlblData.IsEditBtn = false;
+        readOnly();
+    });
+
+    function GetHdrDetailOrdFrmFind(TrnKy) {
+        SetTrnHdrApr_LatestState(TrnKy, FormGlblData.OrdTypKy, 'OrdHdr');
+        $.ajax({
+            url: "@Url.Content("~/Order/GetPurchesReqForFind")",
+            data: JSON.stringify({
+
+                ordKy: TrnKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data.length == 0) {
+                    alert("There is a Problem to getting this Record! \n Please Contact Support.\n Error Code(" + TrnKy + ")");
+                    //ComClearFunction();
+                    return
+                }
+                for (i = 0; i < data.length; i++) {
+
+                    var PrefixTrnNo = data[0].OrdPrefixNo;
+                    var TrnNo = data[0].OrdNo;
+                    var PRNo = data[0].PRNo;
+                    var TrnTypKy = data[0].OrdTypKy;
+                    var TrnPreFixKy = data[0].OrdPrefixKy;
+                    var TrnKy = data[0].OrdKy;
+                    var Des = data[0].Des;
+                    var Rem = data[0].Rem;
+
+                    var LocKy2 = data[0].LocKy2;
+                    var LocKy = data[0].LocKy;
+                    var TrnDt = new Date(data[0].OrdDt);
+                    var iTrnDt = TrnDt.getDate() + '/' + (TrnDt.getMonth() + 1) + '/' + TrnDt.getFullYear();
+                    TrnDt = iTrnDt;
+                    var DlryDt = new Date(data[0].DlryDt);
+                    var RecurOrdTimeKy = data[0].RecurOrdTimeKy;
+                    var RecurDlvNoKy = data[0].RecurDlvNoKy;
+                    var RecurOrdDyKy = data[0].RecurOrdDyKy;
+                    var PrntKy = data[0].PrntKy;
+                    var repadrky = data[0].RepAdrKy;
+                    var distadrky = data[0].DistAdrKy;
+
+                    var PmtTrmKy = data[0].PmtKy;
+                    var TrnCrnKy = data[0].CurrencyKy;
+                    var ExRate = data[0].ExtRate;
+                    var Yurref = data[0].YurRef;
+                    var DocNo = data[0].DocNo;
+                    var disamt = data[0].DisAmt;
+                    var NBT = 0;
+                    var Vat = data[0].VAT;
+                    var Wht = 0;
+                    var Svat = 0;
+                    var Total = data[0].Amt;
+                    var SubTotal = Number(data[0].Total) - Number(0) - Number(data[0].Dsicount);
+
+                    $("#OrdNo1").val(PrefixTrnNo);  //(TrnNo);
+                    $("#OrdNo").val(PRNo);
+                    $("#PrefixOrdNo1").val(PrefixTrnNo);
+                    $("#OrdTypKy1").val(TrnTypKy);
+                    $("#OrdPrefixKy1").val(TrnPreFixKy);
+                    $("#OrdKy1").val(TrnKy);
+                    FormGlblData.TrnKy = 1;
+                    $("#HdrSec7_InptDesc_Val").val(Des);
+                    $("#HdrSec7_InptRemark_Val").val(Rem);
+
+                    $("#HdrSec2_CmbLoc_Cd").data("kendoComboBox").value(LocKy);
+                   // $("#HdrSec2_CmbLoc_Nm").data("kendoComboBox").value(LocKy);
+
+                    $("#HdrSec2_CmbFrmLoc_Cd").data("kendoComboBox").value(LocKy2);
+                    //$("#HdrSec2_CmbFrmLoc_Nm").data("kendoComboBox").value(LocKy2);
+
+                    try { $("#HdrSec1_CmbPOrdNo_Cd").data("kendoComboBox").value(PrntKy); } catch (e) { }
+
+                    try {
+                        $("#HdrSec2_CmbRepAdr_Cd").data("kendoComboBox").value(repadrky);
+                        //$("#HdrSec2_CmbRepAdr_Nm").data("kendoComboBox").value(repadrky);
+                    } catch (e) { }
+
+                    try {
+                        $("#HdrSec2_CmbDistAdr_Cd").data("kendoComboBox").value(distadrky);
+                        //$("#HdrSec2_CmbDistAdr_Nm").data("kendoComboBox").value(distadrky);
+                    } catch (ex) { }
+                    try {
+                        $('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(TrnDt);
+                        $('#HdrSec1_DatPicProdDeliveryDate_Val').data("kendoDatePicker").value(DlryDt);
+                        FormGlblData.FromFindDate = TrnDt;
+                        $("#HdrSec3_CmbProdDisptTime_Cd").data("kendoComboBox").value(RecurOrdTimeKy);
+
+                        $("#HdrSec1_CmbDeliNo_Cd").data("kendoComboBox").value(RecurDlvNoKy);
+                        $("#HdrSec1_CmbDay_Cd").data("kendoComboBox").value(RecurOrdDyKy);
+                        $("#HdrSec3_CmbPmtTrms_Cd").data("kendoComboBox").value(PmtTrmKy);
+                        $("#HdrSec3_CmbCurrncy_Cd").data("kendoComboBox").value(TrnCrnKy);
+                    } catch (e) { }
+
+
+                    $("#HdrSec3_NmricExRate_Val").data("kendoNumericTextBox").value(ExRate);
+                    $("#HdrSec1_InptYurRef_Val").val(Yurref);
+                    $("#HdrSec1_InptDocNo_Val").val(DocNo);
+                    $("#HdrSec4_InptDisAmt_Val").val(disamt);
+                    $("#HdrSec5_NmricNbtAmt_Val").val(NBT);
+                    $("#HdrSec5_NmricVatAmt_Val").val(Vat);
+                    $("#HdrSec5_NmricWhtAmt_Val").val(Wht);
+                    $("#HdrSec5_NmricSVatAmt_Val").val(Svat);
+                    $("#HdrSec4_InptSumTotalAmt_Val").val(Total);
+                    $("#HdrSec4_InptSubTotal_Val").val(SubTotal);
+                    try {
+                        $("#HdrSec2_CmbOrdMode_Cd").data("kendoComboBox").value(data[0].OderModeKy);
+                        //$("#HdrSec2_CmbOrdMode_Nm").data("kendoComboBox").value(data[0].OderModeKy);
+                        $("#HdrSec2_CmbDlvryMode_Cd").data("kendoComboBox").value(data[0].DlvryModeKy);
+                        //$("#HdrSec2_CmbDlvryMode_Nm").data("kendoComboBox").value(data[0].DlvryModeKy);
+                    } catch (e) {
+
+                    }
+
+                    BackDateFutureDateLock("HdrSec1_DatPicDate_Val");
+                   // UnlockTransaction();
+                    GetGridDetailOrdFrmFind(TrnKy);
+                    
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function DecideLock() {
+        if (FormGlblData.AprStsLock == 0) {
+            SetReadOnlyAttr(1);
+        }
+        else {
+            SetReadOnlyAttr(0);
+        }
+    }
+
+    function GetGridDetailOrdFrmFind(TrnKy) {
+        $.ajax({
+            url: "@Url.Content("~/Order/GetPRDetailForFind")",
+            data: JSON.stringify({
+
+                ordKy: TrnKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (dataFromDB) {
+                if (dataFromDB.length == 0) {
+                    alert("There is a Problem to getting this Record! \n Please Contact Support.\n Error Code(" + TrnKy + ")");
+                    //ComClearFunction();
+                    return
+                }
+                var id = ("#" + '@(ViewBag.OurCd)');
+                $(id).data("kendoGrid").dataSource.filter(null);
+                var grid = $(id).data("kendoGrid");
+                grid.dataSource.data([]);
+
+                for (i = 0; i < dataFromDB.length; i++) {
+                    var PrjKy = dataFromDB[0].PrjKy;
+                    $("#HdrSec2_CmbPrj_Cd").data("kendoComboBox").value(PrjKy);
+                    //$("#HdrSec2_CmbPrj_Nm").data("kendoComboBox").value(PrjKy);
+                    var LocKy2 = dataFromDB[0].LocKy;
+                    $("#HdrSec2_CmbLoc_Cd").data("kendoComboBox").value(LocKy2);
+                    //$("#HdrSec2_CmbLoc_Nm").data("kendoComboBox").value(LocKy2);
+                    var AccKy = dataFromDB[0].AccKy;
+                    $("#HdrSec2_CmbSupAcc_Cd").data("kendoComboBox").value(AccKy);
+                    //$("#HdrSec2_CmbSupAcc_Nm").data("kendoComboBox").value(AccKy);
+
+                    var AdrKy1 = dataFromDB[0].AdrKy;
+                    $("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").value(AdrKy1); //11/06/2018 narmada
+                    //$("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").value(AdrKy1);
+                    //$("#HdrSec2_CmbAdr_Cd").data("kendoComboBox").value();
+                    //$("#HdrSec2_CmbAdr_Nm").data("kendoComboBox").value();
+
+
+                    var DlvAdrKy = dataFromDB[0].DlvAdrKy;
+                    //$("#HdrSec3_CmbDeliTo_Nm").data("kendoComboBox").value(DlvAdrKy);
+                    $("#HdrSec2_CmbDeliNoTo_Cd").data("kendoComboBox").value(DlvAdrKy);
+                    //$("#HdrSec2_CmbDeliNoTo_Nm").data("kendoComboBox").value(DlvAdrKy);
+
+                    //CusTimeKy, ProdtimeKy
+                    $("#HdrSec3_CmbCustTime_Cd").data('kendoComboBox').value(dataFromDB[0].CusTimeKy);
+                    $("#HdrSec3_CmbProdTime_Cd").data('kendoComboBox').value(dataFromDB[0].ProdtimeKy);
+
+                    try {
+                        var BUKy = dataFromDB[0].BUKy;
+                        $("#HdrSec2_CmbBU_Cd").data("kendoComboBox").value(BUKy);
+                        //$("#HdrSec2_CmbBU_Nm").data("kendoComboBox").value(BUKy);
+                    } catch (e) {
+
+                    }
+
+                    var VATdivideval = (dataFromDB[i].TrnRate * dataFromDB[i].TrnQty) * 100;
+                    var WHTdivideval = (dataFromDB[i].TrnRate * dataFromDB[i].TrnQty) * 100;
+                    var NBTdivideval = (dataFromDB[i].TrnRate * dataFromDB[i].TrnQty) * 100;
+                    var SVATdivideval = (dataFromDB[i].TrnRate * dataFromDB[i].TrnQty) * 100;
+                    var id = ("#" + '@(ViewBag.OurCd)');
+                    $(id).data("kendoGrid").dataSource.add({
+
+                        LiNo: dataFromDB[i].LiNo,
+                        ItmTrnKy: dataFromDB[i].OrdDetKy,
+                        ItmKy: dataFromDB[i].ItmKy,
+                        LiNo: dataFromDB[i].LiNo,
+                        ItmNo: dataFromDB[i].ItmNo,
+                        ItmCd: dataFromDB[i].ItmCd,
+                        ItmNm: dataFromDB[i].ItmNm,
+                        Unit: dataFromDB[i].Unit,
+                        UnitKy: dataFromDB[i].UnitKy,
+                        Des: dataFromDB[i].Des,
+                        DisAmt: dataFromDB[i].DisAmt,
+                        DisPer: dataFromDB[i].DisPer,
+                        Rem: dataFromDB[i].Rem,
+                        POQty: dataFromDB[i].BaseQty,
+                        ReMnQty: Number(dataFromDB[i].BaseQty - dataFromDB[i].OrdrdQty),
+                        TrnQty: dataFromDB[i].TrnQty,
+                        TrnRate: dataFromDB[i].TrnRate,
+                        SubTotal: dataFromDB[i].TrnRate * dataFromDB[i].TrnQty,
+                        VatAmt: dataFromDB[i].VatAmt,
+                        WHTAmt: dataFromDB[i].WHTAmt,
+                        NBTAmt: dataFromDB[i].NBTAmt,
+                        SVatAmt: dataFromDB[i].SVatAmt,
+                        VAT: dataFromDB[i].VAT,  //(VATdivideval <= 0)?0:dataFromDB[i].VatAmt /VATdivideval,
+                        WHT: dataFromDB[i].WHT,  //(WHTdivideval <= 0)?0: dataFromDB[i].WHTAmt /WHTdivideval ,
+                        NBT: dataFromDB[i].NBT,  //(NBTdivideval <= 0)?0: dataFromDB[i].NBTAmt /NBTdivideval ,
+                        SVAT: dataFromDB[i].SVAT, //(SVATdivideval <= 0) ? 0 : dataFromDB[i].SVatAmt / SVATdivideval,
+                        Anl3Ky: dataFromDB[i].Anl3Ky,
+                        Anl3Cd: dataFromDB[i].Anl3Cd,
+                        ReqDt: dataFromDB[i].ReqDt,
+                        IsAct: dataFromDB[i].isAct,
+                        PrcsDetKy: dataFromDB[i].PrcsDetKy,
+                        PrcsID: dataFromDB[i].PrcsID
+
+                    });
+                    //Temprary Comented
+                    //LoadAdrComboByAcc(AccKy);
+                    ArrangeLiNo();
+                    Calculatetotal();
+                    setTimeout(DecideLock(), 2000);
+                    $('#HdrSec2_CmbPrj_Cd').data("kendoComboBox").trigger("change");
+                }
+
+                //CreateNewGridRow();
+                try {
+                    $('#FindFormOrder').data('kendoWindow').close();
+                    if (FormGlblData.AprStsLockMsg != "" && FormGlblData.AprStsLockMsg != null)
+                        alert(FormGlblData.AprStsLockMsg);
+                } catch (EX) {
+                    console.log(EX);
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+        if (LoadItmCombo_IsFire_IsFirst) {
+            LoadItmCombo();
+        }
+      // UnlockTransaction();
+    }
+</script>

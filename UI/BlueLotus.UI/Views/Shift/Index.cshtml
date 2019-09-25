@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "SHIFT ENTRY";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div style="height:50px;" class="k-content clearfix" id="filterCont">
+
+    @*<div id="ButtonSec1" class="col-md-9 col-sm-9"></div>*@
+    <button class="control-button save" id="btnSave" onclick="Save()" title="Save"></button>
+    <button class="control-button cancel" id="btncancel" onclick="Cancel()" title="Cancel"></button>
+    </div>
+
+    <div id="HdrSec1" style="margin-top:30px;margin-left:80px;margin-right:40px;">
+        <div class="form-group">
+            <div class="row">
+
+                <div class="col-md-1 col-sm-4">
+                    <label id="HdrSec1_CmbShiftcde_lbl">Code:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_CmbShiftcde_cd" class="combo" />
+                </div>
+
+                <div class="col-md-1 col-sm-4">
+                    <label id="HdrSec1_CmbShiftNm_lbl"> Name:</label>
+                </div>
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_CmbShiftNm_Nm" class="combo" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="HdrSec1" style="margin-top:70px;margin-left:40px;margin-right:50px;">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_StTm_lbl">Start Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_StTm_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_EdTm_lbl">End Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_EdTm_val" />
+                </div>
+
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_NxtDt_lbl">Next Day:</label>
+                </div>
+                <div class="col-md-1 col-sm-4 ">
+                    <input id="HdrSec1_NxtDt_val" type="checkbox" />
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_GrcePdIn_lbl">Grace Period In:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_GrcePdIn_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_GrcePdOut_lbl">Grace Period Out:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_GrcePdOut_val" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_FstHfEdTm_lbl">First Half End Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_FstHfEdTm_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_ScndHfStaTm_lbl">Second Half Start Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_ScndHfStaTm_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_AtenDyInDTm_lbl">Attendence Day InDtm:</label>
+                </div>
+                <div class="col-md-1 col-sm-4 ">
+                    <input id="HdrSec1_AtenDyInDTm_val" type="checkbox" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_ElyOTedTm_lbl">Early OT End Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_ElyOTedTm_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_LtOTSrtTm_lbl">Late OT Start Time:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_LtOTSrtTm_val" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_MinHrFrHfDy_lbl">Min Hr For Half Day:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_MinHrFrHfDy_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_NofDys_lbl">No Of Days:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_NofDys_val" type="text" class="k-textbox" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_MinHrFrDy_lbl">Min Hr For Day:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_MinHrFrDy_val" />
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_SftAmt_lbl">Shift Amount:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_SftAmt_val" type="text" class="k-textbox" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        var todayDate = new Date();
+        var dd = todayDate.getDate();
+        var mm = todayDate.getMonth() + 1; //January is 0!
+
+        var yyyy = todayDate.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        var todayDate = dd + '/' + mm + '/' + yyyy;
+
+        //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+        var globalVariable = {
+            FinItmKy: 1,
+            TodayDate: todayDate
+        }
+
+        var urlComboLoad = {
+
+            Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+            CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+
+       
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+    </script>
+
+    @*Set Default and Object Properties From ObjMas*@
+    <script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+        var urlShift_InsertUpdateWeb = '@Url.Content("~/Shift/Shift_InsertUpdateWeb")';
+        var urlShift_SelectWeb = '@Url.Content("~/Shift/Shift_SelectWeb")';
+    </script>
+
+
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+    <script src="~/Scripts/HtnScripts/Shift/shiftentry.js"></script>

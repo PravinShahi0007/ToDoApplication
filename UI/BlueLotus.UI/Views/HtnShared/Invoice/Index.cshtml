@@ -1,0 +1,834 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+}
+
+
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 160px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left: 240px; margin-top: -40px; width:430px;">
+        <div id="Hdr1" style="margin-top: -2px; background-color:  #E3F0F7; margin-left: -1px; border: 2px solid #07789E; padding: 5px;">
+          Invoice
+        </div>
+        <div id="findHdr" style="width: 400px;margin-left:40px;margin-top:20px;">
+           
+                
+              @*  <div style="width:100px; margin-top:5px;">
+                    <label>Project Id</label>
+                    </div>
+                    <div style="margin-left:180px;margin-top:-10px;">
+                  <select id="Address"
+                      data-role="combobox" 
+                      data-placeholder="Select Project id...."
+                      data-text-field="PrjKy"
+                      data-value-field="PrjKy"
+                      data-bind="source:ProjectNamesDataSource , value : ProjecId ">
+                  </select>
+                        </div>*@
+                
+                <div style="width:100px; margin-top:5px;">
+                   <div style="width:100px;">
+                    <label>Date </label>
+                    </div>
+                 <div style="margin-left:180px; margin-top:-15px;">
+                  <input id="dateFrom" 
+                      class=""
+                      data-role="datepicker"
+                      data-bind="value: Date" />
+                     </div>
+                       </div>
+            <div style=" margin-top:5px;">
+                    <label>Location</label>
+                    </div>
+                    <div style="margin-left:180px;margin-top:-10px;">
+                  <select id="Loc"
+                      data-role="combobox" 
+                      data-placeholder="Select Location id...."
+                      data-text-field="Code"
+                      data-value-field="CdKy"
+                      data-bind="source:LocNamesDataSource , value : LocId ">
+                  </select>
+                        </div>
+             <div style=" margin-top:5px;">
+                 <label>Address Name</label>
+                   
+                   <div style="margin-left:180px;margin-top:-10px;">
+                  <select id="dlivNo"
+                      class=""
+                      data-role="combobox"
+                      data-placeholder="Select Address name...."
+                      data-text-field="AdrID"
+                      data-value-field="AdrKy"
+                      data-bind="source:ProjectNamesDataSource, value : AddressName">
+                  </select>
+                       </div>
+                 <div style=" margin-top:10px;margin-left:30px;">
+                 @* <button type="button" class="k-button" id="Search"  data-bind="click: SearchrBtnClick">Search</button>*@
+                      <button class="k-button" id="btnAddItem" data-bind="click: OrderAddClick" style="width: 90px; height: 25px">Add Item</button>
+                  <button class="k-button" id="btnSave" data-bind="click: NewOrderSaveClick" style="width: 90px; height: 25px">Save</button>
+                  <button class="k-button" id="btnCancel" data-bind="click: NewOrderCancelClick" style="width: 90px; height: 25px">Cancel</button>
+                </div>
+                 <div id="Printdiv" style="margin-left: 123px; margin-top:5px;">
+                      <button class="k-button" id="btnPrint" data-bind="click: PrintEvent" style="width: 90px; height: 25px">Print</button>
+                 </div>
+               @* <div style="margin-left:180px; margin-top:-5px;">
+                  <button type="button" class="k-button" id="DlyPgsSearch" style="margin-top:10px;" data-bind="click: SelectOrderBtnClick">Daily Progress Search</button>
+                </div>*@
+            </div>
+             
+        </div>
+        <div id="SearchWindow"
+            style="border: 2px solid #A9A9A9; margin-top: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px; height:350px;">
+            <div>
+                <div style="display: none;">
+                    <select id="Item"
+                        data-role="combobox"
+                        data-text-field="PrcsID"
+                        data-value-field="PrcsID"
+                        data-bind="source:ItemDataSource">
+                    </select>
+                </div>
+
+            </div>
+            <div>
+                <div style="padding-top: 5px; padding-bottom: 5px;">
+                </div>
+                
+                   <div style="padding-top: 5px; padding-bottom: 5px; margin-left: 20px;">
+                    <span id="Itm" style="width: 200px;">Item Code</span>
+                    <input class="k-textbox" id="Itmcode" style="width: 120px; height: 25px;margin-top:3px;" />
+                    <span id="Amt" style="width: 100px;margin-left:25px;">Qty</span>
+                    <input id="ItemAmount" style="width: 200px; height: 20px;" />
+                      @*  <span id="Per" style="width: 100px;">Fini Per%</span>
+                    <input   id="PerAmount" style="width: 100px; height: 20px;" />*@
+                
+                   
+                </div>
+            </div>
+            <div id="ItemGrid" style="height: 270px; width:395px;  margin-left: 5px; margin-top:10px;"
+                data-role="grid"
+                data-bind="source: ItemGridDataSource"
+                data-editable="true"
+                data-selectable="true"
+                data-scrollabal="{virtual:true}"
+                data-pageable="true"
+                data-columns='[{"command": "destroy", "title": " ", "width": "110px"} ,
+                           {"field": "ItmKy", "title": "ItmKy",  "hidden":"True"},
+                               {"field": "ItmCd", "title": "Item Code"}, 
+                              
+                               {"field": "Qty", "title": "Qty"}, 
+                             @*  {"field": "FinQty", "title": "FinQty"},*@ 
+                              @* {"field": "FinPer", "title": "Finished Per%"}, *@
+                             @*  {"field": "isFinish", "title": "isFinish"}, 
+                               {"field": "StPnt", "title": "StPnt"},
+                               {"field": "EndPnt", "title": "EndPnt"}, 
+                               {"field": "RoadSide", "title": "RoadSide"}, 
+                               {"field": "EftvDt", "title": "EftvDt"}, *@
+                       ]' />
+        </div>
+            <div id="idwin" data-role="window" style="display: none;">
+    </div>
+    </div>
+
+</div>
+<script id="command-template" type="text/x-kendo-template">
+        <a class="k-button k-grid-evenselect">Select</a>
+</script>
+
+<script>
+
+    var gridAddItems;
+
+    function AddDataItems() { aleart("Hi") }
+    var Item = kendo.data.Model.define({
+        fields: {
+            "ItmCd": {
+                type: "string",
+                editable: false
+            },
+            "Qty": {
+                type: "number",
+                editable: true
+            }
+
+        }
+    });
+
+    var ItemGridData = new kendo.data.DataSource({
+        data: [
+        ],
+        serverPaging: true,
+        schema: {
+            model: Item
+        },
+        pageSize: 10
+    });
+
+    var ProjectNamesData = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: '@Url.Action("GetAddressList", "ItmTransfer")',
+               
+                dataType: "json"
+            }
+        }
+    });
+
+
+    //onChange: function() {
+    //    kendoConsole.log("event :: change (" + this.displaySelectedProduct() + ")");
+    //},
+
+
+    var ItemData = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: '@Url.Action("GetTaskData", "Home")',
+                dataType: "json",
+
+            }
+        }
+    });
+
+    var PreviuosWOData = new kendo.data.DataSource({
+        data: [],
+        schema: {
+            model: kendo.data.Model.define({
+                fields: {
+                    "OrdKy": {
+                        type: "number",
+                        editable: false
+                    },
+                    "OrdNo": {
+                        type: "number",
+                        editable: false
+                    }
+                }
+            })
+        },
+        pageSize: 10
+    });
+
+    var OrdDataSource = new kendo.data.DataSource({
+        data: [],
+        schema: {
+            model: kendo.data.Model.define({
+                fields: {
+                    "ItmCd": {
+                        type: "string",
+                        editable: false
+                    },
+                    "Qty": {
+                        type: "number",
+                        editable: true
+                    }
+                }
+            })
+        },
+        pageSize: 10
+    });
+
+    var LocNamesData = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: '@Url.Content("~/ItmTransfer/GetFromLocList")',
+                data: { TrnTyp: "ItmTrn" },
+                dataType: "json",
+
+            }
+        }
+     });
+
+    var viewModel = kendo.observable({
+        Date: null,
+
+        AddressName: null,
+        LocId:null,
+
+
+        SearchWindow: false,
+
+        ProjectNamesDataSource: ProjectNamesData,
+        ItemDataSource: ItemData,
+        LocNamesDataSource:LocNamesData,
+
+        //DeliveryNamesDataSource: DeliveryNamesData,
+        //OrderDayDataSource: OrderDayData,
+        ItemGridDataSource: ItemGridData,
+
+
+        SearchrBtnClick: searchrBtnClickEvent,
+        //SelectOrderBtnClick: SelectOrderClickEvent,
+        //SearchrPrgsBtnClick:SearchrPrgsBtnClickevent,
+        NewOrderSaveClick: NewOrderSaveClickEvent,
+        OrderAddClick: OrderAddClickEvent,
+        NewOrderCancelClick: NewOrderCancelClickEvent,
+        PrintEvent: PrintEventFunction
+        //ItemGridSelectDataSource: PreviuosWOData,
+        //onChange: onChangeEvent,
+    });
+
+    var SelectOrderModel = kendo.observable({
+        DlyPrgsSelectWindow: false,
+        ItemGridSelectDataSource: PreviuosWOData,
+        //OrdGridSelectDataSource:OrdDataSource,
+        ItemSelectDataSource: null
+        //selectedRow: null
+    });
+
+    var SelectPreviousViewModal = kendo.observable({
+        DlyPrgsSelectWindow: false,
+        PreviosWOData: []
+
+    })
+
+    function NewOrderCancelClickEvent(e) {
+        $("#Itmcode").val(null);
+        $("#ItemAmount").val(null);
+        $("#PerAmount").val(null);
+        $("#ItemAmount").kendoNumericTextBox({
+            min: 1
+        });
+        $("#PerAmount").kendoNumericTextBox({
+            min: 1
+        });
+        viewModel.set("Date", null);
+        viewModel.set("AddressName", null);
+        viewModel.set("LocId", null);
+        viewModel.set("ProjectId", null);
+        $("#ItemGrid").data("kendoGrid").dataSource.filter(null);
+        $("#Printdiv").hide();
+
+    }
+
+    function PrintEventFunction() {
+        winDoialogElement = $("#idwin").kendoWindow({
+            width: 1000,
+            height: 1000
+        }).data("kendoWindow");
+        var url = "http://" + document.location.host + "/Report/InvoicePrint.aspx";
+        window.open(url, '_blank');
+
+
+    }
+
+
+    //this.set('FinPer', e.sender.element.val());
+    // $("#FinPer").value($("#PerAmount").val())
+    //$.each(viewModel.ItemDataSource.data(), function (index, model) {
+    //    var exchangeTest = model.set("FinPer", model);
+    //});
+
+    //}
+    function searchrBtnClickEvent(e) {
+        //$("#DlyPrgsSelectWindow").data("kendoWindow").close();
+        $("#SearchWindow").slideToggle("slow", null);
+        gridAddItems = $("#ItemGrid").data("kendoGrid");
+        $("#Itmcode").val(null);
+        $("#ItemAmount").val(null);
+        $("#PerAmount").val(null);
+        $("#ItemAmount").kendoNumericTextBox({
+            min: 1
+        });
+        $("#PerAmount").kendoNumericTextBox({
+            min: 1
+        });
+
+
+
+        //$("#PerAmount").kendoNumericTextBox({
+        //    change: changeFinanceCharge,
+        //    // value: hrdData[0].FinCharge
+        //});
+
+
+    }
+
+    function changeFinanceCharge() {
+        var numerictextboxFinanceCharge = $("#PerAmount").data("kendoNumericTextBox");
+        $.each(viewModel.ItemDataSource.data(), function (index, model) {
+            model.set("FinPer", (numerictextboxFinanceCharge.value()));
+        });
+
+        //grid.tbody.find("tr[role='row']").each(function (e) {
+        //    var model = grid.dataItem(this);
+        //    $(this).set('FinPer', val);
+        //});
+    }
+
+    function SelectOrderClickEvent(e) { }
+
+    function SelectOrderClickEvent(e) {
+
+        $("#DlyPrgsSelectWindow").data("kendoWindow").center().open()
+           @* $("#NewOrderWindow").hide();
+            if (viewModel.AddressName != null && viewModel.AddressName != undefined && viewModel.AddressName != "" &&
+                 viewModel.DeliveryNo != null && viewModel.DeliveryNo != undefined && viewModel.DeliveryNo != "" &&
+                 viewModel.OrderDay != null && viewModel.OrderDay != undefined && viewModel.OrderDay != "") {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '@Url.Action("GetOrderItemList", "Order")',
+                data: {
+                    strAdrKy: $("#Address").data("kendoComboBox").select(),
+                    strRecurDlvNoKy: (viewModel.DeliveryNo != null) ? viewModel.DeliveryNo.CdKy : null,
+                    strRecurOrdDayKy: (viewModel.OrderDay != null) ? viewModel.OrderDay.CdKy : null
+                }, 
+                success: function (data) {
+                    if (data.length > 0) {
+                        var retunDataSource = data;
+                        kendo.bind($("#OrderSelectWindow"), SelectPreviousViewModal)
+                        $("#OrderSelectWindow").data("kendoWindow").center().open()
+                        for (var i = 0; i < data.length; i++) {
+                            $("#OrderSelectGrid").data("kendoGrid").dataSource.add({ "OrdKy": data[i].OrdKy, "OrdNo": data[i].OrdNo });
+                        }
+                    } else {
+                        alert("Cannot find any matching Work Orders !")
+                    }
+                }
+            })
+        } else {
+            alert("Please select mentatory feilds");
+            $('#agree1').prop('checked', false);
+        }*@
+        }
+
+    function OrderAddClickEvent() {
+       
+
+            var OurCd = "SALE";
+            var ConCd = "TrnTyp";
+
+            $.ajax({
+                url: "@Url.Content("~/ItmTransfer/ItemsLookUpByTrnTyp")",
+                    data: JSON.stringify({
+
+                        ConCd: ConCd,
+                        OurCd: OurCd,
+
+
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (list) {
+
+                        var inputValue = $("#Itmcode").val();
+                        if (inputValue != null && inputValue != undefined && inputValue != '') {
+                            var foundItem = jQuery.grep(list, function (a) {
+                                return a.ItmCd == inputValue;
+
+                            })
+                            if (foundItem != null && foundItem != undefined) {
+                                if (foundItem.length == 0) {
+                                    alert("Cannot find the item !");
+                                    $("#Itmcode").val(null);
+                                    $("#ItemAmount").val(null);
+                                    $("#PerAmount").val(null);
+                                    $("#Itmcode").focus();
+                                } else {
+                                    var amount = $("#ItemAmount").val();
+                                    // var inputValue1 = $("#PerAmount").val();
+                                    if (amount != null && amount != undefined && amount != '') {
+                                        var addedItems = $("#ItemGrid").data("kendoGrid")._data
+                                        if (addedItems.length > 0) {
+                                            var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                                return a.ItmCd == inputValue;
+
+                                            })
+                                            if (foundInAddedItems.length > 0) {
+                                                //$("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                                 alert("Item already added !")
+                                                $("#Itmcode").val(null);
+                                                $("#ItemAmount").val(null);
+                                                $("#PerAmount").val(null);
+                                                $("#Itmcode").focus();
+                                            } else {
+                                                $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                                $("#Itmcode").val(null);
+                                                $("#ItemAmount").val(null);
+                                                $("#PerAmount").val(null);
+                                                $("#Itmcode").focus();
+                                            }
+                                        } else {
+                                            $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    } else if (amount != null && amount != undefined && amount != '') {
+                                        var addedItems = $("#ItemGrid").data("kendoGrid")._data
+                                        if (addedItems.length > 0) {
+                                            var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                                return a.ItmCd == inputValue;
+
+                                            })
+                                            if (foundInAddedItems.length > 0) {
+                                                alert("Item already added !")
+                                                $("#Itmcode").val(null);
+                                                $("#ItemAmount").val(null);
+                                                $("#PerAmount").val(null);
+                                                $("#Itmcode").focus();
+                                            } else {
+                                                $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                                $("#Itmcode").val(null);
+                                                $("#ItemAmount").val(null);
+                                                $("#PerAmount").val(null);
+                                                $("#Itmcode").focus();
+                                            }
+                                        } else {
+                                            $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            alert("Please insert an Item Code!")
+                        }
+
+                    },
+                    error: function (e) {
+
+                    }
+
+                });
+            //  $("#PerAmount").data("kendoNumericTextBox").focus();
+            
+
+    }
+    function ClearAddNewFormData() {
+        $("#dateFrom").val(null);
+        $("#Address").val(null);
+        $("#DeliveryNo").val(null);
+        $("#OrderDay").val(null);
+
+        viewModel.set("OrderDate", null);
+        viewModel.set("AddressName", null);
+        viewModel.set("DeliveryNo", null);
+        viewModel.set("OrderDay", null);
+    }
+
+    function GetTrnKy() {
+
+        $.ajax({
+            url: "@Url.Content("~/Invoice/InsertInvoice")",
+              data: JSON.stringify({
+                  strDate: viewModel.Date,
+                  strAddressName: viewModel.AddressName.AdrKy,
+                  gridData: gridData,
+                  OurCd: "SALE",
+                  ConCd: "TrnTyp"
+              }),
+              contentType: 'application/json; charset=utf-8',
+              dataType: "Json",
+              type: "POST",
+              success: function (data) {
+                  alert("Item successfully saved !")
+                  viewModel.set("Date", null);
+                  viewModel.set("AddressName", null);
+
+                  $("#ItemGrid").data("kendoGrid").dataSource.filter(null);
+                  GetTrnKy();
+
+                  $("#Printdiv").show();
+                  //$("#SearchWindow").slideToggle("slow", null);
+
+              },
+              error: function (e) {
+                  return false;
+              }
+          });
+
+    }
+
+
+
+    function NewOrderSaveClickEvent() {
+        
+        var gridData = $("#ItemGrid").data().kendoGrid.dataSource.view();
+        //if (gridData.length > 0 && viewModel.Date != null && viewModel.Date != undefined && viewModel.Date != ""
+        //    && viewModel.ProjectName != null && viewModel.ProjectName != undefined && viewModel.ProjectName != ""
+        // ) {
+            
+            $.ajax({
+                url: "@Url.Content("~/Invoice/InsertHdrInvoice")",
+                data: JSON.stringify({
+                    strDate: viewModel.Date,
+                    strAddressName: viewModel.AddressName.AdrKy,
+                    gridData: gridData,
+                    OurCd: "SALE",
+                    ConCd: "TrnTyp"
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var TranKy = data;
+                    $.ajax({
+                        url: "@Url.Content("~/Invoice/InsertDetailsInvoice")",
+                         data: JSON.stringify({
+                             strDate: viewModel.Date,
+                             strAddressName: viewModel.AddressName.AdrKy,
+                             strLocName:viewModel.LocId.CdKy,
+                             gridData: gridData,
+                             newKy: TranKy
+                         }),
+                         contentType: 'application/json; charset=utf-8',
+                         dataType: "Json",
+                         type: "POST",
+                         success: function (data) {
+                             alert("Item successfully saved !")
+                             viewModel.set("Date", null);
+                             viewModel.set("AddressName", null);
+                             viewModel.set("LocId", null);
+
+                             $("#ItemGrid").data("kendoGrid").dataSource.filter(null);
+                            
+
+                             $("#Printdiv").show();
+                             //$("#SearchWindow").slideToggle("slow", null);
+
+                         },
+                         error: function (e) {
+                             return false;
+                         }
+                     });
+                   
+                    
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+            //}
+            //else {
+            //    alert("Please add items !")
+            //}
+        }
+
+
+        $("#Itmcode").keypress(function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                $("#ItemAmount").data("kendoNumericTextBox").focus();
+            }
+        });
+        $("#ItemAmount").keypress(function (event) {
+
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+
+                var OurCd = "SALE";
+                var ConCd = "TrnTyp";
+
+                $.ajax({
+                    url: "@Url.Content("~/ItmTransfer/ItemsLookUpByTrnTyp")",
+                    data: JSON.stringify({
+
+                        ConCd: ConCd,
+                        OurCd: OurCd,
+                      
+                       
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                success: function (list) {
+
+                    var inputValue = $("#Itmcode").val();
+                    if (inputValue != null && inputValue != undefined && inputValue != '') {
+                        var foundItem = jQuery.grep(list, function (a) {
+                            return a.ItmCd == inputValue;
+
+                        })
+                        if (foundItem != null && foundItem != undefined) {
+                            if (foundItem.length == 0) {
+                                alert("Cannot find the item !");
+                                $("#Itmcode").val(null);
+                                $("#ItemAmount").val(null);
+                                $("#PerAmount").val(null);
+                                $("#Itmcode").focus();
+                            } else {
+                                var amount = $("#ItemAmount").val();
+                                // var inputValue1 = $("#PerAmount").val();
+                                if (amount != null && amount != undefined && amount != '') {
+                                    var addedItems = $("#ItemGrid").data("kendoGrid")._data
+                                    if (addedItems.length > 0) {
+                                        var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                            return a.ItmCd == inputValue;
+
+                                        })
+                                        if (foundInAddedItems.length > 0) {
+                                          //  $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy,ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                            alert("Item already added !")
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        } else {
+                                            $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            //  $("#ItemAmount").data('kendoNumericTextBox').val(null);
+                                            $("#ItemAmount").val(null);
+                                            //$("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    } else {
+                                        $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                        $("#Itmcode").val(null);
+                                        $("#ItemAmount").val(null);
+                                        $("#PerAmount").val(null);
+                                        $("#Itmcode").focus();
+                                    }
+                                } else if (amount != null && amount != undefined && amount != '') {
+                                    var addedItems = $("#ItemGrid").data("kendoGrid")._data
+                                    if (addedItems.length > 0) {
+                                        var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                            return a.ItmCd == inputValue;
+
+                                        })
+                                        if (foundInAddedItems.length > 0) {
+                                            alert("Item already added !")
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        } else {
+                                            $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    } else {
+                                        $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ItmCd: foundItem[0].ItmCd, Qty: amount })
+                                        $("#Itmcode").val(null);
+                                        $("#ItemAmount").val(null);
+                                        $("#PerAmount").val(null);
+                                        $("#Itmcode").focus();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        alert("Please insert an Item Code!")
+                    }
+
+                },
+                error: function (e) {
+
+                }
+
+            });
+            //  $("#PerAmount").data("kendoNumericTextBox").focus();
+            }
+    });
+
+
+
+        $("#dateFrom").width(182).kendoDatePicker({
+
+            format: "yyyy/MM/dd",
+            min: new Date(2009, 2, 31)
+        });
+
+        $("#dateFrom").closest("span.k-datepicker").width(140);
+
+        $("#OrderSelectGrid").on("click", ".k-grid-evenselect", function () {
+            var grid = $("#OrderSelectGrid").data("kendoGrid");
+            var selectedIndex = grid.select();
+            if (selectedIndex != null && selectedIndex != undefined) {
+                var dataItem = grid.dataItem(selectedIndex)
+                if (dataItem != null && dataItem != undefined) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: '@Url.Action("GetOrderDetails", "Order")',
+                    data: {
+                        strOrdKy: dataItem.OrdKy
+                    },
+                    success: function (data) {
+                        $("#NewOrderWindow").slideToggle("slow", null);
+                        for (var i = 0; i < data.length; i++) {
+                            $("#ItemGrid").data("kendoGrid").dataSource.add({ ItmKy: data[0].ItmKy, ItmCd: data[0].ItmCd, ItmNm: data[0].ItmNm, unit: data[0].unit, Qty: data[0].Qty })
+                        }
+                        $("#OrderSelectWindow").data("kendoWindow").close();
+                    }
+                })
+            }
+            else {
+                alert("Cannot find any matching Orders !");
+            }
+        }
+    });
+
+    kendo.bind($('#EditWindow'), SelectOrderModel);
+    kendo.bind($("#addChng"), viewModel);
+
+    $(document).ready(function () {
+        //$("#DlyPrgsSelectWindow").data("kendoWindow").hide();
+
+        $("#SearchWindow").show();
+        gridAddItems = $("#ItemGrid").data("kendoGrid");
+        $("#Itmcode").val(null);
+        $("#ItemAmount").val(null);
+        $("#PerAmount").val(null);
+        $("#ItemAmount").kendoNumericTextBox({
+            min: 1
+        });
+        $("#PerAmount").kendoNumericTextBox({
+            min: 1
+        });
+        var height = $('#ItemGrid').height();
+        var height = $('#OrderSelectGrid').height();
+        $("#EditWindow").hide();
+        $("#Printdiv").hide();
+
+        var todayDate = new Date();
+        $('#dateFrom').data("kendoDatePicker").value(todayDate);
+        
+    });
+
+
+    $('#agree').change(function () {
+        if (this.checked) {
+            $('#agree1').prop('checked', false);
+            $('#SlOrder').disabled = false;
+        } else {
+            $('#SlOrder').disabled = true;
+            $("#NewOrderWindow").hide();
+        }
+    });
+
+    $('#agree1').change(function () {
+
+        if (this.checked) {
+            $('#agree').prop('checked', false);
+            $('#SlOrder').disabled = false;
+        } else {
+            $('#SlOrder').disabled = true;
+        }
+
+    });
+
+
+
+
+
+</script>
+
+<style>
+    #Hdr1 {
+        height:25px;
+    }
+
+</style>

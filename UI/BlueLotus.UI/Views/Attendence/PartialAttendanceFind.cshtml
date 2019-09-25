@@ -1,0 +1,245 @@
+﻿
+<div style="overflow: auto; visibility:hidden " id="AttendanceFindForm">
+
+    <div style="height:40px;" class="k-content clearfix" id="filterCont">
+        <button class="control-button load" id="btnLoadItem" onclick="LoadFindGrid()" title="Load"> </button>
+        <button class="control-button cancel" id="btnCancel" onclick="Cancelgrid()" title="Cancel"></button>
+    </div>
+
+    <div class="col-md-12  col-sm-12">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrSec1_DatPicFrmDt">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_DatPicFrmDt_Lbl">From Date:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4">
+                            <input id="HdrSec1_DatPicFrmDt_Val"
+                                   style="width:100%;"
+                                   class=""
+                                   data-role="datepicker"
+                                   data-bind="value: HdrSec1_DatPicFrmDt_Val" />
+                        </div>
+                    </div>
+
+                    <div id="HdrSec1_DatPicToDt">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrSec1_DatPicToDt_Lbl">To Date:</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4">
+                            <input id="HdrSec1_DatPicToDt_Val"
+                                   style="width:100%;"
+                                   class=""
+                                   data-role="datepicker"
+                                   data-bind="value: HdrSec1_DatPicToDt_Val" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNofind_lbl">Employee No:</label>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_CmbEmpNofind_cd" class="combo" />
+                    </div>
+
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNmfind_lbl">Employee Name:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_CmbEmpNmfind_Nm" />
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <br style="clear: both" />
+    <br style="clear: both" />
+
+
+    <div id="SearchWindow" />
+    @*style="border: 2px solid #A9A9A9; margin-top: 10px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px;height:470px; ">*@
+
+
+    <div id="grid" style="height: 350px; width:930px;   margin:10px;"></div>
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+       
+        LoadCombo1();
+
+        $("#HdrSec1_DatPicToDt_Val")
+        .kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date(31, 2, 2009)
+        });
+
+        $("#HdrSec1_DatPicFrmDt_Val")
+        .kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date(31, 2, 2009)
+        });
+
+    });
+
+
+    function LoadCombo1() {
+
+    
+        $("#HdrSec1_CmbEmpNofind_cd").width(170).kendoComboBox({
+
+            dataValueField: "EmpKy",
+            dataTextField: "EmpNo",
+
+            dataSource: {
+                type: "POST",
+                transport: {
+
+                    read: urlEmpMas.Employee_LookUp_Web
+
+                }
+            },
+            change: function (e) {
+                var cmb = $("#HdrSec1_CmbEmpNofind_cd").data("kendoComboBox");
+                var EmpNo = cmb.value();
+
+
+                if (EmpNo != "") {
+                    var validate = ComboValidations("HdrSec1_CmbEmpNofind_cd");
+
+                    if (validate) {
+                        $("#HdrSec1_CmbEmpNmfind_Nm").data("kendoComboBox").value(EmpNo);
+
+
+                    } else {
+                        $("#HdrSec1_CmbEmpNmfind_Nm").data("kendoComboBox").value("");
+
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Employee EmpNo"
+        })
+        $("#HdrSec1_CmbEmpNmfind_Nm").width(170).kendoComboBox({
+
+            dataValueField: "EmpKy",
+            dataTextField: "EmpNm",
+
+            dataSource: {
+                type: "POST",
+                transport: {
+
+                    read: urlEmpMas.Employee_LookUp_Web
+
+                }
+            },
+            change: function (e) {
+                var cmb = $("#HdrSec1_CmbEmpNmfind_Nm").data("kendoComboBox");
+                var EmpNm = cmb.value();
+
+
+                if (EmpNm != "") {
+
+                    var validate = ComboValidations("HdrSec1_CmbEmpNmfind_Nm");
+
+                    if (validate) {
+                        $("#HdrSec1_CmbEmpNofind_cd").data("kendoComboBox").value(EmpNm);
+
+
+                    } else {
+                        $("#HdrSec1_CmbEmpNofind_cd").data("kendoComboBox").value("");
+
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Employee Name"
+        })
+
+
+
+        function ComboValidations(cmbNm) {
+
+            var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+            var val = cmb.value();
+
+            if (isNaN(val)) {
+                alert("'" + val + "' is not a Valid input");
+                $("#" + cmbNm + "").data('kendoComboBox').value("");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+
+    //$("#grid").on("dblclick", "tr.k-state-selected", function () {
+
+    //    var id = ("#grid");
+    //    var grid = $(id).data().kendoGrid;
+    //    var selectedItem = grid.dataItem(grid.select());
+
+    //    PrjKy = selectedItem.PrjKy;
+    //    LoadTaskCombo();
+
+    //    var AtnDt = selectedItem.AtnDt;
+    //    AtnDetKy = selectedItem.AtnDetKy;
+    //    var EmpKy = selectedItem.EmpKy;
+    //    var BUKy = selectedItem.BUKy;
+
+    //    var InTime = selectedItem.InTime;
+    //    var OutTime = selectedItem.OutTime;
+    //    var isPrvDay = selectedItem.isPrvDay;
+    //    var isNxtDay = selectedItem.isNxtDay;
+
+
+    //    var PrcsDetKy = selectedItem.PrcsDetKy;
+
+
+    //    $("#HdrSec1_CmbEmpNo_cd").data('kendoComboBox').value(EmpKy);
+    //    $("#HdrSec1_CmbEmpNm_Nm").data('kendoComboBox').text(EmpKy);
+    //    $("#HdrSec1_CmbPrj_Nm").data('kendoComboBox').value(PrjKy);
+    //    $("#HdrSec1_CmbTask_Nm").data('kendoComboBox').value(PrcsDetKy);
+    //    $("#HdrSec1_CmbBU_Nm").data('kendoComboBox').value(BUKy);
+
+    //    var todayDate = new Date();
+    //    $("#HdrSec1_DatPicAttDt_Val").data("kendoDatePicker").value(todayDate);
+
+
+    //    if (isPrvDay == 1) {
+    //        $("#HdrSec1_chkPrvDt_val").prop("checked", true);
+    //    } else {
+    //        $("#HdrSec1_chkPrvDt_val").prop("checked", false);
+    //    }
+    //    if (isNxtDay == 1) {
+    //        $("#HdrSec1_chkNxtDt_val").prop("checked", true);
+    //    } else {
+    //        $("#HdrSec1_chkNxtDt_val").prop("checked", false);
+    //    }
+
+    //    $('#HdrSec1_TmPicIn_val').val(InTime);
+    //    $('#HdrSec1_TmPicOut_val').val(OutTime);
+
+    //    alert(1);
+
+    //    $('#AttendanceFindForm').data('kendoWindow').close();
+    //});
+
+
+</script>

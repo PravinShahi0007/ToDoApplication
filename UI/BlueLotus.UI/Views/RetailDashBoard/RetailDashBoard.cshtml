@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.Title = "RetailDashBoard";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+@*<link rel="stylesheet" href="~/buttncss/style/material-dashboard.css" type="text/css" />*@
+
+
+
+    <div id="HdrSec1" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Location:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0"><input data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Nm" class="combo width-100" /></div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" style="padding-top:4px"><label>From Date:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0">
+                            @*<button type="button" class="navButton" onclick="preclick()" value="Day"><</button>*@
+                            <input id="HdrPart_Date_From" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                            @*<button type="button" class="navButton" onclick="Nxtclick()" value="Day">></button>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" style="padding-top:4px">
+                            <label> To Date:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-6 p-l-0">
+                            @*<button type="button" class="navButton" onclick="preclick()" value="Day"><</button>*@
+                            <input id="HdrPart_Date_To" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                            @*<button type="button" class="navButton" onclick="Nxtclick()" value="Day">></button>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <button type="button" class="button" onclick="Daywise()" value="Day">Day</button>
+                        @*<button type="button" class="button" onclick="Weekwise()" value="Day">Week</button>*@
+                        <button type="button" class="button" onclick="Monthwise()" value="Day">Month</button>
+                        <button type="button" class="button" onclick="Filter()" value="Day">Filter</button>
+                    </div>
+                </div>
+               
+
+<!--
+               <div class="col-md-1 col-sm-4" style="padding-top:5px; font-size:12px;">
+                    <label id="HdrPart_CmbLoc_Lbl">Location:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4">
+                    <input data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Nm" class="combo width-100" />
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12" style="padding-top:5px;">
+                            <label style="margin-left:10px;">From Date:</label>
+                        </div>
+                        <div class="col-lg-3 col-md-9 col-sm-12 col-xs-12">
+                            @*<button type="button" class="navButton" onclick="preclick()" value="Day"><</button>*@
+                            <input id="HdrPart_Date_From" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                            @*<button type="button" class="navButton" onclick="Nxtclick()" value="Day">></button>*@
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12" style="padding-top:5px;">
+                            <label style="margin-left:26px;"> To Date:</label>
+                        </div>
+                        <div class="col-lg-3 col-md-9 col-sm-12 col-xs-12">
+                            @*<button type="button" class="navButton" onclick="preclick()" value="Day"><</button>*@
+                            <input id="HdrPart_Date_To" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                            @*<button type="button" class="navButton" onclick="Nxtclick()" value="Day">></button>*@
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="button" onclick="Daywise()" value="Day">Day</button>
+                    @*<button type="button" class="button" onclick="Weekwise()" value="Day">Week</button>*@
+                    <button type="button" class="button" onclick="Monthwise()" value="Day">Month</button>
+                    <button type="button" class="button" onclick="Filter()" value="Day">Filter</button>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrSec1_Inpt_Lbl" style="font-size:14px;">Cash Sales:</label></div>
+                    <div class="col-md-7 col-sm-6 p-l-0"><input id="HdrSec1_Inpt_Val" type="text" class="k-textbox" style="border:none; margin-left:-14%;width: 192px;" readonly /></div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6" style="padding-top:4px"><label id="HdrSec1_Inptcard_Lbl" style="font-size:14px;">Card Sales:</label></div>
+                    <div class="col-md-7 col-sm-6 p-l-0">
+                        <input id="HdrSec1_Inptcard_Val" type="text" class="k-textbox" style="border:none; margin-left:-14%;width: 192px;" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6" style="padding-top:4px">
+                        <label id="HdrSec1_InptItmCd_Lbl" style="font-size:14px;">Total Revenue:</label>
+                    </div>
+                    <div class="col-md-4 col-sm-6 p-l-0">
+                        <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" style="border:none;" readonly />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row no-margin">
+        @*<div class="col-md-12 demo-section k-content p-t-15 ">
+            <div class="col-md-3 col-sm-4">
+                <label id="HdrSec1_Inpt_Lbl" style="font-size:14px;">Cash Sales:</label>
+            </div>
+            <div class="col-md-3 col-sm-4">
+                <input id="HdrSec1_Inpt_Val" type="text" class="k-textbox" style="border:none;margin-left: -240px;" readonly />
+            </div>
+
+            <div class="col-md-3 col-sm-4">
+                <label id="HdrSec1_Inptcard_Lbl" style="font-size:14px;margin-left: -324px;">Card Sales:</label>
+            </div>
+            @*<div class="col-md-2 col-sm-4">
+                <input id="HdrSec1_Inptcard_Val" type="text" class="k-textbox" style="border:none;" readonly />
+            </div>*@
+
+            @*<div class="col-md-offset-6 col-md-3 col-sm-4">*@
+            @*<label id="HdrSec1_InptItmCd_Lbl" style="margin-left: 262px; font-size:14px;">Total Revenue:</label>*@
+            @*</div>*@
+            @*<div class="col-md-3 col-sm-4">
+                <input id="HdrSec1_InptItmCd_Val" type="text" class="k-textbox" style="border:none;margin-left: 993px;margin-top: -47px;" readonly />
+            </div>*@
+            <div id="SalesLine_Chart">
+            </div>
+        </div>
+
+    @*</div>*@
+    <div class="row no-margin ">    @*m-t-20*@
+        <div class="col-md-12 demo-section k-content">
+            <div id="Cat_Chart">
+            </div>
+        </div>
+        @*<div class="col-md-3 demo-section k-content ">
+            <div id="Total_Sales">
+            </div>
+        </div>*@
+
+    </div>
+
+
+
+    <style>
+        #SalesLine_Chart {
+            height: 38vh;
+        }
+
+        #Cat_Chart {
+            height: 39vh;
+        }
+
+        #Total_Sales {
+            height: 40vh;
+        }
+
+        .button {
+            background-color: darkblue;
+            border-style: inset;
+            width: 90px;
+            height: 27px;
+            color: white;
+            font: bold;
+        }
+
+        .navButton {
+            background-color: darkblue;
+            border-style: inset;
+            width: 40px;
+            height: 26px;
+            color: white;
+            font: bold;
+        }
+
+        #HdrSec1_InptItmCd_Val {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #HdrSec1_Inpt_Val {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+           #HdrSec1_Inptcard_Val {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        html, body {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .k-datetimepicker .k-picker-wrap .k-icon {
+            margin: 2px 3px;
+        }
+    </style>
+    <script>
+        var urlComboLoad = {
+            CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")'
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+    </script>
+    <script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+        var urlRetailDashBoard = {
+            CatergorywiseDashBoard: '@Url.Content("~/RetailDashBoard/CatergorywiseDashBoard")',
+            SalesRevenueDashBoard: '@Url.Content("~/RetailDashBoard/SalesRevenueDashBoard")',
+            TotalSalesDashBoard: '@Url.Content("~/RetailDashBoard/TotalSalesDashBoard")'
+        };
+    </script>
+
+
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+    <script src="~/Scripts/HtnScripts/DashBoard/retailDashboard.js"></script>

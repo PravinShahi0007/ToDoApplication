@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+    <style>
+        #filterCont{
+            background-color:#ffffff!important;
+        }
+        #diagram{
+            height: 78vh;
+        }
+    </style>
+}
+
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 col-sm-12 col-xs-12 control-icons ButtonSet w-lg-92-5pct" id="ButtonSet">
+        <div id="ButtonSec1" class="col-lg-12 col-md-12 col-sm-12"></div>
+    </div>
+
+    <div id="HdrPart" class="m-t-lg-32 m-t-sm-80">
+        <div class="col-md-12 col-sm-12  col-xs-12 wr_formGroup">
+
+            <div class="row" id="HdrSec1">
+                <!-- Con Code -->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="row" id="HdrSec1_CmbConCd">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <label id="HdrSec1_CmbConCd_Lbl">Con Code:</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                            <input id="HdrSec1_CmbConCd_Cd" data-cpypst-blsmartcpypaste="" class="width-100"/>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Con Code -->
+            </div>
+
+        </div>
+    </div>
+    <div style="clear: both"></div>
+    <div style="overflow:auto;">
+        <div id="diagram" class=""></div>
+    </div>
+
+
+
+
+</div>
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+
+<script type="text/javascript">
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    };
+    //@*Set Default and Object Properties From ObjMas*@
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    };
+
+    var URLGetAllConCodesCmb = '@Url.Action("GetAllConCodes","Codes")';
+    var CdMas_LookupWebByConCd = '@Url.Action("CdMas_LookupWebByConCd","Codes")';
+
+    var getAllChild= '@Url.Content("~/Codes/CdMasdiagramData")'
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Codes/CdMasDiagram/CdMasDiagram.js"></script>
+<script src="~/Scripts/HtnScripts/Codes/CdMasDiagram/ComboLoad.js"></script>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report DataSourceName="sqlDataSource1" Width="3.89999993642171in" Name="pnssplorder_report_Custom" xmlns="http://schemas.telerik.com/reporting/2012/3.5">
+  <DataSources>
+    <SqlDataSource ConnectionString="Data Source=BL7\BL10;Initial Catalog=PNSBL10Data;User ID=HTNDevUser;Password=HTN#@BL7" ProviderName="System.Data.SqlClient" SelectCommand="dbo.PNSSplOrdByProdLoc_Report" SelectCommandType="StoredProcedure" Name="sqlDataSource1">
+      <Parameters>
+        <SqlDataSourceParameter DbType="Int64" Name="@OrdKy">
+          <Value>
+            <String>=Parameters.OrdKy.Value</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="DateTime" Name="@DlryDt">
+          <Value>
+            <String>=Parameters.DlryDt.Value</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@PrinterLoc">
+          <Value>
+            <String>=Parameters.PrinterLoc.Value</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="Int64" Name="@UsrKy">
+          <Value>
+            <String>=Parameters.UsrKy.Value</String>
+          </Value>
+        </SqlDataSourceParameter>
+      </Parameters>
+      <DefaultValues>
+        <SqlDataSourceParameter DbType="Int64" Name="@OrdKy">
+          <Value>
+            <String>25930316</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="DateTime" Name="@DlryDt">
+          <Value>
+            <String>2017/01/17</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="AnsiString" Name="@PrinterLoc">
+          <Value>
+            <String>11281</String>
+          </Value>
+        </SqlDataSourceParameter>
+        <SqlDataSourceParameter DbType="Int64" Name="@UsrKy">
+          <Value>
+            <String>28</String>
+          </Value>
+        </SqlDataSourceParameter>
+      </DefaultValues>
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <PageHeaderSection Height="0.400000015894572in" Name="pageHeader">
+      <Items>
+        <TextBox Width="3.30000019073486in" Height="0.299960652987162in" Left="0.291666666666667in" Top="0.0999999841054281in" Value="Special Sales Order" Name="textBox1">
+          <Style TextAlign="Center">
+            <Font Name="Verdana" Size="12pt" Bold="True" />
+          </Style>
+        </TextBox>
+      </Items>
+    </PageHeaderSection>
+    <PageFooterSection Height="0.400000254313151in" Name="pageFooter">
+      <Style>
+        <BorderStyle Top="Solid" Bottom="None" Left="None" Right="None" />
+        <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+        <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+      </Style>
+      <Items>
+        <TextBox Width="1.1898816426595in" Height="0.15428360303243in" Left="2.60007858276367in" Top="0.0137497584025065in" Value="=&quot;Page: &quot; + PageNumber + &quot; of  &quot; + PageCount" Name="pageInfoTextBox" StyleName="PageInfo">
+          <Style TextAlign="Right">
+            <Font Name="Arial" Size="10pt" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.19992113113404in" Height="0.279165903727214in" Left="1.40007877349854in" Top="0in" Value="= Fields.EntUsrId" Name="textBox24" />
+        <TextBox Width="1.2844033241272in" Height="0.279165903727214in" Left="0.115596612294515in" Top="0in" Value="= Now()" Format="{0:dd.MMM.yyyy hh:mm}" Name="textBox23" />
+      </Items>
+    </PageFooterSection>
+    <ReportHeaderSection Height="1.800000111262in" Name="reportHeader">
+      <Items>
+        <TextBox Width="1.02089307705561in" Height="0.210416639844577in" Left="0.900078773498534in" Top="0.0929961999257406in" Value="=Fields.SplOrdNo" Name="textBox9">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.0083934267362in" Height="0.216793412963549in" Left="0.900078773498533in" Top="0.883206605911255in" Value="=Fields.SplOrdDate" Format="{0:dd.MM.yyyy}" Name="textBox8">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403284390768in" Height="0.216793412963549in" Left="0.115596612294515in" Top="0.883206605911255in" Value="Ord Dt :" Name="textBox3">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403403600059in" Height="0.200000002980232in" Left="0.115596612294515in" Top="0.103412866592407in" Value="Ord No : " Name="textBox2">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.778949445088704in" Height="0.199999987284342in" Left="1.92105070749919in" Top="0.303491512934367in" Value="Del Dte  :" Name="Vani">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.18730692068736in" Height="0.198464423418045in" Left="2.7026538848877in" Top="0.3050270875295in" Value="=Fields.DlryDt" Format="{0:dd.MM.yyyy}" Name="textBox11">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.02714312076569in" Height="0.199999928474426in" Left="0.893828868865966in" Top="0.303491503000259in" Value="=Fields.DocNo" Name="textBox6">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403284390768in" Height="0.196666518847147in" Left="0.115596612294515in" Top="0.303491512934367in" Value="Doc No :" Name="Tahoma">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403324127199in" Height="0.199763014912605in" Left="0.115596614778042in" Top="0.500236928462982in" Value="Del No  :" Name="textBox17">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.11242113510768in" Height="0.196429645021757in" Left="0.887578805287676in" Top="0.503570318222046in" Value="= Fields.DlryNo" Name="textBox10">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.02089327573777in" Height="0.199999883770943in" Left="0.900078773498535in" Top="0.709662040074666in" Value="= Parameters.PrinterLoc.Label" Name="textBox13">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403324127197in" Height="0.205416798591613in" Left="0.115596612294515in" Top="0.704245169957479in" Value="Loc      :" Name="textBox14">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403324127197in" Height="0.205000042915344in" Left="0.115596612294515in" Top="1.10007882118225in" Value="Del OT :" Name="textBox4">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.18988158305486in" Height="0.210416615009308in" Left="2.7000789642334in" Top="0.0929961999257406in" Value="= Fields.OrdAccNm" Name="textBox12">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.778949399789174in" Height="0.210416595141093in" Left="1.92105066776276in" Top="0.0929962024092674in" Value="OrdOt :" Name="textBox15">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.77894922097524in" Height="0.186962162454923in" Left="1.9210508664449in" Top="0.714645465215047in" Value="DisTim :       " Name="textBox18">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.06349539756775in" Height="0.200000027815501in" Left="2.72327041625977in" Top="0.709662040074666in" Value="=Fields.DispatchTime" Name="textBox19">
+          <Style TextAlign="Left" VerticalAlign="Bottom">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.810199240843455in" Height="0.197416106859843in" Left="1.9210508664449in" Top="0.901686429977417in" Value="Cus Tim:" Name="textBox22">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.810199127197265in" Height="0.206012903849284in" Left="1.9210508664449in" Top="0.493153651555379in" Value="PrdTim:" Name="textBox25">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.784403284390768in" Height="0.20000059902668in" Left="0.115596612294515in" Top="1.30515774091085in" Value="Deson :" Name="textBox20">
+          <Style VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="2.63237770398458in" Height="0.200000618894895in" Left="0.900078773498535in" Top="1.30515758196513in" Value="= Fields.HdrDes" Name="textBox21">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.65946038564046in" Height="0.200000286102295in" Left="0.09375in" Top="1.59999990463257in" Value="Item Name" Name="textBox28">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.599921057621638in" Height="0.200000286102295in" Left="3.1325356165568in" Top="1.59999990463257in" Value="Qty" Name="textBox30">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.00839336713155in" Height="0.213749965031942in" Left="0.900078773498535in" Top="1.09132901827494in" Value="= Fields.DlvAccNm" Name="textBox7">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <Font Name="Verdana" Size="10pt" Bold="False" />
+            <Padding Left="0.0500000007450581in" Right="0.0500000007450581in" Top="0.0500000007450581in" Bottom="0.0500000007450581in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.37916759649913in" Height="0.200000286102295in" Left="1.75328922271729in" Top="1.59999990463257in" Value="Description" Name="textBox26">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+            <Font Name="Verdana" Size="10pt" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.16669019063314in" Height="0.19976298014323in" Left="2.72327041625977in" Top="0.500236908594767in" Value="=Fields.ProductionTime" Name="textBox5">
+          <Style VerticalAlign="Middle">
+            <Font Name="Verdana" Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="0.994877497355143in" Height="0.216793378194173in" Left="2.7313289642334in" Top="0.883206605911255in" Value="=Fields.CusTime" Name="textBox16">
+          <Style VerticalAlign="Middle">
+            <Font Name="Verdana" Bold="True" />
+          </Style>
+        </TextBox>
+      </Items>
+    </ReportHeaderSection>
+    <DetailSection Height="0.200000286102295in" Name="detail">
+      <Items>
+        <TextBox Width="0.599921057621638in" Height="0.200000286102295in" Left="3.13253529866536in" Top="0in" Value="=Fields.TrnQty" Name="textBox34">
+          <Style TextAlign="Center" VerticalAlign="Top">
+            <BorderStyle Top="None" Bottom="None" Left="None" Right="None" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="0.5pt" Bottom="0.5pt" Left="0.5pt" Right="0.5pt" />
+            <Font Name="Tahoma" Size="10pt" Bold="False" />
+            <Padding Left="0.00999999977648258in" Right="0.00999999977648258in" Top="0.00999999977648258in" Bottom="0.00999999977648258in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.65946038564046in" Height="0.200000286102295in" Left="0.09375in" Top="0in" Value="=Fields.ItmNm" Name="textBox36">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <BorderStyle Top="None" Bottom="None" Left="None" Right="None" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="0.5pt" Bottom="0.5pt" Left="0.5pt" Right="0.5pt" />
+            <Font Name="Tahoma" Size="10pt" Bold="False" />
+            <Padding Left="0.00999999977648258in" Right="0.00999999977648258in" Top="0.00999999977648258in" Bottom="0.00999999977648258in" />
+          </Style>
+        </TextBox>
+        <TextBox Width="1.37916771570841in" Height="0.200000286102295in" Left="1.75328922271729in" Top="0in" Value="=Fields.LineDes" Name="textBox29">
+          <Style TextAlign="Left" VerticalAlign="Top">
+            <BorderStyle Top="None" Bottom="None" Left="None" Right="None" />
+            <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+            <BorderWidth Top="0.5pt" Bottom="0.5pt" Left="0.5pt" Right="0.5pt" />
+            <Font Name="Tahoma" Size="10pt" Bold="False" />
+            <Padding Left="0.00999999977648258in" Right="0.00999999977648258in" Top="0.00999999977648258in" Bottom="0.00999999977648258in" />
+          </Style>
+        </TextBox>
+      </Items>
+    </DetailSection>
+  </Items>
+  <StyleSheet>
+    <StyleRule>
+      <Style Color="Black">
+        <Font Name="Tahoma" Size="18pt" Bold="True" Italic="False" Underline="False" Strikeout="False" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Title" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style Color="Black" VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="10pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Caption" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="9pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="Data" />
+      </Selectors>
+    </StyleRule>
+    <StyleRule>
+      <Style VerticalAlign="Middle">
+        <Font Name="Tahoma" Size="8pt" />
+      </Style>
+      <Selectors>
+        <StyleSelector Type="ReportItemBase" StyleName="PageInfo" />
+      </Selectors>
+    </StyleRule>
+  </StyleSheet>
+  <PageSettings>
+    <PageSettings PaperKind="Custom" PaperSize="4in, 11in" Landscape="False">
+      <Margins>
+        <MarginsU Left="0.0399999991059303in" Right="0.0599999986588955in" Top="0.0399999991059303in" Bottom="0in" />
+      </Margins>
+    </PageSettings>
+  </PageSettings>
+  <Groups>
+    <Group Name="group">
+      <GroupHeader>
+        <GroupHeaderSection Height="0.0520833333333334in" Name="groupHeaderSection" />
+      </GroupHeader>
+      <GroupFooter>
+        <GroupFooterSection Height="0.0520833333333333in" Name="groupFooterSection" />
+      </GroupFooter>
+      <Groupings>
+        <Grouping Expression="=Fields.ProdLoc" />
+      </Groupings>
+    </Group>
+  </Groups>
+  <ReportParameters>
+    <ReportParameter Name="OrdKy" Type="Integer" Text="OrdKy" Visible="True" />
+    <ReportParameter Name="UsrKy" Type="Integer" Text="UsrKy" Visible="True" />
+    <ReportParameter Name="DlryDt" Type="DateTime" Text="DlryDt" Visible="True" />
+    <ReportParameter Name="PrinterLoc" Text="PrinterLoc" Visible="True" />
+    <ReportParameter Name="ProdLocKy" Type="Integer" Text="ProdLocKy" Visible="True" />
+  </ReportParameters>
+</Report>

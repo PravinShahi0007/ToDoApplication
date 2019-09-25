@@ -1,0 +1,19 @@
+﻿
+<div id="GetFromPO_Details" style="display: none">
+    <div class="k-content clearfix" id="Details_filterCont">
+
+        <div class="col-md-6 control-icons" id="Details_ButtonSetFind">
+            <button class="control-button search" id="Details_btnSearchOrderForm" onclick="Details_SearchPR_OK();" data-tooltip="Search"></button>
+        </div>
+
+        <div class="col-md-12 col-sm-12">
+            <div id="Details_FindFromPOGrid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlOrderOrdTypPendingOrdTypDetails_SelectWeb = "@Url.Content("~/Order/OrdTypPendingOrdTypDetails_SelectWeb")";
+    var urlOrdDetCmpnMulti_OrdDetCmpn_SelectWeb = "@Url.Content("~/OrdDetCmpn/Multi_OrdDetCmpn_SelectWeb")";
+</script>
+<script src="~/Scripts/HtnScripts/Order/PopUp/OrdTypPendingOrdTyp_Details.js"></script>

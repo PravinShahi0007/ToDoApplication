@@ -1,0 +1,130 @@
+<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    #TrnTypTrn_FindFormPOGrid .k-grid-content{
+        height: 258px;
+    }
+    
+</style>
+
+
+<div id="GetFromGRN" style="display: none; overflow-y: hidden; overflow-x: hidden; font-size:11px;">
+    <div class="k-content clearfix bg-white" id="TrnTypTrn_filterCont">
+        <div class="row p-l-15 p-r-15">
+            <div class="col-md-12 control-icons" id="TrnTypTrn_ButtonSetFind">
+                <button class="control-button search" onclick="SearchPO();" data-tooltip="Search"></button>
+                <button class="control-button cancel" onclick="CancelPO;" data-tooltip="ClearGrid"></button>               
+            </div>
+        </div>
+        <div class="wr_formGroup">
+            <div class="row m-t-10" id="TrnTypTrn_FindFromPurOrd_HdrPart">
+                <!-- section 01 -->
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <!-- Date From -->
+                    <div class="row form-inline form-group">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>From:</label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12 ">
+                            <input id="TrnTypTrn_FrmDtFromPO" data-role="datepicker" data-bind="value: FrmDtGRN" class="width-100" placeholder="From Date" />
+                        </div>
+                    </div>
+                    <!-- /Date From -->
+                    <!-- To Date -->
+                    <div class="row form-inline form-group">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>To:</label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <input id="TrnTypTrn_ToDtFromPO" data-role="datepicker" data-bind="value: ToDtGRN" class="width-100" placeholder="To Date" />
+                        </div>
+                    </div>
+                    <!-- /To Date -->
+                </div>
+                <!-- section 02 -->
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <!-- PO No -->
+                    <div class="row form-inline form-group">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>MR No: </label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12 ">
+                            <input placeholder="Trn No" id="TrnTypTrn_OrdNoFromPO" type="text" class="k-textbox width-100" />
+                        </div>
+                    </div>
+                    <!-- /PO No -->
+                </div>
+                <!-- section 03 -->
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <!-- Suplier -->
+                    <div class="row form-inline form-group">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>Suplier:</label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12 ">
+                            <div id="TrnTypTrn_cmbSupPO" class="width-100"></div>
+                        </div>
+                    </div>
+                    <!-- /Suplier -->
+                    <!-- Project -->
+                    <div class="row form-inline form-group">
+                        <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label>Project:</label></div>
+                        <div class="col-md-8 col-sm-6 col-xs-12 ">
+                            <div id="TrnTypTrn_cmbPrjectIdPO" class="width-100"></div>
+                        </div>
+                    </div>
+                    <!-- /Project -->
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+        <div class="col-md-12 col-sm-12">
+            <div id="TrnTypTrn_FindFormPOGrid"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var UrlGetFromGRN =
+        {
+            @*LoadFindGrid: '@Url.Content("~/Transaction/TrnTypPendingTrnTypTrf_SelectWeb")', //2018/06/18 hovel*@ 
+            LoadFindGrid: '@Url.Content("~/Transaction/TrnTypPendingTrnTyp_SelectWeb")',
+            GettingAllRecords: '@Url.Content("~/Transaction/TrnTypPendingTrnTypDetails_SelectWeb")',
+        }
+    var urlFindFromPurOrd = {
+        GetOrdfrmPurOrdSearch: '@Url.Content("~/Transaction/GetOrdfrmPurOrdSearch")',
+        @*GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',*@
+        @*PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',*@
+        GetSuplist: '@Url.Content("~/Transaction/GetSuplist")',
+        GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetHdrDetailFromPO: '@Url.Content("~/Transaction/GetHdrDetailFromPO")',
+        GetGridDetailFromPO: '@Url.Content("~/Transaction/GetGridDetailFromPO")'
+
+    };
+    @*var urlGetProjectCode = '@Url.Content("~/Journal/ProjectCode")';*@
+</script>
+
+<script src="~/Scripts/HtnScripts/Transaction/PopUp/TrnTypPendingTrnTyp.js"></script>
+

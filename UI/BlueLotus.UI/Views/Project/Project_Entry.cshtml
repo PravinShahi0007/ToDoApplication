@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/Scripts/HtnScripts/ProjectEntry/layOutStyle.css" type="text/css" />
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>   
+    <div class="k-content clearfix" id="filterCont">
+        <div id="ButtonSec1" class="col-md-9 col-sm-9">           
+        </div>
+        @*<div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                <button class="control-button save" onclick="" data-tooltip="Save"> </button>
+                <button class="control-button cancel" onclick="" data-tooltip="Clear"> </button>
+            </div>
+        </div>*@
+        <div>
+
+            <div class="row" id="HdrSec1_ComPro">
+                <div class="col-md-12 col-sm-6 col-lg-12">
+                    <label id="HdrSec1_ComPro_lb1" font size="6" margin-right:150px;>Project </label>
+                    <input id="HdrSec1_ComProPj_Cd" style="width: 20%;" />
+                </div>
+
+            </div>
+            <div class="row" id="HdrSec1_InpProLoc">
+                <div class="col-md-12 col-sm-6 col-lg-12" margin-left:250px;>
+                    <label id="HdrSec1_InpProLoc_lb1">Project Location Code</label>
+                    <input type="text" id="HdrSec1_InpProLoc_Cd" style="width:15%" class="k-textbox"/>
+                    <label id="HdrSec1_InpProLoc_lb2">Project Location Name</label>
+                    <input type="text" id="HdrSec1_InpProLoc_Nm" style="width:15%" class="k-textbox"/>
+                </div>
+            </div>
+
+        </div>
+        <div class="row" id="HdrSec2_InpColumn">
+            <div id="HdrSec2_InpColumnGd">
+
+            </div>
+            <script id="command-template" type="text/x-kendo-template">
+                <a class="k-button k-grid-evenselect">Delete</a>
+            </script>
+        </div>
+
+
+
+
+
+        </div>
+
+</div>
+
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        PrjTaskLocPrKy: '@(ViewBag.PrjTaskLocKy)',
+        PrjKy:'@(ViewBag.PrjKy)'
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var urlComboLoad = {
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        EmpNm_SelectMob: '@Url.Content("~/ComboLoad/EmpNm_SelectMob")'
+    }
+    var PrjUrlSettings = {
+        UsefulUrl: '@Url.Action("DisplyData","Project")'
+    }
+    var PrjLocUrlSettings = {
+        PrjLocUrl: '@Url.Action("GetPrjLocDetails", "Project")'
+    }
+    var PrjGridLoad = {
+        LoadAllPrj :'@Url.Action("GetAllPrjLocDetails", "Project")'
+    }
+    var prjTaskEditUrl = {
+        EditUrl :'@Url.Action("EditPrjTaskLoc", "Project")'
+    }
+    var prjTaskDeleteUrl = {
+        DeleteUrl :'@Url.Action("DeletePrjTaskLoc", "Project")'
+    }
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/ProjectEntry/LoadCombo.js"></script>

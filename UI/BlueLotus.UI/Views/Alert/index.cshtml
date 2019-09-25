@@ -1,0 +1,127 @@
+@{
+    ViewBag.Title = ViewBag.OurCd;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<script src="~/Scripts/HtnScripts/Alert/EmailAlertLogGrid.js"></script>
+<script src="~/Scripts/HtnScripts/Alert/SMSAlertLogGrid.js"></script>
+<script src="~/Scripts/HtnScripts/Alert/MobileAlertLogGrid.js"></script>
+<script src="~/Scripts/HtnScripts/Alert/AlertOnOff.js"></script>
+<script src="~/Scripts/HtnScripts/Alert/TestSMS.js"></script>
+
+<script>
+    var urlgetSMSAlertLog = '@Url.Content("~/Alert/getSMSLogDet")';
+    var urlgetEmailAlertLog = '@Url.Content("~/Alert/getEmailLogDet")';
+    var urlgetMobileAlertLog = '@Url.Content("~/Alert/getMobileLogDet")';
+    var urlgetPndSMSAlertLog = '@Url.Content("~/Alert/getPndSMSLogDet")';
+    var urlgetPndEmailAlertLog = '@Url.Content("~/Alert/getPndEmailLogDet")';
+    var urlgetPndMobileAlertLog = '@Url.Content("~/Alert/getPndMobileLogDet")';
+    var urlGetAlertStatus = '@Url.Content("~/Alert/GetAlertStatus")';
+    var urlSetAlertStatus = '@Url.Content("~/Alert/SetAlertStatus")';
+    var urlSendSampleSMS = '@Url.Content("~/Alert/SendSampleSMS")';
+</script>
+<div>
+    @Html.Partial("~/Views/Alert/Send_Test_SMS.cshtml")
+</div>
+<div class="control_buttons">
+    <center>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <label class="k-label" style="font-size:large" for="Email">Email</label>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <label class="k-label" style="font-size:large" for="SMS">SMS</label>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <label class="k-label"  style="font-size:large"for="Mobile Notification">Mobile Notification</label>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <br />
+            <ul class="EmailNotiCtrl">
+                <li>
+                    <input type="checkbox" name="Email" id="Email" class="k-checkbox" checked="checked">
+                    <label class="k-checkbox-label" for="Email">Email</label>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <br />
+            <ul class="SMSNotiCtrl">
+                <li>
+                    <input type="checkbox" name="SMS" id="SMS" class="k-checkbox" checked="checked">
+                    <label class="k-checkbox-label" for="SMS">SMS</label>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <br />
+            <ul class="MobNotiCtrl">
+                <li>
+                    <input type="checkbox" name="Mob" id="Mob" class="k-checkbox" checked="checked">
+                    <label class="k-checkbox-label" for="Mob">Mobile Notification</label>
+                </li>
+            </ul>
+        </div>
+    </center>
+    </div>
+<div class="DivAlertSentTm" style="background-color:lavenderblush;">
+    <center>
+        <label id="SentTm" name ="SentTm" style=" font-size:medium">
+            Time
+        </label>
+    </center>
+</div>
+<div class="DivAlertLogTopic" style="background-color:lavender;">
+    <center>
+        <label style=" font-size:large">
+    Sent Notifications</label>
+    </center>
+</div>
+
+    <div class="DivAlertLog" style="height:10%">
+        <div class="col-sm-4" style="background-color:lavenderblush; border-color:red">
+            <div id="GridEmailAltLog"></div>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;">
+            <div id="GridSMSAltLog"></div>
+        </div>
+        <div class="col-sm-4" style="background-color:lavenderblush;">
+            <div id="GridMobileAltLog"></div>
+        </div>
+    </div>
+<div id="div_Test_SMS">
+    <center>
+    <div style="background-color:lavender;">
+        <button type="button" class=" k-button" id="btnSendSMS" title="Send Test SMS" onclick="OpenWindowSampleSMS()">Send Test SMS</button>
+      </div>
+</center>
+</div>
+<div class="DivAlertLogTopic" style="background-color:lavenderblush;">
+    <center>
+        <label style=" font-size:large">
+            Pending Notifications
+        </label>
+    </center>
+</div>
+
+<div class="DivPendingAltLog" style="height:10%">
+    <div class="col-sm-4" style="background-color:lavenderblush; border-color:red">
+        <div id="GridEmailAltPndLog"></div>
+    </div>
+    <div class="col-sm-4" style="background-color:lavender;">
+        <div id="GridSMSAltPndLog"></div>
+    </div>
+    <div class="col-sm-4" style="background-color:lavenderblush;">
+        <div id="GridMobilePndAltLog"></div>
+    </div>
+</div>
+    <style>
+        .fieldlist {
+            margin: 0 0 -1em;
+            padding: 0;
+        }
+
+            .fieldlist li {
+                list-style: none;
+                padding-bottom: 1em;
+            }
+    </style>

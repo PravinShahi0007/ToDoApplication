@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    @Html.Partial("~/Views/CmpnBld/ItmMasCmpnPartial.cshtml")
+</div>
+
+<div>
+    @Html.Partial("~/Views/ItmMas/ItmMas_ItmNm_SS_Web.cshtml")
+</div>
+
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+
+
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var urlLocLoad = '@Url.Content("~/ComboLoad/Code_SelectMob")'@*'@Url.Action("Code_SelectMob", "ComboLoad")';*@
+
+    var globalVariable = {
+        FinItmKy: 1,
+        FinItmCode: "",
+        TodayDate: todayDate
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlItmMasSelect = {
+        ItmMas_ItmNm_SS_WebColDetMulti: '@Url.Action("ItmMas_ItmNm_SS_WebColDetMulti", "ItmMasSelect")',
+        ItmMas_ItmNm_SS_WebMulti: '@Url.Action("ItmMas_ItmNm_SS_WebMulti", "ItmMasSelect")'
+    }
+
+    var urlCmpnBld = {
+        SaveItmCmpn: '@Url.Content("~/CmpnBld/SaveItmCmpn")',
+        ItmCmpn_SelectWeb: '@Url.Content("~/CmpnBld/ItmCmpn_SelectWeb")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    $("#divSplitter").kendoSplitter({
+        //width: 300,
+        //height: 300,
+        orientation: "horizontal", // horizontal, // vertical
+        panes: [
+            { collapsible: false, size: "200px" },
+            { collapsible: false, size: "800px" }
+        ]
+        //,
+        //expand: onExpand,
+        //collapse: onCollapse,
+        //contentLoad: onContentLoad,
+        //resize: onResize
+    });
+
+    var urlTransactionItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var urlTransactionItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+    var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+    var urlTransactionItemsLookUpByItmCd = '@Url.Content("~/Transaction/ItemsLookUpByItmCd")';
+    @*var urlRecepieGetRate = '@Url.Content("~/CmpnBld/RecepieGetRate")';*@
+
+    $(document).ready(function () {
+        document.getElementById("divSplitter").style.minHeight = "220px";
+    });
+</script>
+
+
+
+<script src="~/Scripts/HtnScripts/CmpnBld/HdrSec1_ItmMasGrd.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/ItmMasCmpn.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/Calculation.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/ComboLoad.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/DetailChangeEvent.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/GridLoad.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/KeyDownEvent.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/NumericTextBoxLoad.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/SaveFunction.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/SelectFunction.js"></script>
+<script src="~/Scripts/HtnScripts/CmpnBld/ClearFunction.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+
+
+
+@*<style>
+        .k-numerictextbox {
+            width: 100%;
+        }
+    </style>
+
+    <style>
+        .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+            /*padding-right: 5px;*/
+            padding-left: 5px;
+        }
+
+        /*.k-button {
+            box-shadow: none;
+            padding: 0px;
+            border: none;
+        }*/
+    </style>*@

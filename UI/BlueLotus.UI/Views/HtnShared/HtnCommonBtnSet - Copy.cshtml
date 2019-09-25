@@ -1,0 +1,167 @@
+﻿<div><div id="comnBtnSet" style="background-color:deepskyblue"></div></div>
+
+<style>
+    #comnBtnSet > span > .k-button {
+        /*margin-top: 2px;
+        margin-left: 2px;
+        margin-right: 2px;
+        height: 20px;*/
+        padding: 0px ;
+        vertical-align: top;
+        background-color: white;
+    }
+
+    .comonBtnSplit {
+        margin-top: 2px;
+        margin-left: 2px;
+        margin-right: 2px;
+        background-color: white;
+        height: 20px;
+        width: 2px;
+        display: inline;
+    }
+</style>
+
+<script>
+
+    $(document).ready(function () {
+        UsrObjButton_Select(@ViewBag.ObjKy);
+    });
+
+    function dataSortBySO(a, b) {
+        if (a.aChildSO < b.aChildSOSO)
+            return -1;
+        if (a.SOaChildSO > b.aChildSO)
+            return 1;
+        return 0;
+    }
+
+    function dataSort(a, b) {
+
+        var aPrntSO = a.PrntSO;
+        var bPrntSO = b.PrntSO;
+        var aChildSO = a.ChildSO;
+        var bChildSO = b.ChildSO;
+
+        console.log(aChildSO + " | " + bChildSO);
+
+        if (aPrntSO == bPrntSO) {
+            return (aChildSO < bChildSO) ? -1 : (aChildSO > bChildSO) ? 1 : 0;
+        }
+        else {
+            return (aPrntSO < bPrntSO) ? -1 : 1;
+        }
+    }
+
+    function UsrObjButton_Select(objky) {
+        var urlUsrObjButton_Select = '@Url.Content("~/HtnShared/UsrObjButton_Select")';
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: { ObjKy: objky },
+            url: urlUsrObjButton_Select,
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                //data = [
+                //        { ObjKy: 2, PrntSO: 1, ChildSO: 3, ObjNm: "cBtnSaveAs", isEnable: 1, ObjCaptn: "Save As", ToolTip: "Save As Tooltip", PrntKy: 1, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "save_as.png", BtnGrpNm: "File" },
+                //        { ObjKy: 1, PrntSO: 1, ChildSO: 2, ObjNm: "cBtnSave", isEnable: 1, ObjCaptn: "Save", ToolTip: "Save Tooltip", PrntKy: 1, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "save.png", BtnGrpNm: "File" },
+                //        { ObjKy: 1, PrntSO: 2, ChildSO: 3, ObjNm: "cBtnUpload", isEnable: 1, ObjCaptn: "Upload", ToolTip: "Upload Tooltip", PrntKy: 2, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "upload.png", BtnGrpNm: "Menu" },
+                //        { ObjKy: 2, PrntSO: 2, ChildSO: 4, ObjNm: "cBtnDownload", isEnable: 1, ObjCaptn: "", ToolTip: "Download Tooltip", PrntKy: 2, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "download.png", BtnGrpNm: "Menu" },
+                //        { ObjKy: 3, PrntSO: 2, ChildSO: 1, ObjNm: "cBtnImport", isEnable: 1, ObjCaptn: "Import", ToolTip: "Import Tooltip", PrntKy: 2, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "import.png", BtnGrpNm: "Menu" },
+                //        { ObjKy: 4, PrntSO: 2, ChildSO: 2, ObjNm: "cBtnExport", isEnable: 1, ObjCaptn: "", ToolTip: "Export Tooltip", PrntKy: 2, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "export.png", BtnGrpNm: "Menu" },
+                //        { ObjKy: 3, PrntSO: 1, ChildSO: 4, ObjNm: "cBtnSaveAndNew", isEnable: 1, ObjCaptn: "New", ToolTip: "New Tooltip", PrntKy: 1, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "save_and_new.png", BtnGrpNm: "File" },
+                //        { ObjKy: 4, PrntSO: 1, ChildSO: 5, ObjNm: "cBtnCancel", isEnable: 1, ObjCaptn: "Cancel", ToolTip: "Cancel Tooltip", PrntKy: 1, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "cancel.png", BtnGrpNm: "File" },
+                //        { ObjKy: 5, PrntSO: 1, ChildSO: 1, ObjNm: "cBtnLoad", isEnable: 1, ObjCaptn: "Load", ToolTip: "Load Tooltip", PrntKy: 1, ObjTyp: "button", CSSClassNm: "k-button", IcoURL: "load.png", BtnGrpNm: "File" },
+
+                //];
+                //data.sort(dataSortBySO);
+                data.sort(dataSort);
+                createButton(data);
+            }
+        });
+    }
+
+    function createButton(data) {
+
+        var btnGroups = ["Sample"];
+
+        for (i = 0; i < data.length; i++) {
+
+            if ($.inArray(data[i].BtnGrpNm, btnGroups) < 0) {
+                var comnBtnSet = document.getElementById("comnBtnSet");
+
+                if (btnGroups.length > 1) {
+                    var splitDiv = document.createElement('div')
+                    splitDiv.className = 'comonBtnSplit';
+                    comnBtnSet.appendChild(splitDiv);
+                }
+
+                btnGroups.push(data[i].BtnGrpNm);
+
+                var dateSpan = document.createElement('span')
+                dateSpan.id = data[i].BtnGrpNm;
+
+                comnBtnSet.appendChild(dateSpan);
+            }
+
+            //Create an button dynamically.
+            var element = document.createElement(data[i].ObjTyp);
+            //Assign different attributes to the element.
+            element.className = data[i].CSSClassNm;
+            element.innerHTML = data[i].ObjCaptn;
+            element.title = data[i].ToolTip;
+            element.id = data[i].ObjNm;
+            element.onclick = function () { // Note this is a function
+                cmnBtnClickEvnt(this.id);
+            };
+
+            var gropSpan = document.getElementById(data[i].BtnGrpNm);
+            gropSpan.appendChild(element);
+
+            $("#" + data[i].ObjNm).kendoButton({ imageUrl: "../../buttncss/icons16/" + data[i].IcoURL });
+            //$("#" + data[i].ObjNm).removeClass('k-button');
+        }
+
+        var tooltip = $("#comnBtnSet").kendoTooltip({
+            filter: "button",
+            //width: 120,
+            position: "top"
+        }).data("kendoTooltip");
+    }
+
+    function cmnBtnClickEvnt(BtnFunction) {
+        switch (BtnFunction) {
+
+            case "btnSave":
+                ComSaveFunction();
+                break;
+                //case "saeed":
+                //case "larry":
+                //    alert('Hey');
+                //    break;
+            case "BtnSaveAs":
+                ComSaveAsFunction();
+                break;
+            case "SaveAndNew":
+                ComSaveAndNewFunction();
+                break;
+            case "btnAnalize":
+                ComAnalyseFunction();
+                break;
+            case "btnClear":
+                ComClearFunction();
+                break;
+            default:
+                alert(BtnFunction + ' :: This button function not defined. Please contact the developer.');
+                break;
+        }
+    }
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>

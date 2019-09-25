@@ -1,0 +1,503 @@
+﻿@using BlueLotus.ObjMas.Model;
+
+@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithOldKendoScript.cshtml";
+    IList<ObjMasModel> FormChildren = ViewBag.FormChildren;
+    int ObjectCode = ViewBag.ObjectCode;
+    ViewBag.ObjCaptn = "Goods Received Note";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<style>
+    .invoiceGrid .k-grid-content > table > tbody > tr {
+        /*height: 2px;*/
+        font-size: 11px;
+    }
+
+    /*#ButtonSec1_GetFromPO {
+        height: 24px;
+        font-size: 11px;
+        padding: 2px 5px;
+        margin-top: 0px;
+        top: -4px;
+        border: 0.5px solid #000;
+    }*/
+
+    @@-moz-document url-prefix() {
+        #ButtonSec1_GetFromPO {
+            top: 3px;
+        }
+
+        #ButtonSec1 .dropdown {
+            top: 0px !important;
+        }
+    }
+
+    .k-numerictextbox {
+        width: 100%;
+    }
+
+    #GridWin .form-group {
+        float: initial;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    /* more option dropdown styles  start*/
+    .dropdown.open {
+        background: none;
+    }
+
+    #ButtonSec3 [data-tooltip]:hover:before {
+        visibility: hidden;
+    }
+    /* more option dropdown styles  end*/
+</style>
+
+<div id="idAddGrnNew" style="">
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 col-sm-12 col-xs-12 control-icons w-lg-94pct ButtonSet" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-5 col-sm-5">
+                <div class="dropdown" style="display:inline;top: -8px;left: 1px;">
+                    <button id="ButtonSec1_More" class="control-button" title="More" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="ButtonSec1_More">
+                        <div id="ButtonSec3"> </div>
+                    </ul>
+                </div>
+
+                @*<button id="ButtonSec1_SaveAndPrintAndNew" class="control-button ok" onclick="SaveAndPrintAndNew()" data-tooltip="SAVE &amp; PRINT &amp; New"></button>
+                    <button id="ButtonSec1_AttachImage" class="control-button attach" onclick="AttachImage()" data-tooltip="AttachImage"></button>*@
+                @{
+                    IList<ObjMasModel> ToolButtons = FormChildren.Where(/*x => x.PrntKy == ObjectCode &&*/ x => x.ObjNm.StartsWith("ButtonSec1_") && x.isVisible == 1).ToList();
+
+                    foreach (ObjMasModel uiElement in ToolButtons)
+                    {
+                        <button id="ButtonSec1_@uiElement.ObjTyp" class="@uiElement.CSSClass"> </button>
+                    }
+
+                }
+
+
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-12" id="pager" style="display:none;"></div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top:10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction('TrnHdr');" title="Next State Action" style="height: 25px; padding:6px 10px; margin-top:10px; margin-left:10px; background-color:#2588b7; color:#f4f6f7;">NxtAprStrs</button>
+            </div>
+        </div>
+
+
+
+        <div id="HdrPart" class="m-t-lg-40 m-t-md-68 m-t-sm-80">
+            <div class="col-lg-12 col-md-12 p-l-0-lg p-r-0-lg wr_formGroup">
+                <div class="col-md-9 col-sm-12  col-xs-12 p-l-0-lg p-r-0-lg w-lg-78pct">
+                    <div class="row no-margin">
+                        <!--section1-->
+                        <div class="col-md-3 col-sm-12  col-xs-12" id="HdrSec1">
+
+                            @{
+                                IList<ObjMasModel> HeadeSection1 = FormChildren.Where(/*x => x.PrntKy == ObjectCode &&*/ x => x.ObjNm.StartsWith("HdrSec1_") && x.isVisible == 1).ToList();
+
+                                foreach (ObjMasModel uiElement in HeadeSection1)
+                                {
+                                    string lableId = uiElement.ObjNm + "_Lbl";
+                                    string inputId = uiElement.ObjNm + "_Val";
+
+                                    <div class="row form-group" id="@uiElement.ObjNm">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="@lableId">@uiElement.ObjCaptn</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                            @if (uiElement.ObjTyp.Equals("TextBox"))
+                                            {
+                                                <input id="@inputId" type="text" class="k-textbox" />
+
+                                            }
+                                            else if (uiElement.ObjTyp.Equals("DatePicker"))
+                                            {
+                                                <input id="@inputId" type="text" class="datepicker k-textbox" />
+                                            }
+
+
+
+                                        </div>
+                                    </div>
+                                }
+
+                            }                         
+
+                        </div>
+                        <!--section2-->
+                        <div class="col-md-6 col-sm-12  col-xs-12" id="HdrSec2">
+                            @{
+                                IList<ObjMasModel> HeadSection2 = FormChildren.Where(/*x => x.PrntKy == ObjectCode &&*/ x => x.ObjNm.StartsWith("HdrSec2_") && x.isVisible == 1).ToList();
+
+                                foreach (ObjMasModel uiElement in HeadSection2)
+                                {
+                                    string lableId = uiElement.ObjNm + "_Lbl";
+                                    string inputId = uiElement.ObjNm + "_Val";
+
+                                    <div class="row form-group" id="@uiElement.ObjNm">
+                                        <div class="col-md-5 col-sm-6 col-xs-12"> <label id="@lableId">@uiElement.ObjCaptn</label></div>
+                                        <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                            @if (uiElement.ObjTyp.Equals("TextBox"))
+                                            {
+                                                <input id="@inputId" type="text" class="k-textbox" />
+
+                                            }
+                                            else if (uiElement.ObjTyp.Equals("DatePicker"))
+                                            {
+                                                <input id="@inputId" type="text" class="datepicker k-textbox" />
+                                            }
+                                            else if (uiElement.ObjTyp.Equals("Cmb"))
+                                            {
+                                                <select id="@inputId" class="k-input width-100">
+
+                                                </select>
+                                            }
+
+
+
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                        <!--section3-->
+                        <div class="col-md-3 col-sm-12  col-xs-12 p-l-lg-20" id="HdrSec3">
+                            <!-- PONo -->
+                            <div class="row form-group" id="Podiv">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label>PONo:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                    <input id="POrdNo" readonly="readonly" type="text" class="k-textbox width-100" />
+                                    <input id="POrdKy" readonly="readonly" type="text" class="k-textbox width-100" />
+                                    <input id="POrdTypKy" readonly="readonly" type="text" class="k-textbox width-100" />
+                                    <input id="POrdPrefixKy" readonly="readonly" type="text" class="k-textbox width-100" />
+                                </div>
+                            </div>
+                            <!-- /PONo -->
+                            <!-- Pmt Terms -->
+                            <div class="row form-group" id="HdrSec3_CmbPmtTrms">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec3_CmbPmtTrms_Lbl">Pmt Terms:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><div data-cpypst-blsmartcpypaste="PmtTrms" id="HdrSec3_CmbPmtTrms_Cd"></div></div>
+                            </div>
+                            <!-- /Pmt Terms -->
+                            <!-- Currency -->
+                            <div class="row form-group" id="HdrSec3_CmbCurrncy">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec3_CmbCurrncy_lbl">Currency:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"> <div data-cpypst-blsmartcpypaste="Currency" id="HdrSec3_CmbCurrncy_Cd"></div> </div>
+                            </div>
+                            <!-- /Currency -->
+                            <!-- Ex Rate -->
+                            <div class="row form-group" id="HdrSec3_NmricExRate">
+                                <div class="col-md-5 col-sm-6 col-xs-12"><label id="HdrSec3_NmricExRate_lbl">Ex Rate:</label></div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="ExRate" id="HdrSec3_NmricExRate_Val" class="k-numerictextbox" data-format="n4" data-decimals="4" style="width:100%" /> @*readonly="readonly"*@</div>
+                            </div>
+                            <!-- /Ex Rate -->
+                        </div>
+
+                        <div class="row p-l-15 p-r-15" style="clear:both">
+                            <!--  Description -->
+                            <div class="col-lg-6 col-md-6 col-sm-12" id="HdrSec6_InptDesc">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-12">
+                                        <label id="HdrSec6_InptDesc_Lbl" class="">Description</label>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 m-l-lg-pct--7-2">
+                                        <textarea id="HdrSec6_InptDesc_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height: 55px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  /Description -->
+                            <!--  Remarks -->
+                            <div class="col-lg-6 col-md-6 col-sm-12" id="HdrSec6_InptRemark">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-12 ">
+                                        <label id="HdrSec6_InptRemark_Lbl" class="">Remarks</label>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 ">
+                                        <textarea id="HdrSec6_InptRemark_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height:55px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  /Remarks -->
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr style="border-top: 1px solid #a0a0a0;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12 wr_formGroup_drk m-t-lg--11 w-lg-22pct">
+                    <!-- Sub Total -->
+                    <div class="row form-group" id="HdrSec4_InptSubTotal">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptSubTotal_Lbl">Sub Total:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input data-cpypst-blsmartcpypaste="SubTotal" id="HdrSec4_InptSubTotal_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /Sub Total -->
+                    <!-- NBT  -->
+                    <div class="row form-group" id="HdrSec4_InptNbtAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptNbtAmt_Lbl">NBT:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input data-cpypst-blsmartcpypaste="NBT" id="HdrSec4_InptNbtAmt_Val" type="text" onkeypress=" return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /NBT -->
+                    <!-- Discount -->
+                    <div class="row form-group" id="HdrSec4_InptDisAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptDisAmt_Lbl">Discount:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input data-cpypst-blsmartcpypaste="Discount" id="HdrSec4_InptDisAmt_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /Discount -->
+                    <!-- WHT -->
+                    <div class="row form-group" id="HdrSec4_InptWhtAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptWhtAmt_Lbl">WHT:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input id="HdrSec4_InptWhtAmt_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /WHT -->
+                    <!-- GrossTotal -->
+                    <div class="row form-group" id="HdrSec4_InptCrossTotalAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptCrossTotalAmt_Lbl">GrossTotal:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input id="HdrSec4_InptCrossTotalAmt_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /GrossTotal -->
+                    <!-- SVAT -->
+                    <div class="row form-group" id="HdrSec4_InptSVatAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptSVatAmt_Lbl">SVAT:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input data-cpypst-blsmartcpypaste="SVAT" id="HdrSec4_InptSVatAmt_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /SVAT -->
+                    <!-- VAT -->
+                    <div class="row form-group" id="HdrSec4_InptVatAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptVatAmt_Lbl">VAT:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input data-cpypst-blsmartcpypaste="VAT" id="HdrSec4_InptVatAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /VAT -->
+                    <!-- Total/NET -->
+                    <div class="row form-group" id="HdrSec4_InptSumTotalAmt">
+                        <div class="col-md-5 col-sm-6 col-xs-12 p-r-0-lg"> <label id="HdrSec4_InptSumTotalAmt_Lbl">Total:</label> </div>
+                        <div class="col-md-7 col-sm-6 col-xs-12"> <input id="HdrSec4_InptSumTotalAmt_Val" readonly="readonly" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /> </div>
+                    </div>
+                    <!-- /Total/NET -->
+                </div>
+
+                <div id="GridWin" class="no-padding">
+
+                    <div class="row p-l-15 p-r-15" style="clear:both" id="ChildHdrpart">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5">
+                            <!-- Item code -->
+                            <div class="row form-group" id="HdrSec5_CmbItm">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec5_CmbItm_Lbl">Item code:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                    <input data-cpypst-blsmartcpypaste="ItmCdInpt" placeholder="Itm Cd ..." id="HdrSec5_CmbItm_Val" type="text" class="k-textbox" />
+                                    <div id="HdrSec5_CmbItm_Cd" data-cpypst-blsmartcpypaste="ItmCd" class="width-100"></div>
+                                    <div id="HdrSec5_CmbItm_Nm" data-cpypst-blsmartcpypaste="ItmNm" class="width-100"></div>
+                                    <button id="HdrSec5_SerNo_Btn" style="width: 45px; height: 20px;"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                    <label id="HdrSec5_CmbItmLdd_Lbl">.....</label>
+                                </div>
+                            </div>
+                            <!-- /Item code -->
+                            <!-- Analysis -->
+                            <div class="row form-group" id="HdrSec5_CmbAnaly">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec5_CmbAnaly_Lbl">Analysis:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                    <div data-cpypst-blsmartcpypaste="Anly" id="HdrSec5_CmbAnaly_Cd" class="width-100"></div>
+                                </div>
+                            </div>
+                            <!-- /Analysis -->
+                            <!-- Unit -->
+                            <div class="row form-group" id="HdrSec5_CmbUnit">
+                                <div class="col-md-5 col-sm-6 col-xs-12"> <label id="HdrSec5_CmbUnit_Lbl">Unit:</label> </div>
+                                <div class="col-md-7 col-sm-6 col-xs-12 p-l-0-lg">
+                                    <div data-cpypst-blsmartcpypaste="Unit" id="HdrSec5_CmbUnit_Cd"></div>
+                                </div>
+                            </div>
+                            <!-- /Unit -->
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <!-- Qty -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricQty">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricQty_Lbl">Qty:</label></div>
+                                        <div class="col-lg-7 col-md-7 col-sm-12 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Qty" id="HdrSec5_NmricQty_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Qty -->
+                                <!-- OrdItm No -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_CmbOrdItm">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec5_CmbOrdItm_Lbl">OrdItm No:</label> </div>
+                                        <div class="col-md-7 p-l-0-lg"><div data-cpypst-blsmartcpypaste="CmbOrdItm" id="HdrSec5_CmbOrdItm_Cd" class="width-100"></div></div>
+                                    </div>
+                                </div>
+                                <!-- /OrdItm No -->
+                                <!-- Rate -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricRate">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec5_NmricRate_Lbl">Rate:</label> </div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Rate" id="HdrSec5_NmricRate_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Rate -->
+                                <!-- Dis % -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricDisPer">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec5_NmricDisPer_Lbl">Dis %:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrDisPer" id="HdrSec5_NmricDisPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Dis % -->
+                                <!-- DisAmt -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricDisAmt">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricDisAmt_Lbl">DisAmt:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrDisAmt" id="HdrSec5_NmricDisAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /DisAmt -->
+                                <!-- VAT % -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricVatPer">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"> <label id="HdrSec5_NmricVatPer_Lbl">VAT %:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrVatPer" id="HdrSec5_NmricVatPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /VAT % -->
+                                <!-- VATAmt -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricVatAmt">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricVatAmt_Lbl">VATAmt:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrVatAmt" id="HdrSec5_NmricVatAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /VATAmt -->
+                                <!-- NBT % -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricNbtPer">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricNbtPer_Lbl">NBT %:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrNBTPer" id="HdrSec5_NmricNbtPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /NBT % -->
+                                <!-- NBTAmt -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricNbtAmt">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricNbtAmt_Lbl">NBTAmt:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrNBTAmt" id="HdrSec5_NmricNbtAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /NBTAmt -->
+                                <!-- WHT % -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricWhtPer">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricWhtPer_Lbl">WHT %:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrWHTPer" id="HdrSec5_NmricWhtPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /WHT % -->
+                                <!-- WHTAmt -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricWhtAmt">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricWhtAmt_Lbl">WHTAmt:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrWHTAmt" id="HdrSec5_NmricWhtAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /WHTAmt -->
+                                <!-- SVAT -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricSVatPer">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricSVatPer_Lbl">SVAT %:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrSVatPer" id="HdrSec5_NmricSVatPer_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /SVAT -->
+                                <!-- SVATAmt -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricSVatAmt">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricSVatAmt_Lbl">SVATAmt:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrSVatAmt" id="HdrSec5_NmricSVatAmt_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /SVATAmt -->
+                                <!-- Task Id -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_CmbTask">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_CmbTask_Lbl">Task Id:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><div data-cpypst-blsmartcpypaste="TaskId" id="HdrSec5_CmbTask_Cd"></div></div>
+                                    </div>
+                                </div>
+                                <!-- /Task Id -->
+                                <!-- POQty -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrPo">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label>POQty:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="HdrPOQty" id="HdrPOQty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /POQty -->
+                                <!-- Subtotal -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricSubTotal">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricSubTotal_Lbl">Subtotal:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Subtotal" id="HdrSec5_NmricSubTotal_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Subtotal -->
+                                <!-- Crosstotal -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricCrossTotal">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricCrossTotal_Lbl">Crosstotal:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Crosstotal" id="HdrSec5_NmricCrossTotal_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Crosstotal -->
+                                <!-- Nettotal -->
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="HdrSec5_NmricNetTotal">
+                                    <div class="row form-group">
+                                        <div class="col-lg-5 col-md-5 col-sm-12 p-r-0-lg"><label id="HdrSec5_NmricNetTotal_Lbl">Nettotal:</label></div>
+                                        <div class="col-md-7 p-l-0-lg"><input data-cpypst-blsmartcpypaste="Nettotal" id="HdrSec5_NmricNetTotal_Val" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" /></div>
+                                    </div>
+                                </div>
+                                <!-- /Nettotal -->
+                            </div>
+                            <div class="row">
+                                <!-- Description -->
+                                <div class="col-md-6 col-sm-12 col-xs-12 p-l-15" id="HdrSec7_InptDesc">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12">
+                                            <label id="HdrSec7_InptDesc_Lbl" class="">Description</label>
+                                        </div>
+                                        <div class="col-md-10 col-sm-12 p-l-lg-20">
+                                            <textarea id="HdrSec7_InptDesc_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height:55px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Description -->
+                                <!-- Remarks -->
+                                <div class="col-md-6 col-sm-12 col-xs-12 p-l-15" id="HdrSec7_InptRemark">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-12">
+                                            <label id="HdrSec7_InptRemark_Lbl" class="">Remarks</label>
+                                        </div>
+                                        <div class="col-md-10 col-sm-12 p-l-lg-20">
+                                            <textarea id="HdrSec7_InptRemark_Val" class="k-textbox width-100" data-bind="value: textareaValue" style="height:55px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Remarks -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+        @*grid div*@
+
+        @*@Html.Partial("~/Views/CommonGrid/Index.cshtml")*@
+    </div>
+    <div>
+    </div>
+
+    @*</div>*@
+</div>

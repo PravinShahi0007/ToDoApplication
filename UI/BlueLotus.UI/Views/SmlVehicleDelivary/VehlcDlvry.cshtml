@@ -1,0 +1,296 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        @*Button section Start*@
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                @*<button id="saveBtn" class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>*@
+            </div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top: 10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top: 10px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+        @*Button section End*@
+        <div class="col-md-12 col-sm 12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptName">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptName_Lbl">Name:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="F.Name" id="HdrSec1_InptName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Surname" id="HdrSec1_InptSName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Lname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Initials" id="HdrSec1_InptIName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Initial" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <div class="col-md-4 col-sm-4" id="HdrSec1_InptRcpNumber">
+                                <label id="HdrSec1_InptRcpNumber_Lbl"></label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Rcpt Number" id="HdrSec1_InptRcpNumber_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="RcpNumber" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 " id="HdrSec1_NmricTotalAmt">
+                                <input placeholder="Total Amount" id="HdrSec1_NmricTotalAmt_Val"/>
+                            </div>
+                            <div class="col-md-2 col-sm-2 " id="HdrSec1_NmricRcpTtl">
+                                <input placeholder="Rpct Total" id="HdrSec1_NmricRcpTtl_Val"/>
+                            </div>
+                            <div class="col-md-2 col-sm-2 " id="HdrSec1_NmricBalTtl">
+                                <input placeholder="Bal Total" id="HdrSec1_NmricBalTtl_Val"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_CmbVehicalInt">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_CmbVehicalInt_Lbl">Vehicle of Interesrt</label>
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <div id="HdrSec1_CmbVehicalInt_Cd" data-cpypst-blsmartcpypaste="VehicalModel"></div>
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <div id="HdrSec1_CmbVehicalIntSers_Cd" data-cpypst-blsmartcpypaste="HdrSec1_CmbVehicalIntSers"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_InptVhlClr">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptVhlClr_Lbl">Vehicle Colour</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vehical Colour" id="HdrSec1_InptVhlClr_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_InptInt">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptInt_Lbl">Vehicle Intirior</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vehical Intrioor" id="HdrSec1_InptInt_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_InptRegDet">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptRegDet_Lbl">Vehicle Regitration Detail</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vehical Reg Detail" id="HdrSec1_InptRegDet_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_InptChassiNo">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptChassiNo_Lbl">Vehicle Chassis No</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vehical Chassis No" id="HdrSec1_InptChassiNo_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_InptEngNo">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptEngNo_Lbl">Vehicle Enginr No</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vehical Engine No" id="HdrSec1_InptEngNo_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_DatDlvrDate">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_DatDlvrDate_Lbl">Vehicle Delivery Date</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input id="HdrSec1_DatDlvrDate_Val" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_CmbSalesPerson">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_CmbSalesPerson_Lbl">Sales Person Name:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-2">
+                                <div id="HdrSec1_CmbSalesPerson_Cd" data-cpypst-blsmartcpypaste="SalesPerson"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_RadboxDemoDrvLog">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_RadboxDemoDrvLog_Lbl">Demo Driving Log:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="DemoLog" id="DmLogYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="DemoLog" id="DmLogNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_RadboxFeedBackForm">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_RadboxFeedBackForm_Lbl">Feed Back Form:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="FeedBack" id="FeedBackYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="FeedBack" id="FeedBackYesNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_RadboxCusCinfigRec">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_RadboxCusCinfigRec_Lbl">Customer Config Record:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="CusFonfig" id="CusFonfigYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="CusFonfig" id="CusFonfigNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_RadboxCeipTrack">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_RadboxCeipTrack_Lbl">CEIP Tracker Update:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="CEIPtrck" id="CEIPYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="CEIPtrck" id="CEIPNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_RadboxMngRelship">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_RadboxMngRelship_Lbl">Manage Relationstiop:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="MngRelChksheet" id="MngRelChksheetYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="MngRelChksheet" id="MngRelChksheetNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_ThrDayRepCall">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_ThrDayRepCall_Lbl">3 Day Follow Up Call:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="ThrDayCall" id="ThrDayCallYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="ThrDayCall" id="ThrDayCallNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_EightweekRepCall">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_EightweekRepCall_Lbl">8 Week Follow Up Call:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="EghtweekCall" id="EghtweekCallYes" value="Yes"> Yes
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <input type="radio" name="EghtweekCall" id="EghtweekCallNo" value="No" checked> No
+                            </div>
+                        </div>
+                    </div>
+                    <div id="HdrSec1_TxtArea_Feedback">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_TxtArea_Feedback_Lbl">Feed Back:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <textarea class="k-textbox" id="HdrSec1_TxtArea_Feedback_Val" data-cpypst-blsmartcpypaste="FeedBack" style="width: 100%"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<style>
+.k-numerictextbox .k-input {
+    text-align: right;
+    padding-right: 5px;
+}
+
+</style>
+<script>
+    var urlGetCdMasName = '@Url.Content("~/ComboLoad/CdNm_SelectMob")';
+    var urlGetAdrId = '@Url.Content("~/ComboLoad/AdrID_SelectMob")';
+    var urlGetDateTime = '@Url.Content("~/ShowroomLog/ReturnDateTime")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        TimeNow: "@(ViewBag.Time)",
+        DateNow: "@(ViewBag.Date)",
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/SMLVehicalDelivery/SMLVhlDilvry.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>

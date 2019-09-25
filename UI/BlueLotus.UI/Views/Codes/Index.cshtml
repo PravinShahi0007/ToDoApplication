@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Codes";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+@*<head>
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+        <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+    </head>*@
+
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .switch-on {
+        position: absolute;
+        left: -55px;
+        top: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 9px;
+    }
+
+    .switch-off {
+        position: absolute;
+        left: -25px;
+        top: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 9px;
+    }
+</style>
+
+<div style="height:40px;" class="k-content clearfix" id="filterCont">
+    <div style="margin-left:10px;" id="option">
+        <div id="ConCds">
+        </div>
+
+        <button class="control-button load" id="loadGrid" title="Load"> </button>
+        <button class="control-button add" onclick="insertItem() " title="Add (Alt+N or NumberPad +)"> </button>
+        <button class="control-button save" id="btnSave" onclick="Save()" title="Save (Ctrl+S)"></button>
+        <button class="control-button cancel" id="btnCancel" onclick="CancelGridItem()" title="Cancel (Esc)"></button>
+
+        @*<button class="control-button load" id="Test" onclick="Test()" title="Test" data-tooltip="Test"> </button>*@
+    </div>
+</div>
+@*<div style="height:20px; border-top-left-radius:10px; background-color:royalblue"></div>*@
+<div style="margin-top:5px;" id="grid">
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+
+<script id="Switch" type="text/x-kendo-template">
+    <div class="switch round">
+        <input id="on-off" type="checkbox">
+        <label for="on-off">
+            <span class="switch-on">ON</span>
+            <span class="switch-off">OFF</span>
+        </label>
+    </div>
+</script>
+
+
+<script type="text/javascript">
+    //attributes: { style: "text-align:right;" }
+
+    var URLGoToHome = '@Url.Content("~/Admin")';
+    var URLGetAllConCodesCmb = '@Url.Action("GetAllConCodes","Codes")';
+    var URLSetIsActIsApr = '@Url.Action("SetIsActAndIsApr","Codes")';
+    var URLGetCodeByCdKy = '@Url.Action("GetCodeByCdKy","Codes")';
+    var URLGetParantName = '@Url.Content("~/Code/GetAllCodes")';
+    var URLParantNmCmb = '@Url.Action("GetAllCodes","Codes")';
+    var URLAccLvlNmCmb = '@Url.Action("GetAllCodes","Codes")';
+    var URLConLvlNmCmb = '@Url.Action("GetAllCodes","Codes")';
+
+
+
+    var URLSelectCdMas = '@Url.Action("GetAllCodes","Codes")';
+    var URLCreateCdMas = '@Url.Action("InsertCode","Codes")';
+    var URLUpdateCdMas = '@Url.Action("UpdateCode","Codes")';
+    var URLInsertUpdate = '@Url.Action("InsertUpdateCode", "Codes")';
+    var URLDeleteCdMas = '@Url.Action("DeleteCode","Codes")';
+    var URLDelete = '@Url.Action("DeleteCode","Codes")';
+    var URLCheckCdMasForExist = '@Url.Action("CheckCdMasForExist", "Codes")';
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)'
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var urlUsrObjPrp_SelectWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+</script>
+<script src="~/Scripts/HtnScripts/Codes/CdMasScripts.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>

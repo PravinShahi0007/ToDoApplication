@@ -1,0 +1,185 @@
+﻿
+
+
+
+
+
+
+    <div id="FindFormPop" style="display: none">
+     
+            <div style="height:40px; margin-left:10px;" class="k-content clearfix" id="filterCont">                
+                <button class="control-button save" id="btnSave" onclick="MultiApprovelGlobalDone()" title="Save"></button>
+            </div>
+
+       
+            <div id="PopUpGrid">
+            
+            </div>
+
+
+     </div>
+
+
+
+
+    <script>
+
+        var FormGlblDataForSerNo = {
+            SerialNumber_Array: [],
+
+        }
+
+        function LoadPopUpGrid(ObjKy, usrky) {
+            try {
+                $('#PopUpGrid').data().kendoGrid.destroy();
+                $('#PopUpGrid').empty();
+            } catch (e) { }
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: '@Url.Content("~/SystemUsers/SelectMultiApproval")',
+                        dataType: "json"
+
+                    },
+
+                    parameterMap: function (options, operation) {
+                        if (operation == "read") {
+                            return ({
+
+                                'OurCd': "ObjAprSts",
+                                'ObjKy': ObjKy,
+                                'usrky': usrky,
+                            });
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 13,
+                pageable: true,
+                pageable: { refresh: true, pageSizes: [20, 50, 100] },
+                schema: {
+                    model: {
+                        id: "ObjUsrCdKy",
+                        fields: {
+                            ObjUsrCdKy: { editable: false, nullable: false, type: "number" },
+                            ObjKy: { editable: false, nullable: false, type: "number" },
+                            ControlConKy: { editable: false, nullable: false, type: "number" },
+                            Cky: { editable: false, nullable: false, type: "number" },
+                            CdKy: { editable: false, nullable: false, type: "number" },
+                            Code: { editable: false, nullable: false, type: "string" },
+                            LiNo: { editable: false, nullable: false, type: "number" },
+                            UsrKy: { editable: false, nullable: false, type: "number" },
+                            Name: { editable: false, nullable: true, validation: { required: true }, type: "string" },
+                            IsSelect: { editable: true, nullable: true, type: "boolean" },
+                        }
+                    }
+                }
+            });
+
+
+            $("#PopUpGrid").kendoGrid({
+                dataSource: dataSource,
+                navigatable: true,
+                selectable: "row",
+                sortable: true,
+                resizable: true,
+                columnMenu: true,
+                autobind: true,
+                //scrollable: false,
+                //scrollable:false,
+                pageable: true,
+                filterable: {
+                    mode: "row"
+                },
+                height: "520px",
+                columns: [
+
+                { field: "ObjUsrCdKy", title: "ObjUsrCdKy", hidden: "true" },
+                { field: "ObjKy", title: "ObjKy", hidden: "true" },
+                { field: "ControlConKy", title: "ControlConKy", hidden: "true" },
+                { field: "Cky", title: "CKy", hidden: "true" },
+                { field: "CdKy", title: "CdKy", hidden: "true" },
+                { field: "Code", title: "Code" },
+                { field: "LiNo", title: "Lino", hidden: "true" },
+                { field: "UsrKy", title: "Usr Key", hidden: "true" },
+                { field: "Name", title: "Name" },
+                { field: "IsSelect", title: "Is Select", template: '<input type="checkbox" #= IsSelect ? "checked=checked":"" # class="isSelectChecked" />' }
+
+
+                ],
+
+                dataBinding: function () {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+
+                editable: true
+            });
+        }
+
+
+
+        function MultiApprovalWindowClose() {
+            $('#FindFormPop').data('kendoWindow').close();
+        }
+
+
+        function MultiApprovelGlobalDone() {
+            var tabStripIndex = $("#tabstrip").data("kendoTabStrip").select().index();
+            var gridData = $("#PopUpGrid").data("kendoGrid").dataSource.data();
+            var NowUsrKy = 1;
+
+            for (i = 0; i < gridData.length; i++) {
+                //if (gridData[i].IsSelect == true)
+                    FormGlblDataForSerNo.SerialNumber_Array.push({
+                        ObjUsrCdKy: gridData[i].ObjUsrCdKy,
+                        ObjKy: gridData[i].ObjKy,
+                        ControlConKy: gridData[i].ControlConKy,
+                        CKy: gridData[i].Cky,
+                        CdKy: gridData[i].CdKy,
+                        Code: gridData[i].Code,
+                        Lino: gridData[i].LiNo,
+                        Name: gridData[i].Name,
+                        usrky: (tabStripIndex == 3 ? 1 : gridData[i].UsrKy),
+                        IsSelect: gridData[i].IsSelect,
+
+                    });
+
+              
+            }
+            MultiApprovalWindowClose();
+            SaveMultiApprovel(tabStripIndex == 3 ? 1 : gridData[0].UsrKy);
+        }
+
+
+
+        function SaveMultiApprovel(usrky) {
+            var currentUserKy = $("#userky").val();
+            if (FormGlblDataForSerNo.SerialNumber_Array == null || FormGlblDataForSerNo.SerialNumber_Array == [] || FormGlblDataForSerNo.SerialNumber_Array == "" || FormGlblDataForSerNo.SerialNumber_Array == "[]")
+                return;
+
+            $.ajax({
+                url: "@Url.Content("~/SystemUsers/MultiAproval_InsertUpdate")",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify({
+                    SerNoListString: JSON.stringify(FormGlblDataForSerNo.SerialNumber_Array),
+
+                    // OurCd : "ObjAprSts"
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    FormGlblDataForSerNo.SerialNumber_Array = [];
+                    alert("Multi Approval Saved Successfully!");
+                    LoadUser_MultiAprGrid(currentUserKy);
+                    LoadCompany_MultiAprGrid(1);
+                    MultiApprovalWindowClose();
+                    //LoadGridPermission(UsrKy);
+                }
+            });
+        }
+
+
+
+
+    </script>

@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button add" onclick="Add('Add')" data-tooltip="Add"> </button>
+            <button class="control-button cancel" onclick="clearDet()" data-tooltip="Cancel"> </button>
+
+            <div>
+
+                @Html.Partial("~/Views/HRFind/Index.cshtml")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="HdrSec1" class="col-md-12  col-sm-12" style="margin-top:5px;">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_CmbEmpNo_lbl">Employee No:</label>
+                </div>
+
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_CmbEmpNo_cd" class="combo" />
+                </div>
+
+                <div class="col-md-2 col-sm-4">
+                    <label id="HdrSec1_CmbEmpNm_lbl">Employee Name:</label>
+                </div>
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec1_CmbEmpNm_Nm" />
+                </div>
+
+                <div class="col-md-1 col-sm-4">
+                    <label id="HdrSec2_DatPicDate_Lbl">Entry Month:</label>
+
+                </div>
+                <div class="col-md-2 col-sm-4 ">
+                    <input id="HdrSec2_DatPicDate_Val"
+                           style="width:100%;"
+                           class=""
+                           data-role="datepicker"
+                           data-bind="value: HdrSec2_DatPicDate_Val" />
+                    @*<input id="HdrSec2_DatPicDate_Val" class="combo" placeholder="Enter Month" />*@
+                </div>
+
+            </div>
+
+
+        </div>
+        @*<div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec1_CmbEmpNm_lbl">Employee Name:</label>
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec1_CmbEmpNm_Nm" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec2_DatPicDate_Lbl">Entry Month:</label>
+
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec2_DatPicDate_Val" class="combo" placeholder="Enter Month" />
+                </div>
+            </div>
+        </div>*@
+
+    </div>
+</div>
+
+          
+  
+
+<div id="HdrSec3" class="col-md-4 col-sm-6">
+    <label></label>
+</div>
+<div style="clear:both"></div>
+<div id="HdrSec3" class="col-md-4 col-sm-6">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec3_CmbAddTyp_lbl">Addition Type:</label>
+
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec3_CmbAddTyp_cd" class="combo" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="HdrSec4" class="col-md-4 col-sm-6">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec4_InptAmt_Lbl">Amount:</label>
+
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec4_InptAmt_Val" class="combo" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br style="clear:both" />
+<div class="col-md-12 col-sm-12" style="margin-top:10px">
+    <div id="MonthlyAdditionEntry">
+
+    </div>
+</div>
+
+<div id="HdrSec5" class="col-md-4 col-sm-6" style="margin-top:30px">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec5_CmbDedTyp_lbl">Deduction Type:</label>
+
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec5_CmbDedTyp_cd" class="combo" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="HdrSec6" class="col-md-4 col-sm-6"style="margin-top:30px">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label id="HdrSec6_InptAmtDed_Lbl">Amount:</label>
+
+                </div>
+                <div class="col-md-6 col-sm-8 ">
+                    <input id="HdrSec6_InptAmtDed_Val" class="combo" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br style="clear:both" />
+<div class="col-md-12 col-sm-12" style="margin-top:10px">
+    <div id="MonthlyDeductionEntry">
+
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        var sideslider = $('[data-toggle=collapse-side]');
+        var sel = sideslider.attr('data-target');
+        var sel2 = sideslider.attr('data-target-2');
+        sideslider.click(function (event) {
+            $(sel).toggleClass('in');
+            $(sel2).toggleClass('out');
+        });
+        $("nav").find("li").on("click", "a", function () {
+            $('.navbar-collapse.in').collapse('hide');
+            $(sel).toggleClass('in');
+            $(sel2).toggleClass('out');
+        });
+    });
+        
+</script>
+
+
+
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    @*var urlGetAllItemTax = '@Url.Action("GetAllItemTax", "ItmTax")';
+    var urlUpdateItmTax = '@Url.Content("~/ItmTax/UpdateItmTax")';
+    var urlGetCat8ByCat7_SelectWeb = '@Url.Content("~/ComboLoad/GetCat8ByCat7_SelectWeb")';*@
+
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+
+<script src="~/Scripts/HtnScripts/Monthly Entry/DocReady.js"></script>
+<script src="~/Scripts/HtnScripts/Monthly Entry/ComboBoxHandling.js"></script>
+<script src="~/Scripts/HtnScripts/Monthly Entry/GridLoadHandling.js"></script>
+<script src="~/Scripts/HtnScripts/Monthly Entry/Functions.js"></script>
+<script type="text/javascript">
+
+    var urlEmpMas = {
+        Employee_LookUp_Web: '@Url.Content("~/OTEntry/GetEmployee")',
+        SaveAddDed: '@Url.Content("~/MonthlyEntry/SaveAddDed")',
+        GetAddDedDetails: '@Url.Content("~/MonthlyEntry/GetAddDedDetails")',
+    };
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+</script>

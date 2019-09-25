@@ -1,0 +1,365 @@
+﻿@*<link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />*@
+
+<div id="FindFormLnDet" style="display: none">
+
+    <button class="control-button search" id="btnsearch" onclick="Search()" title="Search"></button>
+    <div style="margin-top:5px;">
+        <label style="margin-left:12px;">Employee No:</label>
+        <div id="Empno"></div>
+        <label style="margin-left:15px;">Employee Name:</label>
+        <div id="EmpNm"></div>
+      </div>
+        <div style="margin-top:10px;">
+            <label style="margin-left:35px;">Loan Type</label>
+            <div id="LnTyp"></div>
+            <label style="margin-left:35px;">Effective Date</label>
+            
+                <input id="EftvDt" />
+           
+        </div>
+
+    <div style="margin-top:10px;">
+        <div id="FindFormGrid"></div>
+        </div>
+    </div>
+
+<script>
+    function FindCall() {
+        LoadComboFindForm();
+            
+        $("#EftvDt").width(200).kendoDatePicker({
+            format: "dd/MM/yyyy",
+            min: new Date(31, 2, 2009)
+        });
+        var todayDate = new Date();
+        $("#EftvDt").data("kendoDatePicker").value(todayDate);
+        clear();
+    }
+
+    function GetCdMas_LookupWeb(ConCd) {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: urlHRISEmployeeGetCdMas_LookupWeb,
+                      data: { ConCd: ConCd },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    function LoadComboFindForm()
+    {
+        $("#Empno").width(200).kendoComboBox({
+
+            dataValueField: "EmpKy",
+            dataTextField: "EmpNo",
+
+            dataSource: {
+                type: "POST",
+                transport: {
+
+                    read: urlEmpMas.Employee_LookUp_Web
+
+                }
+            },
+            change: function (e) {
+                var cmb = $("#Empno").data("kendoComboBox");
+                var EmpNo = cmb.value();
+
+                if (EmpNo != "") {
+                    var validate = ComboValidations("Empno");
+
+                    if (validate) {
+                        $("#EmpNm").data("kendoComboBox").value(EmpNo);
+                       
+                    } else {
+                        $("#EmpNm").data("kendoComboBox").value("");
+
+                    }
+                }
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a EmpNo"
+
+        })
+
+        $("#EmpNm").width(200).kendoComboBox({
+
+            dataValueField: "EmpKy",
+            dataTextField: "EmpNm",
+
+            dataSource: {
+                type: "POST",
+                transport: {
+
+                    read: urlEmpMas.Employee_LookUp_Web
+
+                }
+            },
+            change: function (e) {
+                var cmb = $("#EmpNm").data("kendoComboBox");
+                var EmpNm = cmb.value();
+
+                if (EmpNm != "") {
+                    var validate = ComboValidations("EmpNm");
+
+                    if (validate) {
+                        $("#Empno").data("kendoComboBox").value(EmpNm);
+                       
+
+                    } else {
+                        $("#Empno").data("kendoComboBox").value("");
+
+                    }
+                }
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Emp Name"
+        })
+
+        $("#LnTyp").width(200).kendoComboBox({
+
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: GetCdMas_LookupWeb('LonTyp'),
+
+            change: function (e) {
+                var validation = ComboValidations("LnTyp");
+                                
+            },
+
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select LoanType"
+        });
+    }
+
+    function LoadGridFindView() {
+
+        var columns = [
+            {
+                field: "EmpKy", title: "EmpKy", width: "10px", hidden: true
+            },
+            {
+                field: "Empno", title: "Employee No", width: "10px", 
+            },
+            {
+                field: "EmpNm", title: "Employee Name", width: "10px",
+            },
+            {
+                field: "LnTyp", title: "Loan Type", width: "10px"
+            },
+            {
+                field: "LnTypKy", title: "Loan TypeKy", width: "10px", hidden: true
+            },
+            {
+                field: "EftvDt", title: "Effective Date", width: "10px", format: "{0: dd/MM/yyyy}"
+            },
+             {
+                 field: "GvnDt", title: "Given Date", width: "10px", format: "{0: dd/MM/yyyy}"
+             },
+             {
+                 field: "LoanAmount", title: "Loan Amount", width: "10px"
+             },
+             {
+                 field: "InstAmt", title: "Inst Amount", width: "10px"
+             },
+             {
+                 field: "NoOfInst", title: "No Of Inst", width: "10px", hidden: true
+             },
+              {
+                  field: "IntrRate", title: "Interest Rate", width: "10px", hidden: true
+              },
+              {
+                  field: "IntrTyp", title: "Interest Type", width: "10px"
+              },
+              {
+                  field: "IntrTypKy", title: "Interest TypeKy", width: "10px", hidden: true
+              },
+              {
+                  field: "IntrAmt", title: "Interest Amount", width: "10px", hidden: true
+              },
+              {
+                  field: "TtlPay", title: "Total Pay", width: "10px"
+              },
+              {
+                  field: "BnkNm", title: "Bank Name", width: "10px"
+              },
+              {
+                  field: "BnkKy", title: "Bank Key", width: "10px", hidden: true
+              },
+              {
+                  field: "BrnNm", title: "Branch Name", width: "10px"
+              },
+              {
+                  field: "BrnKy", title: "Branch Key", width: "10px", hidden: true
+              },
+              {
+                  field: "AccNo", title: "Account No", width: "10px"
+              },
+        ];
+        var gridNo = 1;
+        var FinalShiftSettingsColumn = setColumnProp(columns, viewBag.ObjKy, '', 'FindFormGrid', gridNo);
+    }
+
+    function LoadGridWithColumnProp(columnsFinal, gridNo) {
+
+        var EmpKy = $("#Empno").data("kendoComboBox").value();
+        if (EmpKy == "" || EmpKy == null || EmpKy == undefined) EmpKy = 1;
+        var EftvDt = $("#EftvDt").val();
+        var LnTyp = $("#LnTyp").data("kendoComboBox").value();
+        if (LnTyp == "" || LnTyp == null || LnTyp == undefined) LnTyp = 1;
+       
+        if (gridNo == 1) {
+            try {
+                $('#FindFormGrid').data().kendoGrid.destroy();
+                $('#FindFormGrid').empty();
+            } catch (e) { }
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: urlLoan_SearchSelectWeb,
+                        dataType: "json"
+                    },
+
+                    parameterMap: function (options, operation) {
+
+                        if (operation == "read") {
+                            return ({
+
+                                'EmpKy': EmpKy,
+                                'EftvDt': EftvDt,
+                                'LnTyp': LnTyp,
+                               
+                            });
+                        }
+                    }
+                },
+
+                batch: true,
+                pageSize: 10,
+                schema: {
+                    model: {
+                        id: "EmpKy",
+                        fields: //Relavent fields of the grid should be bind with following model items
+                        {
+                            EmpKy: { editable: true, nullable: false, type: "number" },
+                            Empno: { editable: true, nullable: false, type: "number" },
+                            EmpNm: { editable: true, nullable: false, type: "string" },
+                            LnTyp: { editable: true, nullable: false, type: "string" },
+                            LnTypKy: { editable: true, nullable: false, type: "number" },
+                            EftvDt: { editable: true, nullable: false, type: "string" },
+                            GvnDt: { editable: true, nullable: false, type: "string" },
+                            LoanAmount: { editable: true, nullable: false, type: "number" },
+                            InstAmt: { editable: true, nullable: false, type: "number" },
+                            NoOfInst: { editable: true, nullable: false, type: "number" },
+                            IntrRate: { editable: true, nullable: false, type: "number" },
+                            IntrTyp: { editable: true, nullable: false, type: "string" },
+                            IntrTypKy: { editable: true, nullable: false, type: "number" },
+                            IntrAmt: { editable: true, nullable: false, type: "number" },
+                            TtlPay: { editable: true, nullable: false, type: "number" },
+                            BnkNm: { editable: true, nullable: false, type: "string" },
+                            BnkKy: { editable: true, nullable: false, type: "number" },
+                            BrnNm: { editable: true, nullable: false, type: "string" },
+                            BrnKy: { editable: true, nullable: false, type: "number" },
+                            AccNo: { editable: true, nullable: false, type: "number" },
+                        }
+                    }
+                },
+            });
+
+            $("#FindFormGrid").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                autobind: true,
+                navigatable: true,
+                scrollable: true,
+                reorderable: true,
+
+
+                columns: columnsFinal,
+                selectable: "row",
+                resizable: true,
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100, 150] },
+                columnMenu: true,
+                filterable: {
+                    mode: "row"
+                },
+                dataBinding: function () {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+
+                editable: true
+
+            });
+        }
+    }
+
+    function Search()
+    {
+        LoadGridFindView();
+    }
+
+    function clear() {
+
+        $("#Empno").data("kendoComboBox").value("");
+        $("#EmpNm").data("kendoComboBox").value("");
+        $("#LnTyp").data("kendoComboBox").value("");
+       
+            try {
+                $('#FindFormGrid').data().kendoGrid.destroy();
+                $('#FindFormGrid').empty();
+            } catch (e) { }
+       
+    }
+
+    $("#FindFormGrid").bind("dblclick", DblClick);
+
+    function DblClick() {
+        var id = ("#FindFormGrid");
+        var grid = $(id).data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        
+        var EmpNo = selectedItem.Empno;
+        var EmpNm = selectedItem.EmpNm;
+        var EftvDt = selectedItem.EftvDt;
+        var LnTyp = selectedItem.LnTyp;
+        var GvnDt = selectedItem.GvnDt;
+        var LoanAmount = selectedItem.LoanAmount;
+        var InstAmt = selectedItem.InstAmt;
+        var NoOfInst = selectedItem.NoOfInst;
+        var IntrRate = selectedItem.IntrRate;
+        var IntrTyp = selectedItem.IntrTyp;
+        var IntrAmt = selectedItem.IntrAmt;
+        var TtlPay = selectedItem.TtlPay;
+        var BnkNm = selectedItem.BnkNm;
+        var BrnNm = selectedItem.BrnNm;
+        var AccNo = selectedItem.AccNo;
+
+        $("#HdrSec1_CmbEmpno_cd").data("kendoComboBox").value(EmpNo);
+        $("#HdrSec1_CmbEmpNm_Nm").data("kendoComboBox").value(EmpNm);
+        $("#HdrSec1_DtpEftvDt_val").val(EftvDt);
+        $("#HdrSec2_DtpGvnDt_val").val(GvnDt);
+        $("#HdrSec1_CmbLnTyp_Nm").data("kendoComboBox").value(LnTyp);
+        $("#HdrSec3_CmbInrstTpe_Nm").data("kendoComboBox").value(IntrTyp);
+        $("#HdrSec4_CmbBnkNm_Nm").data("kendoComboBox").value(BnkNm);
+        $("#HdrSec4_CmbBrnchNm_Nm").data("kendoComboBox").value(BrnNm);
+        $("#HdrSec4_InptAcNo_val").val(AccNo);
+        $("#HdrSec3_InptTotlPay_val").data("kendoNumericTextBox").value(TtlPay);
+        $("#HdrSec2_InptLnAmt_val").data("kendoNumericTextBox").value(LoanAmount);
+        $("#HdrSec2_InptInstAmt_val").data("kendoNumericTextBox").value(InstAmt);
+        $("#HdrSec2_InptNofInst_val").data("kendoNumericTextBox").value(NoOfInst);
+        $("#HdrSec3_InptInrstRt_val").data("kendoNumericTextBox").value(IntrRate);
+        $("#HdrSec3_InptInrstAmt_val").data("kendoNumericTextBox").value(IntrAmt);
+
+        $('#FindFormLnDet').data('kendoWindow').close();
+    }
+    
+</script>

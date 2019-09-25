@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "ProjectVariance";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+@*<div>
+        <iframe style="width:100%; height:91vh;" src="https://app.powerbi.com/view?r=eyJrIjoiNzUzODU3MjEtMDVmOC00NWFlLWEwMDMtMTZjMjcwMzc5OTgxIiwidCI6ImM3ZGUwNzkxLTYwMTMtNDAyNC1hMTU4LTY0M2QwOTY3MmY4ZCIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    </div>*@
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div class="col-md-12 control-icons" id="ButtonSet">
+    <button class="control-button load " onclick="Load()" data-tooltip="Load"> </button>
+</div>
+    <div id="HdrSec1" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+        <div class="form-group">
+            <div class="row">
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Project:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0"><input id="HdrSec1_CmbPrj_Cd" class="combo width-100" /></div>
+                    </div>
+                </div>
+
+
+                @*<div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Project:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0"><input id="HdrSec1_CmbPrj_Nm" class="combo width-100" /></div>
+                    </div>
+                </div>*@
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" style="padding-top:4px"><label>From Date:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0">
+                            <input id="HdrPart_Date_From" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" style="padding-top:4px"><label>To Date:</label></div>
+                        <div class="col-md-8 col-sm-6 p-l-0">
+                            <input id="HdrPart_Date_To" class="k-datepicker" data-role="datepicker" data-bind="value: Date" style="width:172px" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<div class="row no-margin ">
+    <div class="col-md-12 demo-section k-content">
+        <div id="LineChartDemo" style="height:70vh"></div>
+    </div>
+
+</div>
+
+
+
+
+
+<script>
+        var urlComboLoad = {
+            PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+            PrjID_SelectMob: '@Url.Content("~/ComboLoadV2/PrjID_SelectMob")',
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+</script>
+
+<script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+         var urlPrjDashBoard = {
+            PrjDashBoard: '@Url.Content("~/ProjectVariance/PVDashboard")',
+        };
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script src="~/Scripts/HtnScripts/ProjectVarience/ProjectVarience.js"></script>

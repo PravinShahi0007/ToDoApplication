@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css"/>
+<style>
+    #SubConGrid{
+    height: 57vh;
+}
+#SubConGrid .k-grid-content.k-auto-scrollable{
+    height: 42.5vh;
+}
+</style>
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 col-sm-12 col-xs-12 control-icons w-lg-94pct ButtonSet" id="ButtonSet">
+        <div class="row">
+            <div id="ButtonSec1" class="col-lg-4 col-md-4 col-sm-12"></div>
+            <div class="col-lg-4 col-md-5 col-sm-12" id="pager" ></div>
+            <div class="col-lg-3 col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;"/>
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction('TrnHdr');" title="Next State Action" style="height: 30px; margin-top: 5px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+    </div>
+    <div id="HdrPart" class="m-t-lg-35 m-t-md-68 m-t-sm-100">
+        <div class="col-md-12 col-sm-12 col-xs-12 wr_formGroup">
+            <div class="col-lg-1 col-md-1"></div>
+            <!--section1-->
+            <div class="col-md-3 col-sm-12  col-xs-12 p-r-lg-30">
+                <!-- Voucher Number -->
+                <div class="row form-group" id="HdrSec1_InptVouNo">
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                        <label id="HdrSec1_InptVouNo_Lbl">Trn No:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <input placeholder="Voucher No" id="HdrSec1_InptVouNo_Val" type="text" class="k-textbox width-100" readonly="readonly"/>
+                    </div>
+                </div>
+                <!-- /Voucher Number -->
+                <!-- Voucher Date -->
+                <div class="row form-group" id="HdrSec1_DatVouDate">
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                        <label id="HdrSec1_DatVouDate_Lbl">Voucher Date:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <input id="HdrSec1_DatVouDate_Val" data-cpypst-blsmartcpypaste="Vou_Date" class="width-100 p-t-0 p-b-0"/>
+                    </div>
+                </div>
+                <!-- /Voucher Date -->
+                <!-- Document Number -->
+                <div class="row form-group" id="HdrSec1_InptDocNo">
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                        <label id="HdrSec1_InptDocNo_Lbl">Doc Number:</label>
+                    </div>
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <input placeholder="Document No" id="HdrSec1_InptDocNo_Val" type="text" class="k-textbox width-100" data-cpypst-blsmartcpypaste="DocNo"/>
+                    </div>
+                </div>
+                <!-- /Document Number -->
+            </div>       
+            <!--section2-->
+            <div class="col-md-6 col-sm-12  col-xs-12">
+                <!-- Project -->
+                <div class="row no-padding form-group" id="HdrSec2_CmbPrj">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        <label id="HdrSec2_CmbPrj_Lbl">Project</label>
+                    </div>
+                    <div class="col-md-3 col-sm-5 col-xs-12 p-r-0-lg">
+                        <input id="HdrSec2_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100"/>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg">
+                        <input id="HdrSec2_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100"/>
+                    </div>
+                </div>
+                <!-- /Project -->
+                <!-- Credit -->
+                <div class="row no-padding form-group" id="HdrSec2_CmbHdrAcc">
+                    <div class="col-md-2 col-sm-12 col-xs-12"><label id="HdrSec2_CmbHdrAcc_Lbl">Account</label> </div>
+                    <div class="col-md-3 col-sm-5 col-xs-12 p-r-0-lg">
+                        <input id="HdrSec2_CmbHdrAcc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100"/>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg">
+                        <input id="HdrSec2_CmbHdrAcc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100"/>
+                    </div>
+                </div>
+                <!-- /Credit -->
+                <!-- Address -->
+                <div class="row no-padding form-group" id="HdrSec2_CmbHdrAdr">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        <label id="HdrSec2_CmbHdrAdr_Lbl">Address</label>
+                    </div>
+                    <div class="col-md-3 col-sm-5 col-xs-12 p-r-0-lg">
+                        <input id="HdrSec2_CmbHdrAdr_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100"/>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12 p-l-2-lg">
+                        <input id="HdrSec2_CmbHdrAdr_Nm" data-cpypst-blsmartcpypaste="AdrNm" class="width-100"/>
+                    </div>
+                </div>
+                <!-- /Address -->
+            </div>
+        </div>
+
+    </div>
+
+    <div style="clear:both"></div>
+    <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10 p-r-0-lg m-b-sm-500 m-t-15">
+        <div id="SubConGrid">
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/SubCon/SubconFind.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/SubCon/DoubleEntry.cshtml")
+</div>
+<script>
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    };
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    };
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")',
+        IsAlwTrnUpdateApr_SelectWeb: '@Url.Content("~/Common/IsAlwTrnUpdateApr_SelectWeb")'
+    };
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    };
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+    };
+    @*Set Default and Object Properties From ObjMas*@
+    var UrlLoadGrid = '@Url.Content("~/SubCon/SubConGrdLoad")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlGetAllDetail = '@Url.Content("~/Journal/GetAllJournalDetail")';
+    var UrlSaveUpdate = '@Url.Content("~/SubCon/SaveSubCon")';
+    var UrlDblEntry = '@Url.Content("~/SubCon/SubConDoubleEntry")';
+
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/SubCon/SubContractGrid.js"></script>
+<script src="~/Scripts/HtnScripts/SubCon/SubConMain.js"></script>
+<script src="~/Scripts/HtnScripts/SubCon/DoubleEntryPopUp.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/PaymentRecpt/Validation.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>

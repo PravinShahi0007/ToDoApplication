@@ -1,0 +1,344 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<style>
+     #DrilDownGrid {
+            height: 37.4vh !important;
+        }
+</style>
+
+<div class="row" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div id="Chart"></div>
+    </div>
+
+    <div class="col-md-4"></div>
+
+
+    <div class="row"></div>
+    <div class="row" style="padding-left:25px; padding-right:25px;">
+
+
+        <div class="row">
+            <div>
+                <label id="sts"></label>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div id="DetailGrid"></div>
+            <div id="DrilDownGrid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        Prject_CurrentStatus();
+    });
+
+    function Prject_CurrentStatus() {
+        $.ajax({
+            url: urlDrillDashBoard.ProjectDashBoard,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                Code1: "Licence",
+                Code2: "Permit",
+                Code3: "Crtfct",
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (Data) {
+
+                for (i = 0; i < Data.length; i++) {
+                    PieChartDemo1(Data, Data[i].Type)
+                }
+            }
+        });
+    }
+
+    function PieChartDemo1(Data, Type) {
+        total = GetLentth(Data, Type)
+        Pendingcount = 0;
+        Validcount = 0;
+        ExpiredCount = 0;
+
+        for (var i = 0; i < Data.length; i++) {
+            if (Data[i].currentstatus == "Pending") {
+                Pendingcount++;
+            }
+            else if (Data[i].currentstatus == "Valid") {
+                Validcount++;
+            }
+            else if (Data[i].currentstatus == "Expired") {
+                ExpiredCount++;
+            }
+        }
+        var data = [];
+        data.push({ source: "Pending", Count: Pendingcount });
+        data.push({ source: "Valid", Count: Validcount });
+        data.push({ source: "Expired", Count: ExpiredCount });
+
+        $("#Chart").kendoChart({
+            title: {
+                text: "Licence/Permit/Certificate"
+            },
+            chartArea: {
+                background: "#ddddd4"
+            },
+            legend: {
+                position: "bottom"
+            },
+            dataSource: {
+                data: data
+            },
+            series: [{
+                type: "pie",
+                field: "Count",
+                categoryField: "source",
+            }],
+            seriesColors: ["#ff9800", "#4caf50", "#ba1705"],
+            seriesDefaults: {
+                overlay: {
+                    gradient: null
+                },
+                labels: {
+                    visible: true,
+                    background: "#fefffc",
+                    template: "#= category #: \n #= value#"
+                }
+            },
+            tooltip: {
+                //visible: true,
+                //template: "${ category } : ${ value }"
+            },
+            seriesClick: function (e) {
+
+                var currentstatus = e.category;
+                $.ajax({
+                    url: urlDrillDashBoard.ProjectDashBoardwithTitle,
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({
+                        Code1: "Licence",
+                        Code2: "Permit",
+                        Code3: "Crtfct",
+                        currentstatus: currentstatus,
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (Data) {
+                        $("#DetailGrid").show();
+                        $("#DrilDownGrid").hide();
+                        $("#DetailGrid").empty();
+                        LoadGrid(Data);
+                    }
+                });
+            }
+        });
+
+    }
+
+    function LoadGrid(Data) {
+
+        var datasourceLoadGridView = new kendo.data.DataSource({
+
+            data: Data,
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    fields:
+                    {
+                        OurCd: { editable: false, nullable: false, },
+                        COUNT: { editable: false, nullable: false, },
+
+                    }
+                }
+            }
+        });
+
+        $("#DetailGrid").kendoGrid({
+            dataSource: datasourceLoadGridView,
+            height: 200,
+            navigatable: true,
+            filterable: true,
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: false,
+            selectable: "row",
+            resizable: true,
+            animation: {
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            },
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+                { field: "OurCd", title: "LICENCE/PERMIT/CERTIFICATE" },
+                { field: "COUNT", title: "COUNT" },
+                { field: "currentstatus", title: "STATUS" },
+
+            ],
+
+            editable: false
+        });
+    }
+
+    function GetLentth(Data, type) {
+        count = 0;
+        for (var i = 0; i < Data.length; i++) {
+            if (Data[i].Type == type) {
+                count++;
+            }
+
+        }
+        return count;
+    }
+
+    $("#DetailGrid").on("dblclick", "tr.k-state-selected", function () {
+
+        var id = ("#DetailGrid");
+        var grid = $(id).data().kendoGrid;
+        var selectedItem = grid.dataItem(grid.select());
+        var OurCd = selectedItem.OurCd;
+        var currentstatus = selectedItem.currentstatus;
+        
+
+        $.ajax({
+            url: urlDrillDashBoard.PrjCurrentStatusDetail,
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify({
+                PrjTyp: OurCd,
+                currentstatus: currentstatus,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (Data) {
+                $("#DrilDownGrid").show();
+                $("#DetailGrid").hide();
+                
+                LoadDetailGrid(Data);
+            }
+        });
+
+
+    });
+
+    function LoadDetailGrid(Data) {
+        
+        document.getElementById('sts').innerHTML = Data.currentstatus;
+        var datasourceLoadGridView = new kendo.data.DataSource({
+
+            data: Data,
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    fields:
+                    {
+                        Type: { editable: false, nullable: false, },
+                        PRJKY: { editable: false, nullable: false, },
+                        Title: { editable: false, nullable: false, },
+                        Official: { editable: false, nullable: false, },
+                        PrjNo: { editable: false, nullable: false },
+                        Custodian: { editable: false, nullable: false },
+                        AplicableLocation: { editable: false, nullable: false, },
+                        currentstatus: { editable: false, nullable: false, },
+                        DenseRank: { editable: false, nullable: false, },
+                        FileID: { editable: false, nullable: false, },
+                        Remarks: { editable: false, nullable: false, },
+                        ExpryDt:{editable:false, type:"string"},
+                        AprDtm: { editable: false, nullable: false, type: "string" },
+
+                    }
+                }
+            }
+        });
+
+        $("#DrilDownGrid").kendoGrid({
+            dataSource: datasourceLoadGridView,
+            height: 200,
+            navigatable: true,
+            filterable: true,
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: false,
+            selectable: "row",
+            resizable: true,
+            animation: {
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            },
+            dataBound: onDataBound,
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+
+                
+
+            { field: "FileID", title: "FILE ID" },
+            { field: "Official", title: "OFFICIAL NAME OF THE THIRD PARTY" },
+            { field: "PrjNo", title: "NUMBER" },
+            { field: "Title", title: "LICENCE/ PERMIT/ CERTIFICATE" },
+
+            { field: "DenseRank", title: "FREQUENCY" },//other
+            { field: "Custodian", title: "CUSTODIAN" },
+
+            { field: "RenvlDt", title: "RENEWAL DATE" },//other
+            { field: "ExpryDt", title: "EXPIRY DATE" },//other
+            { field: "currentstatus", title: "STATUS" },
+            { field: "AplicableLocation", title: "APPLICABLE LOCATION" },//other
+
+            { field: "Remarks", title: "REMARKS" },
+
+            { field: "Type", title: "TYPE", hidden: true },
+            { field: "PRJKY", title: "PrjKy", hidden: true },
+
+            ],
+
+            editable: false
+        });
+    }
+
+
+    function onDataBound() {
+        var grid = $("#DrilDownGrid").data("kendoGrid");
+        var dataSource = grid.dataSource.data();
+        for (var i = 0; i < dataSource.length; i++) {
+            if (dataSource[i].currentstatus == "Pending") {
+                grid.hideColumn("DenseRank");
+                grid.hideColumn("RenewalDate");
+                grid.hideColumn("AplicableLocation");
+                grid.hideColumn("ExpiryDate");
+            }
+        }
+    }
+
+
+</script>
+
+<script>
+
+
+    var urlDrillDashBoard = {
+        ProjectDashBoard: '@Url.Content("~/Dashboard/GetPrject_CurrentStatus")',
+        ProjectDashBoardwithTitle: '@Url.Content("~/Dashboard/Prject_CurrentStatus")',
+        PrjCurrentStatusDetail: '@Url.Content("~/Dashboard/Prject_CurrentStatusDetails")',
+        PrjCurrentStatusTrdMrk: '@Url.Content("~/Dashboard/PrjCurrentStatusTrdMrk")'
+        };
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+
+    }
+</script>

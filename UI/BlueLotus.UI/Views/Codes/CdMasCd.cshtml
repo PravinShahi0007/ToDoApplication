@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; width:1000px;">
+        <div style="text-align:center"><h2>Codes To Codes Relations</h2></div>
+        <div>
+            <div class="k-content" id="filterCont">
+
+                <div id="HdrPart">
+
+                    <div style="margin-left:100px;margin-top:10px;">
+
+                        <label style="margin-left:15px;margin-top:5px;">Codes To Codes Relations:</label>
+                        <div id="cmbCdMasCdTyp"></div>
+
+                        <label style="margin-left:20px;">Code:</label>
+                        <div id="cmbConCd"></div>
+
+                        <button class="control-button refresh" onclick="LoadGridView()" data-tooltip="refresh"> </button>
+                        <button class="control-button update" onclick="UpdateDetails()" data-tooltip="update"> </button>
+
+                    </div>
+                </div>
+
+                <div id="GridWin" style="margin-top:20px;margin-bottom:10px;">
+                    <div id="CdMasCdGrid"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var urlCodes = {
+        LoadGridView: '@Url.Content("~/Codes/LoadGridView")',
+        UpdateGrid: '@Url.Content("~/Codes/UpdateGrid")',
+        CdMasCdTypLookup: '@Url.Content("~/Codes/CdMasCdTypLookup")',
+        CdMas_LookupWebByConCd: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+    };
+
+    var viewBag = {
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        ObjKy: '@(ViewBag.ObjKy)'
+    };
+</script>
+
+<script src="~/Scripts/HtnScripts/Codes/CdMasCd.js"></script>

@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<style>
+    .Calbtn {
+        padding: 4px 12px;
+        font-size: 11px;
+        text-align: center;
+        color: #fff;
+        background-color: #4CAF50;
+        border-radius: 6px;
+
+    }
+
+</style>
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<link href="~/Src/Styles/HtnStyles/SMLQuatation/iziToast.min.css" rel="stylesheet" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        @*Button section Start*@
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                <button id="CalVehicalValue" onclick="TotalCalculation(false)" type="button" class="Calbtn">Calculate Price</button>
+                <button id="FindForm" onclick="FindRecord()" type="button" class="Calbtn">Find Form</button>
+            </div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top: 10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top: 10px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+        @*Button section End*@
+        <div class="col-md-12 col-sm-12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptQuotenu" class="col-md-3 col-sm-3">
+                            <div>
+                                <label id="HdrSec1_InptQuotenu_Lbl" class="col-md-7 col-sm-7">Quatation Number</label>
+                            </div>
+                            <div class="col-md-5 col-sm-5">
+                                <input placeholder="Quatation Number" id="HdrSec1_InptQuotenu_Val" type="text" class="k-textbox" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div id="HdrSec1_InptExRate" class="col-md-3 col-sm-3">
+                            <div>
+                                <label id="HdrSec1_InptExRate_Lbl" class="col-md-4 col-sm-4">Ex Rate</label>
+                            </div>
+                            <div class="col-md-5 col-sm-5">
+                                <input id="HdrSec1_InptExRate_Val" data-cpypst-blsmartcpypaste="ExRate" placeholder="Ex Rate" class="myTextbox" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div id="HdrSec1_InptTotal">
+                            <div class="col-md-1 col-sm-1">
+                                <label id="HdrSec1_InptTotal_Lbl">Total</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input placeholder="Total" id="HdrSec1_InptTotal_Val" readonly="readonly" class="myTextbox"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptDocnu">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_InptDocnu_Lbl">Doc NU</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input placeholder="Doc Nu" id="HdrSec1_InptDocnu_Val" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2"></div>
+                        <div id="HdrSec1_DatDate">
+                            <div class="col-md-1 col-sm-1">
+                                <label id="HdrSec1_DatDate_Lbl">Date</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input id="HdrSec1_DatDate_Val" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                @*<div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_CmbAdrMas">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_CmbAdrMas_Lbl">Customer Name </label>
+                            </div>
+                            <div class="col-md-7 col-sm-7">
+                                <div id="HdrSec1_CmbAdrMas_Cd" data-cpypst-blsmartcpypaste="AdrId"></div>
+                                <div id="HdrSec1_CmbAdrMas_Nm" data-cpypst-blsmartcpypaste="AdrId"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                @*<div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptName">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_InptName_Lbl">Name:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="F.Name" id="HdrSec1_InptName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Surname" id="HdrSec1_InptSName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Lname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Initials" id="HdrSec1_InptIName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Initial" />
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_CmbVehicalInt">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_CmbVehicalInt_Lbl">Vehicle of Interesrt</label>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div id="HdrSec1_CmbVehicalInt_Cd" data-cpypst-blsmartcpypaste="VehicalModel"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2"></div>
+                    </div>
+                    <div class="row" style="display: none;">
+                        <div id="HdrSec1_CmbVehiClr">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_CmbVehiClr_Lbl">Vehicle Colour</label>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div id="HdrSec1_CmbVehiClr_Cd" data-cpypst-blsmartcpypaste="VehicalClr"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_CmbSalesPerson">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_CmbSalesPerson_Lbl">Sales Cordinator</label>
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div id="HdrSec1_CmbSalesPerson_Cd" data-cpypst-blsmartcpypaste="SalesRep"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_tabstrip">
+                    <ul>
+                        <li>Exterior</li>
+                        <li>Interior</li>
+                        <li>Technology</li>
+                        <li>Accessories</li>
+                        <li>Wheels</li>
+                        <li>summary</li>
+
+                    </ul>
+                    <div id="Exterior">
+                        <div class="form-group">
+                            <div id="Exterior_Grd"></div>
+                        </div>
+                    </div>
+                    <div id="Interior">
+                        <div id="Interior_Grd"></div>
+                    </div>
+                    <div id="Technology">
+                        <div id="Technology_Grd"></div>
+                    </div>
+                    <div id="Accessories">
+                        <div id="Accessories_Grd"></div>
+                    </div>
+                    <div id="Wheels">
+                        <div id="Wheels_Grd"></div>
+                    </div>
+                    <div id="summary">
+                        <div id="summary_Grd"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/SMLQuote/QuatationFind.cshtml")
+</div>
+<script>
+    var urlGetCdMasName = '@Url.Content("~/ComboLoad/CdNm_SelectMob")';
+    var urlGetItmasName = '@Url.Content("~/ComboLoad/ItmNm_SelectMob")';
+    var urlGetAdrId = '@Url.Content("~/ComboLoad/AdrID_SelectMob")';
+    var urlGetAdrNm = '@Url.Content("~/ComboLoad/AdrNm_SelectMob")';
+    var urlGetDateTime = '@Url.Content("~/ShowroomLog/ReturnDateTime")';
+    var urlLoadGridDetai = '@Url.Content("~/SMLQuote/GetAccGrid")';
+    @*var urlGetVehPriceAction = '@Url.Content("~/SMLQuote/GetVehPrice")';*@
+    var urlGetExRateAction = '@Url.Content("~/SmlQuatationPriceSet/GetExRate")';
+    var urlQuatationSave = '@Url.Content("~/SMLQuote/QuatationSave")';
+    var urlGetName = '@Url.Content("~/SMLQuote/GetCustNameByAdrKy")';
+    var urlGetVehPriceAction = '@Url.Content("~/SMLQuote/CalTotalPrice")';
+    var urlReturnCIFValue = '@Url.Content("~/SMLQuote/ReturnVehCIFValInLkr")';
+    var urlFindForm = '@Url.Content("~/SMLQuote/QuatationFind")';
+    var urlFindHdr = '@Url.Content("~/SMLQuote/QuatationSelect")';
+    var urlFindDetails = '@Url.Content("~/SMLQuote/QuatationDetailsSelect")';
+
+    var urlGetAdrId = '@Url.Content("~/ComboLoad/AdrID_SelectMob")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        TimeNow: "@(ViewBag.Time)",
+        DateNow: "@(ViewBag.Date)",
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+</script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/Validation.js"></script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/Quatation.js"></script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/ExteriorGrd.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/Report/SourceDocumentPrint.js"></script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/iziToast.min.js"></script>
+<script src="~/Scripts/HtnScripts/SMLQuotation/QuatationFind.js"></script>
+<style>
+    .myTextbox .k-numeric-wrap {
+        padding-right: 28px;
+    }
+
+    .myTextbox .k-input {
+        text-align: right;
+        padding-right: 5px;
+    }
+</style>

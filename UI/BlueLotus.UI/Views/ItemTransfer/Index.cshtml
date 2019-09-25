@@ -1,0 +1,548 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <button class="control-button save" onclick="ComSaveFunction()" data-tooltip="Save"> </button>
+            <button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+            <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>
+        </div>
+
+        <div id="HdrPart">
+
+            <div class="col-md-2 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>@(ViewBag.MyString) No:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input id="TrnOutNo" readonly="readonly" type="text" class="k-textbox" />
+                                <input id="FrmTrnKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="ToTrnKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="FrmTrnNo" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="ToTrnNo" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="FrmTrnPrefixKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="ToTrnPrefixKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="FrmTrnTypKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="ToTrnTypKy" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="FrmTmStmp" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                                <input id="ToTmStmp" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Date:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input id="Date" class="" data-role="datepicker" data-bind="value: Date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Doc No:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input placeholder="Doc No ..." id="DocNo" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Yur Ref</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input data-cpypst-blsmartcpypaste="Qty" id="Yurref" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6  col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>From Project</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbFrmPrjId"></div>
+                                <div id="cmbFrmPrjNm"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>To Project</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbToPrjId"></div>
+                                <div id="cmbToPrjNm"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>From Location</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbFrmLocId"></div>
+                                <div id="cmbFrmLocNm"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>To Location</label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbToLocId"></div>
+                                <div id="cmbToLocNm"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" style="display:none">
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Account </label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbAccId"></div>
+                                <div id="cmbAccNm"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2   ">
+                                <label>Address </label>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div id="cmbAdrId"></div>
+                                <div id="cmbAdrNm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2  col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Pmt Terms:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <div id="cmbPmt"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Currency:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <div id="cmbCurrency"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4   ">
+                                <label>Ex Rate:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <input id="ExRate" class="k-numerictextbox" readonly="readonly" data-format="n4" data-decimals="4" style="width:100%" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2  col-sm-6 newfloatright">
+                <div class="wr_formGroup_drk form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label class="">Sub Total:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="SubTotal" readonly="readonly" type="text" class="k-textbox col-md-10" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>Discount:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Discount" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>VAT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Vat" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>WHT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="WHT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>NBT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="NBT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>SVAT:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="SVAT" class="k-textbox" readonly="readonly" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                            <label>Total:</label>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                            @*<p class="form-control-static">text</p>*@
+                            <input id="Total" readonly="readonly" type="text" class="k-textbox" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10  col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-4   ">
+                                <label class="">Description</label>
+                            </div>
+                            <div class="col-md-11 col-sm-8 ">
+                                <textarea id="textarea" class="k-textbox" data-bind="value: textareaValue" style="width: 100%; height: 30px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1 col-sm-4   ">
+                                <label class="">Remarks</label>
+                            </div>
+                            <div class="col-md-11 col-sm-8 ">
+                                <textarea id="Remarks" class="k-textbox" data-bind="value: textareaValue" style="width: 100%;height:30px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div>
+                    <div class="col-md-2  col-sm-6">
+                        <div class="wr_formGroup_drk form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-4 col-sm-4 col-xs-4 pad-zero">
+                                    <label class="">Description</label>
+                                </div>
+                                <div class="col-md-8 col-sm-8 col-xs-8 pad-zero">
+                                    <textarea id="textarea" class="k-textbox" data-bind="value: textareaValue" style="width: 900px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+        @*<div class="col-md-12" style="clear:both;">*@
+
+
+        <div id="GridWin" style="clear:both;">
+            <div class="col-md-12  wr_formGroup_grid" id="ChildHdrpart">
+                <div class="form-group">
+                    <div class="col-md-4 col-sm-4 ">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Item Cd:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-7">
+                                <div id="cmbItmCd" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                                <div id="cmbItmNm" data-cpypst-blsmartcpypaste="GRNItmCd"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Analysis:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-7">
+                                <div id="cmbAnly3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Unit:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-7">
+                                <div id="cmbUnit"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-md-3 col-sm-7 ">
+                                <textarea id="Hdrtextarea" class="k-textbox" data-bind="value: HdrtextareaValue" style="width: 100%; height: 30px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 ">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>Qty:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="Qty" id="Qty" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Rate:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="Rate" id="Rate" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>DisPer:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrDisPer" id="HdrDisPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>DisAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrDisAmt" id="HdrDisAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>VAT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrVatPer" id="HdrVatPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>VATAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrVatAmt" id="HdrVatAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>NBT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrNBTPer" id="HdrNBTPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>NBTAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrNBTAmt" id="HdrNBTAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>WHT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrWHTPer" id="HdrWHTPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>WHTAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrWHTAmt" id="HdrWHTAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>SVAT %:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrSVatPer" id="HdrSVatPer" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>SVATAmt:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrSVatAmt" id="HdrSVatAmt" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1 col-sm-1">
+                                <label>LiNo:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="HdrLiNo" id="HdrLiNo" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Task Id:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <div id="cmbTaskId"></div>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Subtotal:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input data-cpypst-blsmartcpypaste="Subtotal" id="Subtotal" type="text" onkeypress="return isNumberOnlyTextField(event)" class="k-input" />
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label>Rem</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <textarea id="HdrRem" class="k-textbox" data-bind="value: HdrRemValue" style="width:100%; height: 30px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br style="clear:both" />
+            <div id="@(ViewBag.MyString)" style="margin-top:5px">
+
+            </div>
+            @*@Html.Partial("~/Views/CommonGrid/Index.cshtml")*@
+
+
+        </div>
+        <div>
+
+        </div>
+
+        @*</div>*@
+    </div>
+</div>
+
+@*<div>
+        @Html.Partial("~/Views/Transaction/ItmSelectGrn.cshtml")
+    </div>*@
+<div>
+    @Html.Partial("~/Views/Transaction/FindGRN.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/Transaction/FindFromPurOrd.cshtml")
+</div>
+<script id="command-template" type="text/x-kendo-template">
+    <a class="k-button k-grid-evenselect">X</a>
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+<script>
+
+    var viewBag = {
+        MyString: '@(ViewBag.MyString)'
+    };
+
+    var urlTransaction = {
+        PnsItemsLookUpByItmCd: '@Url.Content("~/Transaction/PnsItemsLookUpByItmCd")',
+        ItemsLookUpByItmCd: '@Url.Content("~/Transaction/ItemsLookUpByItmCd")',
+        GetToLocList: '@Url.Content("~/Transaction/GetToLocList")',
+        GetFromLocList: '@Url.Content("~/Transaction/GetFromLocList")',
+        GetAddress: '@Url.Content("~/Transaction/GetAddress")',
+        GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',
+        GetAddressList: '@Url.Content("~/Transaction/GetAddressList")',
+        GetBUlist: '@Url.Content("~/Transaction/GetBUlist")',
+        GetPurAcList: '@Url.Content("~/Transaction/GetPurAcList")',
+        ItmCd_SelectWeb: '@Url.Content("~/Transaction/ItmCd_SelectWeb")',
+        ItmNm_SelectWeb: '@Url.Content("~/Transaction/ItmNm_SelectWeb")',
+        GetItemMultiUnits: '@Url.Content("~/Transaction/GetItemMultiUnits")',
+        GetTaskList: '@Url.Content("~/Transaction/GetTaskList")',
+        GetAnlTyp: '@Url.Content("~/Transaction/GetAnlTyp")',
+        GetToProjectList: '@Url.Content("~/Transaction/GetToProjectList")',
+        GetAdrKy: "@Url.Content("~/Transaction/GetAdrKy")",
+        GetAccKy: "@Url.Content("~/Transaction/GetAccKy")",
+
+
+        sendPrjKy: '@Url.Action("sendPrjKy", "Transaction")',
+        InsertHdr: '@Url.Content("~/Transaction/InsertHdr")',
+        InsertDetail: '@Url.Content("~/Transaction/InsertDetail")',
+        InsertTransactionOutHdr: "@Url.Content("~/Transaction/InsertItmTransferOutHdr")",
+        InsertTrnOutDetail: "@Url.Content("~/Transaction/InsertTrnOutDetail")",
+        UpdateTransactionOutHdr: "@Url.Content("~/Transaction/InsertItmTransferOutHdr")",
+        GetTrnOutNo: "@Url.Content("~/Transaction/GetTrnOutNo")",
+        GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetGRNItemsDetail: "@Url.Content("~/Transaction/GetGRNItemsDetail")",
+        PrintGRN: "@Url.Content("~/Transaction/PrintGRN")",
+        PreviewGRN: "@Url.Content("~/Transaction/PreviewGRN")"
+    };
+
+    var urlInvoice = {
+        GetGridInvoiceDetail: "@Url.Content("~/Transaction/GetGridInvoiceDetail")",
+        GetInvoiceItemsDetail: "@Url.Content("~/Transaction/GetInvoiceItemsDetail")",
+        GetInvoiceAccountsDetail: "@Url.Content("~/Transaction/GetInvoiceAccountsDetail")",
+        GetCusAccountList: '@Url.Content("~/Transaction/GetCusAccountList")',
+        GetPmtList: '@Url.Content("~/Transaction/GetPmtList")',
+        GetCurrencyList: '@Url.Content("~/Transaction/GetCurrencyList")',
+        PreviewInvoice: "@Url.Content("~/Transaction/PreviewInvoice")"
+    };
+
+    var urlHome = {
+        UpdateToDo: '@Url.Action("UpdateToDo","Home")',
+        InsertToDo: '@Url.Action("InsertToDo","Home")'
+    };
+
+    var urlOrder = {
+        GetAdrByAcc: '@Url.Content("~/Transaction/GetAdrByAcc")'
+    };
+</script>
+
+<script src="~/Scripts/HtnScripts/ItmTranfer/ItmTranfer.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/ComboDataSource.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/keydownEvent.js"></script>
+<script src="~/Scripts/HtnScripts/ItmTranfer/DetailChangeEvent.js"></script>
+
+<style>
+    .k-numerictextbox {
+        width: 100%;
+    }
+
+
+    .newfloatright {
+        float: right;
+    }
+
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .k-button {
+        box-shadow: none;
+        padding: 0px;
+        border: none;
+    }
+</style>

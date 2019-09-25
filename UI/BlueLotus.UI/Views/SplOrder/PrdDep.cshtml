@@ -1,0 +1,352 @@
+﻿@{
+    ViewBag.Title = "PNS_ProductionReqReportPreview";
+
+
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+    <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+}
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+<link rel="stylesheet" href="~/Images/BLBanner/style.css" type="text/css" />
+
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+
+
+<div class="nipmain">
+
+    <div class="nipimg">
+        <!--insert your image hear-->
+        @*<img src="~/Images/BLBanner/img/procument.png">*@
+    </div>
+    <div class="niphead" id="procument">
+        <h2>Production Requirement Summary</h2>
+    </div>
+</div>
+<table style="padding:40px 20px 60px 20px; margin-left: 15px; border: 5px solid #FFF; margin: auto; background-color: #CADAE7; width:450px">
+    <tr>
+        <td>
+
+
+            <button class="preview" onclick="Preview()" data-tooltip="Preview" style="margin-left: 18px">preview</button>
+            <button class="print" onclick="PrintReport()" data-tooltip="Print" style="margin-left: 18px">print</button>
+
+            <button class="cancel" onclick="Cancel()" data-tooltip="Cancel"> cancel</button>
+
+        </td>
+
+
+    </tr>
+
+    <tr>
+
+        <td class="trr">
+            <label class="lbl" for=" datepicker"> Date:</label>
+        </td>
+        <td class="trr">
+            <input id="Date" value="2015/01/01" style="width: 200px;" />
+        </td>
+
+    </tr>
+
+
+
+
+    <tr>
+
+        <td class="trr"><label class="lbl">Delivery No</label></td>
+
+        <td class="trr">
+            <div id="cmbDlyNo"></div>
+
+        </td>
+    </tr>
+
+
+    <tr>
+        <td class="trr" id="required"><label class="lbl">Location</label></td>
+
+        <td class="trr">
+            <div id="cmbLoc"></div>
+
+        </td>
+
+
+
+    </tr>
+    <tr>
+        <td class="trr" id="required"><label class="lbl">Order Typ</label></td>
+
+        <td class="trr">
+            <div id="cmbOrdTyp"></div>
+
+        </td>
+
+
+
+    </tr>
+
+
+
+</table>
+
+
+<div>
+    @*  @Html.Partial("~/Views/Projects/ProcurementGrid.cshtml")*@
+</div>
+
+
+<style>
+    .trr {
+        padding: 4px 10px;
+    }
+
+    #required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        // var ItmTypKy = 1;
+        LoadCombo();
+        // ItmNm(1);
+
+
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+
+        //  LoadGrid();
+    });
+    $("#Date").width(139).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function LoadCombo() {
+
+
+        $("#cmbLoc").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+
+            dataSource: LocationDatasource(),
+            filter: "contains",
+            suggest: true,
+            //change:ChangeEvent,
+            placeholder: "Select Location"
+
+        });
+
+        $("#cmbDlyNo").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: DlyNoDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Delivery No.."
+        });
+
+        $("#cmbOrdTyp").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: OrdTypDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a OrdTyp.."
+        });
+
+
+
+
+        function LocationDatasource() {
+
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/SplOrder/GetLocList")',
+
+                          dataType: "json"
+                      }
+                  }
+              });
+            return dataSource;
+        }
+
+        function OrdTypDatasource() {
+
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/SplOrder/GetOrdTypList")',
+
+                          dataType: "json"
+                      }
+                  }
+              });
+            return dataSource;
+        }
+
+        function DlyNoDatasource() {
+
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/SplOrder/GetDlivNo")',
+
+                          dataType: "json"
+                      }
+                  }
+              });
+            return dataSource;
+        }
+
+
+
+    }
+
+
+    function Preview() {
+        var Dt = $('#Date').val();
+        if (Dt == "") {
+            Dt = null;
+        }
+
+        var DelNo = $("#cmbDlyNo").data("kendoComboBox").value();
+        if (DelNo == null || DelNo == undefined || DelNo == "") {
+
+            var DelNo = 1;
+        }
+        var LocKy = $("#cmbLoc").data("kendoComboBox").value();
+        if (LocKy == null || LocKy == undefined || LocKy == "") {
+
+            var LocKy = 1;
+        }
+        var OrdTypKy = $("#cmbOrdTyp").data("kendoComboBox").value();
+        if (OrdTypKy == null || OrdTypKy == undefined || OrdTypKy == "") {
+
+            var OrdTypKy = 1;
+        }
+
+
+        $.ajax({
+            url: "@Url.Content("~/Projects/ProductionReqRepPreview")",
+            data: JSON.stringify({
+
+                Dt: Dt,
+
+                LocKy: LocKy,
+                DelNo: DelNo,
+                OrdTypKy: OrdTypKy
+
+
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                winDoialogElement = $("#idwin").kendoWindow({
+                    width: 1000,
+                    height: 1000
+                }).data("kendoWindow");
+                var url = "http://" + document.location.host + "/PNSBL10/Report/ProdDeptViewer.aspx";
+                window.open(url, '_blank');
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function PrintReport() {
+        var Dt = $('#Date').val();
+
+        if (Dt == "") {
+            Dt = null;
+        }
+
+
+
+        var DelNo = $("#cmbDlyNo").data("kendoComboBox").value();
+        if (DelNo == null || DelNo == undefined || DelNo == "") {
+
+            var DelNo = 1;
+        }
+        var LocKy = $("#cmbLoc").data("kendoComboBox").value();
+        if (LocKy == null || LocKy == undefined || LocKy == "") {
+
+            var LocKy = 1;
+        }
+        var OrdTypKy = $("#cmbOrdTyp").data("kendoComboBox").value();
+        if (OrdTypKy == null || OrdTypKy == undefined || OrdTypKy == "") {
+
+            var OrdTypKy = 1;
+        }
+
+
+        $.ajax({
+            url: "@Url.Content("~/Projects/ThroghPrintPrddep")",
+            data: JSON.stringify({
+
+                Dt: Dt,
+
+                LocKy: LocKy,
+                DelNo: DelNo,
+                OrdTypKy: OrdTypKy
+
+
+
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data = "Success") {
+                    alert("Successfully Printed");
+                } else if (data = "False") {
+                    alert("Not printed");
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+    function Cancel() {
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+
+
+
+        $("#cmbLoc").data("kendoComboBox").value(null);
+        $("#cmbDlyNo").data("kendoComboBox").value(null);
+
+
+    }
+
+
+
+</script>

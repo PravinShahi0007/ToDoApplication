@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Special Sales Order";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+ @*<link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />*@
+}
+    
+<div id="addChng" style="margin-left: 10px; margin-top:15px;">
+    @*<button class="k-button" id="btnopen" data-bind="click: OpenClick" style="width: 120px; height: 40px">Earn Value Report</button>
+     <button class="k-button" id="btnopen2" data-bind="click: OpenClick2" style="width: 140px; height: 40px">Resource requernmnet for a period</button>
+     <button class="k-button" id="btnopen3" data-bind="click: OpenClick3" style="width: 140px; height: 40px">Resource requernmnet for a task</button>
+     <button class="k-button" id="btnopen4" data-bind="click: OpenClick4" style="width: 140px; height: 40px">Scheduled Tasks</button>
+      <button class="k-button" id="btnopen5" data-bind="click: OpenClick5" style="width: 140px; height: 40px">SCurve_Report</button>
+     <button class="k-button" id="btnopen6" data-bind="click: OpenClick6" style="width: 140px; height: 40px">Daily Project Resource Variance</button>
+      <button class="k-button" id="btnopen7" data-bind="click: OpenClick7" style="width: 140px; height: 40px">Physical plan Vs Physical progress2</button>
+     <button class="k-button" id="btnopen8" data-bind="click: OpenClick8" style="width: 140px; height: 40px">  Project Cash In Vs Cash Out</button>*@
+    @*<button class="k-button" id="btnopen9" data-bind="click: OpenClick9" style="width: 140px; height: 40px">  Project Managemnet Reports</button>*@
+  
+  
+  
+    <div id="idwin" data-role="window" style="display: none;">
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        winDoialogElement = $("#idwin").kendoWindow({
+            width: 1000,
+            height: 1000
+        }).data("kendoWindow");
+        var url = "http://" + document.location.host + "/Report/SplReport.aspx";
+        window.open(url);
+
+        //winDoialogElement = $("#idwin").kendoWindow({
+        //            width: 1000,
+        //            height: 1000
+        //        }).data("kendoWindow");
+        //        var url = "http://" + document.location.host + "/Report/SplReport.aspx";
+        //        window.open(url);
+    });
+
+ 
+
+
+
+
+
+</script>

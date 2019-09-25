@@ -1,0 +1,41 @@
+﻿<div id="idFormLoadingDiv" style="display:none; overflow:hidden">
+    <div id="idSubFormLoadingDiv">
+        <div id="idSubSubFormLoadingDiv">
+            <img src="~/Images/Loading Images/ezgif.com-resize.gif" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function OPENLodingForm() {
+        
+        $("#idFormLoadingDiv").show().kendoWindow({
+            width: "115px",
+            height: "115px",
+            modal: true,
+            title: false
+        });
+        $("#idFormLoadingDiv").parent().find(".k-window-action").css("visibility", "hidden");
+        $('#idFormLoadingDiv').data('kendoWindow').center().open();
+        $(".k-overlay").css({
+            "background-color": "#e5eff1",
+            "background-image": "none",
+            "opacity": "1",
+            "z-index": "10002",
+            "display": "block"
+        });
+        $(".k-content").css({
+            "background-color": "#e5eff1"
+        });
+        $(".k-window").css({
+            "box-shadow": "none"
+        });
+        $(".k-window-content").css({
+            "outline": "none"
+        });
+    }
+
+    function CLOSELoadingForm() {
+        $('#idFormLoadingDiv').data('kendoWindow').close();
+    }
+</script>

@@ -1,0 +1,169 @@
+﻿/*#ui-datepicker-div {
+    z-index: 3 !important;
+}*/
+
+.k-textbox {
+    height:25px;
+}
+
+body {
+    margin: 0px;
+}
+
+.ui-datepicker {
+    font-size: 11px;
+}
+
+.ui-widget input, .hasDatepicker {
+    font-size: 12px !important;
+}
+
+.AdornerBaseline-style {
+    height: 21px;
+    background-image: none;
+    -moz-background-size: 100% 100%; /* Firefox 3.6 */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border: 1px solid black;
+    border-radius: 0px;
+    background-color: lavenderBlush;
+    float: left;
+    position: absolute;
+    z-index: 8;
+}
+
+.AdornerBaseline-style {
+    opacity: 0.5;
+}
+
+.backgroundBaseline-style {
+    height: 21px;
+    background-image: none;
+    -moz-background-size: 100% 100%; /* Firefox 3.6 */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border: 1px solid #505050;
+    border-radius: 0px;
+    background-color: #e3cbf2;
+    float: left;
+    position: absolute;
+    border-radius: 5px;
+    z-index: 8;
+    margin-top: 0px !important;
+}
+
+div.taskbar-style {
+    height: 21px !important;
+    background-image: url('../../../DevBL10/Src/Styles/Images/TaskBar.png'); /*!important;*/
+    -moz-background-size: 100% 100% !important; /* Firefox 3.6 */
+    -o-background-size: 100% 100% !important;
+    -webkit-background-size: 100% 100% !important;
+    background-size: 100% 100% !important;
+    background-repeat: repeat !important;
+    border: 1px solid #050DFA !important;
+    border-radius: 5px !important;
+    float: left !important;
+    -ms-touch-action: none;
+    position: absolute !important;
+    z-index: 10 !important;
+}
+
+div.rq-gc-progressbar {
+    height: 2px !important;
+    z-index: 11 !important;
+    position: absolute !important;
+    border-radius: 7px !important;
+    background-color: black !important;
+    border-color: black !important;
+    -ms-touch-action: none;
+}
+
+body {
+    margin: 0px;
+}
+
+div.bluebar-style {
+    background-image: url('../../../DevBL10/Src/Styles/Images/TaskBar.png');
+    background-color: blue;
+}
+
+div.greenbar-style {
+    background-image: url('../../../DevBL10/Src/Styles/Images/greenBar.png'); /*!important;*/
+    background-color: green;
+    border: 1px solid green !important;
+}
+
+button#print, button#printOptions, button#export {
+    padding: 5px;
+    margin: 1px 5px;
+}
+
+#selectHeaders {
+    height: 80px;
+    width: 135px;
+    padding: 3px;
+    background-color: gainsboro;
+    border-bottom: 1px solid;
+}
+
+input.headCol {
+    margin-left: 20px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span {
+    margin: -8px;
+}
+
+#dialogDiv #customTitle {
+            height: 17px;
+        }
+
+.ui-widget input {
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    color: #555555;
+    display: inline-block;
+    height: 15px;
+    line-height: 15px;
+    padding: 3px;
+}
+
+.ui-widget-content {
+    z-index: 3;
+}
+
+#viewStartPicker, #viewEndPicker {
+    margin: 3px;
+}
+
+#dialogDiv #customTitle {
+    height: 17px;
+}
+
+body {
+    margin: 0px;
+}
+
+.ui-datepicker {
+    font-size: 11px;
+}
+
+.ui-tabs {
+    font-size: 11px;
+}
+
+.ui-widget {
+    font-size: 11px;
+    font-family: "Portable User Interface", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#Div1 > button {
+    margin: 5px;
+    font-size: 12px;
+    font-family: "Portable User Interface", Helvetica, Arial, Verdana, sans-serif;
+    width: 100%;
+}
+
+h3 {
+    color: black;
+}

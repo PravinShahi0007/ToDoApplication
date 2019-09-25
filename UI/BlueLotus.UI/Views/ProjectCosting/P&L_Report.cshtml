@@ -1,0 +1,403 @@
+﻿@{
+    ViewBag.Title = "P&L_Report";
+
+
+
+
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+    <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+}
+<link rel="stylesheet" href="~/buttncss/style/css.css" type="text/css" />
+<link rel="stylesheet" href="~/Images/BLBanner/style.css" type="text/css" />
+<link rel="stylesheet" href="~/buttncss/style/ResponsiveMax.css" type="text/css" />
+
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+
+<link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />
+<script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>
+
+@Html.Partial("~/Views/Errors/Index.cshtml")
+<div class="nipmain">
+
+    <div class="nipimg">
+        <!--insert your image hear-->
+        <img src="~/Images/BLBanner/img/stockclosing.png">
+    </div>
+
+    <div class="niphead" id="stockclosing">
+        <h2>P & L Report</h2>
+    </div>
+</div>
+<div class="form">
+
+
+
+    <div>
+
+
+        <button class="preview" onclick="Preview()" data-tooltip="Preview"></button>
+
+        <button class="cancel" onclick="Cancel()" data-tooltip="Cancel"> </button>
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="form-row">
+        <label class="lbl" for=" datepicker">From Date:</label>
+
+        <input id="FrmDate" value="2015/01/01" />
+    </div>
+
+    <div class="form-row">
+        <label class="lbl" for=" datepicker">To Date:</label>
+
+        <input id="ToDate" value="2015/01/01" />
+    </div>
+
+
+
+
+
+
+    <div class="form-row">
+        <label class="lbl" id="req">Project </label>
+        <div class="cmb" id="cmbFmPrjId"></div>
+
+
+
+        <div class="cmbNm" id="cmbFmPrjNm"></div>
+
+    </div>
+    <div class="form-row" id="BU">
+        <label class="lbl">BU</label>
+        <div class="cmb" id="cmbBuId"></div>
+
+
+        <div class="cmbNm" id="cmbBuNm"></div>
+
+    </div>
+
+    <div class="form-row">
+
+        <label class="lbl">With Stock</label>
+
+
+        <input type="checkbox" id="isStk" class="chck">
+
+        <label class="lbl">Hide which doesnt have Truncation</label>
+
+
+        <input type="checkbox" id="HideTrn" class="chck">
+
+    </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+<style>
+    .trr {
+        padding: 4px 2px;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        LoadCombo();
+
+
+        var todayDate = new Date();
+        $('#ToDate').data("kendoDatePicker").value(todayDate);
+        var todayDate = new Date();
+        $('#FrmDate').data("kendoDatePicker").value(todayDate);
+        //  LoadGrid();
+    });
+    $("#ToDate").width(200).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    $("#FrmDate").width(200).kendoDatePicker({
+
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2000)
+    });
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function LoadCombo() {
+        $("#cmbFmPrjId").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjID",
+            dataSource: ProjectDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjId").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjId");
+                    if (validate) {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Project Id.."
+        });
+
+        $("#cmbFmPrjNm").kendoComboBox({
+            dataValueField: "PrjKy",
+            dataTextField: "PrjNm",
+            dataSource: ProjectDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjNm").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjNm");
+                    if (validate) {
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        // LoadGridView1(prjky);
+                        //sendPrjKy();
+                        //LoadGridView(prjky);
+                    } else {
+
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Project.."
+        });
+
+
+        $("#cmbBuId").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: BuDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbBuId").data("kendoComboBox");
+                var BuKy = cmb.value();
+                if (BuKy != "") {
+                    var validate = ComboValidations("cmbBuId");
+                    if (validate) {
+                        $("#cmbBuNm").data("kendoComboBox").value(BuKy);
+                        $("#cmbBuId").data("kendoComboBox").value(BuKy);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbBuNm").data("kendoComboBox").value("");
+                        $("#cmbBuId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Bu Id.."
+        });
+
+        $("#cmbBuNm").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "CdNm",
+            dataSource: BuDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbBuNm").data("kendoComboBox");
+                var BuKy = cmb.value();
+                if (BuKy != "") {
+                    var validate = ComboValidations("cmbBuNm");
+                    if (validate) {
+                        $("#cmbBuNm").data("kendoComboBox").value(BuKy);
+                        $("#cmbBuId").data("kendoComboBox").value(BuKy);
+                        // sendPrjKy();
+                        // LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbBuNm").data("kendoComboBox").value("");
+                        $("#cmbBuId").data("kendoComboBox").value("");
+                    }
+                }
+
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select Bu Name.."
+        });
+
+
+            function ProjectDatasource() {
+                var dataSource = new kendo.data.DataSource(
+                  {
+                      transport: {
+                          read: {
+                              url: '@Url.Content("~/Projects/GetProject")',
+                              dataType: "json"
+                          }
+                      }
+
+                  });
+                return dataSource;
+            }
+
+
+        function BuDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/Projects/GetBu")',
+                          dataType: "json"
+                      }
+                  }
+
+              });
+            return dataSource;
+        }
+    }
+
+
+
+    function Preview() {
+
+
+        //if ((PrjKy == 1 || PrjKy == undefined || PrjKy == "") || (AccKy == null || AccKy == undefined || AccKy == "")) {
+        //    alert("Select Project or Account");
+        //}
+       // else {
+            //
+        var ToDt = $('#ToDate').val();
+
+
+
+        if (ToDt == "") {
+            ToDt = null;
+        }
+
+        var FrmDt = $('#FrmDate').val();
+
+
+
+        if (FrmDt == "") {
+            FrmDt = null;
+            }
+
+            var PrjKy = $("#cmbFmPrjId").data("kendoComboBox").value();
+            if (PrjKy == null || PrjKy == undefined || PrjKy == "") {
+
+                var PrjKy = 1;
+            }
+
+            var BuKy = $("#cmbBuId").data("kendoComboBox").value();
+            if (BuKy == null || BuKy == undefined || BuKy == "") {
+
+                var BuKy = 1;
+            }
+
+            var isStk = document.getElementById("isStk").checked;
+            var HideTrn = document.getElementById("HideTrn").checked;
+
+                $.ajax({
+                    url: "@Url.Content("~/WebReports/P_and_L_Rep")",
+                    data: JSON.stringify({
+
+                        ToDt: ToDt,
+                        FrmDt: FrmDt,
+                        PrjKy: PrjKy,
+
+                        BuKy: BuKy,
+
+                        isStk:isStk,
+                        HideTrn:HideTrn
+
+                    }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "Json",
+                    type: "POST",
+                    success: function (data) {
+
+                        winDoialogElement = $("#idwin").kendoWindow({
+                            width: 1000,
+                            height: 1000
+                        }).data("kendoWindow");
+                        var url = "http://" + document.location.host + "/Report/PandL_Report.aspx";
+                        window.open(url, '_blank');
+
+                    },
+                    error: function (e) {
+                        return false;
+                    }
+                });
+
+
+        //  }
+
+            }
+
+
+
+
+            function Cancel() {
+                var todayDate = new Date();
+                $('#FrmDate').data("kendoDatePicker").value(todayDate);
+                $('#ToDate').data("kendoDatePicker").value(todayDate);
+
+                $("#cmbFmPrjId").data("kendoComboBox").value(null);
+                $("#cmbFmPrjNm").data("kendoComboBox").value(null);
+                $("#cmbBuId").data("kendoComboBox").value(null);
+                $("#cmbBuNm").data("kendoComboBox").value(null);
+
+            }
+
+
+
+</script>
+
+

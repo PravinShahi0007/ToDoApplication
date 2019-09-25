@@ -1,0 +1,148 @@
+﻿
+
+<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    @@media only screen and (max-width: 991px) {
+        #FindFormVersionNo {
+            font-size: 16px !important;
+        }
+    }
+</style>
+
+<div id="FindFormVersionNo" style="display: none; font-size:11px;" class="no-margin row">
+
+    <!--============================================================================================================-->
+    <div id="filterCont">
+        <div class="row m-l--15">
+            <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+                <div id="ButtonSec2" class="col-lg-5 col-md-5"></div>
+            </div>
+        </div>
+
+        <div class="row m-t-10">
+            <!-- section 01 -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <!-- Schedule Date -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_SchDt">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_SchDt_Lbl">Schedule Date </label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12  "><input id="HdrSec16_Dat_FF_SchDt_Val" placeholder="Schedule Date" /></div> <!--FrmDt-->
+                </div>
+                <!-- /Schedule Date -->
+                <!-- Version No -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_VerNo">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_VerNo_Lbl">Version No </label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Version No" id="HdrSec16_Inpt_FF_VerNo_Val" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Version No -->
+               
+               
+            </div>
+            <!-- section 02 -->
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <!-- Trn No -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_TrnNo">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_TrnNo_Lbl">Trn No </label></div>
+                    <div class="col-md-3 col-sm-4 col-xs-12 p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_TrnNo_Cd" class="width-100" /></div>
+                    <div class="col-md-4 col-sm-8 col-xs-12 p-l-2-lg form-group"><input placeholder="Trn No" id="HdrSec16_Cmb_FF_TrnNo_Val" type="text" class="k-textbox width-100" /></div> <!-- id="TrnNo" -->
+                </div>
+                <!-- /Trn No -->
+               
+                <!-- Project -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Prj">
+                    <div class="col-md-2 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Prj_Lbl">Project:</label></div>
+                    <div class="col-md-10 col-sm-10 col-xs-12 form-group"><input id="HdrSec16_Cmb_FF_Prj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                    @*<div class="col-md-7 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Prj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Project -->               
+            </div>
+
+            <!-- section 03 -->
+            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsAct">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsAct_Lbl">isAct </label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsAct_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsAct_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsApr">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsApr_Lbl">isApr </label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsApr_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsApr_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br />
+    <div class="row m-l--15 m-b-sm-500">
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGridPayment"> </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var urlGetVersionnoFind = '@Url.Content("~/Project/ProjectVersionNumberFindFormResult")';
+
+    var urlSelectedGrid = '@Url.Content("~/Payment/GetGridDetail")';
+
+    var urlHrdSelected = '@Url.Content("~/Payment/GetHdrDetail")';
+
+    var urlFindInvoice =
+        {
+            Code_SelectWeb: '@Url.Content("~/Codes/CdMas_LookupWebByConCd")'
+        };
+
+</script>
+
+<script src="~/Scripts/HtnScripts/ProjectVersionNo/ProjectVersionNoFind.js"></script>

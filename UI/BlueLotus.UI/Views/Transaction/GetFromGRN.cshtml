@@ -1,0 +1,88 @@
+<div id="GetFromGRN" style="display: none; overflow-y: hidden; overflow-x: hidden;">
+
+    <div class="k-content clearfix" id="TrnTypTrn_filterCont">
+        <div class="col-md-6 control-icons" id="TrnTypTrn_ButtonSetFind">
+
+            <button class="control-button search" onclick="SearchPO();" data-tooltip="Search"></button>
+            <button class="control-button cancel" onclick="CancelPO;" data-tooltip="ClearGrid"></button>
+
+
+        </div>
+        <div id="TrnTypTrn_FindFromPurOrd_HdrPart">
+            <div class="col-md-12 col-sm-12">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date From:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="TrnTypTrn_FrmDtFromPO" style="width:175px;" data-role="datepicker" data-bind="value: FrmDtGRN" />
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date To:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="TrnTypTrn_ToDtFromPO" style="width:175px;" class="" data-role="datepicker" data-bind="value: ToDtGRN" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>PO No : </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input style="width:175px;" placeholder="Trn No" id="TrnTypTrn_OrdNoFromPO" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Suplier</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <div id="TrnTypTrn_cmbSupPO"></div>
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>Project</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <div id="TrnTypTrn_cmbPrjectIdPO"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+        <div class="col-md-12 col-sm-12">
+            <div id="TrnTypTrn_FindFormPOGrid"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    @*var urlFindFromPurOrd = {
+        GetOrdfrmPurOrdSearch: '@Url.Content("~/Transaction/GetOrdfrmPurOrdSearch")',
+        GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',
+        GetSuplist: '@Url.Content("~/Transaction/GetSuplist")',
+        GetDetailByFromTrnKy: '@Url.Content("~/Transaction/GetDetailByFromTrnKy")',
+        GetHdrDetailFromPO: '@Url.Content("~/Transaction/GetHdrDetailFromPO")',
+        GetGridDetailFromPO: '@Url.Content("~/Transaction/GetGridDetailFromPO")'
+    };*@
+    var UrlGetFromGRN =
+        {
+            LoadFindGrid: '@Url.Content("~/Transaction/TrnTypPendingTrnTyp_SelectWeb")',
+            GettingAllRecords: '@Url.Content("~/Transaction/TrnTypPendingTrnTypDetails_SelectWeb")',
+        }
+
+    var urlFindFromPurOrdHome = {
+        UpdateToDo: '@Url.Action("UpdateToDo","Home")',
+        InsertToDo: '@Url.Action("InsertToDo","Home")'
+    }
+</script>
+
+<script src="~/Scripts/HtnScripts/Transaction/PopUp/GetFromGRN.js"></script>

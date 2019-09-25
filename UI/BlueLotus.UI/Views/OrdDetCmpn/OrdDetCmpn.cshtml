@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/LatesSiteStyles.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    @Html.Partial("~/Views/PrcsSchDetCmpn/PrcsSchDetCmpnPartial.cshtml")
+</div>
+
+<div>
+    @Html.Partial("~/Views/Errors/Index.cshtml")
+</div>
+
+
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    var globalVariable = {
+        PrcsSchDetKy: 1,
+        PrcsDetKy: 1,
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_SelectWeb: '@Url.Action("UsrObjPrp_SelectWeb", "ObjMas")',
+        UsrObjPrp_SelectMulti: '@Url.Action("UsrObjPrp_SelectMulti", "ObjMas")'
+    }
+
+    var urlCmpnBld = {
+        SaveItmCmpn: '@Url.Content("~/PrcsSchDetCmpn/SaveItmCmpn")',
+        ItmCmpn_SelectWeb: '@Url.Content("~/PrcsSchDetCmpn/ItmCmpn_SelectWeb")'
+    }
+
+    var urlItmMasSelect = {
+        ItmMas_ItmNm_SS_WebColDetMulti: '@Url.Action("ItmMas_ItmNm_SS_WebColDetMulti", "ItmMasSelect")',
+        ItmMas_ItmNm_SS_WebMulti: '@Url.Action("ItmMas_ItmNm_SS_WebMulti", "ItmMasSelect")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlTransactionItmCd_SelectWeb = '@Url.Content("~/Transaction/ItmCd_SelectWeb")';
+    var urlTransactionItmNm_SelectWeb = '@Url.Content("~/Transaction/ItmNm_SelectWeb")';
+    var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+    var urlTransactionItemsLookUpByItmCd = '@Url.Content("~/Transaction/ItemsLookUpByItmCd")';
+    
+    
+
+    var urlCmpnBld = {
+        ItmCmpn_SelectWeb: '@Url.Content("~/CmpnBld/ItmCmpn_SelectWeb")'
+    }
+
+    var urlGetAvilableQty = '@Url.Content("~/Transaction/GetAvailableQty")';
+
+</script>
+
+
+
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/PrcsSchDetCmpn.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/Calculation.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/ComboLoad.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/DetailChangeEvent.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/GridLoad.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/KeyDownEvent.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/NumericTextBoxLoad.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/SaveFunction.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/SelectFunction.js"></script>
+<script src="~/Scripts/HtnScripts/PrcsSchDetCmpn/ClearFunction.js"></script>
+
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>

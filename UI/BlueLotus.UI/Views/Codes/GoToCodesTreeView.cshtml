@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "GoToCodesTreeView";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+}
+@*<head>
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.2.607/styles/kendo.default.mobile.min.css" />
+</head>*@
+
+<style scoped>
+    /*#treeDiv {
+        width: 500px;
+        height: inherit;
+        background-image: url('../../../Images/Capture%20liva.JPG');
+    }*/
+    #side-menu-left>.tree-menu>#menuTreeView>.scrollbox-content>.tree-section {
+        margin: 8px 1.5em 20px 0.8em;
+    }
+
+    .tree-section {
+        width: auto;
+        height: auto;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        margin: 0 2em;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        /*background-color: white;*/
+        /*border: groove;*/
+    }
+
+    div.k-treeview {
+        overflow: visible;
+    }
+
+
+    .k-in {
+        color: white; /*black;*/
+        /*padding: 0px 0px 0px 0px;*/
+        background-color: rgba(0, 0, 0, 0.80); /*rgba(116, 112, 175, 0.45);*/
+        width: 100%;
+    }
+
+    .k-state-selected {
+        background-color: rgb(159, 165, 168) !important;
+    }
+
+    #menuTreeView .k-treeview .k-minus {
+        /*background-color: yellow;*/
+        background: url("../../../DevBL10/Images/PMIcons/minus.png") center center;
+    }
+
+    #menuTreeView .k-treeview .k-plus {
+        background: url("../../../DevBL10/Images/PMIcons/plus.png") center center;
+    }
+
+    #menuTreeView {
+        /*overflow-y: scroll;*/
+        height: 590px;
+        /*width: 600px;*/
+    }
+
+    .scrollbox {
+        /*width: 10em;
+        height: 10em;*/
+        /*overflow: auto;*/
+        overflow-y: auto;
+        overflow-x: hidden;
+        /*position:relative;*/
+        visibility: hidden;
+    }
+
+        .scrollbox-content,
+        .scrollbox:hover {
+            visibility: visible;
+        }
+
+    .scrollbox_delayed {
+        transition: visibility 0.2s;
+    }
+
+        .scrollbox_delayed:hover {
+            transition: visibility 0s 0.2s;
+        }
+</style>
+
+
+<div id="SmrtDocArea">
+    <table id="SmrtDocAreaTable">
+        <tr>
+            <td>
+                <div id="ConCds">
+                </div>
+            </td>
+        </tr>
+        <tr id="menuBackGroundDiv">
+            <td rowspan="2" style="width: 150px; vertical-align: top;">
+                <div id="menuTreeView" class="scrollbox">
+                    <div class="scrollbox-content">
+                        <div class="tree-section">
+                            <div id="CdMasTreeView"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td style="height:200px; width: 100%;"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)'
+    }
+
+    var FormGlblData = {
+        ObjKy: viewBag.ObjKy,
+        SelectedConCd: '',
+        FormObjData: null,
+        TrnTypKy: 1,
+        AccessLvlKy: 1,
+        ConfiLvlKy: 1,
+        TrnKy: 1
+    }
+
+    var URLGetAllConCodesCmb = '@Url.Action("GetAllConCodes","Codes")';
+
+    var urlUsrObjPrp_SelectWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    function LoadCombo() {
+        $("#ConCds").kendoComboBox({
+            dataSource: {
+                type: "POST",
+                transport: {
+                    read:
+                        {
+                            url: URLGetAllConCodesCmb,
+                            data: { ObjKy: viewBag.ObjKy }
+                        }
+                }
+            },
+            change: function (e) {
+                var cmb = $("#ConCds").data("kendoComboBox");
+                var emp = cmb.value();
+                var source = this.dataSource._data;
+                var valid = false;
+                for (var i = 0; i < source.length; i++) {
+                    if (source[i] == emp) {
+                        valid = true;
+                        break;
+                    }
+                }
+                if (valid == false) {
+                    alert("Invalid ConCd! Please select a ConCd..");
+                    $("#ConCds").data('kendoComboBox').value("");
+                } else {
+                    FormGlblData.SelectedConCd = $("#ConCds").data("kendoComboBox").value();
+                    ConCdChangeCall(FormGlblData.SelectedConCd);
+                }
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a ConCd.."
+        });
+    }
+
+    function ConCdChangeCall(SelectedConCd) {
+
+        //$.ajax({
+        //    url: urlUsrObjPrp_SelectWeb,
+        //    dataType: "json",
+        //    type: "POST",
+        //    data: JSON.stringify({
+        //        PrntKy: viewBag.ObjKy,
+        //        ObjTyp: '',
+        //        ObjNm: SelectedConCd
+        //    }),
+        //    contentType: 'application/json; charset=utf-8',
+        //    success: function (ObjData) {
+        //        //if (ObjData.length > 0) {
+        //    GetFormObjData(ObjData[0].ObjKy);
+        //}
+        LoadCdMasTreeView();
+        //    }
+        //});
+    }
+
+    function LoadCdMasTreeView() {
+
+        try {
+            kendo.destroy($("#CdMasTreeView"));
+        }
+        catch (e) { }
+
+        var ConCd = $("#ConCds").val();
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            data: {
+                ObjKy: Number(viewBag.ObjKy),
+                ConCd: ConCd
+            },
+            dataType: 'json',
+            url: "@Url.Content("~/Codes/GetAllCodes")",
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true
+                /*converts date strings to date objects*/
+                , true
+                /*converts ISO dates to local dates*/
+                );
+            }
+        },
+            success: function (flatData) {             
+
+                $("#CdMasTreeView").kendoTreeView({
+                    dataSource: processTableCdMas(flatData, "CdKy", "PrntKy", 1),
+                    dataTextField: "CdNm", //"menuName",
+                    //loadOnDemand: false,
+                    dataIdField: "CdKy",
+                    select: onSelectMenuTree
+                });
+
+                $("#CdMasTreeView").on("click", "li .k-state-selected", function (e) {
+                    var treeview = $("#CdMasTreeView").data("kendoTreeView"),
+                        node = $(this).closest("li")[0];
+
+                    treeview.trigger("select", { node: node });
+                });
+
+                $.holdReady(false);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        LoadCombo();
+    });
+
+    function onSelectMenuTree(e) {
+        var data = $("#CdMasTreeView").data('kendoTreeView').dataItem(e.node);
+        //OpenMenuByItem(data, 1, 1); //Its From MenuOpenCommon.js
+    }
+
+    function processTableCdMas(data, idField, foreignKey, rootLevel) {
+        var hash = {};
+
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var id = item[idField];
+            var parentId = item[foreignKey];
+
+            hash[id] = hash[id] || [];
+            hash[parentId] = hash[parentId] || [];
+
+            item.items = hash[id];
+            hash[parentId].push(item);
+        }
+
+        return hash[rootLevel];
+    }
+</script>

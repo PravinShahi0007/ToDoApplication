@@ -1,0 +1,112 @@
+﻿<div class="col-md-3 col-sm-6">
+    <div class="wr_formGroup">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label>Bank Name:</label>
+                </div>
+                <div class="col-md-5 col-sm-8 ">
+                    <div id="cmbBankName" data-cpypst-blsmartcpypaste="cmbBankName"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label>Branch Code/Name:</label>
+                </div>
+                <div class="col-md-4 col-sm-8 ">
+                    <div id="cmbBrnName" data-cpypst-blsmartcpypaste="cmbBrnName"></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <label>Account No:</label>
+                </div>
+                <div class="col-md-4 col-sm-8 ">
+                    <input placeholder="Account Code" id="accountCode" type="text" class="k-textbox" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var urlHRISGetBnkMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetBnkMas_LookupWeb")';
+
+    $(document).ready(function () {
+        LoadDropDownBnk();
+        BrnSelect(1);
+    });
+    function GetBnkMas_LookupWeb(brn) {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: urlHRISGetBnkMas_LookupWeb,
+                      data: { BnkKy: brn },
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+
+    //Load The Drop DownList
+    function LoadDropDownBnk() {
+        $("#cmbBankName").kendoComboBox({
+            dataValueField: "BnkKy",
+            dataTextField: "BnkNm",
+            dataSource: GetBnkMas_LookupWeb(1),
+            filter: "contains",
+            change: function () {
+
+                var validation = ComboValidations("cmbBankName");
+
+                if (validation) {
+                    var BnkKy = $("#cmbBankName").data("kendoComboBox").value();
+                    //  $('#cmbBrnName').removeAttr('disabled');
+                    // $("#cmbBrnName").prop("disabled", false);
+                    BrnSelect(BnkKy);
+                }
+            },
+            suggest: true,
+            placeholder: "Select a Allowence Type"
+        });
+        $("#cmbBrnName").kendoComboBox({
+            dataValueField: "BrnKy",
+            dataTextField: "BrnNm",
+            dataSource: GetBnkMas_LookupWeb(1),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Allowence Type"
+        });
+    }
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function BrnSelect(BnkKy) {
+        $("#cmbBrnName").kendoComboBox({
+            dataValueField: "BrnKy",
+            dataTextField: "BrnNm",
+            dataSource: GetBnkMas_LookupWeb(BnkKy),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Bank"
+        });
+    }
+
+</script>

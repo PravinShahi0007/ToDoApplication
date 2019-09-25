@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "Salary Process";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+
+
+
+    <div class="k-content clearfix" id="filterCont">
+
+        <button id="Process" type="button" onclick="Process()" data-tooltip="Process"> </button>
+    </div>
+
+</div>
+
+<div id="HdrSec1" style="margin-top:10px;margin-left:30px;margin-right:30px;">
+    <div class="col-md-12  col-sm-12">
+        <div class="wr_formGroup">
+            <div class="form-group">
+                <div class="row">
+
+                    <div id="HdrPart_CmbSalPrcsGrp">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrPart_CmbSalPrcsGrp_Lbl">Salary Process Group</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4 ">
+                            <input id="HdrPart_CmbSalPrcsGrp_Cd" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div id="HdrPart_CmbSalTyp">
+                        <div class="col-md-2 col-sm-4">
+                            <label id="HdrPart_CmbSalTyp_Lbl">Salary Type</label>
+                        </div>
+                        <div class="col-md-2 col-sm-4 ">
+                            <input id="HdrPart_CmbSalTyp_Cd" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNo_lbl">Employee No:</label>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_CmbEmpNo_cd" class="combo" />
+                    </div>
+
+                    <div class="col-md-2 col-sm-4">
+                        <label id="HdrSec1_CmbEmpNm_lbl">Employee Name:</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4 ">
+                        <input id="HdrSec1_CmbEmpNm_Nm" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+
+
+           
+                    <div class="col-md-2 col-sm-4">
+                        <label>Salary processing date</label>
+                    </div>
+                    <div class="col-md-2 col-sm-4 ">
+                        <input  id="HdrPart_FrmDate"
+                               class="" style=""
+                               data-role="datepicker"
+                               data-bind="value: Date" />
+                    </div>
+
+                        @*<label style="margin-top:10px; margin-right:52px; margin-bottom:20px; margin-left:50px;">To Date</label>
+            <input id="HdrPart_ToDate"
+                   class="" style=""
+                   data-role="datepicker"
+                   data-bind="value: Date" />*@
+
+
+
+
+                        @*<div id="HdrSec1_DatPicRevDate">
+                <div class="col-md-1 col-sm-4">
+                    <label id="HdrSec1_DatPicRevDate_Lbl">Date:</label>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <input id="HdrSec1_DatPicRevDate_Val"
+                           style="width:100%;"
+                           class=""
+                           data-role="datepicker"
+                           data-bind="value: HdrSec1_DatPicRevDate_Val" />
+                </div>
+            </div>*@
+
+                    </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+
+<div class="col-md-12  col-sm-12">
+    <div class="wr_formGroup_drk">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2 col-sm-4">
+                    <button type="button" class="button" onclick="Process()" value="Process" data-tooltip="Process" style="width:80px; height:25px;">Process </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+
+
+</script>
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+
+<script>
+    var SalaryProcess = '@Url.Content("~/Payroll/SalaryProcess")';
+    var urlEmpMas = {
+        Employee_LookUp_Web: '@Url.Content("~/OTEntry/GetEmployee")',
+
+    };
+</script>
+
+<script src="~/Scripts/HtnScripts/Payroll/Payroll.js"></script>

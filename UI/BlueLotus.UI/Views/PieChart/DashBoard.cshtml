@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; margin-bottom:10px; width:1000px;">
+        <div style="text-align:center"><h2></h2></div>
+        <div id="example">
+            <div>
+                <div class="k-content" id="filterCont">
+                    <div id="HdrPart">
+                        <div class="row">
+                            <div id="HdrPart_CmbLoc">                                
+                                <div>
+                                    <div class="col-md-1 col-sm-1" style="margin-top:10px;">
+                                        <label id="HdrPart_CmbLoc_Lbl">Location</label>
+                                    </div>
+                                    <div style="" data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Cd"></div>
+                                    @*<div data-cpypst-blsmartcpypaste="LocNm" id="HdrSec2_CmbLoc_Nm"></div>*@
+                                    <label style="margin-left:10px;">Date</label>
+                                    <input id="HdrPart_Date"
+                                           class="" style="margin-left:10px;"
+                                           data-role="datepicker"
+                                           data-bind="value: Date" />
+                                        <button style="margin-left:20px;" class="control-button load" onclick="loadPieChart()" data-tooltip="refresh"> </button>                                 
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    <div class="demo-section k-content wide">
+                        <div id="Dep_chart" class="col-md-6"></div>
+                        <div id="chart" class="col-md-6"></div>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlPieChart = {
+        DeptOrCatgryWiseSales_DashBrdWeb: '@Url.Content("~/PieChart/DeptOrCatgryWiseSales_DashBrdWeb")',
+        DeptWiseSales_DashBrdWeb: '@Url.Content("~/PieChart/DeptWiseSales_DashBrdWeb")'
+    };
+
+</script>
+@*Set Default and Object Properties From ObjMas*@
+<script>
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/DashBoard/DashBoard.js"></script>

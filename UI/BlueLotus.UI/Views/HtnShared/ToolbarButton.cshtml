@@ -1,0 +1,79 @@
+﻿<div id="WinButtonDetails">
+    <button class="k-button" id="btnLoadItem" title="Load" style="width: 50px; height: 30px"><img src="~/Images/Load.jpg" /></button>
+    <button class="k-button" id="btnSave" title="Save" onclick="ItemCmpSave()" style="width:50px; height:30px"><img src="~/Images/Save1.PNG" /></button>
+    <button class="k-button" id="btnCancel" title="Cancel" onclick="ItemCmpCancel()" style="width: 50px; height: 30px"><img src="~/Images/Cancel.PNG" /></button>
+    <button class="k-button" id="btnPrint" onclick="Prinrept();" title="Print" style="width: 150px; height: 30px">Print</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        LoadButtonDetails(ObjKy);
+    });
+
+    function LoadButtonDetails(ObjKy) {
+        $.ajax({
+            url: '@Url.Content("~/Order/GetAdrByAcc")',
+            dataType: "json",
+        type: "POST",
+        data: JSON.stringify({
+            ObjKy: ObjKy,
+
+
+        }),
+        contentType: 'application/json; charset=utf-8',
+        success: function (list) {
+
+
+            if (list.id == "btnLoadItem") {
+                $("#cmbAdrId").data("kendoComboBox").value(null);
+                $("#cmbAdrNm").data("kendoComboBox").value(null);
+                for (i = 0; i < list.length; i++) {
+                    var AdrKy = list[0].AdrKy;
+                    var AdrNm = list[0].AdrNm;
+                    var AdrID = list[0].AdrID;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                    $("#cmbAdrId").data("kendoComboBox").text(AdrID);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                    $("#cmbAdrNm").data("kendoComboBox").text(AdrNm);
+
+                }
+                //  alert("Cannot find the item !");
+
+            } else if (list.length == 2) {
+                $("#cmbAdrId").data("kendoComboBox").setDataSource(list);
+                $("#cmbAdrId").data("kendoComboBox").value(null);
+                $("#cmbAdrNm").data("kendoComboBox").setDataSource(list);
+                $("#cmbAdrNm").data("kendoComboBox").value(null);
+                for (i = 0; i < list.length; i++) {
+                    var AdrKy = list[1].AdrKy;
+                    var AdrNm = list[1].AdrNm;
+                    var AdrID = list[1].AdrID;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                    $("#cmbAdrId").data("kendoComboBox").text(AdrID);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                    $("#cmbAdrNm").data("kendoComboBox").text(AdrNm);
+                }
+            }
+            else {
+
+                $("#cmbAdrId").data("kendoComboBox").value(null);
+                $("#cmbAdrNm").data("kendoComboBox").value(null);
+                for (i = 0; i < list.length; i++) {
+
+                    // data.push({ dataValueField:list[i].AdrKy, dataTextField:list[i].AdrNm });
+                    $("#cmbAdrId").data("kendoComboBox").setDataSource(list);
+                    $("#cmbAdrNm").data("kendoComboBox").setDataSource(list);
+                }
+            }
+
+        },
+        error: function (e) {
+
+        }
+
+    });
+    }
+
+    var urlCdMasLookUp = '@Url.Content("~/HtnShared/CdMasLookUp")';
+
+</script>

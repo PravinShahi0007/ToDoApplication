@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "EVMDashBoard";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="HdrSec1" style="margin-top:15px;margin-left:40px;margin-right:40px;">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 m-t-2" style="padding-top:4px"><label id="HdrPart_CmbLoc_Lbl">Project:</label></div>
+                    <div class="col-md-8 col-sm-6 p-l-0"><input id="HdrSec1_CmbPrj_Nm" class="combo width-100" /></div>
+                </div>
+                </div>
+
+            <div class="col-md-3 col-sm-6">
+                <div class="row">
+                    <button type="button" class="button" onclick="Load()" >Load</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+<div class="row no-margin ">
+    @*m-t-20*@
+    <div class="col-md-12 demo-section k-content">
+        <div id="Chart">
+        </div>
+    </div>
+    @*<div class="col-md-3 demo-section k-content ">
+            <div id="Total_Sales">
+            </div>
+        </div>*@
+
+</div>
+
+<style>
+
+     .button {
+            background-color: darkblue;
+            border-style: inset;
+            width: 90px;
+            height: 27px;
+            color: white;
+            font: bold;
+        }
+</style>
+
+    <script>
+        var urlComboLoad = {
+             PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        }
+
+        var viewBag = {
+            ObjKy: '@(ViewBag.ObjKy)',
+            OurCd: '@(ViewBag.OurCd)',
+            OurCd2: '@(ViewBag.OurCd2)',
+            ObjCaptn: '@(ViewBag.ObjCaptn)'
+        }
+        var urlObjMas = {
+            UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+            UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+            UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+        }
+    </script>
+    <script>
+        var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+        var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+        var urlEVMDashBoard = {
+            EVMDashBoard: '@Url.Content("~/EVM/EVMDash")',
+        };
+    </script>
+
+
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+    <script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+    <script src="~/Scripts/HtnScripts/DashBoard/EVMDashboard.js"></script>

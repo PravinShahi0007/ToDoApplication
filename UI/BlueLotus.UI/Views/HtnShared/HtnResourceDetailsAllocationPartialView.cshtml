@@ -1,0 +1,57 @@
+﻿<div id="example">
+    <div class="demo-section k-content">
+        <div id="tabstrip">
+            <ul>
+                <li>
+                    Resource Allocation
+                </li>
+                <li>
+                    Resource Adr Allocation
+                </li>
+                <li>
+
+                </li>
+                <li>
+
+                </li>
+            </ul>
+            <div>
+                <span class="rainy">&nbsp;</span>
+                <div class="weather">
+                    @Html.Partial("~/Views/HtnShared/HtnResItmSelect.cshtml")
+                </div>
+            </div>
+            <div>
+                <span class="sunny">&nbsp;</span>
+                <div class="weather">
+                    @Html.Partial("~/Views/HtnShared/HtnResAdrSelect.cshtml")
+                </div>
+            </div>
+            <div>
+                <span class="sunny">&nbsp;</span>
+                <div class="weather">
+
+                </div>
+            </div>
+            <div>
+                <span class="cloudy">&nbsp;</span>
+                <div class="weather">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src='@Url.Content("~/Scripts/HtnScripts/BOQ/ResAllocationforBOQ.js")' type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+    $("#tabstrip").kendoTabStrip({
+        animation: {
+            open: {
+                effects: "fadeIn"
+            }
+        }
+    });
+    });
+</script>

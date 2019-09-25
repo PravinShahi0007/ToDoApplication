@@ -1,0 +1,223 @@
+﻿@{
+    ViewBag.Title = "Loan Transaction";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div style="height:50px;" class="k-content clearfix" id="filterCont">
+
+   
+    <button class="control-button save" id="btnSave" onclick="Save()" title="Save"></button>
+    <button class="control-button cancel" id="btncancel" onclick="clearDet()" title="Cancel"></button>
+
+    <div>
+        @Html.Partial("~/Views/LoanTransaction/FindFrm.cshtml")
+    </div>
+</div>
+
+<div class="row m-b-15 m-l-15">
+    <!-- HdrSec1  -->
+    <div class="col-lg-6 col-md-6 col-sm-12 " id="HdrSec1">
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec1_CmbEmpno_lbl">Employee No:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec1_CmbEmpno_cd" class="combo" />
+            </div>
+        </div>
+
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec1_CmbEmpNm_lbl"> Employee Name:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec1_CmbEmpNm_Nm" class="combo" />
+            </div>
+        </div>
+
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec1_CmbLnTyp_lbl"> Loan Type:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec1_CmbLnTyp_Nm" class="combo" style="" />
+            </div>
+        </div>
+
+        <div class="row m-b-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec1_DtpEftvDt_lbl"> Effective Date:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec1_DtpEftvDt_val" value="10/10/2011" />
+            </div>
+        </div>
+
+    </div>  <!-- /HdrSec1  -->
+    <!-- HdrSec2  -->
+    <div class="col-lg-6 col-md-6 col-sm-12 " id="HdrSec2">
+        <div class="row m-b-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec2_DtpGvnDt_lbl"> Given Date:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec2_DtpGvnDt_val" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec2_InptLnAmt_lbl"> Loan Amount:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec2_InptLnAmt_val" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec2_InptInstAmt_lbl"> Inst Amount:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec2_InptInstAmt_val" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <label id="HdrSec2_InptNofInstt_lbl"> No Of Inst:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec2_InptNofInst_val" />
+            </div>
+        </div>
+    </div>  <!-- /HdrSec2  -->
+</div> <!-- /row-->
+
+<div class="row m-b-15 m-l-15">
+    <!-- HdrSec3  -->
+    <div class="col-lg-6 col-md-6 col-sm-12 " id="HdrSec3">
+        
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec3_InptInrstRt_lbl"> Interest Rate(%):</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input id="HdrSec3_InptInrstRt_val" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec3_CmbInrstTpe_lbl"> Interest Type:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec3_CmbInrstTpe_Nm" class="combo" />
+            </div>          
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec3_InptInrstAmt_lbl"> Interest Amount:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec3_InptInrstAmt_val"  />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec3_InptTotlPay_lbl"> Total Pay:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec3_InptTotlPay_val" />
+            </div>
+        </div>
+    </div> <!-- /HdrSec3  -->
+    <!-- HdrSec4  -->
+    <div class="col-lg-6 col-md-6 col-sm-12 " id="HdrSec4">
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec4_CmbBnkNm_lbl"> Bank Name:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec4_CmbBnkNm_Nm" class="combo" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec4_CmbBrnchNm_lbl"> Branch Name:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 ">
+                <input id="HdrSec4_CmbBrnchNm_Nm" class="combo" />
+            </div>
+        </div>
+        <div class="row m-b-2">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label id="HdrSec4_InptAcNo_lbl"> Account No:</label>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input id="HdrSec4_InptAcNo_val"   class="k-textbox"/>
+            </div>
+        </div>
+    </div> <!-- /HdrSec4  -->
+
+</div> <!-- /row-->
+
+        <script>
+
+            var todayDate = new Date();
+            var dd = todayDate.getDate();
+            var mm = todayDate.getMonth() + 1; //January is 0!
+
+            var yyyy = todayDate.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            var todayDate = dd + '/' + mm + '/' + yyyy;
+
+            var globalVariable = {
+                FinItmKy: 1,
+                TodayDate: todayDate
+            }
+
+            var urlComboLoad = {
+
+                Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+                CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+
+            }
+
+            var viewBag = {
+                ObjKy: '@(ViewBag.ObjKy)',
+                OurCd: '@(ViewBag.OurCd)',
+                OurCd2: '@(ViewBag.OurCd2)',
+                ObjCaptn: '@(ViewBag.ObjCaptn)'
+            }
+
+            var urlObjMas = {
+                UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+                UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+                UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+            }
+
+            var urlEmpMas = {
+                Employee_LookUp_Web: '@Url.Content("~/OTEntry/GetEmployee")',
+            }
+        </script>
+
+        @*Set Default and Object Properties From ObjMas*@
+        <script>
+            var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+            var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+            var urlEmpMasCdDt_InsertWeb = '@Url.Content("~/LoanTransaction/EmpMasCdDt_InsertWeb")';
+            var urlLoan_SearchSelectWeb = '@Url.Content("~/LoanTransaction/Loan_SearchSelectWeb")';
+            var urlHRISGetBnkMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetBnkMas_LookupWeb")';
+            var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+        </script>
+
+        <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+        <script src="~/Scripts/HtnScripts/Loans/LoanTransaction.js"></script>

@@ -1,0 +1,539 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="overflow:hidden">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - ToDo Test Evironment - </title>
+    @*<link href="~/Images/BLicon.ico" rel="shortcut icon" type="image/x-icon" />*@
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @using BlueLotus.UI.Models;
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- other content -->
+    @*@Styles.Render("~/Content/kendo")*@
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/kendo")*@
+    @*<script src="~/Scripts/js/kendo.all.min.js" type="text/javascript"></script>*@
+    @*<link href="~/Src/Styles/Kendo-2015.2.902/kendo.common-material.min.css" rel="stylesheet" />
+        <link href="~/Src/Styles/Kendo-2015.2.902/kendo.material.min.css" rel="stylesheet" />*@
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendoui-2017.2.504/styles/web/kendo.material.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo.custom.css" rel="stylesheet" />
+
+    <!-- ============= Bootstrap Styles ============== -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- ============= FontAwesome ============== -->
+    @*<script src="https://use.fontawesome.com/7c463b1a64.js"></script>*@
+    @*<script src="~/Content/FontAwesome/fontAwesome.js"></script>*@
+    <link href="~/Content/FontAwesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- ============= Site styles ============== -->
+    @*<link href="~/Content/LatesSiteStyles.css" rel="stylesheet" />
+        <link href="~/Content/SiteNewCSS.css" rel="stylesheet" />*@
+    @*<link href="~/Content/main.dev.css" rel="stylesheet" />*@
+    <link href="~/Content/main.min.css" rel="stylesheet" />
+
+    <!-- ============= Scripts ============== -->
+    @*<script src="~/Scripts/Kendo-2015.2.902/jquery.min.js"></script>*@
+    <script src="~/Content/kendoui-2017.2.504/js/jquery.min.js"></script>
+    <script src="~/Scripts/Kendo-2015.2.902/jszip.min.js"></script>
+    <script src="~/Content/kendoui-2017.2.504/js/kendo.all.js"></script>
+    @*<script src="~/Scripts/Kendo-2015.2.902/kendo.all.min.js"></script>*@
+    <script src="~/Scripts/Scripts/CommonFunction.js"></script>
+    <!--for Mozilla Firefox scroll bar-->
+    <script src="~/Scripts/Scripts/enscroll-0.6.2.min.js"></script>
+    @*<script src="~/Content/dashboard-widget/Weather-Data/asset/seather.js"></script>*@
+
+</head>
+<body>
+    <!--| navbar |-->
+    <nav class="navbar navbar-inverse nav-bg no-margin">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">*@
+                <button type="button" class="navbar-toggle collapsed" id="click_fa-bars-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" id="HomeMenu" href="#"></a>
+                <!--mobile logout-->
+                <div>
+                    <form method="post" class="visible-sm visible-xs pull-right" action='@Url.Content("~/Login/logout")'>
+                        <button class="btn btn-default .navbar-toggle" id="logout"><i class="fa fa-power-off" aria-hidden="true"></i> </button>
+                    </form>
+                </div><!--/mobile logout -->
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="bs-example-navbar-collapse-1">
+                <!--search-->
+                <div class="navbar-header navbar-form navbar-left">
+                    <input id="AutoCompleteGoToMenu" style="display:none" />
+                </div> <!--/search-->
+                <!--desktop logout-->
+                <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+                    @*<li>
+                            <a href="#" class="notification-trigger">
+                                <i class="fa fa-bell" aria-hidden="true"></i>
+                                <div class='notification-num'>1</div>
+                            </a>
+                            <div class="panel">
+                                <div class="title">Notifications</div>
+                                <ul class="notification-bar">
+                                    <li class="unread">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <div>Third notification (new)</div>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <div>Second notification</div>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <div>First notification</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>*@
+
+                    <li style="font-size:13.5px; text-align:right;">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <label style="padding-top:3px; margin-bottom:0px; font-size:13.5px;">@HTNSession.UserName</label><br />
+
+                        <i class="fa fa-briefcase" aria-hidden="true"></i>
+                        <label style="padding-top:0px;font-weight:600">@HTNSession.CNm</label>
+                        <label id="CKy" style="display:none">@HTNSession.CKy</label>
+                    </li>
+                    <li>
+                        <form method="post" class="navbar-form" action='@Url.Content("~/Login/logout")'>
+                            <button class="btn btn-default" id="logout"><i class="fa fa-power-off" aria-hidden="true"></i> Logout</button>
+                        </form>
+                    </li>
+                </ul><!--/desktop logout-->
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--| /navbar |-->
+    <!-- =============| side menu |============ -->
+    <div id="side-menu-left" class="side-menu-fixed">
+        <div class="side-menu-header">
+            <a class="navbar-brand" id="HomeMenu" href="#"></a>
+            @*<img src="assets/img/logo_white_2x.png" alt="logo" class="brand" data-src="assets/img/logo_white.png" data-src-retina="assets/img/logo_white_2x.png" width="78" height="22">*@
+            <div class="side-menu-header-controls">
+                <button type="button" class="menu-btn btn-link visible-lg-inline" id="click_sidemenu-toggle" data-toggle-pin="sidebar">
+                    <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        @*<div class="side-menu-company">
+                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                <div >
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    <label>@HTNSession.UserName</label>
+                </div>
+
+            </div>*@
+        <div class="tree-menu">
+            <div id="menuTreeView" class="scrollbox">
+                <div class="scrollbox-content">
+                    <div class="tree-section">
+                        <div id="tree"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- =============| /side menu |============ -->
+    <!-- =============| Content Body |============== -->
+    <div id="bodyMenu" class="mono-bg-color-lightest">
+        @{Html.RenderPartial("_MenuPartial", HTNSession.MenuItems as IEnumerable<BlueLotus.ViewModel.Entity.MenuModel>);}
+        <div style=" display:none">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+    </div>
+    <!-- =============| /Content Body |============== -->
+
+    <div>
+        @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+    </div>
+
+
+
+    <!-- =============| Footer |============== -->
+    <!--<footer class="bg-primary-darker">
+        @*<div class="container">*@
+            <div class="row">
+
+                <div class="col-md-6 col-sm-5">
+                    @*<label id="LayOut_ObjKy_RefNo">Ref No : N/A</label>*@
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-6">
+                    <label>@HTNSession.CNm</label>
+                    <label id="CKy" style="display:none">@HTNSession.CKy</label>
+                </div>
+
+                <div class="col-md-2 col-sm-3 col-xs-6 p-r-40">
+                    <label>@HTNSession.UserName</label>
+                </div>
+
+            </div>
+        @*</div>*@
+    </footer>-->
+    <!-- =============| /Footer |============== -->
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script>
+    var RootDir = '@System.Web.Configuration.WebConfigurationManager.AppSettings["RootDirectory"]';
+
+    $(document).ready(function () {
+        OPENLodingForm();
+        setTimeout(function () {
+            CLOSELoadingForm();
+        }, 2000);
+        loadAutoCompleteGoToMenu($("#AutoCompleteGoToMenu").val(), 'ObjNm');
+
+        //create AutoComplete UI component
+        function loadAutoCompleteGoToMenu(valAutoCompleteGoToMenu, ObjNm) {
+            $("#AutoCompleteGoToMenu").kendoAutoComplete({
+                //dataSource: data,
+                dataTextField: ObjNm,
+                dataSource: {
+                    //type: "odata",
+                    //serverFiltering: true,
+                    transport: {
+                        read: {
+                            url: urlAutoCompleteGoToMenu,
+                            data: {
+                                'SearchQuery': valAutoCompleteGoToMenu, //  $("#AutoCompleteGoToMenu").val(),
+                                'ColNm': ObjNm
+                            },
+                            dataType: "json"
+                        }
+                    }
+                },
+                filter: "contains",
+                placeholder: "Search...",
+                change: onChangeAutoCompleteGoToMenu,
+                select: onSelectAutoCompleteGoToMenu
+                //minLength: 5
+            });
+        }
+
+        function onChangeAutoCompleteGoToMenu() {
+        }
+
+        function onSelectAutoCompleteGoToMenu(e) {
+            var dataItem = this.dataItem(e.item.index());
+            //output selected dataItem
+            //alert(kendo.stringify(dataItem));
+            OpenMenuByItem(dataItem, 0, 1); //Its From MenuOpenCommon.js
+            resetSearch();
+        }
+
+        //notification panel
+        $('.notification-trigger').click(function () {
+            $('.panel').toggleClass('visible');
+        });
+
+    });
+
+    function resetSearch() {
+        $("#AutoCompleteGoToMenu").val("");
+        $("#AutoCompleteGoToMenu").focusout();
+    }
+
+    var KeySwitch = 0;
+    var urlCommonReportSessionSetting = "@Url.Content("~/CommonReportViwer/CommonReportSessionSetting")";
+
+    $(document).ready(function () {
+        var height = window.innerHeight;
+        $(".bg").css("height", height);
+        $("#CKy").hide();
+    });
+
+    $(document).ready(function () {
+
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: "@Url.Content("~/Login/GetMenuDetails")",
+            converters:
+            {
+                "text json": function (data) {
+                    return $.parseJSON(data, true
+                        /*converts date strings to date objects*/
+                        , true
+                        /*converts ISO dates to local dates*/
+                    );
+                }
+            },
+            success: function (flatData) {
+
+                $("#tree").kendoTreeView({
+                    dataSource: processTable(flatData, "ObjKy", "PrntKy", 0),
+                    dataTextField: "ObjCaptn", //"menuName",
+                    //loadOnDemand: false,
+                    dataIdField: "ObjKy",
+                    select: onSelectMenuTree
+                });
+
+                //tree view expan and collapes on click
+                $("#tree").data("kendoTreeView")
+                    .bind("select", function (e) {
+                        if ($(e.node).attr('data-expanded')) {
+                            this.collapse(e.node);
+                        } else {
+                            this.expand(e.node);
+                        }
+                    });
+
+
+                $("#tree").on("click", "li .k-state-selected", function (e) {
+                    var treeview = $("#tree").data("kendoTreeView"),
+                        node = $(this).closest("li")[0];
+
+                    treeview.trigger("select", { node: node });
+                });
+
+
+                $.holdReady(false);
+
+
+
+                //menu icon first letter
+                $(".k-sprite.fa.first-letter").each(function () {
+                    $(this).append($(this).parent().text().charAt(0));
+                });
+            }
+        });
+
+    });
+
+    function onSelectMenuTree(e) {
+        var data = $("#tree").data('kendoTreeView').dataItem(e.node);
+        OpenMenuByItem(data, 1, 1); //Its From MenuOpenCommon.js
+    }
+
+    function findDataItem(objKy) {
+
+        //Refer from : http://jsfiddle.net/RZwQ2/
+
+        var theGrid = $("#SmartMenugrid").data("kendoGrid");
+        var dataItem = $("#SmartMenugrid").data("kendoGrid").dataSource.get(objKy);
+        //get grid datasource
+        var ds = theGrid.dataSource;
+        /*
+        //copy the datasource
+        var fakeDS = $.extend({}, ds);
+        //pagesize 10 gazillion, requery
+        fakeDS.query({
+            pageSize: 10000
+        });
+        fakeDS.filter(ds.filter());
+        fakeDS.sort(ds.sort());
+        //var index = fakeDS.indexOf(dataItem); --this doesn't work, objects aren't equal
+        var view = fakeDS._view;
+        */
+        var view = kendo.data.Query.process(ds.data(), {
+            filter: ds.filter(),
+            sort: ds.sort()
+        }).data;
+
+        var index = -1;
+        for (var x = 0; x < view.length; x++) {
+            if (view[x].ObjKy == dataItem.ObjKy) {
+                index = x;
+                break;
+            }
+        }
+
+        if (index === -1) {
+            return;
+        }
+
+        var page = Math.floor(index / theGrid.dataSource.pageSize());
+        var targetIndex = index - (page * theGrid.dataSource.pageSize()) + 1;
+        //page is 1-based index
+        theGrid.dataSource.page(++page);
+        //grid wants a html element. tr:eq(x) by itself searches in the first grid!
+        //var row = $("#SmartMenugrid").find("tr:eq(" + targetIndex + ")");
+        var row = $("#SmartMenugrid").data("kendoGrid").tbody.find("tr[data-uid='" + dataItem.uid + "']");
+        theGrid.select(row);
+
+        //alert("Found it at Page: " + page + "       index: " + dataItem.uid);
+
+    }
+
+    function processTable(data, idField, foreignKey, rootLevel) {
+        var hash = {};
+
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var id = item[idField];
+            var parentId = item[foreignKey];
+
+            hash[id] = hash[id] || [];
+            hash[parentId] = hash[parentId] || [];
+
+            item.items = hash[id];
+            hash[parentId].push(item);
+        }
+
+        return hash[rootLevel];
+    }
+    $(document).keydown(function (a) { a.ctrlKey && a.shiftKey && a.altKey && (1 == KeySwitch ? KeySwitch = 0 : KeySwitch = 1, a.preventDefault()), 1 == KeySwitch ? $("#CKy").show() : $("#CKy").hide() });
+    //$(document).keydown(function (a) {
+    //    if (a.ctrlKey && a.shiftKey)//&& a.keyCode
+    //    {
+    //        //if (keycode == '13')
+    //        alert(a.keyCode);
+    //        //a.preventDefault();
+
+    //    }
+    //});
+
+
+
+
+
+    /*for Mozilla Firefox scroll bar (http://enscrollplugin.com/#documentation)*/
+    //$('.scrollbox').enscroll();
+    $('#menuTreeView').enscroll({
+        // a configuration property
+        showOnHover: true,
+        // another configuration property
+        verticalScrolling: true,
+        // ... more configuration properties ...
+    });
+
+    /*==| side menu script |==*/
+
+    $(document).ready(function () {
+
+        //$('#click_sidemenu-toggle').on('click', function () {
+
+        //    if ($(this).attr('data-click-state') == 1) {
+        //        $(this).attr('data-click-state', 0)
+        //        $("#bodyMenu").css({ "margin-left": "70px", "display": "block" });
+        //        $("nav").css({ "padding-left": "75px" })
+        //        /*Click State 1 finish*/
+        //    } else {
+        //        $(this).attr('data-click-state', 1)
+        //        $("#bodyMenu").css({ "margin-left": "280px", "display": "block" });
+        //        $("nav").css({ "padding-left": "70px" })
+        //    }
+
+        //    $("#side-menu-left").toggleClass("side-menu side-menu-fixed");
+        //    $("i", this).toggleClass("icon-circle fa-dot-circle-o");
+
+        //});
+        var x = 1; $("body").on({ mousedown: function () { $(this).data("timer", setTimeout(function () { $(document).keydown(function (a) { if (a.ctrlKey && a.shiftKey) { if (x == 1) { $.ajax({ type: "GET", dataType: 'json', url: "@Url.Content("~/Login/ChkOldMenu")", success: function (flatData) { alert(flatData.SomeValue); x = 0; } }); } } }); }, 10000)) }, mouseup: function () { clearTimeout($(this).data("timer")); } });
+        $('#click_sidemenu-toggle').on('click', function () {
+
+            if ($(this).attr('data-click-state') == 1) {
+                $(this).attr('data-click-state', 0)
+                $("#bodyMenu").css({ "margin-left": "285px", "display": "block" });
+                $("nav").css({ "padding-left": "70px" })
+                $(".side-menu").css({ "left": "0px" })
+                /*Click State 1 finish*/
+            } else {
+                $(this).attr('data-click-state', 1)
+                $("#bodyMenu").css({ "margin-left": "70px", "display": "block" });
+                $("nav").css({ "padding-left": "70px" })
+                $(".side-menu-fixed").css({ "left": "-215px" })
+            }
+
+            $("#side-menu-left").toggleClass("side-menu-fixed side-menu");
+            $("i", this).toggleClass("fa-dot-circle-o fa-circle-o");
+
+        });
+
+
+        $(".side-menu-fixed").hover(
+            function () {
+                $('#side-menu-left').addClass('side-menu-visible');
+            },
+            function () {
+                $('#side-menu-left').removeClass('side-menu-visible');
+            }
+        );
+
+    });
+
+    //mobile
+
+    $(document).ready(function () {
+        $("#click_fa-bars-toggle").on('click', function () {
+
+            if ($(this).attr('data-click-state') == 1) {
+                $(this).attr('data-click-state', 0)
+                $("#bodyMenu").css({ "margin-left": "0px", "display": "block" });
+                $("nav").css({ "padding-left": "0px" })
+                $("#side-menu-left").css({ "left": "-285px" });
+                /*Click State 1 finish*/
+            } else {
+                $(this).attr('data-click-state', 1)
+                $(".side-menu").css({ "left": "0" });
+                $("#bodyMenu").css({ "margin-left": "285px", "display": "block" });
+                $("#side-menu-left").css({ "left": "0px" });
+                $("nav").css({ "padding-left": "280px" })
+            }
+
+            $("#side-menu-left").toggleClass("side-menu side-menu-fixed");
+            $("i", this).toggleClass("icon-circle fa-dot-circle-o");
+
+        });
+
+        //$(".side-menu").hover(
+        //      function () {
+        //          $('#side-menu-left').addClass('side-menu-visible');
+        //      },
+        //      function () {
+        //          $('#side-menu-left').removeClass('side-menu-visible');
+        //      }
+        //  );
+
+    });
+
+
+    $(window).resize(function () { //testing
+        $('nav').css('padding-left', '');
+        $("#bodyMenu").css({ "margin-left": "", "display": "" });
+
+        var width = $(window).width();
+
+        if (width < 992) {
+            //$('#side-menu-left').addClass('side-menu-fixed');
+            $(".side-menu").css({ "left": "-285px" });
+        }
+        else {
+            $("#side-menu-left").css({ "left": "0px" });
+            $("i", this).addClass("fa-dot-circle-o");
+            $('#side-menu-left').addClass('side-menu-visible');
+            //$('#side-menu-left').addClass('side-menu-fixed');
+        }
+
+
+    });
+
+
+    /*==| /side menu script |==*/
+
+
+</script>
+@*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>*@
+<script src="~/Scripts/JSFiles/bootstrap.min.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/MenuOpenCommon.js"></script>

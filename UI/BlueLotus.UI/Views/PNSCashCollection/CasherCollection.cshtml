@@ -1,0 +1,511 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<style>
+    .k-numerictextbox .k-input {
+        width: 96%;
+        text-align: right;
+        padding-right: 5px !important;
+    }
+</style>
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+
+<div class="form wr_formGroup clearfix">
+    <div class="col-md-12 control-icons hidden-xs hidden-sm">
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+        <button class="control-button clean" onclick="CleanAll()" data-tooltip="Clear"> </button>
+
+    </div>
+    <div class="col-md-12 form-horizontal">
+
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Coordinator</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="CordinatorName"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Company</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="BUCode" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cash</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Cash" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cheque</label>
+
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-12 col-sm-12">
+                <div id="grid"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12 control-icons marging-b-500 m-t-40 hidden-lg hidden-md">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button clean fr marging-r-10" onclick="CleanAll()" data-tooltip="Clear"> </button>
+        </div>
+
+
+    </div>
+
+
+</div>
+<script>
+    var OurCode = "@(ViewBag.ObjCaptn)";
+    var urlGetBUCode = '@Url.Content("~/PNSCordinatorDeposit/CompanyLookup")';
+    $(document).ready(function () {
+        //Load the tooltip //COmmo srcipt
+        Tooltip();
+        //Selecting the text//COmmo srcipt
+        SelectText();
+        LoadCombo();
+        $("#Cash").kendoNumericTextBox({
+            decimals: 3.
+        });
+        LoadGridChq();
+        $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+        $('.k-input').on('focus', function () {
+            var input = $(this);
+            setTimeout(function () { input.select(); });
+        });
+        CleanAll();
+
+    })
+    function LoadCombo() {
+        //combo from BusinessUnit Id
+        $("#CordinatorName").kendoComboBox({
+            dataValueField: "AccKy",
+            dataTextField: "AccCd",
+            dataSource: {
+                type: "POST",
+                transport: {
+                    read: '@Url.Content("~/PNSCashCollection/CordinatorName")'
+                }
+            },
+            change: function (e) {
+                var cmb = $("#CordinatorName").data("kendoComboBox");
+                var CdKy = cmb.value();
+                if (CdKy != "") {
+                    var validate = ComboValidations("CordinatorName");
+                    if (validate) {
+                        $("#CordinatorName").data("kendoComboBox").value(CdKy);
+                        // UsrCashBal();
+                    } else {
+                        $("#cmbfmBUNm").data("kendoComboBox").value("");
+                    }
+                }
+            },
+            filter: "startswith",
+            suggest: true,
+            placeholder: "Select a Coordinator"
+        });
+
+        //BU Code Drop Bottom
+        $("#BUCode")
+            .kendoComboBox({
+                dataValueField: "CdKy",
+                dataTextField: "Code",
+                dataSource: BUCode("HdrSec4_CmbBU"),
+                //    {
+                //    type: "POST",
+                //    transport: {
+                //        read: urlGetBUCode //readcontroler and action
+                //    }
+                //},
+                change: function (e) {
+                    var cmb = $("#BUCode").data("kendoComboBox");
+                    var BUKy = cmb.value();
+                    if (BUKy != "") {
+                        var validate = ComboValidations("BUCode");
+                        if (validate) {
+
+                            $("#BUCode").data("kendoComboBox").value(BUKy);
+                            UsrCashBal1()
+
+
+                        } else {
+
+                            $("#BUCode").data("kendoComboBox").value("");
+
+
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a BU"
+            });
+
+    }
+
+    @*//Get Cordinator Balance Cash
+    function UsrCashBal() {
+        var CordKy = document.getElementById("CordinatorName").value;
+
+
+        if (CordKy) {
+            $.ajax({
+
+                url: "@Url.Content("~/PNSCashCollection/UsrCashBal")",
+                data: JSON.stringify({
+                    CordKy: CordKy,
+
+
+
+                }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var TotalCash = data[0].TotalCash;
+                    $("#Cash").data("kendoNumericTextBox").value(TotalCash);
+                    LOadUsrChq(CordKy)
+                    //$("#NonRecBal").value(NonRecBal);
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+        }
+
+
+    }*@
+
+    @*function LOadUsrChq(CordKy) {
+
+
+
+        if (CordKy) {
+            $.ajax({
+
+                url: "@Url.Content("~/PNSCashCollection/UsrChq")",
+                data: JSON.stringify({
+                    CordKy: CordKy,
+
+
+
+                }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.dataSource.data([]);
+
+                    for (i = 0; i < data.length; i++) {
+                        if (true) {
+                            $("#grid").data("kendoGrid").dataSource.add({
+                                BnkKy: data[i].BnkKy,
+                                bankNm: data[i].AccCd,
+                                ChqNO: data[i].PmtDocNo,
+                                Amt: data[i].TotalCash,
+                                BuKy: data[i].BUKy,
+
+
+                            });
+
+                        }
+
+                    }
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+        }
+
+
+
+    }*@
+
+
+    function Save() {
+        var Cash = document.getElementById("Cash").value;
+        var CordinatorName = document.getElementById("CordinatorName").value;
+        var SBu = $("#BUCode").data("kendoComboBox").value();
+
+        var ConCord = "TrnTyp";
+        var OurCode = "@(ViewBag.OurCd)";
+        var grid = $("#grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+
+        }
+
+        $.ajax({
+            url: "@Url.Content("~/PNSCashCollection/CashSave")",
+            data: JSON.stringify({
+                CordinatorName: CordinatorName,
+                Cash: Cash,
+                ConCord: ConCord,
+                OurCode: OurCode,
+                updatedRecords: kendo.stringify(updatedRecords),
+                SBu: SBu
+
+            }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                if (data.length > 0) {
+                    alert("Save Successfully")
+
+                } else {
+                    alert("Please try Again")
+                }
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    }
+
+
+
+    function LoadGridChq() {
+
+        var dataSource = new kendo.data.DataSource({
+
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "BnkKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        BnkKy: { editable: true, nullable: false, type: "string" },
+                        bankNm: { editable: true, nullable: false, type: "string" },
+                        ChqNO: { editable: true, nullable: false, type: "string" },
+                        Amt: { editable: true, nullable: false, type: "Number" },
+                        //Reconsile: { editable: true, nullable: false, type: "boolean" },
+
+                    }
+                }
+            }
+        });
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+            editable: true,
+            navigatable: true,
+            filterable: true,
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            selectable: "column",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+                  {
+                      field: "BnkKy", title: "bankKy", width: "50px", hidden: "true"
+                  },
+                     {
+                         field: "bankNm", title: "Bank Name", width: "50px",
+                     },
+
+                     {
+                         field: "ChqNO", title: "Chq NO", width: "50px",
+
+                     },
+                      {
+                          field: "Amt", title: "Amt", width: "50px", format: '{0:n2}',
+
+                          attributes: { "class": "ob-right" },
+
+                      },
+                       {
+                           template: '<input type="checkbox" #= Reconsile ? "checked=checked" : "" # class="chkbx"></input>', title: "Is Aprove", width: "50px", attributes: { class: "ob-Center" }
+
+                       },
+
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+
+        });
+        // createFilterRow();
+        // createFilterRow();
+        $("#grid .k-grid-content").on("change", "input.chkbx", function (e) {
+
+            var Drgrid = $("#grid").data("kendoGrid");
+            dataItem = Drgrid.dataItem($(e.target).closest("tr"));
+            dataItem.set("Reconsile", this.checked);
+
+            if (dataItem.Reconsile == true) {
+
+                dataItem.set("Reconsile", true);
+                dataItem.dirty = true;
+
+                // calTheSelected();
+
+
+            } else {
+
+                dataItem.set("Reconsile", false);
+
+                dataItem.dirty = false;
+                // calTheSelected();
+            }
+
+
+
+
+        });
+    }
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function BUCode(ObjNm) {
+        // var ObjKy = GetObjKy(ObjNm);
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: urlGetBUCode,
+                    data: {
+                        'ObjKy': 1,
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+
+    function UsrCashBal1() {
+        var SBuKy = document.getElementById("BUCode").value;
+        var CordinatorKy=$("#CordinatorName").data("kendoComboBox").value();
+        var dateObj = new Date();
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+        var DepDate = year + "/" + month + "/" + day;// document.getElementById("datepicker").value;
+
+        var BankKy = 1; //document.getElementById("BankLookup").value;
+
+        if (SBuKy && DepDate && BankKy) {
+            $.ajax({
+                url: "@Url.Content("~/PNSCashCollection/UsrCashBalCashBalance")",
+                   // ("~/PNSCordinatorDeposit/CashBalance")",
+                data: JSON.stringify({
+                    SBuKy: SBuKy,
+                    DepDate: DepDate,
+                    BankKy: BankKy,
+                    CordKy: CordinatorKy,
+                }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function(data) {
+                var TotalCash = data;
+                $("#Cash").data("kendoNumericTextBox").value(TotalCash);
+               
+                ChqeListSelect(SBuKy, DepDate, BankKy, CordinatorKy);
+            },
+            error: function(e) {
+                return false;
+            }
+        });
+
+    }
+
+    }
+
+    function ChqeListSelect(SBuKy, DepDate, BankKy, CordinatorKy) {
+
+        if (SBuKy && DepDate && BankKy) {
+            $.ajax({
+                url: "@Url.Content("~/PNSCashCollection/GetChqueList")",
+                    //("~/PNSCordinatorDeposit/GetChqueList")",
+                data: JSON.stringify({
+                    'SBuKy': SBuKy,
+                    'DepDate': DepDate,
+                    'BankKy': BankKy,
+                    'CordKy': CordinatorKy,
+                }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.dataSource.data([]);
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].TotalCash > 0) {
+                            $("#grid").data("kendoGrid").dataSource.add({
+                                    BnkKy: data[i].BnkKy,
+                                    bankNm: data[i].bankNm,
+                                    ChqNO: data[i].ChqNO,
+                                    Amt: data[i].TotalCash,
+                                    Reconsile: false
+
+                                });
+
+                        }
+
+                    }
+
+                },
+                error: function(e) {
+                    return false;
+                }
+            });
+
+        }
+
+    }
+
+    function CleanAll() {
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.data([]);
+        $("#BUCode").data("kendoComboBox").value("");
+        $("#CordinatorName").data("kendoComboBox").value("");
+        $("#Cash").data("kendoNumericTextBox").value("");
+
+
+
+
+    }
+
+</script>

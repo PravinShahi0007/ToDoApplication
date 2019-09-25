@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "ResourceAdd";
+}
+
+<div id="AddResource" style="display: none; font-size: 11px;" class="no-margin row">
+    <div id="HdrPart">
+        <div class="col-md-12 col-sm-6">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6">
+                            <div id="HdrSec1_ResPopAdr">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom: 10px; padding-top: 10px">
+                                    <div>
+                                        <label id="HdrSec1_ResPopAdr_Lbl">Account Address</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom: 10px;">
+                                    <input type="text" readonly="readonly" id="HdrSec1_ResPopAdr_Cd" class="form-control input-sm"/>
+                                    @*<div data-cpypst-blsmartcpypaste="AdrCd" id="HdrSec1_ResPopAdr_Cd" class="width-100"></div>*@
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom: 10px;">
+                                    <input type="text" readonly="readonly" id="HdrSec1_ResPopAdr_Nm" class="form-control input-sm"/>
+                                    @*<div data-cpypst-blsmartcpypaste="AdrNm" id="HdrSec1_ResPopAdr_Nm" class="width-100"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6">
+                            <div id="HdrSec1_TaskPop">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom: 10px; padding-top: 10px">
+                                    <div>
+                                        <label id="HdrSec1_TaskPop_Lbl">Task:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom: 10px;">
+                                    <input type="text" readonly="readonly" id="HdrSec1_TaskPop_Cd" class="form-control input-sm"/>
+                                    @*<div data-cpypst-blsmartcpypaste="AdrCd" id="HdrSec1_TaskPop_Cd" class="width-100"></div>*@
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom: 10px;">
+                                    <input type="text" readonly="readonly" id="HdrSec1_TaskPop_Nm" class="form-control input-sm"/>
+                                    @*<div data-cpypst-blsmartcpypaste="AdrNm" id="HdrSec1_TaskPop_Nm" class="width-100"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6">
+                            <div id="HdrSec1_ResAdr">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom: 10px; padding-top: 10px">
+                                    <div>
+                                        <label id="HdrSec1_ResAdr_Lbl">Resorce Address</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom: 10px;">
+
+                                    <div data-cpypst-blsmartcpypaste="AdrCd" id="HdrSec1_ResAdr_Cd" class="width-100"></div>
+                                </div>
+                                <div class="form-group col-md-5 col-sm-4" style="margin-bottom: 10px;">
+                                    <div data-cpypst-blsmartcpypaste="AdrNm" id="HdrSec1_ResAdr_Nm" class="width-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6">
+                            <div id="HdrSec1_NumResQty">
+                                <div class="form-group col-md-3 col-sm-4" style="margin-bottom: 10px; padding-top: 10px">
+                                    <div>
+                                        <label id="HdrSec1_NumResQty_Lbl">Resorce Qty:</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-4 p-r-0-lg" style="margin-bottom: 10px;">
+                                    <input data-cpypst-blsmartcpypaste="ResQty" id="HdrSec1_NumResQty_Val" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12" id="ResorcePopUp"></div>
+    </div>
+
+</div>
+<script>
+    var UrlDetailPopUp = '@Url.Content("~/DailyProgress/SubConPopUp")';
+</script>
+<script src="~/Scripts/HtnScripts/DailyProgress/DetailEnterPopUp.js"></script>

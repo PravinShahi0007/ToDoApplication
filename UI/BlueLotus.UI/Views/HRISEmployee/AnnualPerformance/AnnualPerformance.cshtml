@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "Annual Performance";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div>
+    <div class="k-content clearfix" id="filterCont">
+
+        <div class="col-md-12 control-icons" id="ButtonSet">
+
+            <button class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>
+            <button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>
+            <button class="control-button update" onclick="SaveUpdate('Update')" data-tooltip="Update"> </button>
+            <button class="control-button cancel" onclick="clearfunction()" data-tooltip="Cancel"> </button>
+
+
+        </div>
+        <div>
+            @Html.Partial("~/Views/HRISEmployee/EmpGetDet.cshtml")
+        </div>
+        <div>
+            @Html.Partial("~/Views/HRISEmployee/GetEmp.cshtml")
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-3 col-sm-6">
+                <div class="wr_formGroup">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Year:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Year" id="year" type="text" class="k-textbox" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Month:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <div id="cmbMonth" data-cpypst-blsmartcpypaste="cmbMonth"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Review Sent:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Review Sent" id="reviewSent" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Review Received:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Review Received" id="reviewReceived" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Overall Grade:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Overall Grade" id="overallGrade" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Review Person:</label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input placeholder="Review Person" id="reviewPerson" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <label>Select File </label>
+                            </div>
+                            <div class="col-md-6 col-sm-8 ">
+                                <input name="files" id="files" type="file" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<div style="margin-top: 20px; margin-left: 20px; margin-bottom: 10px;">
+                        <label>Select File </label>
+                        <div style="margin-left: 100px; margin-top: -20px;">
+                            <input name="files" id="files" type="file" />
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <br style="clear:both" />
+    <div class="col-md-12 col-sm-12">
+        <div id="AnnualPerformanceGrid">
+
+        </div>
+
+    </div>
+</div>
+<div>
+    @* @Html.Partial("~/Views/Journal/JournalFind.cshtml")*@
+</div>
+
+<script>
+    var OurCode = "@(ViewBag.OurCd)";
+    var urlHRISEmployeeGetCdMas_LookupWeb = '@Url.Content("~/HRISEmployee/GetCdMas_LookupWeb")';
+
+    var urlInsertAnnualPerDet = '@Url.Content("~/HRISEmployee/HRISInsertAnnualPerDet")';
+    var urlGetAnnualPerDet = '@Url.Content("~/HRISEmployee/HRISGetAnnualPerDet")';
+</script>
+
+<style>
+    .ob-Center {
+        text-align: center;
+    }
+
+    .ob-right {
+        text-align: center;
+    }
+</style>
+
+<script src="~/Scripts/HtnScripts/HRISEmployee/AnnualPerformance.js"></script>
+

@@ -1,0 +1,337 @@
+﻿@*<link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />*@
+@using BlueLotus.ViewModel.Entity;
+
+@*<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>*@
+
+<style>
+    #FindFormJournal {
+        height: 94%;
+    }
+</style>
+
+<div id="FindFormJournal" style="display: none; font-size:11px;">
+
+
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-6 control-icons width-100" id="ButtonSet">
+
+            <button class="control-button preview" onclick="Search()" data-tooltip="preview"> </button>
+            <button class="control-button selected" onclick="selected()" data-tooltip="select"> </button>
+            <button class="control-button back" onclick="back()" data-tooltip="back"> </button>
+
+
+            @*<button class="control-button cancel" onclick="ComClearFunction()" data-tooltip="Cancel"> </button>
+                <button class="control-button print" onclick="Prinrept()" data-tooltip="Print"> </button>*@
+            @*<button class="control-button preview disabledClick" onclick="Preview()" data-tooltip="Preview"> </button>
+                <button class="control-button clean disabledClick" onclick="Clean()" data-tooltip="Clean"> </button>
+                <button class="control-button add disabledClick" onclick="Add()" data-tooltip="Add"> </button>
+                <button class="control-button attach disabledClick" onclick="Attach()" data-tooltip="Attach"> </button>
+                <button class="control-button save_as disabledClick" onclick="Save_as()" data-tooltip="Save As"> </button>
+                <button class="control-button save_and_new disabledClick" onclick="Save_and_new()" data-tooltip="Save And New"> </button>
+                <button class="control-button audio_record disabledClick" onclick="Audio_record()" data-tooltip="Audio Record"> </button>
+                <button class="control-button video_record disabledClick" onclick="Video_record()" data-tooltip="Video Record"> </button>
+                <button class="control-button delete disabledClick" onclick="Delete()" data-tooltip="Delete"> </button>
+                <button class="control-button filter disabledClick" onclick="Filter()" data-tooltip="Filter"> </button>
+                <button class="control-button filter_clear disabledClick" onclick="Filter_Clear()" data-tooltip="Filter Clear"> </button>
+                <button class="control-button search disabledClick" onclick="Search()" data-tooltip="Search"> </button>
+                <button class="control-button download disabledClick" onclick="Download()" data-tooltip="Download"> </button>
+                <button class="control-button upload disabledClick" onclick="Upload()" data-tooltip="Upload"> </button>
+                <button class="control-button back disabledClick" onclick="Back()" data-tooltip="Back"> </button>
+                <button class="control-button setting disabledClick" onclick="Setting()" data-tooltip="Setting"> </button>
+                <button class="control-button edit disabledClick" onclick="Edit()" data-tooltip="Edit"> </button>
+                <button class="control-button refresh disabledClick" onclick="Refresh()" data-tooltip="Refresh"> </button>
+                <button class="control-button update disabledClick" onclick="Update()" data-tooltip="Update"> </button>
+                <button class="k-button" id="btnItemFromPuOrd" onclick="ItemFromPurOrd();" title="New From Purches Req" style="width: 150px; height: 30px">New From Purches Order</button>*@
+            @*@Html.Partial("~/Views/HtnShared/HtnCommonBtnSet.cshtml")*@
+
+        </div>
+        <div id="HdrPart">
+            <div class="col-md-12 col-sm-12 p-l-0">
+                <div class="wr_formGroup">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- Date From -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-10 col-xs-10"><label>Date From:</label></div>
+                                    <div class="col-md-6 col-sm-10 col-xs-10"><input id="FrmDt" /></div>
+                                </div><!-- Date From -->
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!-- Date To -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>Date To:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12"><input id="ToDt" /></div>
+                                    <!-- /Date To -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- TrnNo -->
+                                @*<div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12"><label>TrnNo:</label></div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 p-r-0"><input id="Prefix" class="width-100" /></div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6 p-r-0"><input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox width-100" /></div>
+                                </div>*@<!-- TrnNo -->
+
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <label>TrnNo:</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 ">
+                                        <input id="Prefix"/>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6 p-r-0">
+                                        <input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox width-100" />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!-- DocNo -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>DocNo:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12"><input placeholder="Doc No" id="DocumentNo" type="text" class="k-textbox width-100" /></div>
+                                </div> <!-- /DocNo -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- Account -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <label>Account:</label>
+                                    </div>
+                                    <div class="col-md-1 col-sm-6 col-xs-6 p-r-0">
+                                        <div class="onoffswitch  margin-auto">
+                                            <input type="checkbox" id="AccChk" name="AccChk" onchange="AccChkChange()" class="onoffswitch-checkbox">
+                                            <label class="onoffswitch-label" for="AccChk">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        @*<input id="AccChk" name="AccChk" type="checkbox" onchange="AccChkChange()" />*@                                       
+                                    </div>
+                                </div>
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 ">
+                                         <input id="AccCode" style="display:none"/>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6 p-r-0">
+                                        <input id="AccName" style="display:none" class="width-100" />
+                                    </div>
+                                </div>
+                                <!-- /Account -->
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!-- Is Recurrence -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>Is Recurrence:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="onoffswitch  margin-auto">
+                                            <input type="checkbox" id="IsRec" name="IsRec" class="onoffswitch-checkbox">
+                                            <label class="onoffswitch-label" for="IsRec">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        @*<input id="IsRec" name="IsRec" type="checkbox" />*@
+                                    </div>
+                                </div> <!-- /Is Recurrence -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <!-- Project -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <label>Project:</label>
+                                    </div>
+                                    <div class="col-md-1 col-sm-6 col-xs-6 p-r-0">
+                                        <div class="onoffswitch  margin-auto">
+                                            <input type="checkbox" id="PrjChk" name="PrjChk" onchange="PrjChkChange()" class="onoffswitch-checkbox">
+                                            <label class="onoffswitch-label" for="PrjChk">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        @*<input id="PrjChk" name="PrjChk" type="checkbox" onchange="PrjChkChange()" />*@
+                                    </div>
+                                </div>
+                                <div class="row m-b-2">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-xs-6 ">
+                                        <input id="PrjCd" style="display:none" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6 p-r-0">
+                                        <input id="PrjNm" style="display:none" class="width-100" />
+                                    </div>
+                                </div>
+                                <!-- /Project -->
+                            </div>
+                            <div class="col-md-5 col-sm-12 col-xs-12">
+                                <!--Is Printed  -->
+                                <div class="row m-b-2">
+                                    <div class="col-md-4 col-sm-12 col-xs-12"><label>Is Printed:</label></div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <div class="onoffswitch  margin-auto">
+                                            <input type="checkbox" id="IsPrnt" name="IsPrnt" class="onoffswitch-checkbox">
+                                            <label class="onoffswitch-label" for="IsPrnt">
+                                                <span class="onoffswitch-inner"></span>
+                                                <span class="onoffswitch-switch"></span>
+                                            </label>
+                                        </div>
+                                        @*<input id="IsPrnt" name="IsPrnt" type="checkbox" />*@
+                                    </div>
+                                </div> <!-- /Is Printed -->
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date From:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="FrmDt" />
+
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>Date To:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="ToDt" />
+
+                            </div>
+
+                        </div>*@
+                    </div>
+                    @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>TrnNo:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-3">
+                                <input style="width:140px;" id="Prefix" />
+                            </div>
+                            <div class="col-md-2 col-sm-3 ">
+                                <input placeholder="Trn No" id="TrnNo" type="text" class="k-textbox"/>
+                            </div>
+                            <div class="col-md-1 col-sm-3">
+                                <label>DocNo:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input placeholder="Doc No" id="DocumentNo" type="text" class="k-textbox"/>
+
+
+                            </div>
+
+                        </div>
+                    </div>*@
+                    @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Account:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1 ">
+                                <input id="AccChk" name="AccChk" type="checkbox" onchange="AccChkChange()" />
+
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="AccCode" style="display:none" />
+
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="AccName" style="display:none" />
+
+                            </div>
+
+                        </div>
+                    </div>*@
+                    @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1 col-sm-3">
+                                <label>Project:</label>
+                            </div>
+                            <div class="col-md-1 col-sm-1 ">
+                                <input id ="PrjChk" name="PrjChk" type="checkbox" onchange="PrjChkChange()" />
+
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="PrjCd" style="display:none" />
+
+                            </div>
+                            <div class="col-md-3 col-sm-3 ">
+                                <input id="PrjNm" style="display:none" />
+
+                            </div>
+                  
+                        </div>
+                    </div>*@
+                    @*<div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <label>Is Recurrence:</label>
+
+                            </div>
+                            <div class="col-md-1 col-sm-3 ">
+                                <input id="IsRec" name="IsRec" type="checkbox"/>
+
+
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <label>Is Printed:</label>
+
+                            </div>
+                            <div class="col-md-1 col-sm-3 ">
+                                <input id="IsPrnt" name="IsPrnt" type="checkbox" />
+
+
+                            </div>
+
+
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <br style="clear:both" />
+        <div class="col-md-12 col-sm-12 p-l-0">
+            <div id="FindFormGrid">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+
+    var urlGetJournalFind = '@Url.Content("~/Journal/LoadGridFindView")';
+    var urlGetPrjCd = '@Url.Content("~/Journal/ProjectCode")';
+    var urlGetPrjNm = '@Url.Content("~/Journal/ProjectName")';
+    var urlAccCd = '@Url.Content("~/Journal/Accdrop")';
+    var urlAccNm = '@Url.Content("~/Journal/AccdropNM")';
+    var urlSelected = '@Url.Content("~/Journal/GetHdrDetail")';
+    var urlSelectedGrid = '@Url.Content("~/Journal/GetGridDetail")';
+    var urlFindJournal = '@Url.Content("~/Codes/CdMas_LookupWebByConCd")';
+
+
+</script>
+
+
+
+<script src="~/Scripts/HtnScripts/Journal/JournalFind.js"></script>

@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+<div id="Main">
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 control-icons" id="ButtonSet">
+        <button class="control-button add" data-tooltip="Add" onclick="addBOQ()"></button>
+        <button class="control-button load" data-tooltip="Load" onclick="loadBOQ()"></button>
+        <button class="control-button save" data-tooltip="Save" onclick="saveBOQ()"></button>
+        <button class="control-button save_and_new" data-tooltip="Save & New"   onclick="Save&NewBOQ()"></button>
+        <button class="control-button print" data-tooltip="Print" onclick="PrintBOQ()"></button>
+        <button class="control-button import" data-tooltip="Excel Import" onclick="ExcelImportBOQ()"></button>
+        <button class="control-button close" data-tooltip="Close" onclick="Close()"></button>
+    </div>
+</div>
+
+
+   
+                        <div id="tabstrip">
+                            <ul>
+                                <li id="hdrTab">BOQ Header</li>
+                                @*<li id="detTab">BOQ Details</li>*@
+                            </ul>
+                            <div style="width:100%">@Html.Partial("~/Views/BOQ/BOQHeader.cshtml")</div>
+                            @*<div>@Html.Partial("~/Views/BOQ/BOQDetails.cshtml")</div>*@
+                        </div>
+                    </div>
+
+    <script>
+        $("#tabstrip").kendoTabStrip({
+            navigatable: true
+        });
+    </script>
+
+
+    @*var urlGetTypKy = '@Url.Content("~/HtnShared/GetTypKy")';
+        var urlIsExistingBillNo = '@Url.Content("~/BOQ/isExistingBillNo")';
+        var urlBOQHeader_UpdateWeb = '@Url.Content("~/BOQ/BOQHeader_UpdateWeb")';
+        var urlBOQDetails_UpdateAndInsertAndDelete = '@Url.Content("~/BOQ/BOQDetails_UpdateAndInsertAndDelete")';
+        var urlisExistingBillNo = '@Url.Content("~/BOQ/isExistingBillNo")';*@
+    @*</script>
+        <script src="~/Scripts/HtnScripts/BOQ/BOQInsUpDel.js"></script>*@
+
+<style>
+    #title {
+        text-align: center;
+        width: 2000px;
+        font-size: large;
+    }
+    /*div.k-tabstrip:focus {
+        box-shadow: none;
+    }
+    div.k-tabstrip .k-content {
+        border-width: 1px 0 0;
+    }*/
+    #tabstrip,
+    #tabstrip-parent {
+        height: 100%;
+        border-width: 0;
+    }
+</style>
+

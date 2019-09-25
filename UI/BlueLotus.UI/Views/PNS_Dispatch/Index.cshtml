@@ -1,0 +1,358 @@
+﻿@{
+    ViewBag.Title = ViewBag.MyString;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+
+@*@{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_GanttLayout.cshtml";
+        <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+    }*@
+
+@*<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+
+    <link href="~/Scripts/HtnScripts/POS/kendo.common.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+    <script src="~/Scripts/HtnScripts/POS/kendo.all.min.js"></script>*@
+
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 5px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left:120px; margin-top: -60px; width:1000px;">
+        <div style="text-align: center; height:38px; background-color: #004D95; "><h2><font color="white" size="5px">PNS Dispatch</font></h2></div>
+        <div>
+            <div class="k-content" id="filterCont">
+                <div id="HdrPart">
+                    <div style="margin-left:100px;margin-top:10px; height:38px;">
+                        <label style="margin-left:10px;margin-top:5px;">Date:</label>
+                        <input id="Date" class=" " data-role=" datepicker" data-bind="value: Date" />
+                        <label style="margin-left:15px;margin-top:5px;">Delivery No:</label>
+                        <div id="cmbDeliveryNo"></div>
+                        @*<button class="control-button update" onclick="UpdateDetails()" data-tooltip="update"> </button>*@
+                        <button class="control-button preview" onclick="LoadGridView()" data-tooltip="preview"> </button>
+                    </div>
+
+                    <div id="GridWin" style="margin-top:20px;margin-bottom:10px;">
+                        @* Declare Grid View *@
+                        <div id="grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)'
+    }
+
+    $(document).ready(function () {
+        LoadCombo();
+        var currentDate = new Date();
+        $('#Date').data("kendoDatePicker").value(currentDate);
+        $('#Date').data("kendoDatePicker").enable(false);
+    });
+
+    $("#Date").width(150).kendoDatePicker({
+        format: "dd/MM/yyyy",
+        min: new Date(31, 2, 2009)
+    });
+    //==================================== Combo Loading =================
+    function LoadCombo() {
+        $("#cmbDeliveryNo").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: DeliveryNoLookupDatasource(),
+            change: function (e) {
+
+            },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Delivery No."
+        });
+    }
+    //======================================== Delivery No Combo ==============
+    function DeliveryNoLookupDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/PNS_Dispatch/DeliveryNoLookup")',
+                      dataType: "json"
+                  }
+              }
+          });
+        return dataSource;
+    }
+    //================================= Load Grid View =====================
+    function LoadGridView() {
+
+        try {
+            $('#grid').data().kendoGrid.destroy();
+            $('#grid').empty();
+        } catch (e) { }
+
+        var Date = $("#Date").val();
+        var RecurDlvNoKy = $("#cmbDeliveryNo").data('kendoComboBox').value();
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Content("~/PNS_Dispatch/LoadGridViewforPNSDispatch")",
+                    data: { Date: Date, RecurDlvNoKy: RecurDlvNoKy },
+                    dataType: "json"
+                },
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "DlvryNo",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        DlvryNo: { editable: true, nullable: false },
+                        AccKy: { editable: true, nullable: false },
+                        AccCd: { editable: true, nullable: false },
+                        AccNm: { editable: false, nullable: false },
+                        AdrKy2: { editable: true, nullable: false },
+                        AdrID: { editable: true, nullable: false },
+                        AdrNm: { editable: true, nullable: false },
+                        NickNm: { editable: true, nullable: false }
+                    }
+                }
+            }
+        });
+        //============================= Grid View Main =======================
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+            height: 400,
+            navigatable: true,
+            filterable: {
+                mode: "row"
+            },
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            detailInit: detailInit,
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+              { field: "AccKy", title: "AccKy", width: "180px", hidden: true },
+              { field: "AccNm", title: "Outlet", width: "180px" },
+              {
+                  field: "AdrID",
+                  title: "Vechile No",
+                  width: "140px",
+                  editor: function (container, options) {
+                      var model = options.model;
+
+                      $('<input id="cmbVehNo" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                          dataSource: {
+                              type: "POST",
+                              transport: {
+                                  read: {
+                                      url: '@Url.Action("VehicleLookup", "PNS_Security")',
+                                      data: {
+                                          ObjKy: viewBag.ObjKy
+                                      }
+                                  }
+                              }
+                          },
+                          change: function (e) {
+
+                              combo = e.sender;
+                              selectedItm = combo.select();
+                              dataItem = combo.dataItem(selectedItm);
+
+                              if (dataItem != undefined) {
+                                  UpdatePNS_Dispatch_PerantVehNoCmb(model.AccKy, dataItem.AdrKy, model.AdrKy2);
+                                  model.set("AdrKy2", dataItem.AdrKy);
+                                  model.set("AdrID", dataItem.AdrID);
+                              }
+                              else {
+                                  UpdatePNS_Dispatch_PerantVehNoCmb(model.AccKy, 1, model.AdrKy2);
+                                  model.set("AdrKy2", 1);
+                                  model.set("AdrID", '');
+                              }
+                          },
+                          filter: "startswith",
+                          suggest: true,
+
+                          dataValueField: "AdrKy",
+                          dataTextField: "AdrID",
+                          dataBound: function (e) {
+                          }
+                      });
+                  }
+              },
+            ],
+            resizable: true,
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            editable: true,
+        });
+    }
+
+    //======================================== 2nd Grid View =================
+
+    function detailInit(e) {
+        var AccKyPass = e.data.AccKy;
+        var AdrKyPass = e.data.AdrKy2;
+        var Date = $("#Date").val();
+        var RecurDlvNoKy = $("#cmbDeliveryNo").data('kendoComboBox').value();
+
+        var dataSourceforDrilled = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@Url.Content("~/PNS_Dispatch/LoadGridViewforPNSDispatchDrilled")",
+                    data: {
+                        Date: Date,
+                        RecurDlvNoKy: RecurDlvNoKy,
+                        AccKyPass: AccKyPass,
+                        AdrKyPass: AdrKyPass
+                    },
+                    dataType: "json"
+                },
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "TrnKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                {
+                    TrnKy: { editable: true, nullable: false },
+                    TrnDt: { editable: true, nullable: false },
+                    PreFix: { editable: false, nullable: false },
+                    TrnNo: { editable: false, nullable: false },
+                    AdrKy2: { editable: true, nullable: false },
+                    AdrID: { editable: true, nullable: false },
+                    AdrNm: { editable: true, nullable: false },
+                    NickNm: { editable: true, nullable: false }
+                }
+                }
+            }
+        });
+        //================ Child grid Initialization ============================
+        $("<div id='Child" + AccKyPass + "' />").appendTo(e.detailCell).kendoGrid({
+            dataSource: dataSourceforDrilled,
+            serverPaging: true,
+            serverSorting: true,
+            serverFiltering: true,
+            pageSize: 10,
+            selectable: "row",
+            editable: true,
+            //filter: { field: "EmployeeID", operator: "eq", value: e.data.EmployeeID }
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+        { field: "TrnKy", title: "TrnKy", width: "90px", hidden: true },
+        { field: "TrnDt", title: "Date", width: "90px", hidden: true },
+         { field: "Prefix", title: "Pre Fix", width: "90px", hidden: false },
+         { field: "TrnNo", title: "Invoice No", width: "90px", },
+         { field: "AdrKy2", title: "Address Key", width: "100px", hidden: true },
+            {
+                field: "AdrID",
+                title: "Vechile No",
+                width: "140px",
+
+                editor: function (container, options) {
+                    var model = options.model;
+
+                    $('<input id="cmbVehNodrilled" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                        dataSource: {
+                            type: "POST",
+                            transport: {
+                                read: {
+                                    url: '@Url.Action("VehicleLookup", "PNS_Security")',
+                                    data: {
+                                        ObjKy: viewBag.ObjKy
+                                    }
+                                }
+                            }
+                        },
+                        change: function (e) {
+                            combo = e.sender;
+                            selectedItm = combo.select();
+                            dataItem = combo.dataItem(selectedItm);
+                            if (dataItem != undefined) {
+                                model.set("AdrKy2", dataItem.AdrKy);
+                                model.set("AdrID", dataItem.AdrID);
+
+                                UpdatedrilledVehNo(AccKyPass, model.TrnKy, dataItem.AdrKy);
+                            }
+                            else {
+                                model.set("AdrKy2", 1);
+                                model.set("AdrID", '');
+
+                                UpdatedrilledVehNo(AccKyPass, model.TrnKy, 1);
+                            }
+                        },
+                        filter: "startswith",
+                        suggest: true,
+                        dataValueField: "AdrKy",
+                        dataTextField: "AdrID",
+                        dataBound: function (e) {
+                        }
+                    });
+                }
+            },
+         { field: "NickNm", title: "Nick Name", width: "140px", hidden: true },
+            ]
+
+        });
+    }
+
+    //======= Update PNS Dispatch drilled vehicle combo =================================
+    function UpdatedrilledVehNo(AccKyPass, TrnKy, AdrKy) {
+        $.ajax({
+            url: "@Url.Content("~/PNS_Dispatch/Update_drilledVehNo")",
+            data: JSON.stringify({
+                TrnKy: TrnKy,
+                AdrKy: AdrKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $("#Child" + AccKyPass).data('kendoGrid').dataSource.read();
+                $("#Child" + AccKyPass).data('kendoGrid').refresh();
+                //LoadGridView();
+            }
+        });
+    }
+
+    //====================================== Update PNS Dispatch Parent Grid view Combo ========
+    function UpdatePNS_Dispatch_PerantVehNoCmb(AccKy, AdrKy, PreAdrKy) {
+        var Date = $("#Date").val();
+        var RecurDlvNoKy = $("#cmbDeliveryNo").data('kendoComboBox').value();
+
+        $.ajax({
+            url: "@Url.Content("~/PNS_Dispatch/UpdatePNS_Dispatch_PerantVehNoCmb")",
+            data: JSON.stringify({
+                AccKy: AccKy,
+                AdrKy: AdrKy,
+                PreAdrKy: PreAdrKy,
+                Date: Date,
+                RecurDlvNoKy: RecurDlvNoKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $("#grid").data('kendoGrid').dataSource.read();
+                $("#grid").data('kendoGrid').refresh();
+                //LoadGridView();
+            }
+        });
+    }
+
+</script>

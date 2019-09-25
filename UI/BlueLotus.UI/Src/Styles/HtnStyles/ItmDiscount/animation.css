@@ -1,0 +1,121 @@
+
+
+.Header {
+    -webkit-animation-duration: 1.4s;
+    -webkit-animation-name: Header-In;
+    -moz-animation-duration: 1.4s;
+    -moz-animation-name: Header-In;
+}
+
+@keyframes Header-In {
+    from {
+        margin-top: -4%;
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1.0;
+        margin-top: 1%;
+    }
+}
+
+/* for PNS Security Animation*/
+.PNS_Title {
+    -webkit-animation-duration: 1.4s;
+    -webkit-animation-name: PNS_Title-In;
+    -moz-animation-duration: 1.4s;
+    -moz-animation-name: PNS_Title-In;
+}
+
+@keyframes PNS_Title-In {
+    from {
+        margin-left: -15%;
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1.0;
+        margin-left: 0%;
+    }
+}
+
+
+.MenuShow {
+    -webkit-animation-duration: 4.7s;
+    -webkit-animation-name: Menu-Enter;
+    -moz-animation-duration: 4.7s;
+    -moz-animation-name: Menu-Enter;
+}
+
+@keyframes Menu-Enter {
+    from {
+        margin-top: -120px;
+    }
+
+    to {
+        margin-top: 0px;
+    }
+}
+
+#AlertBox{
+    visibility:hidden;
+}
+
+/*.Alert{
+    background-color:darkblue;
+    width:165px;
+    height:70px;
+    border: 2px solid white ;
+    padding:5px 5px 5px 5px;
+    position: absolute;
+    top:500px;
+}*/
+
+.Border{
+    background-color:white;
+    width:150px;
+    height:55px;
+    border: 2px solid White ;  
+}
+
+.AlertAnim{
+    -webkit-animation-duration: 4s;
+    -webkit-animation-name: Move;
+    -moz-animation-duration: 4s;
+    -moz-animation-name: Move;
+}
+@keyframes Move {
+  from {-webkit-transform: translate(0,0);}
+  20% {-webkit-transform: translate(-200px,0);}
+  60% {-webkit-transform: translate(-200px,0);}
+  80% {-webkit-transform: translate(-200px,0);}
+  to {-webkit-transform: translate(0,0);}
+
+
+}
+
+#AlertBox{
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 160px;
+  height:20px;
+  padding: 20px;
+  overflow: hidden;
+  border: none;
+  -webkit-border-radius: 37px 0 0 4px;
+  border-radius: 37px 0 0 4px;
+  font: normal 16px/1 "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color: rgba(255,255,255,1);
+  text-align: center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  background: rgba(39,104,21,0.74);
+  -webkit-box-shadow: 5px 5px 8px 2px rgba(0,0,0,0.4) , 1px 1px 0 0 rgba(5,73,12,0.74) inset;
+  box-shadow: 5px 5px 8px 2px rgba(0,0,0,0.4) , 1px 1px 0 0 rgba(5,73,12,0.74) inset;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+}

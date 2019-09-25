@@ -1,0 +1,118 @@
+﻿@model IEnumerable<BlueLotus.ViewModel.Entity.MenuModel>
+@using BlueLotus.UI.Models;
+
+<div class="no-margin padding-25 sm-padding-10" id="main-container">
+    <div class="row">      
+        <img src="~/Images/5.jpg" style="width:100%; height:89vh;" class="visible-lg visible-md hidden-sm" />
+        <img src="~/Images/5-mobile.jpg" style="width:100%; height:89vh;" class="hidden-lg hidden-md -md visible-xs" />
+        
+        @*<iframe style="width:100%; height:89vh;" src="https://app.powerbi.com/view?r=eyJrIjoiYzg2MDNhMGItOThhOC00ZGUxLTlmMmUtZGU1MWU3MjA4ZWI1IiwidCI6IjZhMGQ1MDVlLWVhM2QtNGYxMS05ODU2LWQwZjhmMzgzMmZjOCIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>*@   
+         
+    </div>
+    @*<div>
+        @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+    </div>*@
+</div>
+
+    <script>
+        var urlAutoCompleteGoToMenu = '@Url.Content("~/Menu/GetSmartMenuModel")';
+        $(document).ready(function () {
+
+            $("#AutoCompleteGoToMenu").focus();
+            $("#AutoCompleteGoToMenu_Div").show();
+
+            $("#btnSmatSerachGridDynamic").click(function () {
+                $("#AutoCompleteGoToMenu_Div").hide();
+                $('#SmatSerachGrid_Div').show();
+            });
+
+            $("#btnSmatSerachGridDynamicGrid").click(function () {
+                $("#SmatSerachGrid_Div").hide();
+                $('#AutoCompleteGoToMenu_Div').show();
+            });
+
+            @*var tempCNm = '@HTNSession.CNm' + '.jpg';
+            tempCNm = tempCNm.replace(/ /g, '');
+            tempCNm = tempCNm.replace(/[{()}]/g, '');*@
+
+            // The "callback" argument is called with either true or false
+            // depending on whether the image at "url" exists or not.
+            //function imageExists(url, callback) {
+            //    var img = new Image();
+            //    img.onload = function () { callback(true); };
+            //    img.onerror = function () { callback(false); };
+            //    img.src = url;
+            //}
+
+            //if (tempCNm === "SENOKCOMMERCIALVEHICLES(PVT)LTD.jpg") {
+            //    tempCNm = 'SENOK.jpg';
+            //}
+
+            //alert(tempCNm);
+            //console.log("tempCNm : " + tempCNm);
+
+            // Sample usage
+            //var imageUrl = "http://" + document.location.host + "/DevBL10/Images/CompanyImages/" + tempCNm;
+            //imageExists(imageUrl, function (exists) {
+                //alert(exists);
+        //        if (!exists) {
+        //            tempCNm = 'ABCDemoCompany.jpg';
+        //        }
+
+        //        $("#menuBackGroundDiv").css({
+        //            "background-image": "url(../../../DevBL10/Images/CompanyImages/" + tempCNm + ")",
+        //            "background-attachment": "fixed",
+        //            "background-color": "transparent",
+        //            "background-repeat": "no-repeat",
+        //            "background-attachment": "scroll",
+        //            "background-position": "0% 0%",
+        //            "background-clip": "border-box",
+        //            "background-origin": "padding-box",
+        //            //"background-size": "auto auto",
+        //            "background-size": "100% 100%"
+        //        });
+
+        //        console.log("Company Name : " + tempCNm + " : " + imageUrl);
+        //    });
+
+        //    setHeightSmrtDocArea();
+        });
+
+        function setHeightSmrtDocArea() {
+            var height = $(window).height();
+
+            //height = (height - (76));
+
+            $("#menuTreeView").height(height);
+            //$("#menuTreeView").height(height - 25);
+            $("#SmrtDocAreaTable").height(height);
+            $("#SmrtDocArea").height(height);
+
+        }
+        // time widget start
+        //function checkTime(i) {
+        //    if (i < 10) {
+        //        i = "0" + i;
+        //    }
+        //    return i;
+        //}
+
+        //function startTime() {
+        //    var today = new Date();
+        //    var h = today.getHours();
+        //    var m = today.getMinutes();
+        //    var s = today.getSeconds();
+        //    var amPM = (h > 11) ? "PM" : "AM";
+        //    // add a zero in front of numbers<10
+        //    m = checkTime(m);
+        //    s = checkTime(s);
+        //    document.getElementById('time').innerHTML = h + ":" + m + ":" + s +" "+amPM;
+        //    t = setTimeout(function () {
+        //        startTime()
+        //    }, 500);
+        //}
+        //startTime();
+        //time widget end
+    </script>
+
+    <script src="~/Scripts/HtnScripts/HtnShared/MenuOpenCommon.js"></script>

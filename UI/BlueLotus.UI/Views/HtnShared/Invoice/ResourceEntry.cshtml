@@ -1,0 +1,466 @@
+﻿@{
+    ViewBag.Title = "Resource";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+}
+
+
+<div id="supervicer" style="/*background-color: #DCDCDC; */ padding-left: 40px; padding-top: 58px; margin-top: 1px; margin-left: 160px;">
+    <div id="addChng" style="background-color: #FFFFFF; border: 2px solid #07789E; margin-left: 20%; margin-top: -40px; width:430px;">
+    <div id="Hdr1" style="margin-top: -2px; background-color:  #E3F0F7; margin-left: -1px; border: 2px solid #07789E; padding: 5px;">
+    Resource Data Entry
+    </div>
+    <div>
+       <div  style="width: 400px;margin-left:40px;margin-top:20px;">
+             <label> Date </label>
+             <div style="margin-left:120px;margin-top:-15px;">
+                  <input id="StartDate" 
+                      class=""
+                      data-role="datepicker"
+                     data-bind="value: StartDate" />
+                  </ div>
+          </div>
+
+        <div >
+              <label>Resouce</label>
+              <div style="margin-left:120px;margin-top:-10px;">
+              <div id="project"></div>
+              </div>
+        </div>
+
+        <div >
+              <label>Task  </label>
+              <div style="margin-left:120px;margin-top:-10px;">
+              <div id="Task"></div>
+              </div>
+        </div>
+
+        <div style=" margin-top:10px;margin-left:80px;">
+               <button class="k-button" id="btnAddnew" title="Add Task" style="width: 50px; height: 30px"><img src="~/Images/Add.PNG" /></button>
+               <button class="k-button" id="btnSave" title="Save"  style="width:50px; height:30px"><img src="~/Images/Save1.PNG" /></button>
+               <button class="k-button" id="btnCancel"  title="Cancel" style="width: 50px; height: 30px"><img src="~/Images/Cancel.PNG" /></button>
+        </div>
+    </div>
+    <div id="prjectAndtaskWindow" style="border: 2px solid #A9A9A9; margin-top: 20px; margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 5px; ">
+       
+              
+               <div style="padding-top: 5px; padding-bottom: 5px; margin-left: 20px;">
+                    <span id="Itm" style="width: 200px;">Resource</span>
+                    <input class="k-textbox" id="Itmcode" style="width: 120px; height: 25px;margin-top:3px;" />
+                    <span id="Amt" style="width: 100px;margin-left:25px;">Qty</span>
+                    <input id="ItemAmount" style="width: 150px; height: 20px;" />
+               </div>
+          <div id="Grid"  style="margin-top:20px; margin-bottom:10px;margin-left:10px;margin-right:10px;height:320px;">
+          </div>
+             
+             </div>
+
+    </div>
+        </div>
+ 
+
+
+       
+
+
+<script>
+
+    $(document).ready(function () {
+        var prjky = 1;
+        var AdrKy = 1;
+
+        var todayDate = new Date();
+        $('#StartDate').data("kendoDatePicker").value(todayDate);
+        //  var Date = '2014/11/25';
+        LoadCombo();
+        LoadTaskCombo(prjky);
+      
+        // LoadGridView(AdrKy, '2014/11/25');
+        $("#GridWindow").show();
+        $("#prjectAndtaskWindow").show();
+
+        $("#ItemAmount").kendoNumericTextBox({
+            min: 1
+        });
+    });
+
+  
+
+    $("#btnAddItem").click(function () {
+        var Date = $("#StartDate").val();
+        var AdrKy = $("#PersonNm").val();
+        LoadGridView(AdrKy, Date);
+    });
+
+    $("#btnCancel1").click(function () {
+        $("#project").val(null);
+        $("#project").data('kendoComboBox').value("");
+        $("#Task").val(null);
+        $("#Task").data('kendoComboBox').value("");
+        $('#Grid').data("kendoGrid").dataSource.filter(null);
+        $('#Grid').data().kendoGrid.destroy();
+        $('#Grid').empty();
+
+
+    });
+
+    
+
+    $("#btnSave").click(function () {
+        var Date = $("#StartDate").val();
+      
+        var project = $("#project").val();
+        var task = $("#Task").val();
+        var gridData = $("#Grid").data().kendoGrid.dataSource.view();
+        if (Date != null  && project != null && task != null) {
+            $.ajax({
+                url: "@Url.Content("~/Home/InsertResource")",
+                data: JSON.stringify({
+                    Date: Date,
+                    project: project,
+                    task: task,
+                    OurCd: "PrjDlyResUsg",
+                    ConCd: "TrnTyp",
+                    gridData: gridData
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    alert("successfully saved !");
+                 
+                    $("#project").val(null);
+                    $("#project").data('kendoComboBox').value("");
+                    $("#Task").val(null);
+                    $("#Task").data('kendoComboBox').value("");
+                    var todayDate = new Date();
+                    $('#StartDate').data("kendoDatePicker").value(todayDate);
+                    $("#Grid").data("kendoGrid").dataSource.filter(null);
+                    $('#Grid').data().kendoGrid.destroy();
+                    $('#Grid').empty();
+                  
+                   
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+        }
+        else {
+            alert("Please Select Feild !");
+            var prjky = 1;
+            var AdrKy = 1;
+            LoadCombo();
+            LoadTaskCombo(prjky);
+            LoadGridView(AdrKy);
+            $("#prjectAndtaskWindow").hide();
+            $("#PersonNm").val(null);
+            $("#project").val(null);
+            $("#Task").val(null);
+            var todayDate = new Date();
+            $('#StartDate').data("kendoDatePicker").value(todayDate);
+        }
+        //LoadGridView(AdrKy, Date);
+    });
+
+
+
+    $("#btnCancel").click(function () {
+        var prjky = 1;
+        var AdrKy = 1;
+        LoadCombo();
+        LoadTaskCombo(prjky);
+        var date = $('#StartDate').val();
+
+        LoadGridView(AdrKy, date);
+        $("#prjectAndtaskWindow").hide();
+        $("#PersonNm").data("kendoComboBox").val("");
+        $("#project").data("kendoComboBox").val("");
+        $("#Task").data("kendoComboBox").val("");
+
+        var todayDate = new Date();
+        $('#StartDate').data("kendoDatePicker").value(todayDate);
+
+    });
+
+
+
+    $("#StartDate").width(200).kendoDatePicker({
+
+        format: "yyyy/MM/dd",
+        min: new Date(2009, 2, 31)
+    });
+  
+    $("#StartDate").closest("span.k-datepicker").width(200);
+
+    $("#endDate").width(182).kendoDatePicker({
+
+        format: "yyyy/MM/dd",
+        min: new Date(2009, 2, 31)
+    });
+
+    $("#endDate").closest("span.k-datepicker").width(198);
+
+    function PersonDataSource() {
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: '@Url.Content("~/Home/GetEmployeeList")',
+
+                    dataType: "json"
+                }
+            }
+        });
+           return dataSource;
+       }
+
+       function ProjectDataSource() {
+           var dataSource = new kendo.data.DataSource(
+           {
+               transport: {
+                   read: {
+                       url: '@Url.Action("GetProjectListByPrntKy", "Home")',
+                       data: { key: 1 },
+                     dataType: "json"
+                }
+            }
+        });
+        return dataSource;
+    }
+
+    function TaskDataSource(prjky) {
+        var dataSource = new kendo.data.DataSource(
+       {
+           transport: {
+               read: {
+                   url: '@Url.Content("~/Home/GetTask")',
+                   data: { 'PrjKy': prjky },
+                   dataType: "json"
+               }
+           }
+       });
+       return dataSource;
+   }
+
+   function LoadTaskCombo(prjky) {
+
+       $("#Task").kendoComboBox({
+           dataValueField: "PrcsDetKy",
+           dataTextField: "TaskId",
+           dataSource: TaskDataSource(prjky),
+
+           filter: "contains",
+           suggest: true,
+           placeholder: "Select a Task..",
+
+       });
+       $("#Task").parent().css('width', "200px");
+
+   }
+   function LoadCombo() {
+      
+       $("#project").kendoComboBox({
+           dataValueField: "PrjKy",
+           dataTextField: "DocNo",
+           dataSource: ProjectDataSource(),
+
+           filter: "contains",
+           suggest: true,
+           placeholder: "Select a project..",
+           change: function (e) {
+               var cmb = $("#project").data("kendoComboBox");
+               var prjky = cmb.value();
+               if (prjky != "") {
+                   var validate = ComboValidations("project");
+                   if (validate) {
+                       LoadTaskCombo(prjky);
+
+                   }
+               }
+           }
+
+       });
+       $("#project").parent().css('width', "200px");
+
+
+
+   }
+
+   function ComboValidations(cmbNm) {
+       var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+       var val = cmb.value();
+
+       if (isNaN(val)) {
+           alert("'" + val + "' is not a Valid input");
+           $("#" + cmbNm + "").data('kendoComboBox').value("");
+           return false;
+       } else {
+           return true;
+       }
+   }
+
+        $("#Grid").kendoGrid({
+            dataSource: [],
+            autobind: true,
+
+            navigatable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+
+            columns: [{ "command": "destroy", "title": " ", "width": "110px" },
+                {
+                    field: "ItmKy",
+                    title: "ItmKy",
+                    width: "100px",
+                    hidden:true
+                 },
+                {
+                field: "ResCd",
+                title: "ResCd",
+                width: "100px",
+                },
+               {
+                   field: "Unit",
+                   title: "Unit",
+                   width: "100px",
+               },{
+                field: "Qty",
+                title: "Qty",
+                width: "100px",
+              }
+            ],
+            resizable: true,
+            editable: true
+        });
+     
+  
+
+    function CancelClickEvent() {
+        $("#projectId").val(null);
+        $("#project").val(null);
+        $("#GridWindow").hide();
+    }
+
+    $("#Itmcode").keypress(function (event) {
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#ItemAmount").data("kendoNumericTextBox").focus();
+        }
+    });
+    $("#ItemAmount").keypress(function (event) {
+
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+
+            var PrjKy = $("#project").val();
+            var PrcsDetKy = $("#Task").val();
+
+            $.ajax({
+                url: '@Url.Content("~/PMResource/GetResourcebyTask")',
+                dataType: "json",
+                type: "POST",
+                data: {
+                    'PrjKy': PrjKy,
+                    'PrcsDetKy': PrcsDetKy,
+                },
+                success: function (list) {
+
+                    var inputValue = $("#Itmcode").val();
+                    if (inputValue != null && inputValue != undefined && inputValue != '') {
+                        var foundItem = jQuery.grep(list, function (a) {
+                            return a.ResCd == inputValue;
+
+                        })
+                        if (foundItem != null && foundItem != undefined) {
+                            if (foundItem.length == 0) {
+                                alert("Cannot find the item !");
+                                $("#Itmcode").val(null);
+                                $("#ItemAmount").val(null);
+                                $("#PerAmount").val(null);
+                                $("#Itmcode").focus();
+                            } else {
+                                var amount = $("#ItemAmount").val();
+                                // var inputValue1 = $("#PerAmount").val();
+                                if (amount != null && amount != undefined && amount != '') {
+                                    var addedItems = $("#Grid").data("kendoGrid")._data
+                                    if (addedItems.length > 0) {
+                                        var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                            return a.ResCd == inputValue;
+
+                                        })
+                                        if (foundInAddedItems.length > 0) {
+                                            $("#Grid").data("kendoGrid").dataSource.add({ ItmKy:foundItem[0].ItmKy, ResCd: foundItem[0].ResCd,Unit:foundItem[0].Unit, Qty: amount })
+                                            //alert("Item already added !")
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        } else {
+                                            $("#Grid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ResCd: foundItem[0].ResCd,Unit:foundItem[0].Unit, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    } else {
+                                        $("#Grid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ResCd: foundItem[0].ResCd,Unit:foundItem[0].Unit, Qty: amount })
+                                        $("#Itmcode").val(null);
+                                        $("#ItemAmount").val(null);
+                                        $("#PerAmount").val(null);
+                                        $("#Itmcode").focus();
+                                    }
+                                } else if (amount != null && amount != undefined && amount != '') {
+                                    var addedItems = $("#Grid").data("kendoGrid")._data
+                                    if (addedItems.length > 0) {
+                                        var foundInAddedItems = jQuery.grep(addedItems, function (a) {
+                                            return a.TaskId == inputValue;
+
+                                        })
+                                        if (foundInAddedItems.length > 0) {
+                                            alert("Item already added !")
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        } else {
+                                            $("#Grid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ResCd: foundItem[0].ResCd,Unit:foundItem[0].Unit, Qty: amount })
+                                            $("#Itmcode").val(null);
+                                            $("#ItemAmount").val(null);
+                                            $("#PerAmount").val(null);
+                                            $("#Itmcode").focus();
+                                        }
+                                    } else {
+                                        $("#Grid").data("kendoGrid").dataSource.add({ ItmKy: foundItem[0].ItmKy, ResCd: foundItem[0].ResCd,Unit:foundItem[0].Unit, Qty: amount })
+                                        $("#Itmcode").val(null);
+                                        $("#ItemAmount").val(null);
+                                        $("#PerAmount").val(null);
+                                        $("#Itmcode").focus();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        alert("Please insert Resouce !")
+                    }
+
+                },
+                error: function (e) {
+
+                }
+
+            });
+           
+        }
+    });
+
+   
+</script>

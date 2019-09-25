@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                @*<button id="saveBtn" class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>*@
+            </div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top: 10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top: 10px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm 12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptValuNo">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptValuNo_Lbl">Voucher Number:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Vou No" id="HdrSec1_InptValuNo_Val" type="text" class="k-textbox" />
+                            </div>
+                        </div>
+                        <div id="HdrSec1_DatVouDate">
+                            <div class="col-md-2 col-sm-2">
+                                <label id="HdrSec1_DatVouDate_Lbl">Voucher Date:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input id="HdrSec1_DatVouDate_Val" data-cpypst-blsmartcpypaste="Vou_Date" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_CmbTrnCrn">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_CmbTrnCrn_Lbl">Currency Code:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <div id="HdrSec1_CmbTrnCrn_Cd" data-cpypst-blsmartcpypaste="CrnCode"></div>
+                            </div>
+                        </div>
+                        <div id="HdrSec1_NmricExRae">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_NmricExRae_Lbl">Ex Rate:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <input id="HdrSec1_NmricExRae_Val" data-cpypst-blsmartcpypaste="ExRate" />                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_CmbVehical">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_CmbVehical_Lbl">Vehicale Model</label>
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbVehical_Cd" data-cpypst-blsmartcpypaste="VehicalModel" />   
+                           @* <div id="HdrSec1_CmbVehical_Cd" data-cpypst-blsmartcpypaste="VehicalModel"></div>*@
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbVehicalSers_Cd" data-cpypst-blsmartcpypaste="HdrSec1_CmbVehicalIntSers" />
+
+                            @*<div id="HdrSec1_CmbVehicalSers_Cd" data-cpypst-blsmartcpypaste="HdrSec1_CmbVehicalIntSers"></div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_CmbCrdAcc">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_CmbCrdAcc_Lbl">Credit Account</label>
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbCrdAcc_Cd" data-cpypst-blsmartcpypaste="AccCd" />
+
+                          @*  <div id="HdrSec1_CmbCrdAcc_Cd" data-cpypst-blsmartcpypaste="AccCd"></div>*@
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbCrdAcc_Nm" data-cpypst-blsmartcpypaste="AccCd" />
+
+                           @* <div id="HdrSec1_CmbCrdAcc_Nm" data-cpypst-blsmartcpypaste="AccNm"></div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_CmbDrdAcc">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_CmbDrdAcc_Lbl">Debit Account</label>
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbDrdAcc_Cd" data-cpypst-blsmartcpypaste="AccCd" />
+
+                            @*<div id="HdrSec1_CmbDrdAcc_Cd" data-cpypst-blsmartcpypaste="AccCd"></div>*@
+                        </div>
+                        <div class="col-md-2 col-sm-1">
+                            <input id="HdrSec1_CmbDrdAcc_Nm" data-cpypst-blsmartcpypaste="AccNm" />
+                            @*<div id="HdrSec1_CmbDrdAcc_Nm" data-cpypst-blsmartcpypaste="AccNm"></div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <div class="row" >
+                        <div id="HdrSec1_CmbPayMthd">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_CmbPayMthd_Lbl">Payment Method</label>
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <input id="HdrSec1_CmbPayMthd_Cd" data-cpypst-blsmartcpypaste="PaymentMethod" />
+                                @*<div id="HdrSec1_CmbPayMthd_Cd" data-cpypst-blsmartcpypaste="PaymentMethod"></div>*@
+                            </div>
+                        </div>
+                        <div id="HdrSec1_NmricAmount">                      
+                            <div class="col-md-2 col-sm-1">
+                                <input id="HdrSec1_NmricAmount_Val" data-cpypst-blsmartcpypaste="NumericMethod" />
+                               @* <div id="HdrSec1_NmricAmount_Val" data-cpypst-blsmartcpypaste="PaymentMethod"></div>*@
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <input id="HdrSec1_NmricBalAmount_Val" data-cpypst-blsmartcpypaste="BalAmt" />
+
+                               @* <div id="HdrSec1_NmricBalAmount_Val" data-cpypst-blsmartcpypaste="PaymentMethod"></div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_NmricChqNumber">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_NmricChqNumber_Lbl">Cheque Number</label>
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <input id="HdrSec1_NmricChqNumber_Val" data-cpypst-blsmartcpypaste="BalAmt" />
+
+                               @* <div id="HdrSec1_NmricChqNumber_Val" data-cpypst-blsmartcpypaste="ChqNumber"></div>*@
+                            </div>
+                        </div>
+                        <div id="HdrSec1_DatChqDate">
+                            <div class="col-md-2 col-sm-4">
+                                <label id="HdrSec1_DatChqDate_Lbl">Cheq Date</label>
+                            </div>
+                            <div class="col-md-2 col-sm-1">
+                                <input id="HdrSec1_DatChqDate_Val" data-cpypst-blsmartcpypaste="BalAmt" />
+
+                               @* <div id="HdrSec1_DatChqDate_Val" data-cpypst-blsmartcpypaste="PaymentMethod"></div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_TxtArea_Reson">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_TxtArea_Reson_Lbl">Description:</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <textarea class="k-textbox" id="HdrSec1_TxtArea_Reson_Val" data-cpypst-blsmartcpypaste="Description" style="width: 100%"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<script>
+    var urlLink = {
+        CodeSelect: '@Url.Content("~/Journal/BUCodeLookup")',
+        urlGetCdMasName: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        urlGetAccDoropCode: '@Url.Content("~/Journal/Accdrop")',
+        urlGetAccDoropNm: '@Url.Content("~/Journal/AccdropNM")',
+        PMTGetPaymentCode: '@Url.Content("~/Payment/PaymentMode")',
+
+
+    }
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        TimeNow: "@(ViewBag.Time)",
+        DateNow: "@(ViewBag.Date)",
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+</script>
+<script src="~/Scripts/HtnScripts/SMLRecpt/SMLRecpt.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/ShowroomLog/Validation.js"></script>

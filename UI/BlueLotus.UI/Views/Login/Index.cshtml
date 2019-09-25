@@ -1,0 +1,111 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+</body>
+</html>
+
+
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@*<script src="~/Scripts/Scripts/CommonFunction.js"></script>*@
+
+<div class="row">
+    <!--start left section-->
+    <div class="col-lg-8 col-md-8 no-padding-l padding-r-40">
+        <div class="bg-img">
+            <div class="banner img-responsive layer">
+                <div class="pull-bottom p-l-20">
+                    <h2>Keep In Touch</h2>
+                    @*<p class="small" id="mail-info">Take care of our Customers, Service Providers, Employees and Shareholders as valuable long-term partners of our business. Reach us at: <a href="mailto:info@bluelotus.com" target="_blank">info@bluelotus360.com.</a></p>*@
+                    @*<p class="small"> &copy; 2019&#176;</p>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end left section-->
+    <!--start right section-->
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 form-container no-padding-l">
+        @*<form method="post" action='@Url.Content("~/Login/LoginAccessSSO/")'>*@
+            <form method="post" action='@Url.Content("~/Login/LoginAccess/")'>
+                <div>
+                    <div class="row form-margin">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10  col-sm-10 col-xs-10">
+                           
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10  col-sm-10 col-xs-10">
+                            @{
+                                if (@ViewBag.ErrorMsg != null)
+                                {
+                                    <label class="error-lbl">@ViewBag.ErrorMsg</label>
+                                }
+                            }
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                    <div class="row form-margin">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <br /><br />
+                            <p>Login to your account</p>
+                            <div class="input-div-style color-transision" id="divUserName">
+                                <label class="div-lbl" id="lblUserName">Login</label><br>
+                                <input type="text" class="color-transision input-event" name="username" id="username" placeholder="User Name" autofocus required onblur="validateUserName()" />
+                            </div>
+                            <label class="error-lbl" id="error"></label>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+                    <div class="row form-margin">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="input-div-style color-transision" id="divPassword">
+                                <label name="lblPassword" id="lblPassword" class="div-lbl">Password</label><br>
+                                <input type="password" class="color-transision input-event" name="password" id="password" placeholder="Credentials" required onblur="validatePassword()" />
+                            </div>
+                            <label class="error-lbl" id="errorPassword"></label>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                    <div class="row form-margin">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="input-div-style color-transision" id="divEnvironment">
+                                <label class="div-lbl" id="lblEnvironment" name="lblEnvironment">Environment</label><br>
+                                <input type="text" class="color-transision input-event" name="environment" id="environment" placeholder="Environment" onblur="validateEnvironment()" />
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                  <!-- Submit -->
+                    <div class="row form-margin">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <button class="btn btn-primary btn-cons m-t-15 color-transision" type="submit" id="login" onclick="validateUserName(), validatePassword()">Login</button>
+                            <button class="btn btn-primary btn-cons m-t-15 color-transision" type="reset" id="cancel" onclick="Cancel()">Clear</button>
+                             @*<button class="btn btn-primary btn-cons m-t-15 color-transision" type="submit" id="loginSSO" >Login SSO</button>*@
+
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                </div>
+
+            </form>
+    </div>
+    <!--end right section-->
+</div>

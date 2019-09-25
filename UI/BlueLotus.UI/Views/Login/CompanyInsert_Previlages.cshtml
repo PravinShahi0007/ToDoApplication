@@ -1,0 +1,216 @@
+﻿
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+<div id="FindForm" style="display: none">
+    <div id="Maingrid" style="width:70%; margin:0 auto;"></div>
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        LoadGrid();
+
+
+    });
+
+
+
+    function LoadGrid() {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: '@Url.Content("~/SystemUsers/GetUsersDetails")',
+
+                    dataType: "json"
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read") {
+
+                        return ({});
+                    }
+
+                }
+            },
+            batch: true,
+            pageSize: 50,
+            schema: {
+                model: {
+                    id: "UsrKy",
+                    fields: {
+                        UsrKy: { editable: false, nullable: false, type: "number" },
+                        BUKy: { editable: false, nullable: false, type: "string" },
+                        UsrId: { editable: false, nullable: false, type: "string" },
+                        UsrNm: { editable: false, nullable: true, validation: { required: true },type: "string"},
+                        isAct: { editable: false, nullable: true, type: "boolean" },
+
+
+                    }
+                }
+            }
+        });
+        $("#Maingrid").kendoGrid({
+
+            dataSource: dataSource,
+            navigatable: true,
+            selectable: "row",
+            sortable:true,
+            resizable: true,
+            locked: true,
+
+            //scrollable: false,
+            //scrollable:false,
+            pageable: true,
+            columnHide: createFilterRow,
+            columnShow: createFilterRow,
+            height: 500,
+            columns: [
+                 { field: "UsrKy", title: "User ID", hidden: "true" },
+                 {
+                     field: "BUKy", title: "BU", hidden: "true"
+
+
+                 },
+                 { field: "UsrId", title: "User ID" },
+                { field: "UsrNm", title: "User Name"},
+                 { field: "isAct", template: '<input type="checkbox" #= isAct ? "checked=checked" : "" # disabled="disabled" ></input>', title: "Status",lockable:"true" }
+            ],
+            editable: true
+
+        });
+        createFilterRow();
+
+
+
+    }
+
+    $(document.body).keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 70) {
+            e.preventDefault();
+            findUser()
+            //document.getElementById("FindFormGRN").style.overflow = "hidden";
+        }
+    });
+
+    function findUser() {
+           
+        $("#FindForm").show().kendoWindow({
+            width: "1100px",
+            height: "550px",
+            resizable: true,
+            modal: true,
+            title:"Edit User Permissions",
+        });
+                    
+        $('#FindForm').data('kendoWindow').center().open();
+    }
+
+    $("#Maingrid").delegate("tbody>tr", "dblclick", function () {
+        //function findUser(){
+        //document.getElementById("objpermission").style.display = "";
+        //document.getElementById("userinfo").className = ""
+        //document.getElementById("objpermission").className = "k-state-active"
+        var gview = $("#Maingrid").data("kendoGrid");
+        var selectedItem = gview.dataItem(gview.select());
+        var UsrKy = selectedItem.UsrKy;
+        var UsrId = selectedItem.UsrId;
+        var UsrNm = selectedItem.UsrNm;
+        var tempBuKy = selectedItem.BUKy;
+        var BuKy = tempBuKy;
+
+
+        var isAct = selectedItem.isAct;
+
+        $("#userid").val(UsrId);
+        $("#username").val(UsrNm);
+        $("#userky").val(UsrKy);
+        $("#tmpbuky").val(tempBuKy);
+        var combobox = $("#cmb_bu").data("kendoComboBox");
+        combobox.value(tempBuKy);
+
+
+        if (isAct) {
+            $("#isactive").prop('checked', true);
+        } else {
+            $("#isactive").prop('checked', false);
+        }
+        LoadGridPermission(UsrKy);
+
+        $('#FindForm').data('kendoWindow').close();
+    });
+
+    function createFilterRow() {
+        var grid = $('#Maingrid').data('kendoGrid');
+
+        var oldRow = grid.thead.find("#Maingrid-filter-row");
+        var th;
+
+        if (typeof oldRow === 'object') {
+            th = oldRow.find('th');
+            oldRow.remove();
+        }
+
+        var filterRow = "<tr id='grid-filter-row'>";
+
+        for (var i = 0; i < grid.dataSource.group().length; i++) {
+            filterRow += '<th class="k-group-cell k-header">&nbsp;</th>';
+        }
+        for (var i = 0; i < th.length; i++) {
+            filterRow += th[i].outerHTML;
+        }
+        for (var i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden)
+                filterRow += '<td><input type=\'search\' id=\'gridId-filter-column-' + grid.columns[i].field + '\' style=\'width:98%\' /></td>';
+        }
+        filterRow += '</tr>';
+        grid.thead.append(filterRow);
+
+        var searchField;
+        for (i = 0; i < grid.columns.length; i++) {
+            if (!grid.columns[i].hidden) {
+                searchField = $('#gridId-filter-column-' + grid.columns[i].field);
+                searchField.change({ index: i }, function (e) {
+                    var grid = $('#Maingrid').data('kendoGrid');
+                    updateSearchFilters(grid, grid.columns[e.data.index].field, 'contains', this.value);
+                });
+            }
+        }
+    }
+
+    function updateSearchFilters(grid, field, operator, value) {
+        var newFilter = { field: field, operator: operator, value: value };
+        var dataSource = grid.dataSource;
+        var filters = null;
+        if (dataSource.filter() != null) {
+            filters = dataSource.filter().filters;
+        }
+        if (filters == null) {
+            filters = [newFilter];
+        }
+        else {
+            var isNew = true;
+            var index = 0;
+            for (index = 0; index < filters.length; index++) {
+                if (filters[index].field == field) {
+                    isNew = false;
+                    break;
+                }
+            }
+            if (isNew) {
+                filters.push(newFilter);
+            }
+            else {
+                //alert(value);
+                if (value == '')
+                    filters.splice(index, 1);
+                    //delete filters[index];
+                else
+                    filters[index] = newFilter;
+            }
+        }
+        dataSource.filter(filters);
+    }
+
+
+</script>
+

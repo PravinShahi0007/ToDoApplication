@@ -1,0 +1,104 @@
+﻿<div id="AdrEntryPopup" style="display: none; font-size:11px;">
+
+    <div class="col-md-12 control-icons" id="ButtonSet">
+
+        <button class="control-button save" onclick="saveItmAddress() " data-tooltip="save"> </button>
+        <button class="control-button back" onclick="backItm()" data-tooltip="back"> </button>
+    </div>
+    <br style="clear:both" />
+   
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-5 col-sm-12">
+                    <div id="HdrSec1_InptAdrCd" class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <label id="HdrSec1_InptAdrsCd_Lbl">Address Code:</label>
+                        </div> 
+                        <div class="col-md-5 col-sm-12">
+                            <input id="HdrSec1_InptAdrsCd_Val" type="text" class="k-textbox" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <div id="HdrSec1_InptAdrNm" class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <label id="HdrSec1_InptAdrsNm_Lbl">Address Name:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <input id="HdrSec1_InptAdrsNm_Val" type="text" class="k-textbox" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-sm-12" style="display:none;">
+                    <div id="HdrSec1_InptAdrKy" class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <label id="HdrSec1_InptAdrKy_Lbl">Address Key:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <input id="HdrSec1_InptAdrKy_Val" type="text" class="k-textbox" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group m-t-40">
+            <div class="row">
+                <div class="col-md-5 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <label id="HdrSec1_CmbItmcd_lbl"> Item Code:</label>
+                        </div>
+
+                        <div class="col-md-5 col-sm-12 ">
+                            <input id="HdrSec1_CmbItmcd_cd" class="combo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <label id="HdrSec1_CmbItmNm_lbl">Item Name:</label>
+                        </div>
+                        <div class="col-md-5 col-sm-12 ">
+                            <input id="HdrSec1_CmbItmNm_Nm" class="combo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+</div>
+
+        <script>
+
+            var urlComboLoad = {
+
+                ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+                ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+
+            }
+
+            var viewBag = {
+                ObjKy: '@(ViewBag.ObjKy)',
+                OurCd: '@(ViewBag.OurCd)',
+                OurCd2: '@(ViewBag.OurCd2)',
+                ObjCaptn: '@(ViewBag.ObjCaptn)'
+            }
+
+        </script>
+
+        <script>
+            var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+            var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+            var ItmAdr_InsertUpdateWeb = '@Url.Content("~/AddressEntry/ItmAdr_InsertUpdateWeb")';
+            var urlItmAdr_SelectWeb = '@Url.Content("~/AddressEntry/ItmAdr_SelectWeb")';
+        </script>
+
+        <script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+        <script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+
+        <script src="~/Scripts/HtnScripts/AddressEntryPopup/AddressEntrypopup.js"></script>

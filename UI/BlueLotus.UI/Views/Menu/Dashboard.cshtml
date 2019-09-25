@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+
+
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mono-bg-color-lighter" style="height:92vh">
+    <div class="row">
+        <!-- main window -->
+        <div class="col-lg-offset-1 col-md-offset-1 col-md-10  bg-white padding-20"  style="height:92vh">
+            <!-- form -->
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label id="HdrPart_CmbLoc_Lbl">Location</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div data-cpypst-blsmartcpypaste="LocId" id="HdrPart_CmbLoc_Cd" class="k-dropdown width-100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label style="margin-left:10px;">Date:</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <input id="HdrPart_Date" class="k-datepicker" data-role="datepicker" data-bind="value: Date" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <button  class="btn btn-default" onclick="loadChart()" data-tooltip="refresh"><i class="fa fa-spinner" aria-hidden="true"></i> &nbsp; Load</button>                                 
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"></div>
+                    </div>
+                </div>
+            </div><!-- /form -->
+           <br/>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @*<div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div id="chart"></div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+
+                        </div>
+                    </div>*@
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div id="Dep_chart"></div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div id="Bar_Chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div> <!-- /main window -->
+    </div>
+       
+    </div>
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //$('#HdrSec1_DatPicDate_Val').data("kendoDatePicker").value(todayDate);
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var urlComboLoad = {   
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")'
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+    var urlPieChart = {
+        DeptOrCatgryWiseSales_DashBrdWeb: '@Url.Content("~/PieChart/DeptOrCatgryWiseSales_DashBrdWeb")',
+        DeptWiseSales_DashBrdWeb: '@Url.Content("~/PieChart/DeptWiseSales_DashBrdWeb")'
+    };
+
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+</script>
+
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/DashBoard/SalesDashboard.js"></script>
+@*<script src="~/Scripts/HtnScripts/DashBoard/DashBoard.js"></script>*@

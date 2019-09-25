@@ -1,0 +1,770 @@
+﻿@{
+    ViewBag.Title = "PNSPaymentCordinator";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div class="form wr_formGroup clearfix">
+    <input type="hidden" name="TrnNo" id="TrnNo">
+    <div class="col-md-12 control-icons hidden-xs hidden-sm">
+        <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+        <button class="control-button clean" onclick="ClearChaqAll()" data-tooltip="Clear"> </button>
+    </div>
+    <div class="col-md-12 form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Memo Number</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="DocNo" type="text" class="k-textbox" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Outlet</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="OutltLkup" class="cmb" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Sales Date(DT2)</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="datepicker" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label" style="font-weight: bold;">Payment Mode</label>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cash /DirDep </label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Cash" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Credit Card Amount</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="CrdCrdCode" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Gift Vouchers Amount</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="GftVou" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Promotions Amount</label>
+            <div class="col-md-7 col-sm-7">
+                <input id="Promo" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 col-sm-4 control-label">Cheque</label>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12">
+                <div id="grid"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12 control-icons marging-b-500 m-t-40 hidden-lg hidden-md">
+            <button class="control-button save" onclick="Save()" data-tooltip="Save"> </button>
+            <button class="control-button clean fr marging-r-10" onclick="ClearChaqAll()" data-tooltip="Clear"> </button>
+        </div>
+
+
+    </div>
+
+
+</div>
+<script>
+
+    var OurCode = "@(ViewBag.ObjCaptn)";
+    $(document)
+        .ready(function () {
+            //Load the tooltip //COmmo srcipt
+            Tooltip();
+            //Selecting the text//COmmo srcipt
+            SelectText();
+            //add savebutton
+            $("#Save").kendoButton();
+
+            // create DatePicker from input HTML element
+            $("#datepicker")
+                .kendoDatePicker({
+                    format: "dd/MM/yyyy",
+                    min: new Date(31, 2, 2009)
+                });
+            //Cash Numerictext box creating
+            $("#Cash")
+                .kendoNumericTextBox({
+                    decimals: 3,
+                    min: 0
+                });
+            //Credit card Amount
+            $("#CrdCrdCode")
+                .kendoNumericTextBox({
+                    decimals: 3,
+                    min: 0
+                });
+
+            //GiftVau
+            $("#GftVou")
+                .kendoNumericTextBox({
+                    decimals: 3,
+                    min: 0
+                });
+            //Promo
+            $("#Promo")
+                .kendoNumericTextBox({
+                    decimals: 3,
+                    min: 0
+                });
+
+            //Create the grid
+            enterChqDetail();
+
+            //Load the outet combo
+            loadcombo();
+            // LoadGridFindView1();
+
+            //set the default date
+            var todayDate = new Date();
+            $("#datepicker").data("kendoDatePicker").value(todayDate);
+            $(".k-datepicker, .k-combobox, .k-numerictextbox").css('width', "100%");
+            ClearAll();
+            $('.k-input')
+                .on('focus',
+                    function () {
+                        var input = $(this);
+                        setTimeout(function () { input.select(); });
+                    });
+            CreateNewGridRow();
+            //create new row in chq entry
+            KeydownEvent();
+
+        });
+
+    //Load the combo
+
+    function loadcombo() {
+
+        //combo from BusinessUnit Id
+        $("#OutltLkup")
+            .kendoComboBox({
+                dataValueField: "AccKy",
+                dataTextField: "AccCd",
+                dataSource: {
+                    type: "POST",
+                    transport: {
+                        read: '@Url.Content("~/PNSPaymentCordinator/PnsOutLetLookup")'
+                    }
+                },
+                change: function (e) {
+                    var cmb = $("#OutltLkup").data("kendoComboBox");
+                    var AccKy = cmb.value();
+                    if (AccKy != "") {
+                        var validate = ComboValidations("OutltLkup");
+                        if (validate) {
+                            $("#OutltLkup").data("kendoComboBox").value(AccKy);
+                        } else {
+                            $("#OutltLkup").data("kendoComboBox").value("");
+                        }
+                    }
+
+                },
+                filter: "startswith",
+                suggest: true,
+                placeholder: "Select a Outlet"
+            });
+    }
+
+    //LOad Grid
+    function enterChqDetail() {
+
+        var dataSource = new kendo.data.DataSource({
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        BankNo: { editable: true, nullable: false, type: "string" },
+                        Bank: { editable: true, nullable: false, type: "string" },
+                        ChqNo: { editable: true, nullable: false, type: "Number" },
+                        Amt: { editable: true, nullable: false, type: "Number" },
+
+                    }
+                }
+            }
+        });
+
+        $("#grid")
+            .kendoGrid({
+                dataSource: dataSource,
+                autobind: true,
+                editable: true,
+                navigatable: true,
+                filterable: true,
+                edit: function (e) {
+                    var input = e.container.find("input");
+                    setTimeout(function () {
+                        input.select();
+                    },
+                        25);
+                },
+               
+                pageable: true,
+                sortable: true,
+                reorderable: true,
+                columnMenu: true,
+
+                selectable: "column",
+                pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+
+                columns: [
+                    {
+                        field: "BankNo",
+                        title: "BankNo NO",
+                        width: "50px",
+                        hidden: "true",
+
+                    },
+                    {
+                        field: "Bank",
+                        title: "Bank",
+                        width: "50px",
+                        editor: function (container, options) {
+                            var model = options.model;
+                            $('<input id="BankNo" name="' + options.field + '"/>')
+                                .appendTo(container)
+                                .kendoComboBox({
+                                    dataSource:BanckCodeMob("1"),
+                                        @*{
+                                        type: "POST",
+
+                                        transport: {
+                                            read: {
+                                                url: '@Url.Content("~/PNSPaymentCordinator/BankLookUp")',
+                                                data: {
+                                                    'BuKy': 1,
+
+                                                },
+                                                dataType: "json"
+                                            }
+                                        }
+                                    },*@
+                                    change: function (e) {
+
+                                        combo = e.sender;
+                                        selectedItm = combo.select();
+                                        dataItem = combo.dataItem(selectedItm);
+                                        var validate = ComboValidations("BankNo");
+
+                                        if (validate) {
+                                            model.set("Bank", dataItem.BankCode);
+                                            model.set("BankNo", dataItem.BankKy);
+
+                                        } else {
+                                            model.set("Bank", "");
+                                            model.set("BankNo", "");
+                                        }
+
+                                    },
+                                    //when the user gonna add a new record, combo should automatically bind the values from the Filter
+                                    filter: "startswith",
+                                    dataValueField: "BankKy",
+                                    dataTextField: "BankCode",
+                                });
+                        }
+                    },
+                    {
+                        field: "ChqNo",
+                        title: "Cheque NO",
+                        width: "50px",
+
+                    },
+                    {
+                        field: "Amt",
+                        title: "Amount",
+                        width: "50px",
+                        format: '{0:n2}',
+                        editor: function (container, options) {
+                            var model = options.model;
+                            $('<input id="Amount" name="' +
+                                    options.field +
+                                    '" data-value-field="' +
+                                    options.field +
+                                    '" data-bind="value:' +
+                                    options.field +
+                                    '" data-format="' +
+                                    options.format +
+                                    '"/>')
+                                .appendTo(container)
+                                .kendoNumericTextBox({
+                                    change: function (e) {
+
+                                        //Selecting Grid
+                                        var gview = $("#grid").data("kendoGrid");
+                                        //Getting selected item
+                                        var selectedItem = gview.dataItem(gview.select());
+                                        //accessing selected rows data
+
+                                        if (selectedItem.Amt > 0) {
+                                            if (selectedItem.ChqNo) {
+                                                CreateNewGridRow();
+                                                ///
+                                            } else {
+                                                alert("Please Enter a cheque number");
+                                            }
+                                        } else {
+
+                                            alert("Selected Amount is null");
+                                        }
+
+                                    }
+                                });
+
+                        },
+                        attributes: { "class": "ob-right" },
+
+                    },
+                ],
+
+                resizable: true,
+
+                dataBinding: function () {
+                    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                },
+
+            });
+        // createFilterRow();
+    }
+
+    //Create new line
+
+    function CreateNewGridRow() {
+        //   var selectedValue = $('#comboBoxId').data('kendoComboBox').value();
+        var grid = $("#grid").data("kendoGrid");
+        if (grid) {
+            var dataSource = grid.dataSource;
+            var total = dataSource.data().length;
+            dataSource.insert(total, {});
+        }
+        //$('#comboBoxId').data('kendoComboBox').value(selectedValue);
+    }
+
+    //Make line numbers
+    function MakeLino() {
+        var grid = $("#grid").data("kendoGrid");
+        var dataSource = grid.dataSource;
+        var total = dataSource.data().length;
+        var temp = total - 1;
+        var firstItem = $('#grid').data().kendoGrid.dataSource.data()[temp];
+        firstItem.set('Lino', total);
+    }
+
+    function Save() {
+        var Docno = document.getElementById("DocNo").value;
+        var outlt = document.getElementById("OutltLkup").value;
+        var cash = document.getElementById("Cash").value;
+        var Dt2 = document.getElementById("datepicker").value;
+        var creditcrd = document.getElementById("CrdCrdCode").value;
+        var GftVou = document.getElementById("GftVou").value;
+        var Promo = document.getElementById("Promo").value;
+        var newRecords = [];
+        var updatedRecords = [];
+        var ConCord = "TrnTyp";
+        var OurCode = "@(ViewBag.MyPmtcd)";
+        var grid = $("#grid").data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew() && currentData[i].Amt != 0) {
+                //this record is new
+                newRecords.push(currentData[i].toJSON());
+            }
+        }
+        var AmountCon = true;
+        if (cash == 0 & creditcrd == 0 & GftVou == 0 & Promo == 0 && newRecords.length == 0) {
+            AmountCon = false;
+        }
+        var trn = $("#TrnNo").val();
+        if (!trn) {
+            if (Docno) {
+                if (outlt) {
+                    if (AmountCon) {
+                        //If all columns are filled go to
+                        $.ajax({
+                            url: "@Url.Content("~/PNSPaymentCordinator/InsertDetail")",
+                            data: JSON.stringify({
+                                NewChq: kendo.stringify(newRecords),
+                                cash: cash,
+                                Docno: Docno,
+                                outlt: outlt,
+                                Dt2: Dt2,
+                                creditcrd: creditcrd,
+                                GftVou: GftVou,
+                                Promo: Promo,
+                                ConCord: ConCord,
+                                OurCode: OurCode
+                            }),
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "Json",
+                            type: "POST",
+                            success: function (data) {
+                                //load the data
+                                if (data.length >= 1) {
+
+                                    var TrnKey = data[0].TrnKy;
+                                    var TrnNo = data[0].TrnNo;
+
+                                    alert("Successfully Saved..!");
+                                    alert("Your transaction number is " + TrnNo);
+                                    ClearAll();
+                                    ClearChaqAll();
+                                    //select function must write
+
+                                } else {
+
+                                    alert("Plase Try again");
+                                }
+
+                            },
+                            error: function (e) {
+                                return false;
+                            }
+                        });
+
+                    } else {
+
+                        alert("Please Fill a Amout");
+
+                    }
+
+                } else {
+
+                    alert("Please Fill the outlet");
+                }
+
+            } else {
+                alert("Please Fill the Memo Nu");
+            }
+
+        } else {
+            alert("You cannot modify the record");
+
+        }
+
+
+    }
+
+    function ComboValidations(cmbNm) {
+
+        var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+        var val = cmb.value();
+
+        if (isNaN(val)) {
+            alert("'" + val + "' is not a Valid input");
+            $("#" + cmbNm + "").data('kendoComboBox').value("");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function ClearAll() {
+        //document.getElementById("Cash").value = 0.00;
+        $("#Cash").data("kendoNumericTextBox").value(0.00);
+        $("#CrdCrdCode").data("kendoNumericTextBox").value(0.00);
+        $("#GftVou").data("kendoNumericTextBox").value(0.00);
+        $("#Promo").data("kendoNumericTextBox").value(0.00);
+
+        $("#OutltLkup").data("kendoComboBox").value("");
+        document.getElementById("DocNo").value = "";
+        var todayDate = new Date();
+        // alert(todayDate)
+        $("#datepicker").data("kendoDatePicker").value(todayDate);
+        $("#TrnNo").val("");
+    }
+
+
+
+    function ClearChaqAll() {
+        $("#Cash").data("kendoNumericTextBox").value(0.00);
+        $("#CrdCrdCode").data("kendoNumericTextBox").value(0.00);
+        $("#GftVou").data("kendoNumericTextBox").value(0.00);
+        $("#Promo").data("kendoNumericTextBox").value(0.00);
+
+        $("#OutltLkup").data("kendoComboBox").value("");
+        document.getElementById("DocNo").value = "";
+        var todayDate = new Date();
+        // alert(todayDate)
+        $("#datepicker").data("kendoDatePicker").value(todayDate);
+
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.data([]);
+        CreateNewGridRow();
+        MakeLino();
+        $("#TrnNo").val("");
+    }
+
+    function CreateNewGridRow() {
+
+        var grid = $("#grid").data("kendoGrid");
+        if (grid) {
+
+            var dataSource = grid.dataSource;
+            var total = dataSource.data().length;
+            dataSource.insert(total, {});
+
+            ////grid.dataSource.read();
+            var count = grid.dataSource.total();
+
+            //setRow(count, grid);
+        }
+
+    }
+
+
+    ///KEy pres
+    //
+
+
+    function KeydownEvent() {
+        $("#DocNo").keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#OutltLkup").data("kendoComboBox").input.focus();
+
+            }
+        });
+        $("#OutltLkup").data("kendoComboBox").input.keydown(function (e) {
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == "13") {
+                $("#datepicker").focus();
+
+            }
+        });
+
+        $("#datepicker").keypress(function (e) {
+
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if (keycode == '13') {
+                $("#Cash").data("kendoNumericTextBox").focus();
+                //  $("#OutltLkup").data("kendoComboBox").input.focus();
+
+            }
+        });
+
+        $("#Cash").keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                $("#CrdCrdCode").data("kendoNumericTextBox").focus();
+            }
+        });
+        $("#CrdCrdCode").keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                $("#GftVou").data("kendoNumericTextBox").focus();
+            }
+        });
+
+        $("#GftVou").keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                $("#Promo").data("kendoNumericTextBox").focus();
+            }
+        });
+
+    }
+    function BanckCodeMob(ObjNm) {
+        var ObjKy = 1//GetObjKy(ObjNm);
+        var dataSource = new kendo.data.DataSource(
+        {
+            transport: {
+                read: {
+                    url: urlGetBankCode,
+                    data: {
+                        'ObjKy': ObjKy
+                    },
+                    dataType: "json"
+                }
+            }
+
+        });
+        return dataSource;
+    }
+    var urlGetBankCode = '@Url.Content("~/Payment/BankName")';
+    //JUnk Code
+    @*//Insert the cheque detail
+
+    function ChequeInsert(Dt2, outlt, TrnKey, newRecords, Docno, TrnNo) {
+        var ConCord = "TrnTyp";
+        var OurCode = "@(ViewBag.MyPmtcd)";
+        //If user enter only the grid part then go to the else part to enter only the cheque details
+        if (TrnKey != 0) {
+
+            $.ajax({
+                url: "@Url.Content("~/PNSPaymentCordinator/ChequeInsert")",
+                data: JSON.stringify({
+                    NewChq: kendo.stringify(newRecords),
+                    Dt2: Dt2,
+                    outlt: outlt,
+                    TrnKey: TrnKey,
+                    ConCord: ConCord,
+                    OurCode: OurCode,
+                    Docno: Docno,
+
+                }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+
+                if (data == true) {
+                    alert("Successfully Saved..!");
+                    alert("Your transaction number is " + TrnNo);
+                    SelectCheque(TrnKey);
+                    ClearChaqAll();
+
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+
+    } else {
+        /// hadanna
+
+        $.ajax({
+            url: "@Url.Content("~/PNSPaymentCordinator/ChequeInsertOnly")",
+            data: JSON.stringify({
+                NewChq: kendo.stringify(newRecords),
+                Dt2: Dt2,
+                outlt: outlt,
+                TrnKey: TrnKey,
+                ConCord: ConCord,
+                OurCode: OurCode,
+                Docno: Docno,
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+            var TrnKy = data;
+            if (TrnKy != 0) {
+
+                alert("Successfully Saved..!");
+                //  alert("Your transaction number is " + TrnNo)
+
+                SelectChequeNew(TrnKy);
+                ClearChaqAll();
+
+            }
+
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+
+    }
+
+    }
+
+    function SelectCheque(TrnKey) {
+
+        $.ajax({
+            url: "@Url.Content("~/PNSPaymentCordinator/ChequeSelect")",
+            data: JSON.stringify({
+                TrnKey: TrnKey,
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.data([]);
+            for (i = 0; i < data.length; i++) {
+                if (data[i].Amt > 0) {
+                    $("#grid")
+                        .data("kendoGrid")
+                        .dataSource.add({
+                            ChqNo: data[i].ChqNo,
+                            Amt: data[i].Amt,
+
+                        });
+                }
+
+            }
+            MakeLino();
+            ClearChaqAll();
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+
+    }
+
+    function SelectChequeNew(TrnKey) {
+
+        $.ajax({
+            url: "@Url.Content("~/PNSPaymentCordinator/ChequeSelectNew")",
+            data: JSON.stringify({
+                TrnKey: TrnKey,
+
+            }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (data) {
+
+            var grid = $("#grid").data("kendoGrid");
+            grid.dataSource.data([]);
+            for (i = 0; i < data.length; i++) {
+                var DocNo = data[0].DocNo;
+                $("#DocNo").val(DocNo);
+                var TrnDt = data[0].TrnDt;
+
+                var values = TrnDt.split('/');
+                var Month = values[0];
+                var Date = values[1];
+                var Year = values[2];
+
+                var DateNew = Date + '/' + Month + '/' + Year;
+
+                var TrnNO = data[0].TrnNo;
+
+                $('#datepicker').data("kendoDatePicker").value(DateNew);
+
+                var OutletKy = data[0].OutLetAccKy;
+                $("#OutltLkup").data("kendoComboBox").value(OutletKy);
+
+                if (data[i].Amt > 0) {
+                    $("#grid")
+                        .data("kendoGrid")
+                        .dataSource.add({
+                            ChqNo: data[i].ChqNo,
+                            Amt: data[i].Amt,
+
+                        });
+                }
+
+            }
+            MakeLino();
+            alert("Your transaction number is " + TrnNO);
+            ClearChaqAll();
+
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+
+    }*@
+
+</script>

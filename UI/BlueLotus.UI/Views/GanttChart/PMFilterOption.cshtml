@@ -1,0 +1,72 @@
+﻿<div id="idDivPMFilterOptionWindow" style="display: none">
+    <div id="idPMFilterOptionWindow">
+        <ul>
+            <li id="idPMFilterOptionTab01"><a href="#Filterwin1">Filter Options</a></li>
+            <li id="idPMFilterOptionTab02" style="display:none;"><a href="#Filterwin2">Tab 02</a></li>
+        </ul>
+        <div id="Filterwin1">         
+            <table>
+                <tr>
+                    <td><div>Project Id : &nbsp;&nbsp;</div></td>
+                    <td>
+                        <div id="PMFilter_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjKy"></div>
+                    </td>
+                    <td style="margin-left: 10px;">
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Project Name : &nbsp;&nbsp;
+                        </div>
+                    </td>
+                    <td>
+                        <div id="PMFilter_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div>Task Id : &nbsp;&nbsp;</div></td>
+                    <td>
+                        <input placeholder="Task ID ..." data-cpypst-blsmartcpypaste="TaskId" id="taskIdFilterOnFilterOptinMenu" style="width: 137px; height:30px;" type="text" class="k-textbox" />
+                    </td>
+                    <td><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date From : &nbsp;&nbsp;</div></td>
+                    <td><div style="width:150px"><input id="filteroptiondateFrom" data-cpypst-blsmartcpypaste="FrmDt" type="string" /></div></td>
+
+                </tr>
+                <tr>
+                    <td style="margin-left: 10px;">
+                        <div>
+                            Task Id Filter : &nbsp;&nbsp;
+                        </div>
+                    </td>
+                    <td>
+                        <input id="taskIdFilterOnFilterOptinMenuOption" data-cpypst-blsmartcpypaste="FilOption" placeholder="Filter Option ..." />
+                    </td>
+                    <td><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date To : &nbsp;&nbsp;</div></td>
+                    <td><div style="width:150px"><input id="filteroptiondateTo" data-cpypst-blsmartcpypaste="ToDt" type="string" /></div></td>
+                </tr>
+                <tr>
+                    <td><div>Only Critical Task : &nbsp;&nbsp;</div></td>
+                    <td><input id="onlyCriticalTask" data-bind="checked: isChecked" style="margin-left: 15px" type="checkbox" /></td>
+                    <td><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With Not Completed Task : &nbsp;&nbsp;</div></td>
+                    <td><input id="withNotCompletedTask" data-bind="checked: isChecked" style="margin-left: 15px" type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td><div>With BaseLine : &nbsp;&nbsp;</div></td>
+                    <td><input id="withBaseLine" data-bind="checked: isChecked" style="margin-left: 15px" type="checkbox" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div id="Filterwin2">
+            <p>Tab 02</p>
+            <p>Under Construction...</p>
+        </div>
+    </div>
+    <div style="margin-top:20px;">
+        <button title="OK" id="idOkFilterOptions" class="k-button">OK</button>
+        <button title="Cancel" id="idCancelFilter" class="k-button">Cancel</button>
+    </div>
+</div>
+
+<script>
+    @*var urlTaskResourceDetails_Select = '@Url.Content("~/PMResource/TaskResourceDetails_Select")';*@
+</script>
+<script src="~/Scripts/HtnScripts/GanttChart/PMFilterOption.js"></script>

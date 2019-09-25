@@ -1,0 +1,291 @@
+﻿<style>
+    /*http://www.telerik.com/forums/bootstrap-grid-system-is-not-working*/
+    /* reset everything to the default box model */
+
+    /**, :before, :after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }*/
+
+    /* set a border-box model only to elements that need it */
+
+    .form-control, /* if this class is applied to a Kendo UI widget, its layout may change */
+    .container,
+    .container-fluid,
+    .row,
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+    .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+    .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+    .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+    .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+    .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+    .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+    .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+    .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+    .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+    .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+</style>
+
+
+<div id="FindFormGRN" style="display: none; overflow-y: hidden; overflow-x: hidden; font-size:11px">
+
+    <!--============================================================================================================-->
+    <div id="filterCont" style="background-color: #ffffff;">
+        <div class="row m-l--15">
+            <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+                <div id="ButtonSec2" class="col-lg-5 col-md-5"></div>
+                @*<button class="control-button preview" onclick="SearchGRN()" data-tooltip="preview"> </button>
+                    <button class="control-button selected" onclick="OkGRN()" data-tooltip="select"> </button>
+                    <button class="control-button back" onclick="Clear()" data-tooltip="back"> </button>
+                    <button class="control-button back" onclick="btnCalGRN()" data-tooltip="back"> </button>*@
+            </div>
+        </div>
+
+        <div class="row m-t-10">
+            <!-- section 01 -->
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <!-- From -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_FromDate">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_FromDate_Lbl">From:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 "><input id="HdrSec16_Dat_FF_FromDate_Val" class="width-100" placeholder="From Date" /></div>
+                </div>
+                <!-- /From -->
+                <!-- To -->
+                <div class="row form-inline form-group" id="HdrSec16_Dat_FF_Todt">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Dat_FF_Todt_Lbl">To:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input id="HdrSec16_Dat_FF_Todt_Val" class="width-100" placeholder="To Date" /></div>
+                </div>
+                <!-- /To -->
+                <!-- Order No -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_OrdNo">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_OrdNo_Lbl">Order No</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Document No" id="HdrSec16_Inpt_FF_OrdNo_Val" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Order No -->
+                <!-- Doc No -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_DocNo">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_DocNo_Lbl">Doc No:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Document No" id="HdrSec16_Inpt_FF_DocNo_Val" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Doc No -->
+                <!-- Your Ref -->
+                <div class="row form-inline form-group" id="HdrSec16_Inpt_FF_YurRef">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Inpt_FF_YurRef_Lbl">Your Ref:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Your Reference" id="HdrSec16_Inpt_FF_YurRef_Val" data-cpypst-blsmartcpypaste="Yurref" type="text" class="k-textbox width-100" /></div>
+                </div>
+                <!-- /Your Ref -->
+                <!-- ApproveStatus -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_AprStatesAction">
+                    <div class="col-md-4 col-sm-6 col-xs-12 p-r-0"><label id="HdrSec16_Cmb_FF_AprStatesAction_Lbl">ApproveStatus:</label></div>
+                    <div class="col-md-8 col-sm-6 col-xs-12"><input placeholder="Status" id="HdrSec16_Cmb_FF_AprStatesAction_Nm" class="width-100" /></div>
+                </div>
+                <!-- /ApproveStatus -->
+            </div>
+            <!-- section 02 -->
+            <div class="col-md-7 col-sm-12 col-xs-12 p-r-lg-25">
+                <!-- Trn No -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_TrnNo">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_TrnNo_Lbl">Trn No:</label></div>
+                    <div class="col-md-3 col-sm-4 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_TrnNo_Cd" class="width-100" /></div>  <!-- id="Prefix" -->
+                    <div class="col-md-4 col-sm-8 col-xs-12 p-l-0-lg form-group"><input placeholder="Trn No" id="HdrSec16_Cmb_FF_TrnNo_Val" type="text" class="k-textbox width-100" /></div> <!-- id="TrnNo" -->
+                </div>
+                <!-- /Trn No -->
+                <!-- Address -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_HdrAdr">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_HdrAdr_Lbl">Address:</label></div>
+                    <div class="col-md-9 col-sm-4 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Cd" data-cpypst-blsmartcpypaste="AdrId" class="width-100" /></div>
+                   @* <div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_HdrAdr_Nm" data-cpypst-blsmartcpypaste="AdrNm" class="width-100" /></div>*@
+                </div>
+                <!-- /Address -->
+                <!-- From Location -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_FrmLoc">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_FrmLoc_Lbl">From Location:</label></div>
+                    <div class="col-md-9 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_FrmLoc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100" /></div>
+                    @*<div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_FrmLoc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100" /></div>*@
+                </div>
+                <!-- /From Location -->
+                <!-- To Location -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_ToLoc">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_ToLoc_Lbl">To Location:</label></div>
+                    <div class="col-md-9 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_ToLoc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100" /></div>
+                  @*  <div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_ToLoc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100" /></div>*@
+                </div>
+                <!-- /To Location -->
+                <!-- From Project -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_FrmPrj">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_FrmPrj_Lbl">From Project:</label></div>
+                    <div class="col-md-9 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_FrmPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                   @* <div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_FrmPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+                </div>
+                <!-- /From Project -->
+                <!-- To Project -->
+                <div class="row form-inline form-group" id="HdrSec16_Cmb_FF_ToPrj">
+                    <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_ToPrj_Lbl">To Project:</label></div>
+                    <div class="col-md-9 col-sm-12 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_ToPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                   @* <div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_ToPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>*@
+                </div>
+                <!-- /To Project -->
+                <!-- Suplier -->
+                @*<div class="row form-inline form-group" id="HdrSec16_Cmb_FF_Suplier">
+                        <div class="col-md-3 col-sm-12 col-xs-12 p-l-lg-25"><label id="HdrSec16_Cmb_FF_Customer_Lbl">Suplier:</label></div>
+                        <div class="col-md-3 col-sm-4 col-xs-12 p-l-0-lg p-r-0-lg form-group"><input id="HdrSec16_Cmb_FF_Suplier_Cd" data-cpypst-blsmartcpypaste="" class="width-100" /></div>
+                        <div class="col-md-6 col-sm-8 col-xs-12 p-l-2-lg form-group"><input id="HdrSec16_Cmb_FF_Suplier_Nm" data-cpypst-blsmartcpypaste="" class="width-100" /></div>
+                    </div>*@
+                <!-- /Suplier -->
+            </div>
+            <!-- section 03 -->
+            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsRec">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsRec_Lbl">Is Recurrence:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        @*<label class="lbl-switch"> <input type="checkbox" id="HdrSec16_Chkbox_FF_IsRec_Val" name="IsRec" /> <div> <span class="on">Yes</span> <span class="off">No</span> </div> <i></i> </label>*@
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsRec_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsRec_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+
+                        @*<input id="IsRec" name="IsRec" type="checkbox" />*@
+                    </div>
+                </div>
+                <div class="row m-b-4 form-group" id="HdrSec16_Chkbox_FF_IsPrnt">
+                    <div class="float-left col-md-7 col-sm-6 col-xs-6 p-r-0"><label id="HdrSec16_Chkbox_FF_IsPrnt_Lbl">Is Printed:</label></div>
+                    <div class="float-right col-md-5 col-sm-6 col-xs-6 p-r-0">
+                        @*<label class="lbl-switch"> <input id="HdrSec16_Chkbox_FF_IsPrnt_Val" name="IsPrnt" type="checkbox" /> <div> <span class="on">Yes</span> <span class="off">No</span> </div> <i></i> </label>*@
+                        @*<input id="IsPrnt" name="IsPrnt" type="checkbox" />*@
+                        <div class="onoffswitch margin-auto m-r-lg-5">
+                            <input type="checkbox" id="HdrSec16_Chkbox_FF_IsPrnt_Val" name="onoffswitch" class="onoffswitch-checkbox">
+                            <label class="onoffswitch-label" for="HdrSec16_Chkbox_FF_IsPrnt_Val">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row m-l--15 m-b-sm-500">
+        <div class="col-md-12 col-sm-12">
+            <div id="FindFormGridGRN"> </div>
+        </div>
+    </div>
+</div>
+<!--============================================================================================================-->
+@*<div class="k-content clearfix" id="filterCont">
+            <div class="col-md-6 control-icons" id="ButtonSetFind">
+
+                <button class="control-button preview" onclick="SearchGRN()" data-tooltip="preview"> </button>
+                <button class="control-button selected" onclick="OkGRN()" data-tooltip="select"> </button>
+                <button class="control-button back" onclick="Clear()" data-tooltip="back"> </button>
+                <button class="control-button back" onclick="btnCalGRN()" data-tooltip="back"> </button>
+
+
+            </div>
+            <div id="HdrPart">
+                <div class="col-md-12 col-sm-12">
+                    <div class="wr_formGroup">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Date From:</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 ">
+                                    <input id="FrmDtGRN" style="width:175px;" data-role="datepicker" data-bind="value: FrmDtGRN" />
+                                </div>
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Date To:</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 ">
+                                    <input id="ToDtGRN" style="width:175px;" class="" data-role="datepicker" data-bind="value: ToDtGRN" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Trn No : </label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 ">
+                                    <input style="width:175px;" placeholder="Trn No" id="OrdNoTo" type="text" class="k-textbox" />
+                                </div>
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Doc No : </label>
+                                </div>
+                                <div class="col-md-2 col-sm-3 ">
+                                    <input style="width:175px;" placeholder="Doc No" id="DocumentNo1" type="text" class="k-textbox" />
+                                </div>
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Yur Ref : </label>
+                                </div>
+                                <div class="col-md-2 col-sm-3 ">
+                                    <input style="width:175px;" placeholder="Yur Ref" id="YurRef" type="text" class="k-textbox" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Suplier</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 ">
+                                    <div id="cmbSupGRN"></div>
+                                </div>
+                                <div class="col-md-1 col-sm-3">
+                                    <label>Project</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3 ">
+                                    <div id="cmbPrjectIdGRN"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 col-sm-2">
+                                    <label>Is Recurrence : </label>
+                                </div>
+                                <div class="col-md-1 col-sm-3 ">
+                                    <input id="remember" name="remember" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br style="clear:both" />
+            <div class="col-md-12 col-sm-12">
+                <div id="FindFormGridGRN"></div>
+            </div>
+        </div>
+    </div>*@
+
+<script>
+    var urlFindGRN = {
+        GetGRNList: '@Url.Content("~/Transaction/ItmTransferFind")',
+        GetGridGRNDetail: '@Url.Content("~/Transaction/GetGridGRNDetail")',
+        GetGRNItemsDetail: '@Url.Content("~/Transaction/GetGRNItemsDetail")',
+        GetProjectList: '@Url.Content("~/Transaction/GetProjectList")',
+        GetSuplist: '@Url.Content("~/Transaction/GetSuplist")'
+    };
+
+    var viewBagFindGRN = {
+        OurCd: '@(ViewBag.OurCd)'
+    };
+
+    var urlGetBUCode = '@Url.Content("~/Journal/BUCodeLookup")';
+    var urlGetAddressCd = '@Url.Content("~/Journal/AccAdrId")';
+    var urlGetAddressNm = '@Url.Content("~/Journal/AccAdrName")';
+</script>
+
+<script src="~/Scripts/HtnScripts/ItmTranfer/PopUp/FindGRN.js"></script>

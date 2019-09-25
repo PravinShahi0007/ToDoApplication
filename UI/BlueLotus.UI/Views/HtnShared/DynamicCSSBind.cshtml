@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "GanttView";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript_12_09.cshtml";
+}
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div>
+        <input type="text" />
+        <button>Save</button>
+    </div>
+    <div id="dynamicBody" style="display:inline-block">
+
+    </div>
+</body>
+</html>
+
+<script>
+    var columns = new Array();
+    columns = [
+    //         //{ field: "PrcsDetCmpnKy", hidden: true },
+    //         //{ field: "PrcsSchDetKy", hidden: true },
+    //         //{ field: "PrcsDetKy", hidden: true }
+    ];
+
+    addDivElement('dynamicBody', 'idSave', 'Save');
+    addDivElement('dynamicBody', 'idNew', 'New');
+
+    function addDivElement(parentElementId, childElementId, btnText) {
+        
+        dW = document.createElement('span');
+        $(dW).css("width", "10")
+            .attr('id', childElementId + "AddWidth")
+            .appendTo($("#" + parentElementId));
+
+        d = document.createElement('span');
+        $(d).addClass('k-button')
+            .html(btnText)
+            .attr('id', childElementId)
+            .appendTo($("#" + parentElementId))
+        .click(function () {
+            alert(this);
+        });
+    }
+</script>

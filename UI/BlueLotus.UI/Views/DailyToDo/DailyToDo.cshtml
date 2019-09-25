@@ -1,0 +1,363 @@
+﻿@{
+    ViewBag.Title = "BLToDo";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+    <link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+    <style>
+        #Dlytodogrid {
+            height: 47.4vh !important;
+        }
+
+            #Dlytodogrid .k-grid-content.k-auto-scrollable {
+                height: 35vh !important;
+            }
+             
+
+
+    /*Dlytodogrid row color*/
+    .new-row {
+        background-color: #00b0ff; !important;
+        color: #fff;
+    }
+
+
+
+        #PrcsSchDetCmpnGrid {
+            height: 21.4vh !important;
+        }
+
+            #PrcsSchDetCmpnGrid .k-grid-content.k-auto-scrollable {
+                height: 14.2vh !important;
+            }
+
+        .k-tabstrip-right > .k-tabstrip-items {
+            padding-top: 0px;
+        }
+
+        .red {
+            background-color: #f14343;
+            color: white;
+        }
+
+        .blue {
+            background-color: #48c3f1;
+            color: white;
+        }
+
+        .green {
+            background-color: #30a930;
+            color: white;
+        }
+
+        .k-grid tbody tr {
+            cursor: move;
+        }
+
+        /*#ChildGrid table .k-grid-header,#ChildGrid .k-pager-wrap.k-grid-pager.k-widget.k-floatwrap {
+        display: none;
+        }*/
+
+        #ChildGrid table .k-grid-header {
+            display: none;
+        }
+    </style>
+}
+
+<div style="height:50px;" class="k-content clearfix" id="filterCont">
+
+    <button class="control-button load" id="loadGrid" onclick="LoadGrid()" title="Load"> </button>
+    @*<button class="control-button save_and_new" onclick="SaveUpdate('saveandnew')" data-tooltip="Save And New"> </button>*@
+    <button class="control-button save_and_new" onclick="SaveUpdate('Save/Update')" data-tooltip="Save"> </button>
+    <button class="control-button cancel" id="btncancel" onclick="Cancel()" title="Cancel"></button>
+    @*<button class="control-button back" id="btnIndent" title="Indent"></button>*@
+    @*<button class="control-button outdent" style="display:none" id="btnOutdent" onclick="" title=""></button>*@
+    @*<button class="control-button indent" id="btnIndent" onclick="" title="" data-tooltip="Child Record"></button>*@
+   @* <button class="btn btn-info btn-xs" style="height:24px; margin-top: -8px; display:none" id="after"><i class="fa fa-plus" aria-hidden="true"></i> Add Child</button>*@
+    <button class="control-button import" data-tooltip="Export to Excel" id="exportExl"></button>
+    @*<button class="k-button" data-tooltip="" id="">Image Upload</button>*@
+
+</div>
+<div class="padding-15">
+    <div class="wr_formGroup" id="HdrSec1" style="margin-top:-28px;">
+        <div class="row p-r-15">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="row">
+                            <!-- Project -->
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbPrj">
+                                <div class="row form-group">
+                                    <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbPrj_Lbl">Project :</label></div>
+                                    <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbPrj_Cd" class="combo width-100" /></div>
+                                    <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbPrj_Nm" class="combo width-100 hidden" /></div>
+                                </div>
+                            </div>
+                            <!-- /Project -->
+                            <!-- Lead Address -->
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbLeadAdr">
+                                <div class="row form-group">
+                                    <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbLeadAdr_Lbl"> Lead:</label></div>
+                                    <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbLeadAdr_Cd" class="combo width-100" /></div>
+                                    <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbLeadAdr_Nm" class="combo width-100 hidden" /></div>
+                                </div>
+                            </div>
+                            <!-- /Lead Address -->
+                            <!-- Current Act Address -->
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec1_CmbCurActByAdr">
+                                <div class="row form-group">
+                                    <div class="col-md-12 col-sm12"><label id="HdrSec1_CmbCurActByAdr_Lbl"> Current Action:</label></div>
+                                    <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec1_CmbCurActByAdr_Cd" class="combo width-100" /></div>
+                                    <div class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec1_CmbCurActByAdr_Nm" class="combo width-100 hidden" /></div>
+                                </div>
+                            </div>
+                            <!-- /Current Act Address -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12" @*style="display:none"*@>
+                        <!--AutoCompleteGoToMenu-->
+                        <div class="row form-group" id="HdrSec2_AutoCompleteGoToMenu">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_AutoCompleteGoToMenu_Lbl">Object:</label></div>
+                            <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec2_AutoCompleteGoToMenu_Val" class="width-100" /></div>
+                        </div>
+                        <!--AutoCompleteGoToMenu-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="row">
+                    <!--Priority-->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_CmbPrty_Lbl"> Priority:</label></div>
+                            <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec2_CmbPrty_Cd" class="combo width-100" /></div>
+                            <div style="display:none" class="col-md-5 col-sm-4 p-l-2-lg"><input id="HdrSec2_CmbPrty_Nm" class="combo width-100" /></div>
+                        </div>
+                    </div>
+                    <!--/Priority-->
+                    <!-- ApproveStatus -->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_CmbPrty_Lbl"> Status:</label></div>
+                            <div class="col-md-12 col-sm-12 p-r-0-lg"><input placeholder="Status" id="HdrSec2_Cmb_AprStates_Val" type="text" class="combo width-100" /></div>
+                        </div>
+                    </div>
+                    <!-- /ApproveStatus -->
+                    <!-- Task Category -->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="HdrSec2_CmbPrcsDetCat1">
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_PrcsDetCat1_Lbl">Type:</label></div>
+                            <div class="col-md-12 col-sm-12 p-r-0-lg"><input id="HdrSec2_CmbPrcsDetCat1_Cd" class="width-100" /></div>
+                        </div>
+                    </div>
+                    <!-- /Task Category -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wr_formGroup" id="HdrSec2">
+        <div class="row p-r-15">
+            <div class="col-lg-8 col-md-8">
+                <div class="row">
+                    <!-- Task -->
+                    <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12" id="HdrSec2_CmbTask" style="width:24%">
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_CmbTask_Lbl"> Task </label></div>
+                            <div class="col-md-11 col-sm-11 p-r-0-lg"><input id="HdrSec2_NmricTask_Val" class="k-textbox width-100" /></div>
+                        </div>
+                    </div>
+                    <!-- /Task -->
+                    <!-- Task Name -->
+                    <div class="col-lg-9 col-md-9 col-sm-12 p-l-0-lg" id="HdrSec2_InptDesc" style="width:76%">
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-12"><label id="HdrSec2_InptDesc_Lbl">Task Name:</label></div>
+                            <div class="col-md-12 col-sm-12 p-r-0-lg"><textarea id="HdrSec2_InptDesc_Val"  maxlength="50" class="k-textbox width-100" style="height:23px" required data-bind="value: textareaValue"></textarea></div>
+                        </div>
+                    </div>
+                    <!-- /Task Name -->
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12" id="HdrSec2_NmricTask">
+                        <!--Due Date-->
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-6"><label id="HdrSec2_HdrSec2_DatDueDat_Lbl">Req Date:</label></div>
+                            <div class="col-md-12 col-sm-6 p-r-0-lg"><input id="HdrSec2_InptDueDat" class="width-100" /></div>
+                        </div>
+                        <!--/Due Date-->
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6" id="HdrSec2_NmricQty">
+                        <!-- Budjet Hrs -->
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-6"><label id="HdrSec2_NmricQty1_Lbl">Budget time</label></div>
+                            <div class="col-md-12 col-sm-6 p-r-0-lg"><input id="Unit_NmricQty_Val" class="k-textbox width-100" /></div>
+                        </div>
+                        <!-- /Budjet Hrs -->
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6" id="">
+                        <!-- Unit -->
+                        <div class="row form-group">
+                            <div class="col-md-12 col-sm-6"><label id="HdrSec2_CmbUnit_Lbl">Unit:</label></div>
+                            <div class="col-md-12 col-sm-6 p-r-0-lg"><input id="HdrSec2_CmbUnit_Cd" class="combo width-100" /></div>
+                        </div>
+                        <!-- /Unit -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row">
+            <div class="col-md-10 p-r-0-lg">
+                <div id="Dlytodogrid" class="m-t-5"></div>
+                <div>
+                    @Html.Partial("~/Views/DailyToDo/ToDoAddress.cshtml")
+                </div>
+                <ul id="context-menu">
+                    <li>Copy</li>
+                    <li>Paste</li>
+                    <li>Delete</li>
+                </ul>
+            </div>
+            <div class="col-md-2" id="SidePnl" style="padding-left:0">
+                <textarea id="ComntPnl" style="height: 31.2vh" class="k-textbox width-100 m-t-5" placeholder="Type Some Comments"></textarea>
+                <textarea id="RscPnl" style="height: 31.2vh" class="k-textbox width-100" placeholder="Resources"></textarea>
+            </div>
+        </div>*@
+
+    <div class="row no-margin p-l-15 p-r-15">
+        <div class="" id="BOQ_Main_TabStrip">
+            <ul>
+                <li id="BOQ_Main_TabStrip_HdrSec2_Tab1">Details</li>
+                <li id="BOQ_Main_TabStrip_HdrSec2_Tab2">Resources</li>
+            </ul>
+            <div>
+                @Html.Partial("~/Views/DailyToDo/PrcsDet/PrcsDet.cshtml")
+            </div>
+            <div id="MainDiv_OrdDetCmpnPartialForParentDiv">
+                @Html.Partial("~/Views/DailyToDo/PrcsDetCmpn/PrcsDetCmpnInBuild.cshtml")
+            </div>
+
+            <div>
+                @Html.Partial("~/Views/Transaction/PopUps/ImageAttachment_View.cshtml")
+            </div>
+            <div>
+               @Html.Partial("~/Views/DailyToDo/PrcsDet/PrcsDetHistory.cshtml")
+            </div>
+            @*<div>
+            @Html.Partial("~/Views/DailyToDo/UploadImage.cshtml")
+        </div>*@
+            @*//tempary*@
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<script id="command-template" type="text/x-kendo-template">
+    <a class="k-button k-grid-evenselect">Image</a>
+</script>
+
+
+<script>
+
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth() + 1; //January is 0!
+
+    var yyyy = todayDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+
+    var globalVariable = {
+        FinItmKy: 1,
+        TodayDate: todayDate
+    }
+
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        OurCd2: '@(ViewBag.OurCd2)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)'
+    }
+
+
+
+    var urlComboLoad = {
+
+        AdrID_SelectMob: '@Url.Content("~/ComboLoad/AdrID_SelectMob")',
+        AdrNm_SelectMob: '@Url.Content("~/ComboLoad/AdrNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjNm_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")',
+        TaskId_SelectMob: '@Url.Content("~/ComboLoad/TaskID_SelectMob")',
+        TaskNm_SelectMob: '@Url.Content("~/ComboLoad/TaskNm_SelectMob")',
+        UnitMas_SelectMob: '@Url.Content("~/ComboLoad/UnitMas_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+
+        ItmCd_SelectMob: '@Url.Content("~/ComboLoad/ItmCd_SelectMob")',
+        ItmNm_SelectMob: '@Url.Content("~/ComboLoad/ItmNm_SelectMob")',
+        MenuSearch_SelectWeb:'@Url.Content("~/ComboLoad/MenuSearch_SelectWeb")'
+
+    }
+
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+</script>
+
+<script>
+    var urlGetBUNm = '@Url.Content("~/Journal/BUNMLookup")';
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var urlToDoPrcsDet_SelectWeb = '@Url.Content("~/DailyToDo/ToDoPrcsDet_SelectWeb")';
+    var urlToDoPrcsDet_InsertWeb = '@Url.Content("~/DailyToDo/ToDoPrcsDet_InsertWeb")';
+    var urlToDoPrcsDet_GetTaskID = '@Url.Content("~/DailyToDo/ToDoPrcsDet_GetTaskID")';
+    var urlPrcsDetPrnt_SelectWeb = '@Url.Content("~/DailyToDo/PrcsDetPrnt_SelectWeb")';
+    var urlTransactionGetItemMultiUnits = '@Url.Content("~/Transaction/GetItemMultiUnits")';
+    var urlPrcsDetCmpn_SelectWeb = '@Url.Content("~/PrcsDetCmpn/PrcsDetCmpn_SelectWeb")';
+    var urlAutoCompleteGoToMenu = '@Url.Content("~/Menu/GetSmartMenuModel")';
+    var urlGetCode = '@Url.Content("~/ComboLoad/Code_SelectMob")';
+    var GetHistoryTaskInfo = '@Url.Content("~/ToDoProject/GetToDoPrcsDetHistory")';
+
+
+</script>
+@*<script id="command-template" type="text/x-kendo-template">
+        <a class="k-button k-grid-evenselect">X</a>
+    </script>*@
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/DailyToDo.js"></script>
+
+<script src="~/Scripts/HtnScripts/Daily To Do/TabControler.js"></script>
+
+<script src="~/Scripts/HtnScripts/Daily To Do/ToDoComboLoad.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/PrcsDetGridLoad.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/NumericTextBoxFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/PrcsDetDetailChanged.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/PrcsDetGridDoubleClick.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/DailyToDoKeyFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/SavePrcsDetCmpn.js"></script>
+
+<script src="~/Scripts/HtnScripts/Daily To Do/PrcsDetCmpn/GridLoad.js"></script>
+<script src="~/Scripts/HtnScripts/Daily To Do/PrcsDetCmpn/PrcsDetKeyFunction.js"></script>    

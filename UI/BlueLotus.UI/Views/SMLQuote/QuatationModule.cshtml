@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div>
+    <div class="k-content clearfix" id="filterCont">
+        @*Button section Start*@
+        <div class="col-md-12 control-icons" id="ButtonSet">
+            <div id="ButtonSec1" class="col-md-9 col-sm-9">
+                @*<button id="saveBtn" class="control-button save" onclick="SaveUpdate('save') " data-tooltip="Save"> </button>*@
+            </div>
+            <div class="col-md-3 col-sm-3 pull-right">
+                <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 30px; margin-top: 10px; width: 100px;" />
+                <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 35px; margin-top: 10px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+            </div>
+        </div>
+        @*Button section End*@
+        <div class="col-md-12 col-sm 12">
+            <div class="wr_formGroup">
+                <div class="form-group">
+                    <div class="row">
+                        <div id="HdrSec1_InptName">
+                            <div class="col-md-4 col-sm-4">
+                                <label id="HdrSec1_InptName_Lbl">Name:</label>
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="F.Name" id="HdrSec1_InptName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Fname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Surname" id="HdrSec1_InptSName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Lname" />
+                            </div>
+                            <div class="col-md-2 col-sm-2 ">
+                                <input placeholder="Initials" id="HdrSec1_InptIName_Val" type="text" class="k-textbox" data-cpypst-blsmartcpypaste="Initial" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_CmbVehicalInt">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_CmbVehicalInt_Lbl">Vehicale of Interesrt</label>
+                        </div>
+                        <div class="col-md-3 col-sm-1">
+                            <div id="HdrSec1_CmbVehicalInt_Cd" data-cpypst-blsmartcpypaste="VehicalModel"></div>
+                        </div>                      
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Exterior">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_Exterior_Lbl">Exterior</label>
+                        </div>               
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Clr">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1">                              
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <label id="HdrSec1_Clr_Lbl">Color</label>
+                        </div>
+                        <div class="col-md-1 col-sm-1">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input id="HdrSec1_Clr_cmb"/>
+                        </div>  
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Wheel">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1">
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <label id="HdrSec1_Wheel_Lbl">Wheel</label>
+                        </div>
+                        <div class="col-md-1 col-sm-1">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input id="HdrSec1_Wheel_cmb"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12" id="HdrSec1_ExteriorGrd">   
+                                                     
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Interior">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_Interior_Lbl">Interior</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Trim">
+                    <div class="row">
+                        <div class="col-md-1 col-sm-1">
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <label id="HdrSec1_Trim_Lbl">Trim</label>
+                        </div>
+                        <div class="col-md-1 col-sm-1">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input id="HdrSec1_Trim_cmb" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12" id="HdrSec1_IneriorGrd">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="HdrSec1_Other">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label id="HdrSec1_Other_Lbl">Other</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12" id="HdrSec1_OthrGrd">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    @Html.Partial("~/Views/ObjMas/ObjMas_Form_Prop_Setting.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<script>
+    var urlGetCdMasName = '@Url.Content("~/ComboLoad/CdNm_SelectMob")';
+    var urlGetAdrId = '@Url.Content("~/ComboLoad/AdrID_SelectMob")';
+    var urlGetDateTime = '@Url.Content("~/ShowroomLog/ReturnDateTime")';
+    var urlFindIsCustomer = '@Url.Content("~/ShowroomLog/FindIsCurrentCust")';
+    var urlSaveAction = '@Url.Content("~/SMLDemoDrivingLog/SaveAction")';
+    var urlUpdateAction = '@Url.Content("~/SMLDemoDrivingLog/UpdateAction")';
+    var urlFindAction = '@Url.Content("~/SMLDemoDrivingLog/GetFindForm")';
+    var urlSelectAction = '@Url.Content("~/SMLDemoDrivingLog/DemoDriveDetail")';
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")'
+    }
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+    var viewBag = {
+        ObjKy: '@(ViewBag.ObjKy)',
+        OurCd: '@(ViewBag.OurCd)',
+        ObjCaptn: '@(ViewBag.ObjCaptn)',
+        TimeNow: "@(ViewBag.Time)",
+        DateNow: "@(ViewBag.Date)",
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+
+</script> 
+<script src="~/Scripts/HtnScripts/SMLQuotation/Validation.js"></script>                         
+<script src="~/Scripts/HtnScripts/SMLQuotation/SMLQuotation.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>

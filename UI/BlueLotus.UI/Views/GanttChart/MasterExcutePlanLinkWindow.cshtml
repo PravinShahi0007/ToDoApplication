@@ -1,0 +1,177 @@
+﻿<div id="MasterExcutePlanLinkWindowDiv" style="display: none">
+
+    <table style="width: 100%; border: 1px solid blue; border-collapse: collapse;">
+        <tr>
+            <td style="width: 50%; border: 1px solid blue; ">
+                @*Master Plan Filter Option*@
+                <table>
+                    <tr>
+                        <td><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Master Plan Task : &nbsp;&nbsp;</h4></td>
+                        <td>
+                            <input placeholder="Task ID ..." id="taskIdMasterPlanFilterOption" style="width: 135px; height:25px;" type="text" class="k-textbox" />
+                        </td>
+                        <td>
+                            <input placeholder="Task Description ..." id="taskDescMasterPlanFilterOption" style="width: 270px; height:25px;" type="text" class="k-textbox" />
+                        </td>
+                        <td>
+                            <button title="Filter" id="MasterPlanFilter" class="k-button">Filter</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td style="width: 50%; border: 1px solid blue;">
+                @*Excute Plan Filter Option*@
+                <table>
+                    <tr>
+                        <td><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Excute Plan Task : &nbsp;&nbsp;</h4></td>
+                        <td>
+                            <input placeholder="Task ID ..." id="taskIdExcutePlanFilterOption" style="width: 135px; height:25px;" type="text" class="k-textbox" />
+                        </td>
+                        <td>
+                            <input placeholder="Task Description ..." id="taskDescExcutePlanFilterOption" style="width: 270px; height:25px;" type="text" class="k-textbox" />
+                        </td>
+                        <td>
+                            <button title="Filter" id="ExcutePlanFilter" class="k-button">Filter</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="MasterPlan">
+                    <div id="idMasterPlan">
+                        <div id="tGridMasterPlan"></div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div id="ExcutePlan">
+                    <div id="idExcutePlan">
+                        <div id="tGridExcutePlan"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<script>
+    var urlPrjMasPln_Select = '@Url.Content("~/GanttChart/PrjMasPln_Select")';
+
+    function openMasterExcutePlanWindow() {
+        if (tempPrjKy > 1) {
+            $("#MasterExcutePlanLinkWindowDiv").show().kendoWindow({
+                width: "1250px",
+                height: "600px",
+                modal: true,
+                title: "Master And Excute Plan Link"
+            });
+
+            $('#MasterExcutePlanLinkWindowDiv').data('kendoWindow').center().open();
+            $('.k-window-content.k-content').css('background', '#D9D9D9');
+            $('.ui-tabs-panel.ui-widget-content.ui-corner-bottom').css('background', '#D9D9D9');
+            $('.ui-tabs-nav.ui-helper-reset.ui-helper-clearfix.ui-widget-header.ui-corner-all').css('background', '#3F51B5');
+            $("#MasterExcutePlanLinkWindowDiv").data("kendoWindow").maximize();
+            $('#MasterExcutePlanLinkWindowDiv.k-window-title').html('<b>        Master And Excute Plan Link        <font color="red">( This is Auto Save Mode Module )</font></b>');
+
+
+            MasterPlanGridLoad();
+        }
+        else {
+            alert("Please Select the Project");
+        }
+    }
+
+    function closeMasterExcutePlanWindow() {
+        $('#MasterExcutePlanLinkWindowDiv').data('kendoWindow').close();
+    }
+
+    function MasterPlanGridLoad() {
+
+        var dataSourcePrjMasPln_Select = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: urlPrjMasPln_Select,
+                    dataType: "json",
+                    data: { PrjKy: tempPrjKy }
+                }
+            },
+            batch: true,
+            //pageSize: 50,
+            schema: {
+                model: {
+                    id: "PrcsSchDetKy",
+                    fields:
+                    {
+                        TaskID: {},
+                        TaskNm: {},
+                        IsLinked: {},
+                        StDt: {},
+                        ToDt: {}
+                    }
+                }
+            }
+        });
+
+        $("#tGridMasterPlan").kendoGrid({
+            dataSource: dataSourcePrjMasPln_Select,
+            //pageable: true,
+            sortable: true,
+            //reorderable: true,
+            //columnMenu: true,
+            selectable: "row",
+            //filterable: {
+            //    mode: "row"
+            //},
+            //pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+                { field: "PrcsSchDetKy", title: "PrcsSchDetKy", width: "0px", hidden: true },
+                {
+                    field: "IsLinked", title: "IsLinked", width: "35px", editable: false,
+                    template: "<input name='IsLinked' disabled: disabled class='ob-paid' type='checkbox' data-bind='checked: IsLinked' #= IsLinked ? checked='checked' : '' # />"
+                },
+
+                //field: "isContainSubTask", title: "isContainSubTask", width: "85px", editable: false,
+                //template: "<input name='isContainSubTask' class='ob-paid' type='checkbox' data-bind='checked: isContainSubTask' #= isContainSubTask ? checked='checked' : '' # />"
+
+
+                { field: "TaskID", title: "TaskID", width: "60px" },
+                { field: "TaskNm", title: "TaskNm", width: "250px" },
+                { field: "StDt", title: "Start Date", width: "100px", hidden: true },
+                { field: "ToDt", title: "End Date", width: "100px", hidden: true }
+            ],
+            resizable: true,
+            dataBound: function () {
+                //$('#tGridMasterPlan .k-grid-content').height(400);
+            },
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            editable: false,
+            height: '600px'
+            //height: '455px'
+        });
+    }
+
+    //$('#idLink').click(function () {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: urlLnkBOQPrj_Insert,
+    //        dataType: "json",
+    //        data: {
+    //            BOQKy: ($("#loadBOQCombo").data("kendoComboBox").value()) ? $("#loadBOQCombo").data("kendoComboBox").value() : 1,
+    //            PrjKy: ($("#loadPrjCombo").data("kendoComboBox").value()) ? $("#loadPrjCombo").data("kendoComboBox").value() : 1
+    //        },
+    //        async: false,
+    //        success: function (result) {
+    //            if (result == true) {
+    //                alert("BOQ and Project Linked .. !");
+    //            }
+    //            $.holdReady(false);
+    //        }
+    //    });
+    //});
+</script>

@@ -1,0 +1,2075 @@
+﻿@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_GanttLayout.cshtml";
+ <link href='@Url.Content("~/Content/jquery-ui.css")' rel="stylesheet" type="text/css" />
+}
+    
+<script src='@Url.Content("~/Scripts/js/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/kendo.all.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/js/jquery-ui.js")' type="text/javascript"></script>
+
+
+<div class="k-content" id="filterCont">
+    <div>
+      <button class="k-button" id="btnLoadItem" title="Load" style="width: 50px; height: 30px"><img src="~/Images/Load.jpg" /></button>
+      <button class="k-button" id="btnSave" title="Save" onclick="ItemCmpSave()" style="width:50px; height:30px"><img src="~/Images/Save1.PNG" /></button>
+      <button class="k-button" id="btnCancel"  title="Cancel"  onclick="ItemCmpCancel()" style="width: 50px; height: 30px"><img src="~/Images/Cancel.PNG" /></button>
+      <button class="k-button" id="btnPrint" onclick="Prinrept();"  title="Print" style="width: 150px; height: 30px">Print</button>
+   </div>
+    <div id="HdrPart" style="margin-top:10px;">
+        <div style="margin-left:20px;">
+             <div style="margin-left:5px; ">
+                 <label >InvoiceNo:</label>
+                 <input  id="OrdNo1" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+                 <input  id="OrdKy1" readonly="readonly"  type="text" style="width:150px;" class="k-textbox" />
+                 <input  id="OrdTypKy1" readonly="readonly"  type="text" style="width:150px;" class="k-textbox" />
+                 <input  id="OrdPrefixKy1" readonly="readonly"  type="text" style="width:150px;" class="k-textbox" />
+                 <input  id="AccTrnKy" readonly="readonly"  type="text" style="width:150px;" class="k-textbox" />
+                 <label style="margin-left:38px;"> Project:</label>
+                 <div id="cmbFmPrjId" "></div>
+                 <div id="cmbFmPrjNm"></div>
+             </div>
+        
+             <div style="margin-top:10px;margin-left:10px;">
+                  <label style="margin-left:25px;">Date:</label>
+                  <input id="Date"
+                    class=""
+                    data-role="datepicker"
+                    data-bind="value: Date" />
+                  <label style="margin-left:5px;">Bussines Unit:</label>
+                  <div id="cmbBUId"></div>
+                  <div id="cmbBUCd"></div>
+             </div>
+      
+             <div style="margin-top:10px;margin-left:0px;">
+                 <label style="margin-left:-16px;">Document No:</label>
+                 <input placeholder="Doc No ..." id="DocNo" type="text" style="width:150px;" class="k-textbox" />
+                 <label style="margin-left:32px;">Location</label>
+                 <div id="cmbFmLocId"></div>
+                 <div id="cmbFmLocNm"></div>
+             </div>
+
+             <div style="margin-top:10px;margin-left:-15px;">
+                  <label style="margin-left:38px;">Yur Ref</label>
+                  <input  id="Yurref"   type="text" style="width:150px;" class="k-textbox" />
+                  <label style="margin-left:10px;">Sales A/C Cd</label>
+                  <div id="cmbSlsACId"></div>
+                  <div id="cmbSlsACCd"></div>
+            </div>
+
+             <div style="margin-top:10px;margin-left:230px;">
+                  <label style="margin-left:14px;">Cus A/C Cd</label>
+                  <div id="cmbAccId"></div>
+                  <div id="cmbAccNm"></div>
+            </div>
+
+            <div style="margin-top:10px;margin-left:248px;">
+                  <label style="margin-left:14px;">Address</label>
+                  <div id="cmbAdrId"></div>
+                  <div id="cmbAdrNm"></div>
+            </div>
+
+       <div style="margin-left:800px;margin-top:-200px;">
+              <div >
+                 <label style="margin-left:5px;">Pmt Terms:</label>
+                 <div  id="cmbPmt" ></div> 
+              </div>
+              <div >
+                 <label style="margin-left:15px;">Currency:</label>
+                 <div  id="cmbCurrency" ></div> 
+              </div>
+              <div >
+                 <label style="margin-left:26px;">Ex Rate:</label>
+                 <input  id="ExRate" type="text" style="width:150px;"  class=".k-numerictextbox" />
+              </div>
+              <div style="margin-top:15px;">
+                 <label style="margin-left:14px;">Sub Total:</label>
+                 <input  id="SubTotal" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+              </div>
+              <div>
+                 <label style="margin-left:16px;">Discount:</label>
+                 <input  id="Discount"  class=".k-numerictextbox" style="width:150px;" />
+              </div>
+             <div>
+                 <label style="margin-left:45px;">Tax:</label>
+                 <input  id="Tax"   class=".k-numerictextbox" style="width:150px;"  />
+             </div>
+             <div>
+                 <label style="margin-left:35px;">Total:</label>
+                 <input  id="Total" readonly="readonly" type="text" style="width:150px;" class="k-textbox" />
+             </div>
+       </div>
+     </div>
+
+    <div id="GridWin"  class="marging-b-150" style="margin-top:50px;margin-bottom:10px">
+             <div id="grid1"></div>
+             </div>
+ 
+</div>
+</div>
+
+<div>    
+@Html.Partial("~/Views/Invoice/FindInvoice.cshtml")
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var PrjKy = 1
+        LoadCombo();
+        LoadGridView1(PrjKy);
+        //$("#cmbPmt").data("kendoComboBox").text(Credit);
+        var myComboBox = $('#cmbPmt').data('kendoComboBox');
+        myComboBox.text("Credit");
+      //  myComboBox.trigger("select");
+        //$("#cmbCurrency").data("kendoComboBox").value(178);
+        var CurrancyComboBox = $('#cmbCurrency').data('kendoComboBox');
+        CurrancyComboBox.text("LKR");
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+        $("#OrdKy").hide();
+        $("#OrdTypKy").hide();
+        $("#OrdPrefixKy").hide();
+        $("#OrdKy1").hide();
+        $("#OrdTypKy1").hide();
+        $("#OrdPrefixKy1").hide();
+        $("#AccTrnKy").hide();
+        var height = $(window).height() - 70;
+        var h2 = $("#filterCont").height();
+        $("#body").height(height);
+        $("#grid").height(height - (35 + h2 + 40));
+    });
+
+    $("#Date").width(150).kendoDatePicker({
+
+        format: "yyyy/MM/dd",
+        min: new Date(2009, 2, 31)
+    });
+    $("#Date").closest("span.k-datepicker").width(150);
+
+    $("#YurRefDate").width(150).kendoDatePicker({
+
+        format: "yyyy/MM/dd",
+        min: new Date(2009, 2, 31)
+    });
+    $("#YurRefDate").closest("span.k-datepicker").width(150);
+
+    function ToLocDatasource() {
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/ItmTransfer/GetToLocList")',
+                      data: "ItmTrn",
+                      dataType: "json"
+                  }
+              }
+
+          });
+          return dataSource;
+      }
+
+      function FmLocDatasource() {
+          var dataSource = new kendo.data.DataSource(
+            {
+                transport: {
+                    read: {
+                        url: '@Url.Content("~/ItmTransfer/GetFromLocList")',
+                        data: { TrnTyp: "ItmTrn" },
+                        dataType: "json"
+                    }
+                }
+
+            });
+            return dataSource;
+        }
+
+        function DlvToDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/ItmTransfer/GetAddress")',
+                        dataType: "json"
+                    }
+                }
+
+            });
+            return dataSource;
+        }
+
+        function ProjectDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/CMS/GetProjectList")',
+                        dataType: "json"
+                    }
+                }
+
+            });
+            return dataSource;
+        }
+        function AccountDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/Invoice/GetCusAccountList")',
+                        dataType: "json"
+                    }
+                }
+
+            });
+            return dataSource;
+        }
+
+        function AddressDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/ItmTransfer/GetAddressList")',
+                        dataType: "json"
+                    }
+                }
+
+            });
+            return dataSource;
+        }
+
+        function BUDatasource() {
+            var dataSource = new kendo.data.DataSource(
+              {
+                  transport: {
+                      read: {
+                          url: '@Url.Content("~/ItmTransfer/GetBUlist")',
+                      dataType: "json"
+                  }
+              }
+
+          });
+          return dataSource;
+      }
+
+     function PurAcDatasource() {
+          var ConCd = "TrnTyp";
+          var OurCd = "SALE";
+          var dataSource = new kendo.data.DataSource(
+            {
+                transport: {
+                    read: {
+                        url: '@Url.Content("~/ItmTransfer/GetPurAcList")',
+                      data: {
+                          ConCd: "TrnTyp",
+                          OurCd: "SALE"
+                      },
+                      dataType: "json"
+                  }
+              }
+
+          });
+          return dataSource;
+      }
+
+  function PmtDatasource() {
+        var ConCd = "PmtTrm";
+     
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Invoice/GetPmtList")',
+                        data: {
+                            ConCd: "PmtTrm",
+                         },
+                        dataType: "json"
+                  }
+              }
+});
+            return dataSource;
+    }
+
+    function CurrencyDatasource() {
+      
+        var dataSource = new kendo.data.DataSource(
+          {
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/Invoice/GetCurrencyList")',
+                     
+                      dataType: "json"
+                  }
+              }
+ });
+          return dataSource;
+      }
+
+    function LoadCombo() {
+        $("#cmbPmt").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: PmtDatasource(),
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Perment Terms.."
+        });
+        $("#cmbCurrency").kendoComboBox({
+            dataValueField: "CdKy",
+            dataTextField: "Code",
+            dataSource: CurrencyDatasource(),
+            change: function (e) {
+                var cmb = $("#cmbFmPrjId").data("kendoComboBox");
+                var prjky = cmb.value();
+                if (prjky != "") {
+                    var validate = ComboValidations("cmbFmPrjId");
+                    if (validate) {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                        $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                        // sendPrjKy();
+                        LoadGridView1(prjky);
+                        //LoadGridView(prjky);
+                    } else {
+                        $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                        $("#cmbFmPrjId").data("kendoComboBox").value("");
+                    }
+                }
+ },
+            filter: "contains",
+            suggest: true,
+            placeholder: "Select a Currency.."
+        });
+          $("#cmbFmPrjId").kendoComboBox({
+              dataValueField: "PrjKy",
+              dataTextField: "PrjID",
+              dataSource: ProjectDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbFmPrjId").data("kendoComboBox");
+                  var prjky = cmb.value();
+                  if (prjky != "") {
+                      var validate = ComboValidations("cmbFmPrjId");
+                      if (validate) {
+                          $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                          $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                          // sendPrjKy();
+                          LoadGridView1(prjky);
+                          //LoadGridView(prjky);
+                      } else {
+                          $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                          $("#cmbFmPrjId").data("kendoComboBox").value("");
+                      }
+                  }
+                   },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Project.."
+          });
+
+          $("#cmbFmPrjNm").kendoComboBox({
+              dataValueField: "PrjKy",
+              dataTextField: "PrjNm",
+              dataSource: ProjectDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbFmPrjNm").data("kendoComboBox");
+                  var prjky = cmb.value();
+                  if (prjky != "") {
+                      var validate = ComboValidations("cmbFmPrjNm");
+                      if (validate) {
+                          $("#cmbFmPrjId").data("kendoComboBox").value(prjky);
+                          $("#cmbFmPrjNm").data("kendoComboBox").value(prjky);
+                          //sendPrjKy();
+                          LoadGridView1(prjky);
+                          //LoadGridView(prjky);
+                      } else {
+                          $("#cmbFmPrjNm").data("kendoComboBox").value("");
+                          $("#cmbFmPrjId").data("kendoComboBox").value("");
+                      }
+                  }
+            },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Project.."
+          });
+
+          $("#cmbBUId").kendoComboBox({
+              dataValueField: "CdKy",
+              dataTextField: "Code",
+              dataSource: BUDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbBUId").data("kendoComboBox");
+                  var CdKy = cmb.value();
+                  if (CdKy != "") {
+                      var validate = ComboValidations("cmbBUId");
+                      if (validate) {
+                          $("#cmbBUId").data("kendoComboBox").value(CdKy);
+                          $("#cmbBUCd").data("kendoComboBox").value(CdKy);
+
+                      } else {
+                          $("#cmbBUCd").data("kendoComboBox").value("");
+                          $("#cmbBUId").data("kendoComboBox").value("");
+                      }
+                  }
+ },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a BU.."
+          });
+          $("#cmbBUCd").kendoComboBox({
+              dataValueField: "CdKy",
+              dataTextField: "CdNm",
+              dataSource: BUDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbBUCd").data("kendoComboBox");
+                  var CdKy = cmb.value();
+                  if (CdKy != "") {
+                      var validate = ComboValidations("cmbBUCd");
+                      if (validate) {
+                          $("#cmbBUCd").data("kendoComboBox").value(CdKy);
+                          $("#cmbBUId").data("kendoComboBox").value(CdKy);
+
+                      } else {
+                          $("#cmbBUCd").data("kendoComboBox").value("");
+                          $("#cmbBUId").data("kendoComboBox").value("");
+                      }
+                  }
+},
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a BU.."
+          });
+
+          $("#cmbSlsACId").kendoComboBox({
+              dataValueField: "AccKy",
+              dataTextField: "AccCd",
+              dataSource: PurAcDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbSlsACId").data("kendoComboBox");
+                  var AccKy = cmb.value();
+                  if (AccKy != "") {
+                      var validate = ComboValidations("cmbSlsACId");
+                      if (validate) {
+                          $("#cmbSlsACId").data("kendoComboBox").value(AccKy);
+                          $("#cmbSlsACCd").data("kendoComboBox").value(AccKy);
+
+                      } else {
+                          $("#cmbSlsACId").data("kendoComboBox").value("");
+                          $("#cmbSlsACCd").data("kendoComboBox").value("");
+                      }
+                  }
+  },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a Purchase A/C.."
+          });
+          $("#cmbSlsACCd").kendoComboBox({
+              dataValueField: "AccKy",
+              dataTextField: "AccNm",
+              dataSource: PurAcDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbSlsACCd").data("kendoComboBox");
+                  var AccKy = cmb.value();
+                  if (AccKy != "") {
+                      var validate = ComboValidations("cmbSlsACCd");
+                      if (validate) {
+                          $("#cmbSlsACCd").data("kendoComboBox").value(AccKy);
+                          $("#cmbSlsACId").data("kendoComboBox").value(AccKy);
+
+                      } else {
+                          $("#cmbSlsACCd").data("kendoComboBox").value("");
+                          $("#cmbSlsACId").data("kendoComboBox").value("");
+                      }
+                  }
+ },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a Purchase A/C.."
+          });
+
+          $("#cmbFmLocId").kendoComboBox({
+              dataValueField: "CdKy",
+              dataTextField: "Code",
+              dataSource: FmLocDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbFmLocId").data("kendoComboBox");
+                  var CdKy = cmb.value();
+                  if (CdKy != "") {
+                      var validate = ComboValidations("cmbFmLocId");
+                      if (validate) {
+                          $("#cmbFmLocNm").data("kendoComboBox").value(CdKy);
+                          $("#cmbFmLocId").data("kendoComboBox").value(CdKy);
+                      } else {
+                          $("#cmbFmLocNm").data("kendoComboBox").value("");
+                          $("#cmbFmLocId").data("kendoComboBox").value("");
+                      }
+                  }
+ },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Location.."
+          });
+          $("#cmbFmLocNm").kendoComboBox({
+              dataValueField: "CdKy",
+              dataTextField: "CdNm",
+              dataSource: FmLocDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbFmLocNm").data("kendoComboBox");
+                  var CdKy = cmb.value();
+                  if (CdKy != "") {
+                      var validate = ComboValidations("cmbFmLocNm");
+                      if (validate) {
+                          $("#cmbFmLocId").data("kendoComboBox").value(CdKy);
+                          $("#cmbFmLocNm").data("kendoComboBox").value(CdKy);
+                      } else {
+                          $("#cmbFmLocNm").data("kendoComboBox").value("");
+                          $("#cmbFmLocId").data("kendoComboBox").value("");
+                      }
+                  }
+ },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Location.."
+          });
+
+
+
+          $("#cmbAccId").kendoComboBox({
+              dataValueField: "AccKy",
+              dataTextField: "AccCd",
+              dataSource: AccountDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbAccId").data("kendoComboBox");
+                  var AccKy = cmb.value();
+                  if (AccKy != "") {
+                      var validate = ComboValidations("cmbAccId");
+                      if (validate) {
+                          $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                          $("#cmbAccId").data("kendoComboBox").value(AccKy);
+
+                          GetAdrKyByAccKy(AccKy);
+                          //$("#cmbAdrId").data("kendoComboBox").value(AccKy);
+                          //$("#cmbAdrNm").data("kendoComboBox").value(AccKy);
+                          //sendPrjKy();
+                          //LoadGridView(prjky);
+                      } else {
+                          $("#cmbAccNm").data("kendoComboBox").value("");
+                          $("#cmbAccId").data("kendoComboBox").value("");
+                      }
+                  }
+ },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a Accounts.."
+          });
+
+          $("#cmbAccNm").kendoComboBox({
+              dataValueField: "AccKy",
+              dataTextField: "AccNm",
+              dataSource: AccountDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbAccNm").data("kendoComboBox");
+                  var AccKy = cmb.value();
+                  if (AccKy != "") {
+                      var validate = ComboValidations("cmbAccNm");
+                      if (validate) {
+                          $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                          $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                          GetAdrKyByAccKy(AccKy);
+                          //$("#cmbAdrId").data("kendoComboBox").value(AccKy);
+                          //$("#cmbAdrNm").data("kendoComboBox").value(AccKy);
+                          //sendPrjKy();
+                          //LoadGridView(prjky);
+                      } else {
+                          $("#cmbAccNm").data("kendoComboBox").value("");
+                          $("#cmbAccId").data("kendoComboBox").value("");
+                      }
+                  }
+  },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a Accounts.."
+          });
+
+          $("#cmbAdrId").kendoComboBox({
+              dataValueField: "AdrKy",
+              dataTextField: "AdrID",
+              dataSource: AddressDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbAdrId").data("kendoComboBox");
+                  var AdrKy = cmb.value();
+                  if (AdrKy != "") {
+                      var validate = ComboValidations("cmbAdrId");
+                      if (validate) {
+                          $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                          $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                          GetAccKyByAdrKy(AdrKy);
+                          //$("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                          //$("#cmbAccId").data("kendoComboBox").value(AccKy); 
+                         // sendPrjKy();
+                          ////LoadGridView(prjky);
+                      } else {
+                          $("#cmbAdrId").data("kendoComboBox").value("");
+                          $("#cmbAdrNm").data("kendoComboBox").value("");
+                      }
+                  }
+          },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Project.."
+          });
+
+          $("#cmbAdrNm").kendoComboBox({
+              dataValueField: "AdrKy",
+              dataTextField: "AdrNm",
+              dataSource: AddressDatasource(),
+              change: function (e) {
+                  var cmb = $("#cmbAdrNm").data("kendoComboBox");
+                  var AdrKy = cmb.value();
+                  if (AdrKy != "") {
+                      var validate = ComboValidations("cmbAdrNm");
+                      if (validate) {
+                          $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                          $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                          GetAccKyByAdrKy(AdrKy);
+                          //$("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                          //$("#cmbAccId").data("kendoComboBox").value(AccKy);
+                          ////sendPrjKy();
+                          //LoadGridView(prjky);
+                      } else {
+                          $("#cmbAdrNm").data("kendoComboBox").value("");
+                          $("#cmbAdrId").data("kendoComboBox").value("");
+                      }
+                  }
+                },
+              filter: "contains",
+              suggest: true,
+              placeholder: "Select a From Project.."
+          });
+
+          $("#cmbFmPrjId").parent().css('width', "150px");
+          $("#cmbDeliTo").parent().css('width', "150px");
+          $("#cmbPmt").parent().css('width', "150px");
+          $("#cmbCurrency").parent().css('width', "150px");
+          $("#cmbBUId").parent().css('width', "150px");
+          $("#cmbBUCd").parent().css('width', "250px");
+          $("#cmbSlsACId").parent().css('width', "150px");
+          $("#cmbSlsACCd").parent().css('width', "250px");
+          $("#cmbFmLocId").parent().css('width', "150px");
+          $("#cmbToLocId").parent().css('width', "150px");
+          $("#cmbFmPrjNm").parent().css('width', "250px");
+          $("#cmbAdrId").parent().css('width', "150px");
+          $("#cmbAdrNm").parent().css('width', "250px");
+          $("#cmbAccId").parent().css('width', "150px");
+          $("#cmbAccNm").parent().css('width', "250px");
+          $("#cmbFmLocNm").parent().css('width', "250px");
+          $("#cmbToLocNm").parent().css('width', "250px");
+      }
+
+      function ComboValidations(cmbNm) {
+
+          var cmb = $("#" + cmbNm + "").data("kendoComboBox");
+          var val = cmb.value();
+
+          if (isNaN(val)) {
+              alert("'" + val + "' is not a Valid input");
+              $("#" + cmbNm + "").data('kendoComboBox').value("");
+              return false;
+          } else {
+              return true;
+          }
+      }
+
+
+      function GetAdrKyByAccKy(AccKy) {
+          $.ajax({
+              url: "@Url.Content("~/ItmTransfer/GetAdrKy")",
+                data: JSON.stringify({
+
+                    AccKy: AccKy,
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var AdrKy = data[0].AdrKy;
+                        $("#cmbAdrId").data("kendoComboBox").value(AdrKy);
+                        $("#cmbAdrNm").data("kendoComboBox").value(AdrKy);
+                }
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+      }
+    function GetAccKyByAdrKy(AdrKy) {
+        $.ajax({
+            url: "@Url.Content("~/ItmTransfer/GetAccKy")",
+              data: JSON.stringify({
+
+                  AdrKy: AdrKy,
+
+              }),
+              contentType: 'application/json; charset=utf-8',
+              dataType: "Json",
+              type: "POST",
+              success: function (data) {
+                  for (i = 0; i < data.length; i++) {
+                    var AccKy = data[0].AccKy;
+                    $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+                    $("#cmbAccId").data("kendoComboBox").value(AccKy);
+
+                  }
+
+
+              },
+              error: function (e) {
+                  return false;
+              }
+          });
+
+      }
+
+      function sendPrjKy() {
+          $.ajax({
+              type: "POST",
+              dataType: "json",
+              url: '@Url.Action("sendPrjKy", "ItmTransfer")',
+              data: {
+                  strPrjKy: $("#cmbFmPrjId").val(),
+
+              },
+              success: function (data) {
+
+              }
+          })
+      }
+
+      function LoadGridView1(PrjKy) {
+
+          var dataSource = new kendo.data.DataSource({
+              transport: {
+                  read: {
+                      url: '@Url.Content("~/ItmTransfer/GetDetailByOrdKy")',
+                    dataType: "json"
+                },
+                update: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Updated successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: '@Url.Action("UpdateToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    data: { isAct: 0 },
+                    complete: function (e) {
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                create: {
+                    url: '@Url.Action("InsertToDo","Home")',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    type: "POST",
+                    complete: function (e) {
+                        alert("Saved successfully..!");
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.dataSource.read();
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == "create" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+                    }
+                    if (operation == "update" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "destroy" && options.models) {
+                        return JSON.stringify({ 'todos': options.models }); // Parrameter name of the Controller Action method==> List<ToDoModel>todos
+
+                    }
+                    if (operation == "read") {
+                        return ({
+
+                        });
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 10,
+            schema: {
+                model: {
+                    id: "ItmTrnKy",
+                    fields: //Relavent fields of the grid should be bind with following model items
+                    {
+                        ItmTrnKy: { editable: true, nullable: false, type: "number" },
+
+                        ItmKy: { editable: true, nullable: false, type: "number" },
+                      
+                        ItmCd: { editable: true, nullable: false, validation: { required: true }, validation: { required: true }, type: "string" },
+                        ItmNm: { editable: true, nullable: false, type: "string" },
+                        Unit: { editable: true, nullable: false },
+                        UnitKy: { editable: true, nullable: false },
+                        Des: { editable: true, nullable: false, type: "string" },
+                        TrnQty: { editable: true, nullable: false, type: "number" },
+                        TrnRate: { editable: true, nullable: false, type: "number" },
+                        DisAmt: { editable: true, nullable: false, type: "number" },
+                        DisPer: { editable: true, nullable: false, type: "number" },
+                        Vat: { editable: true, nullable: false, type: "number" },
+                        VatPer: { editable: true, nullable: false, type: "number" },
+                        SVat: { editable: true, nullable: false, type: "number" },
+                        Remarks: { editable: true, nullable: false, type: "string" },
+
+
+                    }
+                }
+            }
+        });
+
+        $("#grid1").kendoGrid({
+            dataSource: dataSource,
+            autobind: true,
+
+            navigatable: true,
+            filterable: true,
+
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+
+            selectable: "row",
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            toolbar: [{ name: "create", text: "Add new record" }, "cancel"],
+
+            columns: [
+            {
+                field: "ItmTrnKy", title: "Ref #", width: "100px", hidden: true,
+            },
+
+                {
+                    field: "LiNo", title: "Ref #", width: "100px",
+                },
+                  {
+                         field: "ItmKy", title: "Ref #", width: "100px", hidden: true,
+                         editor: function (container, options) {
+                             var model = options.model;
+
+                             $('<input id="cmbItmKy" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                                 dataSource: {
+                                     type: "POST",
+                                     transport: {
+                                         read: {
+                                             url: '@Url.Content("~/ItmTransfer/ItemsLookUpByOrdTyp")',
+                                             data: { ConCd: "TrnTyp", OurCd: "SALE" }
+                                         }
+                                     }
+                                 },
+                                 change: function (e) {
+
+                                     combo = e.sender;
+                                     selectedItm = combo.select();
+                                     dataItem = combo.dataItem(selectedItm);
+
+
+                                     var validate = ComboValidations("cmbItmKy");
+                                     if (validate) {
+                                         model.set("ItmKy", dataItem.ItmKy);
+                                         model.set("ItmCd", dataItem.ItmCd);
+                                         model.set("ItmNm", dataItem.ItmNm);
+
+
+                                     } else {
+                                         model.set("ItmKy", 1);
+                                         model.set("ItmCd", "");
+                                         model.set("ItmNm", "");
+                                                 }
+                                                },
+                                 dataValueField: "ItmKy",
+                                 dataTextField: "ItmKy",
+
+                             });
+                         }
+                     },
+                   {
+                       field: "ItmCd",
+                       title: "Item Cd",
+                       width: "150px",
+                       editor: function (container, options) {
+                           var model = options.model;
+
+                           $('<input id="cmbItmCd" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                               dataSource: {
+                                   type: "POST",
+                                   transport: {
+                                       read: {
+                                           url: '@Url.Content("~/ItmTransfer/ItemsLookUpByOrdTyp")',
+                                           data: { ConCd: "TrnTyp", OurCd: "SALE" }
+                                       }
+                                   }
+                               },
+                               change: function (e) {
+
+                                   combo = e.sender;
+                                   selectedItm = combo.select();
+                                   dataItem = combo.dataItem(selectedItm);
+                                   var grid = $("#grid1").data("kendoGrid"),
+                                  model = grid.dataItem(this.element.closest("tr"));
+
+                                   var validate = ComboValidations("cmbItmCd");
+                                   if (validate) {
+                                       setUnit(dataItem.ItmKy, model);
+                                       setRate(dataItem.ItmKy, model);
+                                       setDisAmt(dataItem.ItmKy, model);
+                                       setTax(dataItem.ItmKy, model);
+                                       model.set("ItmNm", dataItem.ItmNm);
+                                       model.set("ItmCd", dataItem.ItmCd);
+                                       model.set("ItmKy", dataItem.ItmKy);
+
+                                   } else {
+                                       model.set("ItmKy", 1);
+                                       model.set("ItmNm", "");
+                                       model.set("ItmCd", "");
+                                      }
+                                            },
+                               dataValueField: "ItmKy",
+                               dataTextField: "ItmCd",
+
+                           });
+                       }
+                   },
+                     {
+                         field: "ItmNm", title: "Item Name", width: "150px",
+                         editor: function (container, options) {
+                             var model = options.model;
+
+                             $('<input id="cmbItmNm" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                                 dataSource: {
+                                     type: "GET",
+                                     transport: {
+                                         read: {
+                                             url: '@Url.Content("~/ItmTransfer/ItemsLookUpByOrdTyp")',
+                                             data: { ConCd: "TrnTyp", OurCd: "SALE" }
+
+                                         }
+                                     }
+                                 },
+                                 change: function (e) {
+
+                                     combo = e.sender;
+                                     selectedItm = combo.select();
+                                     dataItem = combo.dataItem(selectedItm);
+                                     //var cmb = $("#cmbItmNm").data("kendoComboBox");
+                                     //var ItmKy = cmb.value();
+                                     var grid = $("#grid1").data("kendoGrid"),
+                                  model = grid.dataItem(this.element.closest("tr"));
+                                     var validate = ComboValidations("cmbItmNm");
+                                     if (validate) {
+                                         setUnit(dataItem.ItmKy, model);
+                                         setRate(dataItem.ItmKy, model);
+                                         setDisAmt(dataItem.ItmKy, model);
+                                         setTax(dataItem.ItmKy, model);
+                                         model.set("ItmCd", dataItem.ItmCd);
+                                         model.set("ItmNm", dataItem.ItmNm);
+                                         model.set("ItmKy", dataItem.ItmKy);
+
+                                     } else {
+                                         model.set("ItmKy", 1);
+                                         model.set("ItmNm", "");
+                                         model.set("ItmCd", "");
+
+                                     }
+                                                    },
+                                 dataValueField: "ItmKy",
+                                 dataTextField: "ItmNm",
+
+                             });
+                         }
+                     },
+                   
+               {
+                   field: "Unit", title: "Unit", width: "100px",
+                   editor: function (container, options) {
+                       var model = options.model;
+
+                       $('<input id="cmbUnitKy" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                           dataSource: {
+                               type: "POST",
+                               transport: {
+                                   read: {
+                                       url: '@Url.Action("GetUnit","ItmMas")',
+
+                                   }
+                               }
+                           },
+                           change: function (e) {
+
+                               combo = e.sender;
+                               selectedItm = combo.select();
+                               dataItem = combo.dataItem(selectedItm);
+
+                               model.set("UnitKy", dataItem.UnitKy);
+                               model.set("Unit", dataItem.Unit);
+                           },
+                           dataValueField: "UnitKy",
+                           dataTextField: "Unit",
+
+                       });
+                   }
+               },
+                {
+                    field: "UnitKy", title: "Unit", width: "100px", hidden: true,
+                    editor: function (container, options) {
+                        var model = options.model;
+
+                        $('<input id="cmbUnitKy" name="' + options.field + '"/>').appendTo(container).kendoComboBox({
+                            dataSource: {
+                                type: "POST",
+                                transport: {
+                                    read: {
+                                        url: '@Url.Action("GetUnit","ItmMas")',
+
+                                    }
+                                }
+                            },
+                            change: function (e) {
+
+                                combo = e.sender;
+                                selectedItm = combo.select();
+                                dataItem = combo.dataItem(selectedItm);
+
+                                model.set("UnitKy", dataItem.UnitKy);
+                                model.set("Unit", dataItem.Unit);
+                            },
+                            dataValueField: "UnitKy",
+                            dataTextField: "Unit",
+
+                        });
+                    }
+                },
+                {
+                    field: "TrnQty", title: "Qty", width: "150px", format: "{0:N2}",
+                    editor: function (container, options) {
+                        var model = options.model;
+                        $('<input id="TrnQty" name="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>').appendTo(container).kendoNumericTextBox({
+                            change: function (e) {
+
+                                var TSubTotal = model.set("SubTotal", (model.TrnQty * model.TrnRate));
+                                var TrnSubTotalVal = model.get("SubTotal");
+                                var disamt = (model.DisAmt / model.SubTotal) * 100;
+                               
+                                var TrnDisAmt = model.set("DisPer", disamt);
+                                var TaxAmount = ((model.TrnQty * model.TrnRate) - model.DisAmt) * model.VatPer;
+                                var Tax = model.set("Vat", TaxAmount);
+                                CaluculateSubTotal(TrnSubTotalVal);
+                            }
+                        });
+                         
+
+                    }
+
+                },
+                {
+                    field: "TrnRate", title: "TrnRate", width: "150px", format: "{0:N2}",
+                    editor: function (container, options) {
+                        var model = options.model;
+                        $('<input id="TrnRate" name="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>').appendTo(container).kendoNumericTextBox({
+                            change: function (e) {
+
+                                var TSubTotal = model.set("SubTotal", (model.TrnQty * model.TrnRate));
+                                var TrnSubTotalVal = model.get("SubTotal");
+                                var disamt = (model.DisAmt / model.SubTotal) * 100;
+                               
+                                var TrnDisAmt = model.set("DisPer", disamt);
+                                var TaxAmount = ((model.TrnQty * model.TrnRate) - model.DisAmt) * model.VatPer;
+                                var Tax = model.set("Vat", TaxAmount);
+                                CaluculateSubTotal(TrnSubTotalVal);
+
+                            }
+                        });
+                     }
+                },
+                   {
+                       field: "SubTotal", title: "SubTotal", width: "150px", footerTemplate: "Total: #= sum #"
+                   
+                   },
+
+                   {
+                       field: "DisAmt", title: "Dis Amt", width: "150px",
+                       editor: function (container, options) {
+                           var model = options.model;
+                           $('<input id="DisAmt" name="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>').appendTo(container).kendoNumericTextBox({
+                               change: function (e) {
+                                  
+                                   var exchangeTest = (model.DisAmt/ model.SubTotal)*100;
+                                   var TSubTotal = model.set("DisPer", exchangeTest);
+                                  // var TrnSubTotalVal = model.get("TrnSubTotal");
+                                  // CaluculateSubTotal(TrnSubTotalVal);
+                                   $("#Discount").val(model.DisAmt);
+                               }
+                           });
+                       },
+                       footerTemplate: "Total: #= sum #"
+  },
+                     {
+                         field: "DisPer", title: "Dis Per%", width: "150px",
+                         editor: function (container, options) {
+                             var model = options.model;
+                             $('<input id="DisPer" name="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>').appendTo(container).kendoNumericTextBox({
+                                 change: function (e) {
+
+                                     var exchangeTest = (model.DisPer * 0.01) * model.SubTotal;
+                                     var TSubTotal = model.set("DisAmt", exchangeTest);
+                                     // var TrnSubTotalVal = model.get("TrnSubTotal");
+                                     // CaluculateSubTotal(TrnSubTotalVal);
+                                     $("#Discount").val(exchangeTest);
+                                 }
+                             });
+    }
+                     },
+                      { field: "VatPer", title: "Vat Amount", width: "150px", hidden:false },
+                        { field: "Vat", title: "Vat Amount", width: "150px", footerTemplate: "Total: #= sum #" },
+                          { field: "SVat", title: "SVat Amount", width: "150px", footerTemplate: "Total: #= sum #" },
+                 { field: "Des", title: "Description", width: "150px" },
+                 { field: "Rem", title: "Remarks", width: "150px" },
+
+            ],
+
+            resizable: true,
+
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+
+            editable: true,
+
+        });
+
+            function setUnit(ItmKy, model) {
+                $.ajax({
+                    url: "@Url.Content("~/ItmTransfer/GetUnitbyItmky")",
+                data: JSON.stringify({
+
+                    ItmKy: ItmKy,
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var unit = data[0].Unit;
+                        var unitky = data[0].UnitKy;
+
+                        var exchangeTest = model.set("Unit", unit);
+                        var exchangeTest1 = model.set("UnitKy", unitky);
+
+                    }
+
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+        }
+
+        function setRate(ItmKy, model) {
+
+            var LocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+            if (LocKy == 0 || LocKy == null) {
+                var LocKy = 1;
+            }
+            var BUKy = $("#cmbBUId").data('kendoComboBox').value();
+            if (BUKy == 0 || BUKy == null) {
+                var BUKy = 1;
+            }
+            var PrjKy = $("#cmbFmPrjId").data('kendoComboBox').value();
+            if (PrjKy == 0 || PrjKy == null) {
+                var PrjKy = 1;
+            }
+            var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+            if (AdrKy == 0 || AdrKy == null) {
+                var AdrKy = 1;
+            }
+            var AccKy = $("#cmbAccId").data('kendoComboBox').value();
+            if (AccKy == 0 || AccKy == null) {
+                var AccKy = 1;
+            }
+
+            var Dt = $("#Date").val();
+
+
+            //var ConCd = "TrnTyp";
+            //var OurCd=""
+          
+                $.ajax({
+                    url: "@Url.Content("~/ItmMas/GetControlConKy")",
+        data: JSON.stringify({
+            GrpConCd: "ItmRate", ConCd: "ItmSale"
+        }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: "Json",
+        type: "POST",
+        success: function (list) {
+            for(i = 0; i < list.length; i++ )
+                var ControlConKy = list[0].ControlConKy;
+            $.ajax({
+                url: "@Url.Content("~/ItmTransfer/GetRate")",
+                data: JSON.stringify({
+
+                ItmKy: ItmKy,
+                LocKy: LocKy,
+                BUKy:BUKy,
+                PrjKy:PrjKy,
+                AdrKy:AdrKy,
+                AccKy:AccKy,
+                Dt:Dt,
+                ControlConKy:ControlConKy
+
+            }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    for (i = 0; i < data.length; i++) {
+                        var Rate = data[0].Rate;
+                        var exchangeTest = model.set("TrnRate", Rate);
+                       
+                        
+
+            }
+
+
+            },
+                error: function (e) {
+                    return false;
+            }
+            });
+           
+
+        },
+        error: function (e) {
+            return false;
+        }
+    });
+
+
+
+
+        }
+
+
+          function setDisAmt(ItmKy, model) {
+
+              var Dt = $("#Date").val();
+              var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+              if (AdrKy == 0 || AdrKy == null) {
+                  var AdrKy = 1;
+              }
+
+              var Pmt = $("#cmbPmt").data('kendoComboBox').value();
+              if (Pmt == 0 || Pmt == null) {
+                  var Pmt = 1;
+              }
+              $.ajax({
+                  url: "@Url.Content("~/Invoice/GetDisAmt")",
+               data: JSON.stringify({
+                   ConCd: "TrnTyp", OurCd: "SALE", ItmKy: ItmKy, AdrKy: AdrKy, Pmt: Pmt, Dt: Dt
+               }),
+               contentType: 'application/json; charset=utf-8',
+               dataType: "Json",
+               type: "POST",
+               success: function (list) {
+                   for (i = 0; i < list.length; i++) {
+                       var DisAmt = list[0].DisAmt;
+                       var exchangeTest = model.set("DisAmt", DisAmt);
+                       $("#Discount").val(DisAmt);
+                   }
+            },
+               error: function (e) {
+                   return false;
+               }
+           });
+          
+          }
+
+          function setTax(ItmKy, model){
+              var Dt = $("#Date").val();
+              var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+            
+              $.ajax({
+                  url: "@Url.Content("~/Invoice/GetTaxAccount")",
+                  data: JSON.stringify({
+                       AdrKy: AdrKy
+                  }),
+                  contentType: 'application/json; charset=utf-8',
+                  dataType: "Json",
+                  type: "POST",
+                  success: function (list) {
+                      if (list.length > 0) {
+
+                          for (i = 0; i < list.length; i++) {
+                              var TaxNo = list[0].TaxNo;
+                              $.ajax({
+                                  url: "@Url.Content("~/Invoice/GetTaxTyp1Val")",
+                                  data: JSON.stringify({
+                                      ItmKy: ItmKy,
+                                      Dt: Dt
+                                  }),
+                                  contentType: 'application/json; charset=utf-8',
+                                  dataType: "Json",
+                                  type: "POST",
+                                  success: function (list) {
+                                      for (i = 0; i < list.length; i++) {
+                                          var TaxVal = list[0].TaxVal;
+                                          //var amt1 = (model.SubTotal - model.DisAmt);
+                                          var TaxAmt = (TaxVal * 0.01)
+                                          var exchangeTest = model.set("VatPer", TaxAmt);
+                                         }
+                                  },
+                                  error: function (e) {
+                                      return false;
+                                  }
+                              });
+
+
+
+
+                          }
+                      } else {
+
+                          var exchangeTest = model.set("Vat", 0);
+                      }
+                  },
+                  error: function (e) {
+                      return false;
+                  }
+              });
+
+          }
+
+    }
+
+
+
+    function Remember() {
+        //alert("here..");
+        var grid = $("#grid").data("kendoGrid");
+        dataView = grid.dataSource.view();
+
+        var rowObjs = grid.tbody[0].rows;
+        var today = new Date();
+
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var output = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + d.getFullYear();
+
+        for (var i = 0; i < dataView.length; i++) {
+            var row = rowObjs[i];
+            if (dataView[i].NxtActDt === dt) {
+
+
+            }
+        }
+    }
+
+    function CaluculateSubTotal(TrnSubTotalVal) {
+        $("#SubTotal").val(TrnSubTotalVal);
+        GetTotalVal();
+    }
+
+    function GetTotalVal() {
+
+        var subtotal = $("#SubTotal").val();
+        var Discount = $("#Discount").val();
+        //var NBT = $("#NBT").data('kendoNumericTextBox').val();
+        //var NBT = $("#NBT").data("kendoNumericTextBox").val();
+        var Tax = $("#Tax").val();
+        if (subtotal == null) {
+            subtotal = 0;
+        }
+        if (Discount == null) {
+            Discount = 0;
+        }
+        if (Tax == null) {
+            Tax = 0;
+        }
+
+        //var Tax = $("#Tax").data("kendoNumericTextBox").val();
+        var TotalVal = (subtotal + Tax) - Discount;
+        $("#Total").val(TotalVal);
+    }
+
+
+
+    $("#NBT").kendoNumericTextBox({
+        min: 0,
+        change: GetTotalVal,
+    });
+
+    $("#Discount").kendoNumericTextBox({
+        min: 0,
+        change: GetTotalVal,
+    });
+
+    $("#ExRate").kendoNumericTextBox({
+        min: 0,
+      
+    });
+
+
+    $("#Tax").kendoNumericTextBox({
+        min: 0,
+        change: GetTotalVal,
+    });
+
+    function GridOnDataBinding(arg) {
+        record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+    }
+
+
+
+
+    var urlsendDataSaveChangesHdr = '@Url.Content("~/ItmTransfer/InsertHdr")';
+
+       var urlsendDataSaveChangesDetail = '@Url.Content("~/ItmTransfer/InsertDetail")';
+    function ItemCmpSave() {
+
+        var PrjKy = $("#cmbFmPrjId").data('kendoComboBox').value();
+        if (PrjKy == 0 || PrjKy == null) {
+            var PrjKy = 1;
+        }
+        var AdrKy = $("#cmbAdrId").data('kendoComboBox').value();
+        if (AdrKy == 0 || AdrKy == null) {
+            var AdrKy = 1;
+        }
+        var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value();
+        if (FrmLocKy == 0 || FrmLocKy == null) {
+            var FrmLocKy = 1;
+        }
+        var BuKy = $("#cmbBUId").data('kendoComboBox').value();
+        if (BuKy != 0 || BuKy != null) {
+            var BUKY = BuKy;
+        } else {
+            var BUKY = 1;
+
+        }
+        //var ToLocKy = $("#cmbToLocId").data('kendoComboBox').value();
+        var AccKy = $("#cmbAccId").data('kendoComboBox').value();
+        if (AccKy == 0 || AccKy == null) {
+            var AccKy = 1;
+        }
+
+        var SlsACId = $("#cmbSlsACId").data('kendoComboBox').value();
+        if (SlsACId == 0 || SlsACId == null) {
+            var SlsACId = 1;
+        }
+
+        var Pmt = $("#cmbPmt").data('kendoComboBox').value();
+        if (Pmt == 0 || Pmt == null) {
+            var Pmt = 1;
+        }
+
+        var Currency = $("#cmbCurrency").data('kendoComboBox').value();
+        if (Currency == 0 || Currency == null) {
+            var Currency = 1;
+        }
+        var Date = $("#Date").val();
+        var ExRate = $("#ExRate").data('kendoNumericTextBox').value();
+        if (ExRate == 0 || ExRate == null) {
+            var ExRate = 1;
+        }
+        var SubTotal = $("#SubTotal").val();
+        var Dsicount = $("#Discount").data('kendoNumericTextBox').value();
+        //var NBT = $("#NBT").data('kendoNumericTextBox').value();
+        var Tax = $("#Tax").data('kendoNumericTextBox').value();
+        var Total = $("#Total").val();
+        var Yurref = $("#Yurref").val();
+        var YurRefDate = $("#YurRefDate").val();
+        var DocNo = $("#DocNo").val();
+        var OrdKySelect = $("#OrdKy1").val();
+        var OrdTypKySelect = $("#OrdTypKy1").val();
+        var OrdPrefixKySelect = $("#OrdPrefixKy1").val();
+        var OrdNoSelect = $("#OrdNo1").val();
+        var AccTrnKy = $("#AccTrnKy").val();
+        
+
+        var OurCd = "SALE";
+        var ConCd = "TrnTyp";
+
+
+        var grid = $("#grid1").data("kendoGrid");
+
+
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                //this record is new
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        //this records are deleted
+        var deletedRecords = [];
+        for (var i = 0; i < grid.dataSource._destroyed.length; i++) {
+            deletedRecords.push(grid.dataSource._destroyed[i].toJSON());
+        }
+
+        if (OrdKySelect == null || OrdKySelect == undefined || OrdKySelect == "" && OrdTypKySelect == null || OrdTypKySelect == undefined || OrdTypKySelect == "" && OrdNoSelect == null || OrdNoSelect == undefined || OrdNoSelect == "") {
+
+            $.ajax({
+                url: "@Url.Content("~/Invoice/InsertDeatilHdrInvoice")",
+                data: JSON.stringify({
+
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    BUKY: BUKY,
+                    AccKy: AccKy,
+                    Date: Date,
+                    OurCd: OurCd,
+                    ConCd: ConCd,
+                    DocNo: DocNo,
+                    Yurref: Yurref,
+                    YurRefDate:YurRefDate,
+                    ExRate: ExRate,
+                    Currency: Currency,
+                    Pmt: Pmt,
+                    SlsACId: SlsACId,
+                    Dsicount: Dsicount,
+                    Tax: Tax,
+
+
+
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+
+                    if ($("#OrdKy1").val() != "") {
+                        var OrdKyVal = $("#OrdKy").val();
+                        $("#OrdKy1").val(OrdKyVal);
+                        if (AccTrnKy != null || AccTrnKy != 0 || AccTrnKy != undefined) {
+                            UpdateAccounts();
+                           
+                        } else {
+                            InsertAccounts();
+                        }
+                        //InsertGrid();
+                    } else {
+                        if (data > 0) {
+                            var ordKy = data;
+                            $("#OrdKy1").val(ordKy);
+                            InsertAccounts();
+                            //InsertGrid();
+                        }
+                    }
+
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+
+        } else {
+
+            $.ajax({
+                url: "@Url.Content("~/Invoice/UpdateDeatilHdrInvoice")",
+                data: JSON.stringify({
+
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    BUKY: BUKY,
+                    AccKy: AccKy,
+                    Date: Date,
+                    OurCd: OurCd,
+                    ConCd: ConCd,
+                    DocNo: DocNo,
+                    Yurref: Yurref,
+                    YurRefDate: YurRefDate,
+                    ExRate: ExRate,
+                    Currency: Currency,
+                    Pmt: Pmt,
+                    SlsACId: SlsACId,
+                    Dsicount: Dsicount,
+                    Tax: Tax,
+
+                    OrdKySelect: OrdKySelect,
+                    OrdTypKySelect: OrdTypKySelect,
+                    OrdPrefixKySelect: OrdPrefixKySelect,
+                    OrdNoSelect: OrdNoSelect,
+
+
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    UpdateAccounts();
+                 
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+
+        }
+
+
+        function InsertAccounts() {
+            var ordKydata = $("#OrdKy1").val();
+            $.ajax({
+                url: "@Url.Content("~/Invoice/InsertAccountsInvoice")",
+                data: JSON.stringify({
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    BUKY: BUKY,
+                    AccKy: AccKy,
+                    Date: Date,
+                    DocNo: DocNo,
+                    Yurref: Yurref,
+                    ExRate: ExRate,
+                    Currency: Currency,
+                    Pmt: Pmt,
+                    SlsACId: SlsACId,
+                    Dsicount: Dsicount,
+                    Tax: Tax,
+                    ordKydata: ordKydata
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    if (data >0){
+                    var ordKy = data;
+                    $("#AccTrnKy").val(ordKy);
+               
+                    InsertGrid();
+                }
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+
+        function UpdateAccounts() {
+            var ordKydata = $("#OrdKy1").val();
+            var AccTrnKy = $("#AccTrnKy").val();
+            $.ajax({
+                url: "@Url.Content("~/Invoice/UpdateAccountsInvoice")",
+                data: JSON.stringify({
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    BUKY: BUKY,
+                    AccKy: AccKy,
+                    Date: Date,
+                    OurCd: OurCd,
+                    ConCd: ConCd,
+                    DocNo: DocNo,
+                    Yurref: Yurref,
+                    YurRefDate: YurRefDate,
+                    ExRate: ExRate,
+                    Currency: Currency,
+                    Pmt: Pmt,
+                    SlsACId: SlsACId,
+                    Dsicount: Dsicount,
+                    Tax: Tax,
+                    ordKydata: ordKydata,
+                    AccTrnKy: AccTrnKy
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    alert("Successfully Saved..!");
+
+                    InsertGrid();
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+
+        function InsertGrid() {
+            var ordKydata = $("#OrdKy1").val();
+            $.ajax({
+                url: "@Url.Content("~/Invoice/InsertDetailGridInvoice")",
+                data: JSON.stringify({
+                    updatedOrders: kendo.stringify(updatedRecords), deletedOrders: kendo.stringify(deletedRecords), newOrders: kendo.stringify(newRecords),
+                    PrjKy: PrjKy,
+                    AdrKy: AdrKy,
+                    FrmLocKy: FrmLocKy,
+                    AccKy: AccKy,
+                    BUKY: BUKY,
+                    Date: Date,
+                    ordKydata: ordKydata
+
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                success: function (data) {
+                    alert("Successfully Saved..!");
+                    GetInvoiceGridDetail(ordKydata);
+
+
+                },
+                error: function (e) {
+                    return false;
+                }
+            });
+        }
+    }
+
+    function ItemCmpCancel() {
+
+        $("#cmbFmPrjId").data('kendoComboBox').value(null);
+        $("#cmbAdrId").data('kendoComboBox').value(null);
+        $("#cmbFmLocId").data('kendoComboBox').value(null);
+        $("#cmbBUId").data('kendoComboBox').value(null);
+       $("#cmbAccId").data('kendoComboBox').value(null);
+        $("#cmbSlsACId").data('kendoComboBox').value(null);
+        $("#SubTotal").val(null);
+        $("#Discount").data('kendoNumericTextBox').value(null);
+       $("#Yurref").val(null);
+     $("#DocNo").val(null);
+        $("#OrdKy1").val(null);
+        $("#OrdTypKy1").val(null);
+        $("#OrdPrefixKy1").val(null);
+        $("#OrdNo1").val(null);
+        $("#cmbPmt").data("kendoComboBox").value(473);
+        $("#cmbCurrency").data("kendoComboBox").value(178);
+var PrjKy = $("#cmbFmPrjId").data('kendoComboBox').value(null);
+      var FrmLocKy = $("#cmbFmLocId").data('kendoComboBox').value(null);
+         var PrjKy = $("#cmbFmPrjNm").data('kendoComboBox').value(null);
+  var FrmLocKy = $("#cmbFmLocNm").data('kendoComboBox').value(null);
+       var Des = $("#textarea").val(null);
+        var Remarks = $("#textarea1").val(null);
+        var SubTotal = $("#SubTotal").val(null);
+        var Dsicount = $("#Discount").val(null);
+        //var NBT = $("#NBT").val(null);
+        //var Tax = $("#Tax").val(null);
+        var Total = $("#Total").val(null);
+        var DocNo = $("#DocNo").val(null);
+
+        $("#NBT").kendoNumericTextBox({
+            min: 0,
+
+        });
+
+        $("#ExRate").kendoNumericTextBox({
+            min: 1,
+
+        });
+
+        $("#Discount").kendoNumericTextBox({
+            min: 0,
+
+        });
+
+        $("#Tax").kendoNumericTextBox({
+            min: 0,
+
+        });
+
+        var todayDate = new Date();
+        $('#Date').data("kendoDatePicker").value(todayDate);
+        $('#grid1').data("kendoGrid").dataSource.filter(null);
+        var grid = $("#grid1").data("kendoGrid");
+        grid.dataSource.data([]);
+    }
+
+    $(document.body).keydown(function (e) {
+
+        if (e.ctrlKey && e.keyCode == 70) {
+
+            $("#FindFormGRN").show().kendoWindow({
+                width: "1000px",
+                height: "500px",
+                modal: true,
+                title: "Find"
+            });
+
+            $('#FindFormGRN').data('kendoWindow').center().open();
+
+        }
+    });
+
+
+    function GetInvoiceGridDetail(ordKy) {
+
+        $.ajax({
+            url: "@Url.Content("~/Invoice/GetGridInvoiceDetail")",
+         data: JSON.stringify({
+
+             ordKy: ordKy,
+         }),
+         contentType: 'application/json; charset=utf-8',
+         dataType: "Json",
+         type: "POST",
+         success: function (data) {
+
+             for (i = 0; i < data.length; i++) {
+
+                 var TrnNo = data[0].TrnNo;
+                 $("#OrdNo1").val(TrnNo);
+
+                 var TrnTypKy = data[0].TrnTypKy;
+                 $("#OrdTypKy1").val(TrnTypKy);
+
+                 var TrnKy = data[0].TrnKy;
+                 $("#OrdKy1").val(TrnKy);
+
+                 var LocKy = data[0].LocKy;
+                 $("#cmbFmLocId").data("kendoComboBox").value(LocKy);
+                 $("#cmbFmLocNm").data("kendoComboBox").value(LocKy);
+                 var AccKy = data[0].AccKy;
+                 $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                 $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+
+                 var TrnDt = data[0].TrnDt;
+                 $('#Date').data("kendoDatePicker").value(TrnDt);
+
+                 var PmtTrmKy = data[0].PmtTrmKy;
+                 $("#cmbPmt").data("kendoComboBox").value(PmtTrmKy);
+
+                 var TrnCrnKy = data[0].TrnCrnKy;
+                 $("#cmbCurrency").data("kendoComboBox").value(TrnCrnKy);
+
+
+                 var ExRate = data[0].TrnExRate;
+
+                 $("#ExRate").val(ExRate);
+
+            
+                 var Yurref = data[0].YurRef;
+                 $("#Yurref").val();
+
+                 var YurRefDate = data[0].YurRefDt;
+
+                 $("#YurRefDate").val(YurRefDate);
+                 var DocNo = data[0].DocNo;
+                 $("#DocNo").val(DocNo);
+              
+                 GetInvoiceAccountsDetail(ordKy);
+
+                 GetInvoiceItemsDetail(ordKy);
+
+
+             }
+
+         },
+         error: function (e) {
+             return false;
+         }
+     });
+
+
+ }
+    function GetInvoiceAccountsDetail(ordKy) {
+        $.ajax({
+            url: "@Url.Content("~/Invoice/GetInvoiceAccountsDetail")",
+         data: JSON.stringify({
+
+             ordKy: ordKy,
+         }),
+         contentType: 'application/json; charset=utf-8',
+         dataType: "Json",
+         type: "POST",
+         success: function (data) {
+             $('#grid1').data("kendoGrid").dataSource.filter(null);
+             var grid = $("#grid1").data("kendoGrid");
+             grid.dataSource.data([]);
+             for (i = 0; i < data.length; i++) {
+
+                 var LocKy2 = data[0].LocKy;
+                 $("#cmbFmLocId").data("kendoComboBox").value(LocKy2);
+                 $("#cmbFmLocNm").data("kendoComboBox").value(LocKy2);
+
+                 var PrjKy = data[0].PrjKy;
+                 $("#cmbFmPrjId").data("kendoComboBox").value(PrjKy);
+                 $("#cmbFmPrjNm").data("kendoComboBox").value(PrjKy);
+
+                 var AccKy = data[0].AccKy;
+                 $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                 $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+
+                 var BuKy = data[0].BuKy;
+                 $("#cmbBUId").data("kendoComboBox").value(BuKy);
+                 $("#cmbBUCd").data("kendoComboBox").value(BuKy);
+
+                 var AdrKy1 = data[0].AdrKy;
+                 $("#cmbAdrId").data("kendoComboBox").value(AdrKy1);
+                 $("#cmbAdrNm").data("kendoComboBox").value(AdrKy1);
+                 // GetGridDetail(ordKy);
+
+
+                 $("#grid1").data("kendoGrid").dataSource.add({
+                     ItmTrnKy: data[i].ItmTrnKy,
+
+                     ItmKy: data[i].ItmKy,
+
+                     ItmCd: data[i].ItmCd,
+                     ItmNm: data[i].ItmNm,
+                     Unit: data[i].Unit,
+                     UnitKy: data[i].UnitKy,
+                     Des: data[i].Des,
+                     DisAmt: data[i].DisAmt,
+                     DisPer: data[i].DisPer,
+                     Rem: data[i].Rem,
+                     TrnQty: data[i].Qty,
+                     TrnRate: data[i].Rate,
+                     SubTotal: data[i].Rate * data[i].Qty,
+                     ReqDt: data[i].ReqDt,
+
+                 });
+
+
+             }
+
+         },
+         error: function (e) {
+             return false;
+         }
+     });
+ }
+
+    function GetInvoiceItemsDetail(ordKy) {
+     $.ajax({
+         url: "@Url.Content("~/Invoice/GetInvoiceItemsDetail")",
+            data: JSON.stringify({
+
+                ordKy: ordKy,
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                $('#grid1').data("kendoGrid").dataSource.filter(null);
+                var grid = $("#grid1").data("kendoGrid");
+                grid.dataSource.data([]);
+                for (i = 0; i < data.length; i++) {
+
+                    var LocKy2 = data[0].LocKy;
+                    $("#cmbFmLocId").data("kendoComboBox").value(LocKy2);
+                    $("#cmbFmLocNm").data("kendoComboBox").value(LocKy2);
+
+                    var PrjKy = data[0].PrjKy;
+                    $("#cmbFmPrjId").data("kendoComboBox").value(PrjKy);
+                    $("#cmbFmPrjNm").data("kendoComboBox").value(PrjKy);
+
+                    var AccKy = data[0].AccKy;
+                    $("#cmbAccId").data("kendoComboBox").value(AccKy);
+                    $("#cmbAccNm").data("kendoComboBox").value(AccKy);
+
+                    var BuKy = data[0].BuKy;
+                    $("#cmbBUId").data("kendoComboBox").value(BuKy);
+                    $("#cmbBUCd").data("kendoComboBox").value(BuKy);
+
+                    var AdrKy1 = data[0].AdrKy;
+                    $("#cmbAdrId").data("kendoComboBox").value(AdrKy1);
+                    $("#cmbAdrNm").data("kendoComboBox").value(AdrKy1);
+                    // GetGridDetail(ordKy);
+
+
+                    $("#grid1").data("kendoGrid").dataSource.add({
+                        ItmTrnKy: data[i].ItmTrnKy,
+
+                        ItmKy: data[i].ItmKy,
+                       
+                        ItmCd: data[i].ItmCd,
+                        ItmNm: data[i].ItmNm,
+                        Unit: data[i].Unit,
+                        UnitKy: data[i].UnitKy,
+                        Des: data[i].Des,
+                        DisAmt: data[i].DisAmt,
+                        DisPer: data[i].DisPer,
+                        Rem: data[i].Rem,
+                        TrnQty: data[i].Qty,
+                        TrnRate: data[i].Rate,
+                        SubTotal: data[i].Rate * data[i].Qty,
+                        ReqDt: data[i].ReqDt,
+
+                    });
+
+
+                }
+
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+
+    function Prinrept() {
+
+        winDoialogElement = $("#idwin").kendoWindow({
+            width: 1000,
+            height: 1000
+        }).data("kendoWindow");
+        var url = "http://" + document.location.host + "/Report/InvoicePrint.aspx";
+        window.open(url, '_blank');
+
+
+    }
+
+    //function ItemFromPurOrd() {
+
+    //    $("#FindFormPo").show().kendoWindow({
+    //        width: "800px",
+    //        height: "550px",
+    //        modal: true,
+    //        title: "New From PurchesOrd"
+    //    });
+
+    //    $('#FindFormPo').data('kendoWindow').center().open();
+
+    //}
+
+</script>
+<style>
+            .k-numerictextbox
+            {
+               width: 150px !important;
+               height:20px  !important;
+               font-size:10px  !important;
+               padding-top:-15px;
+            }
+
+ </style>

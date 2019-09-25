@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="layer2"> 
+    <div class="row">
+        <div class="form-company col-lg-4 col-md-6 col-sm-8 col-xs-10 col-lg-offset-4 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
+            <div class="form">
+                @*<div class="form-group">
+                    <h2>Select Company</h2>
+                </div>*@
+                <div class="input-div-style color-transision" id="divCompany">
+                    <label class="div-lbl">SELECT COMPANY</label>&nbsp;<label class="required">*</label>
+                    @*<hr class="m-b-5 m-t-0">*@
+                    <div class="form-group">
+                        <input id="company">
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-6">
+                                <button class="k-button m-t-10" id="ok" onclick="LoginOk()">OK</button>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-6">
+                                <button class="k-button m-t-10" id="cancel" onclick="CancelAction()">Clear</button>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-6">
+                                <button class="k-button m-t-10" id="logout" onclick="LogOut()">Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+</div>
+<style>
+    #body {
+        /*background: transparent url(/DevBL10/Images/test.jpg);*/
+        background-image:Url("../Images/IMG_4294.jpg");
+        background-size: 100% 100%;
+        background-color:#080808;
+        background-repeat:no-repeat;
+        /*font-family: Yu Gothic Light;*/
+    }
+     .layer2 {
+        background-color: rgba(53, 14, 113, 0.30);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .form-company {
+        margin-top: 15%;
+        border-top:0px;
+           box-shadow: 0px 4px 12px 3px rgba(51, 51, 51, 0.58);
+    }
+
+    /*.form-company h2 {
+        margin: 0 0 20px;
+        color: #192d59;
+        font-weight: 600;
+        text-shadow: 0px 1px 1px #777;
+    }*/
+
+    /*.form-group > span {
+        border: 1px solid rgba(104, 104, 104, 0.58);
+    }*/
+    :root *>.k-icon{
+        margin-top: -8px!important;
+    }
+
+    .input-div-style {
+        background-color:#fff;
+        padding: 4px 0px 0px 0px;
+    }
+
+    .k-button {
+        max-width: 95px;
+    }
+    .div-lbl {
+        color: #626262;
+        padding-left: 8px;
+        font-size:13px;
+     }
+    .required{
+        /*float:right;*/
+        margin-right:10px;
+        font-size:16px;
+		color:#f55753;
+        margin-bottom:0px;
+    }
+    .form-group {
+        margin-bottom: 0px;
+    }
+    label {
+        font-size: 14px;
+    }
+
+    .k-autocomplete.k-state-default, .k-picker-wrap.k-state-default, .k-numeric-wrap.k-state-default, .k-dropdown-wrap.k-state-default {
+        border:none;
+        outline:0px;
+    }
+
+     .k-dropdown-wrap.k-input{
+         border:0px;
+     }
+
+    .k-dropdown-wrap.k-state-focused{
+        box-shadow:none;
+    }
+    .k-dropdown-wrap.k-state-active>.k-select{
+        background-color:#fff;
+    }
+    .k-dropdown-wrap.k-state-default.k-state-hover, k-select{
+        background-color:#fff;
+        outline:none;
+        border:0px;
+        box-shadow:none;
+    }
+
+    .k-combobox .k-state-default .k-input{
+        box-shadow:none;
+        background-color:#fff;
+        height: 23px;
+    }
+
+   .k-picker-wrap .k-select, .k-numeric-wrap .k-select, .k-dropdown-wrap .k-select {
+    min-height: 2.214em;
+    line-height: 3.5em;
+    vertical-align: middle;
+    -moz-box-sizing: border-box;
+    text-align: center;
+    height: 100%;
+    border:none;
+    }
+
+    @@media (max-width: 992px) {
+        .form-group > span {
+            padding-bottom: 0px !important;
+        }
+    }
+
+  .k-icon.k-i-close
+  {
+    display: none!important;
+  }
+ .k-dropdown-wrap .k-select{
+      background-color:white!important;
+  }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadCombo();
+        setFocustoCompany();
+        $('input').focus(function () { $(this).select(); });
+        var height = $(window).height();
+        $("#body").height("100vh");
+    });
+    $("#company").css('width', "100%");
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            LoginOk();
+        }
+
+    });
+
+    //Combo event
+    //  http://docs.telerik.com/kendo-ui/api/javascript/ui/combobox
+    //
+    function LoadCombo() {
+        $("#company").kendoComboBox({
+            dataValueField: "CKy",
+            dataTextField: "CNm",
+            dataSource: {
+                type: "POST",
+                transport: {
+                    read: '@Url.Action("GetComNm", "Login")'
+                }
+            },
+            filter: "startswith",
+            //filter: "contains",
+            suggest: true
+            //placeholder: "Select a Company.."
+        });
+    }
+
+    function LoginOk() {
+        if ($("#company").data('kendoComboBox').value() != null) {
+            $.ajax({
+                url: '@Url.Action("SetCompany", "Login")',
+                data: JSON.stringify({ strCompanyKey: $("#company").data('kendoComboBox').value() }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: "Json",
+                type: "POST",
+                async: false,
+                success: function (result) {
+                    window.location = '@Url.Action("Home", "Home")'
+                },
+                error: function () {
+                    return false;
+                }
+            });
+        }
+        else {
+            alert("Plese Select The Company.");
+            return false;
+        }
+
+    }
+    function LogOut() {
+        window.location = '@Url.Action("logout", "Login")'
+    }
+    function setFocustoCompany() {
+        $("#company").data("kendoComboBox").input.focus();
+    }
+    function CancelAction() {
+        $("#company").data('kendoComboBox').value("");
+    }  
+    
+    $('#divCompany').click(function () { //Open on clicking div element
+        var widget = $('#company').getKendoComboBox();
+        widget.open();
+    });    
+
+</script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>

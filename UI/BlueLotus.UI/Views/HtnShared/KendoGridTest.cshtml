@@ -1,0 +1,302 @@
+﻿@{
+    ViewBag.Title = "GanttView";
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript_12_09.cshtml";
+}
+@*<link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.1.112/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="//kendo.cdn.telerik.com/2016.1.112/styles/kendo.material.min.css" />
+
+    <script src="//kendo.cdn.telerik.com/2016.1.112/js/jquery.min.js"></script>
+    <script src="//kendo.cdn.telerik.com/2016.1.112/js/kendo.all.min.js"></script>*@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    @*<button type="button" class="k-button" id="printGrid">Print Grid</button>*@
+    <div id="DynamicGridDiv">
+        @*<div id="example">
+            <div id="gridBOQComponents_SelectWeb0"></div>
+        </div>
+        <div id="example">
+            <div id="gridBOQComponents_SelectWeb1"></div>
+        </div>*@
+    </div>
+</body>
+</html>
+
+<script>
+
+    var columns = new Array();
+    columns[0] = [
+    //         //{ field: "PrcsDetCmpnKy", hidden: true },
+    //         //{ field: "PrcsSchDetKy", hidden: true },
+    //         //{ field: "PrcsDetKy", hidden: true },
+    //         //{ field: "PrjKy", hidden: true },
+    //         { field: "TaskID", locked: false, width: "120px" },
+    //         //{ field: "ItmKy", hidden: true },
+    //         //{ field: "AdrKy", hidden: true },
+    //         { field: "ResCd", locked: true, width: "120px" },
+               { field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+               { field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+    //         { field: "Unit", width: "100px", format: "{0:N2}" },
+    //         //{ field: "UnitKy", title: "UnitKy", hidden: true },
+    //         { field: "Rate", width: "120px", format: "{0:N2}" },
+    //         { field: "TaskNm", width: '750px' },
+    ];
+
+    columns[1] = [
+               //{ field: "PrcsNm", width: "250px", attributes: { style: "text-align:center;" }, aggregates: ["count"], footerTemplate: "Total Count: #=count#" },// groupFooterTemplate: "Count: #=count#" },
+               //{ field: "QtyO", width: "200px", attributes: { style: "text-align:left;" }, format: "{0:N2}", aggregates: ["sum", "average", "min"], footerTemplate: "<div>Total: #= sum#</div><div>Count: #= min#</div>", groupFooterTemplate: "<div>Total: #= sum#</div><div>Average: #= average#</div>" },
+    ];
+
+    $.holdReady(true);
+    $.ajax({
+        type: "GET",
+        dataType: 'json',
+        data: { PrjKy: 10575, PrcsDetKy: 1 },
+        url: '@Url.Action("ProjectResourceDetails_SelectColDetMulti", "HtnShared")',
+        converters:
+    {
+        "text json": function (data) {
+            return $.parseJSON(data, true, true);
+        }
+    },
+        success: function (data) {
+
+            for (var t = 0; t < data.length; t++) {
+
+                if (columns[t] == undefined)
+                    columns[t] = [];
+
+                for (var i = 0; i < columns[t].length; i++) { // Get and Bind the Column level Details
+                    for (var k = data[t].length - 1; k >= 0 ; k--) {
+                        if (columns[t][i]["field"] == data[t][k]) {
+                            data[t].splice(k, 1); // Remove if column already defined
+                        }
+                    }
+                }
+
+                for (i = 0; i < data[t].length; i++) { // Get and Bind the Column level Details
+                    columns[t].push({ field: data[t][i], title: data[t][i], locked: false, hidden: false, width: "200px" });
+                    if (i + 1 == data[t].length) {
+                        firstLoadData(columns[t], t);
+                    }
+                }
+            }
+
+            $.holdReady(false);
+        }
+    });
+
+    function firstLoadData(columnsT, spRestCount) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: { ObjKy: 72394 },
+            url: '@Url.Action("UsrObjPrp_SelectMulti", "HtnShared")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+
+                //for (i = 0; i < data[0].length; i++) { // Get and Bind the Column level Details
+                //    columnsT.push({ field: data[0][i], title: data[0][i] });
+                //}
+
+                //for (var t = 0; t < data.length; t++) {
+                if (data.length > 0 && data[spRestCount] != undefined && data[spRestCount].length > 0 && data[spRestCount][0]["GroupNo"] == (spRestCount + 1)) {
+                    for (var i = 0; i < data[spRestCount].length; i++) { // Get and Bind the Column level Details
+                        for (var k = columnsT.length - 1; k >= 0 ; k--) {
+                            if (columnsT[k]["field"] == data[spRestCount][i]["ObjCd"]) {
+                                columnsT.splice(k, 1); // Remove if column already defined
+                            }
+                        }
+                    }
+
+                    for (var j = 0; j < data[spRestCount].length; j++) {
+                        //alert(data[spRestCount][i]["ObjCd"]);
+                        var alginment = "left";
+                        if (data[spRestCount][j]["Alignment"].length > 0) {
+                            alginment = data[spRestCount][j]["Alignment"];
+                        }
+
+                        if (data[spRestCount][j]["Aggregates"].length > 0 && data[spRestCount][j]["FooterTemplate"].length > 0 && data[spRestCount][j]["GrpFooterTemplate"].length > 0) {
+                            var tempAggregates = new Array();
+                            // this will return an array with strings "1", "2", etc.
+                            tempAggregates = data[spRestCount][j]["Aggregates"].substring(1, data[spRestCount][j]["Aggregates"].length - 1).split("\",\"");
+                            columnsT.push({ field: data[spRestCount][j]["ObjCd"], locked: (data[spRestCount][j]["isFreeze"] == 1) ? true : false, title: data[spRestCount][j]["ObjCaptn"], width: data[spRestCount][j]["Width"], format: data[spRestCount][j]["Format"], aggregates: tempAggregates, footerTemplate: data[spRestCount][j]["FooterTemplate"], groupFooterTemplate: data[spRestCount][j]["GrpFooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                        } else if (data[spRestCount][j]["Aggregates"].length > 0 && data[spRestCount][j]["FooterTemplate"].length > 0) {
+                            var tempAggregates = new Array();
+                            // this will return an array with strings "1", "2", etc.
+                            tempAggregates = data[spRestCount][j]["Aggregates"].substring(1, data[spRestCount][j]["Aggregates"].length - 1).split("\",\"");
+                            columnsT.push({ field: data[spRestCount][j]["ObjCd"], locked: (data[spRestCount][j]["isFreeze"] == 1) ? true : false, title: data[spRestCount][j]["ObjCaptn"], width: data[spRestCount][j]["Width"], format: data[spRestCount][j]["Format"], aggregates: tempAggregates, footerTemplate: data[spRestCount][j]["FooterTemplate"], attributes: { style: "text-align:" + alginment + ";" } });
+
+                        } else {
+
+                            columnsT.push({ field: data[spRestCount][j]["ObjCd"], locked: (data[spRestCount][j]["isFreeze"] == 1) ? true : false, title: data[spRestCount][j]["ObjCaptn"], width: data[spRestCount][j]["Width"], format: data[spRestCount][j]["Format"], attributes: { style: "text-align:" + alginment + ";" } });
+                        }
+
+                        if (j + 1 == data[spRestCount].length) {
+                            loadWithDetLevelData(columnsT, data[spRestCount], spRestCount);
+                        }
+                    }
+                }
+                else {
+                    loadWithDetLevelData(columnsT, [], spRestCount);
+                }
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function loadWithDetLevelData(columnsT, colData, spRestCount) {
+        $.holdReady(true);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            data: { PrjKy: 10575, PrcsDetKy: 1 },
+            url: '@Url.Action("ProjectResourceDetails_SelectMulti", "HtnShared")',
+            converters:
+        {
+            "text json": function (data) {
+                return $.parseJSON(data, true, true);
+            }
+        },
+            success: function (data) {
+                loadGrid(columnsT, colData, data[spRestCount], spRestCount)
+                $.holdReady(false);
+            }
+        });
+    }
+
+    function loadGrid(col, colData, dataSrcJsonString, spRestCount) {
+        var iDiv = document.createElement('div');
+        iDiv.id = 'example' + spRestCount + '';
+        iDiv.style.marginTop = "30px";
+
+        // Create the inner div before appending to the body
+        var innerDiv = document.createElement('div');
+        innerDiv.id = 'gridBOQComponents_SelectWeb' + spRestCount + '';
+
+        // The variable iDiv is still good... Just append to it.
+        iDiv.appendChild(innerDiv);
+
+        // Then append the whole thing onto the body
+        //document.getElementById("DynamicGridDiv").appendChild(iDiv);
+        $("#DynamicGridDiv").append(iDiv);
+
+        var agrt = new Array();
+        for (var i = 0; i < col.length; i++) { // Get aggregates
+            if (col[i].aggregates != undefined) {
+                //var tempAggregates = new Array();
+                // this will return an array with strings "1", "2", etc.
+                //tempAggregates = col[i].aggregates[0].split("\",\"");
+                for (var hh = 0; hh < col[i].aggregates.length; hh++) {
+                    agrt.push({ field: col[i].field, aggregate: col[i].aggregates[hh] });
+                }
+            }
+        }
+
+        //var ttt = [
+        //        { field: "PrcsNm", aggregate: "count" },
+        //        { field: "QtyO", aggregate: "average" },
+        //        { field: "QtyO", aggregate: "sum" },
+        //        { field: "QtyO", aggregate: "min" }
+        //];
+
+        var gridBOQComponents_SelectWeb = new kendo.data.DataSource({
+            @*transport: {
+                read: {
+                    data: { PrjKy: 10575, PrcsDetKy: 1 },
+                    url: "@Url.Content("~/HtnShared/ProjectResourceDetails_Select")", //urlProjectResourceDetails_Select
+                    dataType: "json"
+                }
+            },
+            batch: true,*@
+            data: JSON.parse(dataSrcJsonString),
+            pageSize: 10,
+            //group: {
+            //    field: "PrcsID", aggregates: [
+            //       { field: "PrcsNm", aggregate: "count" },
+            //       { field: "QtyO", aggregate: "sum" }
+            //    ]
+            //},
+
+            aggregate: agrt,
+            //[
+            //    { field: "PrcsNm", aggregate: "count" },
+            //    { field: "QtyO", aggregate: "sum" }
+            //]
+
+            //,
+            //schema: {
+            //    model: {
+            //        id: "PrcsDetCmpnKy",
+            //        fields: //Relavent fields of the grid should be bind with following model items
+            //    {
+            //        PrcsDetCmpnKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+            //        PrcsSchDetKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+            //        PrcsDetKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+            //        PrjKy: { editable: false, nullable: false, validation: { required: true }, type: "number" },
+            //        TaskID: { editable: false, nullable: false, validation: { required: true }, type: "string" },
+            //        TaskNm: { editable: false, nullable: false, validation: { required: true }, validation: { required: true }, type: "string" },
+            //        ResCd: { editable: false, nullable: true, type: "string" },
+            //        ResNm: { editable: false, nullable: true, type: "string" },
+            //        ReqQty: { editable: true, nullable: true, type: "number" },
+            //        Unit: { editable: false, nullable: true, type: "string" },
+            //        UnitKy: { editable: true, nullable: true, type: "number" },
+            //        Rate: { editable: true, nullable: true, type: "number" },
+            //    }
+            //    }
+            //}
+        });
+        $("#gridBOQComponents_SelectWeb" + spRestCount + "").kendoGrid({
+            toolbar: ["excel"],
+            excel: {
+                fileName: "Kendo UI Grid Export.xlsx",
+                //proxyURL: "//demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+            dataSource: gridBOQComponents_SelectWeb,
+            sortable: true,
+            pageable: true,
+            groupable: true,
+            filterable: true,
+            //{
+            //  mode: "row"
+            //},
+            columnMenu: true,
+            reorderable: true,
+            resizable: true,
+            selectable: "row",
+            editable: false,
+            columns: col,
+        });
+
+        $("#gridBOQComponents_SelectWeb" + spRestCount + "").kendoTooltip({
+            filter: "th", //this filter selects the first column title
+            position: "top",
+            width: "200px",
+            content: function (e) {
+                for (i = 0; i < colData.length; i++) {
+                    //if (colData[i].isVisible != 0) {
+                    var target = e.target.closest("th"); // element for which the tooltip is shown
+                    var rtrn = $(target).text();
+
+                    if ($(target).text() == colData[i].ObjCaptn) {
+                        rtrn = colData[i].ToolTip;
+                    }
+
+                    return rtrn;
+                    //}
+                }
+            }
+        }).data("kendoTooltip");
+    }
+
+</script>

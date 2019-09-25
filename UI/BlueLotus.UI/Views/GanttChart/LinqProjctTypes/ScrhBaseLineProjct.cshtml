@@ -1,0 +1,96 @@
+﻿<div id="SrchBaseLineProject" style="display: none" title="Address selection">
+    <div id="GridSrchBaseLineProject"></div>
+    <div style="margin-top:20px;">
+        <input id="btnSelctPrjctFrmScrchBaseLinePrct" type="button" class="k-button" style="height:25px" value="Select Project" />
+        <input id="btnCloseFrmScrchBaseLinePrct" type="button" class="k-button" style="height:25px" value="Close" />
+    </div>
+</div>
+
+
+<script>
+
+    function SrchBaseLineProjectPicker() {
+        $("#SrchBaseLineProject").show().kendoWindow({
+            width: "650px",
+            height: "550px",
+            //position: { top: 100, left: "20%" },
+            modal: true,
+            title: "Select BaseLine Project :"
+        });
+
+        $('#SrchBaseLineProject').data('kendoWindow').center().open();
+    }
+
+    $(function () {
+
+        $("#GridSrchBaseLineProject").delegate("tbody>tr", "dblclick", function () {
+            okSrchBaseLineProject();
+        });
+
+        $("#btnSelctPrjctFrmScrchBaseLinePrct").click(function () {
+            okSrchBaseLineProject();
+        });
+
+        $("#btnCloseFrmScrchBaseLinePrct").click(function () {
+            $('#SrchBaseLineProject').data('kendoWindow').close();
+        });
+
+        function okSrchBaseLineProject() {
+            var gview = $("#GridSrchBaseLineProject").data("kendoGrid");
+            var selectedItem = gview.dataItem(gview.select());
+            $("#adressNameCmb").data("kendoComboBox").value(selectedItem.AdrKy);
+            $('#SrchBaseLineProject').data('kendoWindow').close();
+        }
+        
+        var dataSourceSrchBaseLineProject = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: urlBOQClient_Lookup,
+                    dataType: "json",
+                    data: {}
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "AdrKy",
+                    fields:
+                    {
+                        AdrKy: {},
+                        AdrID: {},
+                        AdrNm: {}
+                    }
+                }
+            }
+        });
+
+        $("#GridSrchBaseLineProject").kendoGrid({
+            dataSource: dataSourceSrchBaseLineProject,
+            pageable: true,
+            sortable: true,
+            reorderable: true,
+            columnMenu: true,
+            selectable: "row",
+            filterable: {
+                mode: "row"
+            },
+            pageable: { refresh: true, pageSizes: [5, 10, 20, 50, 100] },
+            columns: [
+                { field: "AdrKy", title: "AdrKy", width: "0px", hidden: true },
+                { field: "AdrID", title: "AdrID", width: "80px" },
+                { field: "AdrNm", title: "AdrNm", width: "250px" }
+            ],
+            resizable: true,
+            dataBound: function () {
+                $('#GridSrchBaseLineProject .k-grid-content').height(365);
+            },
+            dataBinding: function () {
+                record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            },
+            editable: false,
+            height: '495px'
+        });
+    });
+
+</script>

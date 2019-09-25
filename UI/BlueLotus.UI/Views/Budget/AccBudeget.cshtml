@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = ViewBag.ObjCaptn;
+    Layout = "~/Views/Shared/_LayOutWithLatestKendoScript.cshtml";
+}
+<link rel="stylesheet" href="~/buttncss/style/cssNew.css" type="text/css" />
+<div class="k-content clearfix" id="filterCont">
+    <div class="col-md-12 control-icons no-padding" id="ButtonSet">
+        <div id="ButtonSec1" class="col-md-9 col-sm-9"></div>
+        <div class="col-md-3 col-sm-3 pull-right">
+            <input class="cmbNxtStatesActions pull-right" id="cmbNxtStatesActions" style="height: 25px; margin-top: 1px; width: 100px;" />
+            <button class="k-button pull-right" id="btnNxtStatesAction" onclick="NxtStatesAction();" title="Next State Action" style="height: 30px; margin-top: 5px; margin-left: 10px; background-color: blue; color: white;">NxtAprStrs</button>
+        </div>
+    </div>
+
+    <div id="HdrPart">
+        <div class="col-md-4 col-sm-5  col-xs-12">
+            <div class="wr_formGroup">
+                <!-- Your ref Date  -->
+                <div class="row form-group" id="HdrSec1_DatBdgDate">
+                    <div class="col-md-6 col-sm-6 col-xs-12"><label id="HdrSec1_DatBdgDate_Lbl">Your ref Date </label></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12"><input id="HdrSec1_DatBdgDate_Val" data-cpypst-blsmartcpypaste="HdrSec1_DatBdgDate" class="width-100 p-t-0 p-b-0" /></div>
+                </div>
+                <div class="row no-padding form-group" id="HdrSec1_CmbHdrAcc">
+                    <div class="col-md-3 col-sm-3 col-xs-12" id="ChangeCrDr"> <label><span id="HdrSec1_CmbHdrAcc_Lbl">Account </span>  </label></div>
+                    <div class="col-md-3 col-sm-6 col-xs-12"><input id="HdrSec1_CmbHdrAcc_Cd" data-cpypst-blsmartcpypaste="AccId" class="width-100" /></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12"><input id="HdrSec1_CmbHdrAcc_Nm" data-cpypst-blsmartcpypaste="AccNm" class="width-100" /></div>
+                </div>
+                <!-- /Your ref Date  -->
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-5  col-xs-12">
+            <div class="wr_formGroup">
+                <!-- Project  -->
+                <div class="row no-padding form-group" id="HdrSec1_CmbPrj">
+                    <div class="col-md-3 col-sm-3 col-xs-12"><label id="HdrSec1_CmbPrj_Lbl">Project</label></div>
+                    <div class="col-md-3 col-sm-6 col-xs-12"><input id="HdrSec1_CmbPrj_Cd" data-cpypst-blsmartcpypaste="PrjId" class="width-100" /></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12"><input id="HdrSec1_CmbPrj_Nm" data-cpypst-blsmartcpypaste="PrjNm" class="width-100" /></div>
+                </div>
+                <!-- /Project  -->
+                <!-- BU -->
+                <div class="row no-padding form-group" id="HdrSec1_CmbBU">
+                    <div class="col-md-3 col-sm-3 col-xs-12"><label id="HdrSec1_CmbBU_Lbl">BU</label></div>
+                    <div class="col-md-3 col-sm-6 col-xs-12"><input id="HdrSec1_CmbBU_Cd" data-cpypst-blsmartcpypaste="BUCd" class="width-100" /></div>
+                    <div class="col-md-6 col-sm-6 col-xs-12"><input id="HdrSec1_CmbBU_Nm" data-cpypst-blsmartcpypaste="BUNm" class="width-100" /></div>
+                </div>
+                <!-- /BU -->
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-5  col-xs-12">
+            <div class="wr_formGroup">
+                <!-- Date  -->
+                <div class="row no-padding form-group" id="HdrSec1_DatBdgDateSumery">
+                    <div class="col-md-3 col-sm-3 col-xs-12"><label id="HdrSec1_DatBdgDateSumery_Lbl">BudgetDate</label></div>
+                    <div class="col-md-3 col-sm-6 col-xs-12"><input id="HdrSec1_DatBdgDateSumery_Val"/></div>
+                    
+                </div>
+                <!-- /Date  -->
+                <!-- Total -->
+                <div class="row no-padding form-group" id="HdrSec1_NmricAmt">
+                    <div class="col-md-3 col-sm-3 col-xs-12"><label id="HdrSec1_NmricAmt_Lbl">Total </label></div>
+                    <div class="col-md-3 col-sm-6 col-xs-12"><input id="HdrSec1_NmricAmt_Val"  class="width-100" /></div>
+                </div>
+                <!-- /Total -->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 p-r-0">
+        <div id="BudGetGrid">
+        </div>     
+    </div>
+</div>
+
+
+
+
+
+<div>
+    @Html.Partial("~/Views/LoadingViews/FormLoading.cshtml")
+</div>
+<div>
+    @Html.Partial("~/Views/LoadingViews/SaveLoading.cshtml")
+</div>
+<script>
+    var urlCodes = {
+        GetCdKyByConCdAndOurCd: '@Url.Content("~/Codes/GetCdKyByConCdAndOurCd")',
+        GetCdMasBy_CdKy: '@Url.Content("~/Codes/GetCdMasBy_CdKy")'
+    }
+    var viewBag = {
+        ObjKy: '@ViewBag.ObjKy',
+        OurCd: '@ViewBag.OurCd',
+        OurCd2: '@ViewBag.OurCd2',
+        ObjCaptn: '@ViewBag.ObjCaptn'
+    }
+    var urlCommon = {
+        GetItmRateDisTax: '@Url.Content("~/Common/GetItmRateDisTax")',
+        AprStsNm_SelectWeb: '@Url.Content("~/Common/AprStsNm_SelectWeb")',
+        TrnHdrApr_LatestState: '@Url.Content("~/Common/TrnHdrApr_LatestState")',
+        TrnHdrApr_NextState: '@Url.Content("~/Common/TrnHdrApr_NextState")',
+        TrnHdrApr_InsertWeb: '@Url.Content("~/Common/TrnHdrApr_InsertWeb")',
+        IsAlwTrnUpdateApr_SelectWeb: '@Url.Content("~/Common/IsAlwTrnUpdateApr_SelectWeb")'
+    }
+    var urlObjMas = {
+        UsrObjPrp_UpdateWeb: '@Url.Content("~/ObjMas/UsrObjPrp_UpdateWeb")',
+        UsrObjPrp_SelectWeb: '@Url.Content("~/ObjMas/UsrObjPrp_SelectWeb")',
+        UsrObjSec_SelectWeb: '@Url.Content("~/ObjMas/UsrObjSec_SelectWeb")'
+    }
+    var urlUsrObjPrp_SelectDeepSearchWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectDeepSearchWeb")';
+    var urlUsrObjPrp_SelectAllLastChildWeb = '@Url.Content("~/ObjMas/UsrObjPrp_SelectAllLastChildWeb")';
+
+    var urlComboLoad = {
+        AccCd_SelectMob: '@Url.Content("~/ComboLoad/AccCd_SelectMob")',
+        AccNm_SelectMob: '@Url.Content("~/ComboLoad/AccNm_SelectMob")',
+        Code_SelectMob: '@Url.Content("~/ComboLoad/Code_SelectMob")',
+        CdNm_SelectMob: '@Url.Content("~/ComboLoad/CdNm_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjID_SelectMob")',
+        PrjID_SelectMob: '@Url.Content("~/ComboLoad/PrjNm_SelectMob")'
+    }
+
+    var saveUpdateBudget= '@Url.Content("~/Budget/InsertUpdate")'
+    var getBudget= '@Url.Content("~/Budget/GetAccBjtDetails")'
+
+</script>
+
+
+<script src="~/Scripts/HtnScripts/HtnShared/ComboDataSrc.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonObjMasPropSet.js"></script>
+@*<script src="~/Scripts/HtnScripts/HtnShared/AprStatesHandling.js"></script>*@
+<script src="~/Scripts/HtnScripts/HtnShared/CopyPaste.js"></script>
+<script src="~/Scripts/HtnScripts/HtnShared/CommonFunction.js"></script>
+<script src="~/Scripts/HtnScripts/Budget/Budget.js"></script>

@@ -1,0 +1,126 @@
+<div id="Form_ObjMas_Form_Prop_Setting_Grid" style="display: none; overflow-y: hidden; overflow-x: hidden;">
+
+    <div class="k-content clearfix" id="filterCont">
+        <div class="col-md-6 control-icons" id="ButtonSetFind">
+            <button class="control-button save" onclick="save_ObjMas_Form_Prop_Setting_Grid()" data-tooltip="save"> </button>
+        </div>
+        <div id="ObjMas_Form_Prop_Setting_Grid"></div>
+    </div>
+</div>
+
+<script>
+    function Define_And_Load_ObjMas_Form_Prop_Setting_Grid(FormData) {
+        var columnsDefine = [
+                { field: "ObjKy", title: "ObjKy", width: "100px" },
+                { field: "ObjTyp", title: "ObjTyp", width: "100px" },
+                { field: "ObjNm", title: "ObjNm", width: "100px" },
+                { field: "ObjCaptn", title: "ObjCaptn", width: "100px" },
+                { field: "DefaultValue", title: "DefaultValue", width: "100px" },
+                { field: "NxtEntObjNm", title: "NxtEntObjNm", width: "100px" },
+                { field: "isVisible", title: "isVisible", width: "100px" },
+                { field: "isMust", title: "isMust", width: "100px" },
+                { field: "ValidationMesg", title: "ValidationMesg", width: "100px" },
+                { field: "ValidationOrder", title: "ValidationOrder", width: "100px" }
+        ];
+
+        Load_ObjMas_Form_Prop_Setting_Grid(columnsDefine, FormData, 1)
+    }
+
+
+    function Load_ObjMas_Form_Prop_Setting_Grid(columnsFinal, FormData, gridNo) {
+
+        if (gridNo == 1) {
+            var dataSource = new kendo.data.DataSource({
+                data: FormData,
+                batch: true,
+                //sort: ({ field: "ObjKy", dir: "desc" }),// "asc"
+                pageSize: 100,
+                schema: {
+                    model: {
+                        id: "ObjKy",
+                        fields: //Relavent fields of the grid should be bind with following model items
+                        {
+                            ObjKy: { editable: false, nullable: false, type: "string" },
+                            ObjTyp: { editable: false, nullable: false, type: "string" },
+                            ObjNm: { editable: false, nullable: false, type: "string" },
+                            ObjCaptn: { editable: true, nullable: false, type: "string" },
+                            DefaultValue: { editable: true, nullable: false, type: "string" },
+                            NxtEntObjNm: { editable: true, nullable: false, type: "string" },                            
+                            isMust: { editable: true, nullable: false, type: "string" },
+                            isVisible: { editable: true, nullable: false, type: "string" },
+                            ValidationMesg: { editable: true, nullable: false, type: "string" },
+                            ValidationOrder: { editable: true, nullable: false, type: "string" }
+                        }
+                    }
+                }
+            });
+
+            var id = ("#ObjMas_Form_Prop_Setting_Grid");
+
+            $(id).kendoGrid({
+                dataSource: dataSource,
+                autobind: true,
+                navigatable: true,
+                filterable: true,
+                pageable: true,
+                sortable: true,
+                reorderable: true,
+                columnMenu: true,
+                selectable: "row",
+                height: 700,
+                pageable: { refresh: true, pageSizes: [25, 50, 100, 200, 500, 1000] },
+                columns: columnsFinal,
+                resizable: true,
+                //dataBinding: function () {
+                //    record = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+                //},
+                editable: true
+            });
+        }
+    }
+
+
+    function save_ObjMas_Form_Prop_Setting_Grid() {
+        var id = ("#ObjMas_Form_Prop_Setting_Grid");
+        var grid = $(id).data("kendoGrid");
+        var currentData = grid.dataSource.data();
+        var updatedRecords = [];
+        var newRecords = [];
+
+        for (var i = 0; i < currentData.length; i++) {
+            if (currentData[i].isNew()) {
+                newRecords.push(currentData[i].toJSON());
+            } else if (currentData[i].dirty) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+            else if (FormGlblData.IsDetailRelatedHdrSectionChanged) {
+                updatedRecords.push(currentData[i].toJSON());
+            }
+        }
+
+        var deletedRecords = [];
+        for (var i = 0; i < grid.dataSource._destroyed.length; i++) {
+            deletedRecords.push(grid.dataSource._destroyed[i].toJSON());
+        }
+
+
+        $.ajax({
+            url: urlObjMas.UsrObjPrp_UpdateWeb,
+            data: JSON.stringify({
+                updateObjMasStringList: kendo.stringify(updatedRecords),
+                //deletedOrders: kendo.stringify(deletedRecords),
+                //newOrders: kendo.stringify(newRecords),
+                //ObjKy: viewBag.ObjKy
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: "Json",
+            type: "POST",
+            success: function (data) {
+                    alert("Done ... !");
+            },
+            error: function (e) {
+                return false;
+            }
+        });
+    }
+</script>
